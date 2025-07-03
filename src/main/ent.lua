@@ -16,7 +16,7 @@ function basicEnt:init(args)
   self.y = self.y or 0
   self.width = self.width or self.defaultWidth or 0
   self.height = self.height or self.defaultHeight or 0
-  self.cameraFixed = self.cameraFixed or false
+  self.screenSpace = self.screenSpace or false
   self.renderLayer = self.renderLayer or 1
 end
 
@@ -37,7 +37,7 @@ function basicEnt:draw()
     else
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     end
-  end, self.cameraFixed)
+  end, self.screenSpace)
 end
 
 function basicEnt:delete()

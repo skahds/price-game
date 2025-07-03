@@ -22,8 +22,7 @@ function main.ui.defineUI(id, eType)
     self.y = self.y or 0
     self.width = self.width or self.defaultWidth or 0
     self.height = self.height or self.defaultHeight or 0
-    self.cameraFixed = true
-    self.tag = self.tag or {}
+    self.screenSpace = self.screenSpace or true
     self.renderLayer = self.renderLayer or 100
   end
 
@@ -44,7 +43,7 @@ function main.ui.defineUI(id, eType)
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
       end
 
-    end, self.cameraFixed)
+    end, self.screenSpace)
 
     if self.onDraw then
       self:onDraw()

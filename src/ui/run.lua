@@ -6,7 +6,7 @@ system.on("@mouse:released", function (button)
   local hasClicked = false
   for _, ent in pairs(main.ui.world) do
     local mouse
-    if ent.cameraFixed then
+    if ent.screenSpace then
       mouse = system.getStorage("realMouse")
     else
       mouse = system.getStorage("mouse")
