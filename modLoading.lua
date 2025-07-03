@@ -35,3 +35,6 @@ end
 requireFolder("src/basicFunc")
 requireFolder("src/camera")
 requireFolder("src/renderer")
+requireFolder("src/main")
+requireFolder("src/ui")
+requireFolder("src/content")
