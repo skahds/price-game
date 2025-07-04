@@ -33,6 +33,7 @@ end
 
 -- Call the function for the folder you want to load files from
 requireFolder("src/basicFunc")
+requireFolder("src/RichText")
 requireFolder("src/camera")
 requireFolder("src/renderer")
 requireFolder("src/main")

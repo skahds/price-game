@@ -1,6 +1,5 @@
 -- love.graphics.setBackgroundColor(238/255, 225/255, 207/255)
 love.graphics.setBackgroundColor(0.1, 0.1, 0.1)
-system.updateStorage("defaultFont", love.graphics.newFont(30))
 
 
 system.on("@load", function ()

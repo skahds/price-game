@@ -29,10 +29,3 @@ system.on("main:endTurn", function ()
     system.call("main:moneyChanged", change)
   end
 end)
-
--- system.on("@update", function ()
---   local bar = system.getStorage("main:currentBar")
---   if bar then
---     print(bar.barOrder)
---   end
--- end)
