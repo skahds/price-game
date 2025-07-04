@@ -80,7 +80,7 @@ function bar:changePricePIP(pip)
     chart.price = price
     
     self.height = -change*10
-    print("price", price)
+    system.call("main:currentPriceChanged", self)
   end
 
   if self.startPrice < self.endPrice then

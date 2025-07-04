@@ -8,10 +8,17 @@ system.on("@update", function ()
 end)
 
 system.on("@renderer:render", function ()
-  system.render(300, function ()
-    for _, t in pairs(textTable) do
+
+  for _, t in pairs(textTable) do
+    local fixed = true
+    if t.screenSpace == false then
+      fixed = false
+    end
+
+    system.render(t.renderLayer or 50, function ()
       local text = t.text
       text:draw(t.x or 0, t.y or 0)
-    end
-  end, true)
+    end, fixed)
+  end
+
 end)
