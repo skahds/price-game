@@ -16,6 +16,7 @@ function chart:init(args)
   self.trend = self.trend or 0
   -- volatility is a number from 0-inf, ex: 0.3 means change^1.3
   self.volatility = self.volatility or 0
+  self.price = self.price or 10
 end
 
 function chart:addBar(bar)
@@ -63,8 +64,23 @@ function bar:draw()
   basicEnt.draw(self)
 end
 
-function bar:changePrice(pip)
-  self.height = self.height - pip*100
+function bar:changePricePIP(pip)
+  -- self.height = self.height - pip*100
+  -- self.endPrice = 
+  local chart = system.getStorage("chart")
+  if chart then
+    local price = chart.price
+
+    local change = price*pip
+
+    price = price + change
+    self.endPrice = price
+    chart.price = price
+    
+    self.height = -change*10
+    print("price", price)
+  end
+
   if pip > 0 then
     self.color = {0.2, 0.7, 0.2}
   else

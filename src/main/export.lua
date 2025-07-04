@@ -16,20 +16,32 @@ function main.spawnChart(args)
 end
 
 local function basicBarSpawnChange(bar, chart)
-  local trendSlowdown = 10
+  local trendSlowdown = 3
   local bigNum = 1000000
   local changePIP = love.math.random(
   -(chart.bearPower+chart.trend)*bigNum,
   (chart.bullPower+chart.trend)*bigNum
   )/bigNum
   
-  changePIP = changePIP ^ (1+chart.volatility)
+  --balances bear with bulls
+  local softenFactor = 0.5
+  if changePIP < 0 then
+    changePIP = changePIP*softenFactor
+  end
+
+  -- volatility
+  changePIP = ((changePIP+1) ^ (1+chart.volatility))-1
+  chart.volatility = chart.volatility^(7/8)
 
   chart.bullPower = chart.bullPower-(changePIP/trendSlowdown)
   chart.bearPower = chart.bearPower+(changePIP/trendSlowdown)
+
+  chart.bullPower = math.max(0, chart.bullPower)
+  chart.bearPower = math.min(1, math.max(0, chart.bearPower))
+
   print(chart.bullPower, chart.bearPower, changePIP)
   
-  bar:changePrice(changePIP)
+  bar:changePricePIP(changePIP)
 end
 
 function main.spawnBar()
