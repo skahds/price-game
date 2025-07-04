@@ -1,10 +1,10 @@
 main.ui.defineSlider("ownSlider", {
   width = 200,
-  height = 20,
+  height = 40,
   renderLayer = 100,
   slideDirection = "horizontal",
   slideAmount = 0.5,
-  screenSpace = false,
+  screenSpace = true,
 
   onDraw = function (ent)
     
@@ -23,7 +23,7 @@ main.ui.defineSlider("ownSlider", {
     system.render(120, function ()
       --circle thing in the middle
       love.graphics.setColor(0.6, 0.6, 0.6)
-      love.graphics.circle("fill", x, y, 10)
+      love.graphics.circle("fill", x, y, ent.height/2)
 
 
       -- text
@@ -34,7 +34,7 @@ main.ui.defineSlider("ownSlider", {
       local font = system.getStorage("defaultFont")
       local textWidth = font:getWidth(text)
       love.graphics.setFont(font)
-      love.graphics.print(text, ent.x+ent.width/2-textWidth/2, ent.y-ent.height*2)
+      love.graphics.print(text, ent.x+ent.width/2-textWidth/2, ent.y-ent.height*1.2)
     end, ent.screenSpace)
 
   end,
@@ -46,6 +46,5 @@ main.ui.defineSlider("ownSlider", {
     ent.slideAmount = slideAmount
 
     system.updateStorage("main:ownSliderSlideAmount", slideAmount)
-    print(system.getStorage("main:ownSliderSlideAmount"))
   end
 })
