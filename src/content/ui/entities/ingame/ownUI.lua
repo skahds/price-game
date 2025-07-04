@@ -1,9 +1,10 @@
 main.ui.defineSlider("ownSlider", {
   width = 200,
-  height = 50,
+  height = 20,
   renderLayer = 100,
   slideDirection = "horizontal",
   slideAmount = 0.5,
+  screenSpace = false,
   onDraw = function (ent)
     
     local slideAmount = ent.slideAmount or 0.5
@@ -25,7 +26,12 @@ main.ui.defineSlider("ownSlider", {
 
   end,
   onSlide = function (ent, amountScrolled)
-    ent.slideAmount = amountScrolled
-    print(amountScrolled)
+    -- snaps it by increments of 0.05
+    local increment = 1 / ( 0.05 )
+    local slideAmount = math.floor(amountScrolled*increment + 0.5)/increment
+    ent.slideAmount = slideAmount
+
+    system.updateStorage("main:ownSliderSlideAmount", slideAmount)
+    print(system.getStorage("main:ownSliderSlideAmount"))
   end
 })

@@ -22,7 +22,9 @@ function main.ui.defineUI(id, eType)
     self.y = self.y or 0
     self.width = self.width or self.defaultWidth or 0
     self.height = self.height or self.defaultHeight or 0
-    self.screenSpace = self.screenSpace or true
+    if self.screenSpace == nil then
+      self.screenSpace = true
+    end
     self.renderLayer = self.renderLayer or 100
   end
 
