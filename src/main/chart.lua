@@ -83,7 +83,7 @@ function bar:changePricePIP(pip)
     print("price", price)
   end
 
-  if pip > 0 then
+  if self.startPrice < self.endPrice then
     self.color = {0.2, 0.7, 0.2}
   else
     self.color = {0.7, 0.2, 0.2}
