@@ -1,6 +1,6 @@
 local RichText = system.getStorage("RichText")
-local text = main.newRichText({text="{pointsColor}Points: {/pointsColor}" .. 10, y=200})
+local text = main.newRichText({text="{moneyColor}Points: {/moneyColor}" .. "10", y=200})
 
 system.on("main:moneyChanged", function (change)
-  -- print("change ", change)
+  -- text.text.format = "{pointsColor}Points: {/pointsColor}" .. 10
 end)

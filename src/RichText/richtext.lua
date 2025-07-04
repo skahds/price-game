@@ -37,29 +37,103 @@ function RichText.addEffect(name, fn)
   effects[name] = fn
 end
 
+--THIS PART IS MODIFIED, THE ORIGINAL PARSE IS NOT AS SUCH
 function RichText.parse(format)
   local tformat = {}
+  local last_pos = 1 -- Keep track of the last position processed
 
-  for text, match in format:gmatch("([^{]*)({.-})") do
-    if text then
-      table.insert(tformat, text)
+  for text_segment, match_tag in format:gmatch("([^{]*)({.-})") do
+    -- Add the text segment before the tag
+    if text_segment and text_segment ~= "" then
+      table.insert(tformat, text_segment)
     end
-    if match then
-      local inner = match:sub(2, -2)
+
+    -- Process the tag
+    if match_tag then
+      local inner = match_tag:sub(2, -2) -- Remove { and }
       local args = {}
-      local name = inner:match("^[/%a]+")
-      args[1] = name
+      local name = inner:match("^[/%a]+") -- Extract effect name (e.g., "shake" or "/shake")
+
+      if not name then
+        -- Handle cases like {} or {  } or {invalid=arg} without a name
+        error("Invalid rich text tag: " .. match_tag .. ". Tags must start with an effect name.")
+      end
+
+      args[1] = name -- The effect name is the first argument
       for k, v in inner:gmatch("(%w-)=([%w%.%-]+)") do
-        if not v:match("^%-?%d*%.?%d*$") then
-          error("Invalid effect arg '" .. k .. "'. Numbers are the only supported type.")
+        -- Check if 'v' looks like a number
+        if not v:match("^-?%d*%.?%d*$") then
+          error("Invalid effect arg '" .. k .. "'. Only numbers (integers or decimals, positive/negative) are supported for values: " .. match_tag)
         end
         args[k] = tonumber(v)
       end
       table.insert(tformat, args)
     end
+    -- Update last_pos to reflect the end of the current match
+    -- This is a bit tricky with gmatch, as it iterates on its own.
+    -- A simpler way is to check the remainder after the loop.
   end
 
-  return tformat
+  -- After the loop, check if there's any remaining text that wasn't part of a tag match
+  -- This captures pure text strings or text after the last tag.
+  local remaining_text = format:match("([^{]*)$") -- Match any non-'{' characters at the end
+  if remaining_text and remaining_text ~= "" then
+    -- Also, ensure we don't double-add if the string ended with a tag
+    -- A more robust approach might be to use string.find to get positions.
+    -- However, for the simple case of a string with no tags, this works.
+
+    -- Let's re-think this `gmatch` approach. It's built for finding pairs.
+    -- A more robust parsing loop would be better.
+
+    -- Here's a simpler and more robust `parse` function that handles all cases:
+    local parsed = {}
+    local cursor = 1
+    local len = #format
+
+  while cursor <= len do
+      local open_brace_pos, close_brace_pos = format:find("{", cursor, true)
+
+      if open_brace_pos then
+        -- Found an opening brace, check for preceding plain text
+        if open_brace_pos > cursor then
+          table.insert(parsed, format:sub(cursor, open_brace_pos - 1))
+        end
+
+        -- Find the closing brace for the tag
+        close_brace_pos = format:find("}", open_brace_pos + 1, true)
+        if not close_brace_pos then
+          error("Unclosed rich text tag starting at position " .. open_brace_pos)
+        end
+
+        local tag_content = format:sub(open_brace_pos + 1, close_brace_pos - 1)
+        local args = {}
+        local name = tag_content:match("^[/%a]+")
+
+        if not name then
+          error("Invalid rich text tag: {" .. tag_content .. "}. Tags must start with an effect name (e.g., {color}, {/color}).")
+        end
+
+        args[1] = name
+        for k, v in tag_content:gmatch("(%w-)=([%w%.%-]+)") do
+          if not v:match("^-?%d*%.?%d*$") then
+            error("Invalid effect arg '" .. k .. "' (value: '" .. v .. "') in tag {" .. tag_content .. "}. Only numbers (integers or decimals, positive/negative) are supported for values.")
+          end
+          args[k] = tonumber(v)
+        end
+        table.insert(parsed, args)
+
+        cursor = close_brace_pos + 1 -- Move cursor past the tag
+      else
+        -- No more opening braces, the rest is plain text
+        if cursor <= len then
+          table.insert(parsed, format:sub(cursor))
+        end
+        break -- Done parsing
+      end
+    end
+
+    return parsed
+  end
 end
 
 function RichText.new(font, format)

@@ -4,7 +4,7 @@ system.updateStorage("defaultFont", love.graphics.newFont(30))
 
 local RichText = require("src.RichText.richtext")
 
-RichText.addEffect("pointsColor", function(self, args, info)
+RichText.addEffect("moneyColor", function(self, args, info)
     -- Default to gold-ish color if no arguments are provided
     local r = args.r or 1
     local g = args.g or 0.8
