@@ -67,7 +67,7 @@ end
 function bar:changePricePIP(pip)
   -- self.height = self.height - pip*100
   -- self.endPrice = 
-  local chart = system.getStorage("chart")
+  local chart = system.getStorage("main:chart")
   if chart then
     local price = chart.price
 

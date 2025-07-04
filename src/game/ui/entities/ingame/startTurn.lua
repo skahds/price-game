@@ -9,6 +9,6 @@ main.ui.defineUI("startTurn", {
 
   end,
   onClicked = function (ent)
-    system.call("startTurn")
+    system.call("main:startTurn")
   end
 })

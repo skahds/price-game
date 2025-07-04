@@ -1,3 +1,3 @@
--- system.on("startTurn", function ()
+-- system.on("main:startTurn", function ()
   
 -- end)

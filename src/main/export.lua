@@ -12,7 +12,7 @@ end
 
 function main.spawnChart(args)
   local chart = main.spawnEntity("chart", args, true)
-  system.updateStorage("chart", chart)
+  system.updateStorage("main:chart", chart)
 end
 
 local function basicBarSpawnChange(bar, chart)
@@ -45,7 +45,7 @@ local function basicBarSpawnChange(bar, chart)
 end
 
 function main.spawnBar()
-  local chart = system.getStorage("chart")
+  local chart = system.getStorage("main:chart")
   local bar = main.spawnEntity("bar", {}, true)
   if chart then
     chart:addBar(bar)
