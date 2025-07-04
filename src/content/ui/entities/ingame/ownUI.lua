@@ -21,10 +21,14 @@ main.ui.defineSlider("ownSlider", {
     end
 
     system.render(120, function ()
+      --circle thing in the middle
       love.graphics.setColor(0.6, 0.6, 0.6)
       love.graphics.circle("fill", x, y, 10)
 
-      local text = tostring(ent.slideAmount)
+
+      -- text
+      love.graphics.setColor(1, 1, 1)
+      local text = (ent.slideAmount-0.5)*200 .. "%"
       local font = system.getStorage("defaultFont")
       local textWidth = font:getWidth(text)
       love.graphics.setFont(font)
