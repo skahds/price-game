@@ -5,6 +5,7 @@ main.ui.defineSlider("ownSlider", {
   slideDirection = "horizontal",
   slideAmount = 0.5,
   screenSpace = false,
+
   onDraw = function (ent)
     
     local slideAmount = ent.slideAmount or 0.5
@@ -22,9 +23,16 @@ main.ui.defineSlider("ownSlider", {
     system.render(120, function ()
       love.graphics.setColor(0.6, 0.6, 0.6)
       love.graphics.circle("fill", x, y, 10)
+
+      local text = tostring(ent.slideAmount)
+      local font = system.getStorage("defaultFont")
+      local textWidth = font:getWidth(text)
+      love.graphics.setFont(font)
+      love.graphics.print(text, ent.x+ent.width/2-textWidth/2, ent.y-ent.height*2)
     end, ent.screenSpace)
 
   end,
+
   onSlide = function (ent, amountScrolled)
     -- snaps it by increments of 0.05
     local increment = 1 / ( 0.05 )

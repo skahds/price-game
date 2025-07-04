@@ -71,7 +71,7 @@ function RichText.new(font, format)
   elseif type(format) == "string" then
     instance.format = RichText.parse(format)
   end
-  instance.text = love.graphics.newText(font)
+  instance.text = love.graphics.newTextBatch(font)
   instance:update()
 
   return instance
