@@ -3,6 +3,7 @@ system.on("startTurn", function ()
   if chart then
     local bar = main.spawnBar()
     system.updateStorage("currentBar", bar)
+    local money = system.getStorage("main:money")
   end
 end)
 

@@ -1,0 +1,1 @@
+system.updateStorage("main:money", 100)
