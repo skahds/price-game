@@ -28,7 +28,9 @@ main.ui.defineSlider("ownSlider", {
 
       -- text
       love.graphics.setColor(1, 1, 1)
-      local text = (ent.slideAmount-0.5)*200 .. "%"
+      local frontText = "buy"
+      if slideAmount < 0.5 then frontText = "short" end
+      local text = frontText .. " " .. (ent.slideAmount-0.5)*200 .. "%"
       local font = system.getStorage("defaultFont")
       local textWidth = font:getWidth(text)
       love.graphics.setFont(font)
