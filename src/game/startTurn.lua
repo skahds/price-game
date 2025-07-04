@@ -3,8 +3,23 @@ system.on("startTurn", function ()
   if chart then
     local bar = main.spawnBar()
     system.updateStorage("currentBar", bar)
-    local money = system.getStorage("main:money")
+
+    -- do some stuff before ending turn
+    system.call("endTurn")
   end
+end)
+
+system.on("endTurn", function ()
+  local money = system.getStorage("main:money")
+  local sliderPos = system.getStorage("main:ownSliderSlideAmount") or 0.5
+  local percentageHold = (sliderPos-0.5)*200
+  local bar = system.getStorage("currentBar")
+
+  local change = bar.endPrice - bar.startPrice
+  change = change * percentageHold/100 * (money/bar.startPrice)
+  print("change: ", change, percentageHold, money)
+  money = money + change
+  system.updateStorage("main:money", money)
 end)
 
 -- system.on("@update", function ()

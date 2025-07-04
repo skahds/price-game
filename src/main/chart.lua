@@ -73,8 +73,10 @@ function bar:changePricePIP(pip)
 
     local change = price*pip
 
+    self.startPrice = price
     price = price + change
     self.endPrice = price
+    
     chart.price = price
     
     self.height = -change*10
