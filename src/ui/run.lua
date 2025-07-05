@@ -37,9 +37,37 @@ system.on("@mouse:released", function (button)
 end)
 
 system.on("@update", function ()
+  -- for hover. so only the top gets called
+  local UIlist = {}
+  local UIkey = 0
+
   for _, ent in pairs(main.ui.world) do
     if ent.update then
       ent:update()
+    end
+
+    -- for hover
+    if ent.onHover then
+      local mouse
+      if ent.screenSpace then
+        mouse = system.getStorage("realMouse")
+      else
+        mouse = system.getStorage("mouse")
+      end
+      if main.AABB_check(mouse, ent) then
+        UIlist[ent.renderLayer] = {}
+        if UIkey < ent.renderLayer then
+          UIkey = ent.renderLayer
+        end
+        table.insert(UIlist[ent.renderLayer], ent)
+      end
+    end
+  end
+
+  local layer = UIlist[UIkey]
+  if layer then
+    for _, ent in pairs(layer) do
+      ent:onHover()
     end
   end
 
