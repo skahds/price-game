@@ -31,5 +31,4 @@ function main.ui.defineSlider(id, eType)
   
   eType.update = sliderUpdate
   main.ui.defineUI(id, eType)
-  print(id)
 end
