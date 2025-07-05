@@ -33,13 +33,13 @@ system.updateStorage("RichText", RichText)
 
 function main.newRichText(args)
   local font = args.font or system.getStorage("defaultFont")
-  local text = RichText.new(font, args.text)
+  local text = RichText.new(font, args.richText)
   
-  table.insert(texts, {text=text})
+  table.insert(texts, {richText=text})
   local textTable = texts[#texts]
   textTable.index = #texts
   for k, v in pairs(args) do
-    if k ~= "text" and k ~= "font" then
+    if k ~= "richText" and k ~= "font" then
       textTable[k] = utils.deepCopy(v)
     end
   end
