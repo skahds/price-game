@@ -13,6 +13,22 @@ RichText.addEffect("moneyColor", function(self, args, info)
     self:setColor(r, g, b, a)
 end)
 
+RichText.addEffect("greenColor", function(self, args, info)
+    local r = args.r or 0.3
+    local g = args.g or 0.9
+    local b = args.b or 0.3
+    local a = args.a or 1
+    self:setColor(r, g, b, a)
+end)
+
+RichText.addEffect("redColor", function(self, args, info)
+    local r = args.r or 1
+    local g = args.g or 0.3
+    local b = args.b or 0.3
+    local a = args.a or 1
+    self:setColor(r, g, b, a)
+end)
+
 system.updateStorage("RichText", RichText)
 
 function main.newRichText(args)
