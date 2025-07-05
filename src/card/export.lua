@@ -17,10 +17,10 @@ function main.defineCard(id, eType)
 
     self.isCard = true
 
-    self.screenSpace = true
     local image = self.image or "blank_card"
     
     self.cardUI = main.ui.spawnUI("card_ui", {image=image, x=100, y=100}, true)
+    self.cardUI.card = self
   end
 
   function card:draw(args)
