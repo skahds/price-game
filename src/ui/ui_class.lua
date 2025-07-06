@@ -2,7 +2,7 @@ function main.ui.defineUI(id, eType)
   local ent = class()
 
   function ent:init(args)
-    for k, v in pairs(args) do
+    for k, v in pairs(eType) do
       if type(k) == "table" then
         self[k] = utils.deepCopy(v)
       else
@@ -10,7 +10,7 @@ function main.ui.defineUI(id, eType)
       end
     end
 
-    for k, v in pairs(eType) do
+    for k, v in pairs(args) do
       if type(k) == "table" then
         self[k] = utils.deepCopy(v)
       else

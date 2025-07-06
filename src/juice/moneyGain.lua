@@ -7,20 +7,25 @@ system.on("main:moneyChanged", function (change)
   end)
 end)
 
+local function addCoolEffect(s)
+  return s
+  -- return "{basicPulse}" .. s .. "{/basicPulse}"
+end
+
 system.on("main:currentPriceChanged", function (bar)
   if bar then
     local change = math.floor(((bar.endPrice / bar.startPrice)-1)*100+0.5)
     local form
     if change > 0 then
-      form = "{greenColor}" .. change .. "%{/greenColor}"
+      form = addCoolEffect("{greenColor}" .. change .. "%{/greenColor}")
     elseif change < 0 then
-      form = "{redColor}" .. change .. "%{/redColor}"
+      form = addCoolEffect("{redColor}" .. change .. "%{/redColor}")
     else
       form = "0%"
     end
 
     local text = main.newRichText({richText=form,
-    x=bar.x + love.math.random(-50, 50),
+    x=bar.x + love.math.random(-20, 20),
     y=bar.y+bar.height + love.math.random(-50, 50),
     screenSpace = false})
 
