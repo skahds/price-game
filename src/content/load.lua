@@ -7,5 +7,9 @@ system.on("@load", function ()
   main.ui.spawnUI("startTurn", {x=20, y=20})
   main.spawnChart({bearPower = 0.2, bullPower = 0.2})
   local chart = system.getStorage("main:chart")
-  main.createCard("testCard", {})
+
+  for i=1, 1 do
+    main.createCard("testCard", {})
+  end
+  main.card.updateAllCardPositionBackToOriginalPosition()
 end)

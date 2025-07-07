@@ -21,11 +21,9 @@ system.on("main:cardHovered", function (ent)
 end)
 ]]
 
--- system.on("main:cardReleased", function (ent)
---   if player.cardUIselected then
---     player.cardUIselected = nil
---   end
--- end)
+system.on("main:cardReleased", function (ent)
+  main.card.updateAllCardPositionBackToOriginalPosition()
+end)
 
 system.on("main:cardClicked", function (card)
   local cardUI = card.cardUI

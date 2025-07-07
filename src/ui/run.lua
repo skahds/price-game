@@ -1,4 +1,4 @@
-system.on("@mouse:released", function (button)
+system.on("@mouse:pressed", function (button)
   -- for making sure that *only* the top gets clicked
   local UIlist = {}
   local UIkey = 0

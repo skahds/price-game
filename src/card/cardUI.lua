@@ -3,8 +3,10 @@ main.ui.defineUI("card_ui", {
   defaultWidth = 64,
   defaultHeight = 64,
   screenSpace = true,
+  renderLayer = 40,
   onHover = function (ent)
     system.call("main:cardHovered", ent.card)
+    -- love.graphics.print(ent.card.cardOrder, ent.x, ent.y+60)
   end,
 
   onReleased = function (ent)
@@ -13,9 +15,6 @@ main.ui.defineUI("card_ui", {
     if ent.card and ent.card.onReleased then
       ent.card:onReleased()
     end
-
-    local flux = system.getStorage("flux")
-    ent.tween = flux.to(ent, 1, { x = 200, y = 200 })
   end,
 
   onClicked = function (ent)

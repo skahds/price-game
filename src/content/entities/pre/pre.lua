@@ -1,7 +1,7 @@
 main.defineCard("testCard", {
   name = "Test Card",
-  image = "testBox",
-  -- onReleased = function (ent)
+  -- image = "testBox",
+  onReleased = function (ent)
 
-  -- end
+  end
 })
