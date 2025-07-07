@@ -10,8 +10,6 @@ main.ui.defineUI("card_ui", {
   end,
 
   onReleased = function (ent)
-    system.call("main:cardReleased", ent.card)
-
     if ent.card and ent.card.onReleased then
       ent.card:onReleased()
     end
