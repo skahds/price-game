@@ -1,14 +1,14 @@
--- main.ui.defineUI("startTurn", {
---   width = 64,
---   height = 64,
---   image = "testBox",
---   renderLayer = 101,
---   screenSpace = true,
+main.ui.defineUI("startTurn", {
+  width = 64,
+  height = 64,
+  image = "testBox",
+  renderLayer = 101,
+  screenSpace = true,
 
---   onDraw = function (ent)
+  onDraw = function (ent)
 
---   end,
---   onClicked = function (ent)
---     main.createCard("testCard", {})
---   end
--- })
+  end,
+  onClicked = function (ent)
+    main.createCard("testCard", {})
+  end
+})

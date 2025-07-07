@@ -31,7 +31,7 @@ function love.mousereleased(x, y, button)
 end
 
 function love.mousemoved( x, y, dx, dy, istouch )
-  system.call("mouse:moved", {dx=dx, dy=dy})
+  system.call("@mouse:moved", {dx=dx, dy=dy})
 end
 
 
