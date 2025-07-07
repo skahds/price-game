@@ -15,29 +15,19 @@ local player = {}
 --   end
 -- end)
 
-system.on("@mouse:moved", function (t)
-  local dx, dy = t.dx, t.dy
+system.on("@update", function ()
   local mouse = system.getStorage("realMouse")
   local uiEnt = player.cardUIselected
   if uiEnt then
-    uiEnt.x = uiEnt.x + dx
-    uiEnt.y = uiEnt.y + dy
+    local flux = system.getStorage("flux")
+    -- uiEnt.x = mouse.x-uiEnt.width/2
+    -- uiEnt.y = mouse.y-uiEnt.height/2
+    uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt.width/2, y = mouse.y-uiEnt.height/2})
+    uiEnt.renderLayer = 100
   end
 end)
---[[
-system.on("main:cardHovered", function (ent)
-  if love.mouse.isDown(1) then
-    player.cardUIselected = ent.cardUI
-    
-    if ent.cardUI.tween then
-      ent.cardUI.tween:stop()
-    end
-  end
-end)
-]]
 
 system.on("main:cardReleased", function (ent)
-  print("released")
   main.card.updateAllCardPositionBackToOriginalPosition()
 end)
 
@@ -45,15 +35,13 @@ system.on("main:cardClicked", function (card)
   local cardUI = card.cardUI
   local currentCard = player.cardUIselected
   if currentCard then
-    print("thisGot")
     if currentCard.index == cardUI.index then
-      
       if currentCard.onReleased then
         currentCard.onReleased(currentCard)
       end
-
-      player.cardUIselected = nil
     end
+
+    player.cardUIselected = nil
   else
 
     if cardUI.tween then
@@ -61,23 +49,18 @@ system.on("main:cardClicked", function (card)
     end
 
     player.cardUIselected = cardUI
-    print("h")
   end
 end)
 
 -- different situation from up, so i will be repeating this code
--- system.on("noUIClicked", function ()
---   local currentCard = player.cardUIselected
---   if currentCard then
---     player.cardUIselected = nil
+system.on("noUIClicked", function ()
+  local currentCard = player.cardUIselected
+  if currentCard then
+    player.cardUIselected = nil
 
---     if currentCard.tween then
---       currentCard.tween:stop()
---     end
+    if currentCard.onReleased then
+      currentCard.onReleased(currentCard)
+    end
 
---     if currentCard.onReleased then
---       currentCard.onReleased(currentCard)
---     end
-
---   end
--- end)
+  end
+end)

@@ -67,6 +67,9 @@ function main.card.updateAllCardPositionBackToOriginalPosition()
 
     local finalX = originalX + orderOffset + leftOffset
 
+    if uiEnt.tween then
+      uiEnt.tween:stop()
+    end
     uiEnt.tween = flux.to(uiEnt, 0.3, { x = finalX, y = 10 })
   end
 end
