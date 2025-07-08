@@ -1,7 +1,15 @@
+system.updateStorage("main:isOnTurn", false)
+
 system.on("main:startTurn", function ()
   local chart = system.getStorage("main:chart")
   local pipeline = main.getPipeline("main")
+
+  if system.getStorage("main:isOnTurn") == true then
+    return
+  end
+
   if chart then
+    system.updateStorage("main:isOnTurn", true)
     main.triggerAllCardOwned("PRE")
 
     pipeline:add(0.5, function ()
@@ -18,6 +26,7 @@ system.on("main:startTurn", function ()
     pipeline:add(0.5, function ()
 
       system.call("main:endTurn")
+      system.updateStorage("main:isOnTurn", false)
 
     end)
     end)
