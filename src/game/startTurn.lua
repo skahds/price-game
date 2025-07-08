@@ -1,19 +1,22 @@
 system.on("main:startTurn", function ()
   local chart = system.getStorage("main:chart")
+  local pipeline = main.getPipeline("main")
   if chart then
-    main.waitWithMult(0.2, function ()
+    main.triggerAllCardOwned("PRE")
 
-      local res = main.triggerAllCardOwned("PRE")
+    pipeline:add(0.5, function ()
+      
 
       local bar = main.spawnBar()
       system.updateStorage("main:currentBar", bar)
 
+    pipeline:add(0.5, function()
 
       -- do some stuff before ending turn
-      main.waitWithMult(0.5, function ()
-        system.call("main:endTurn")
-      end)
+      system.call("main:endTurn")
+      main.triggerAllCardOwned("POST")
 
+    end)
     end)
   end
 end)

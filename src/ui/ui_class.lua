@@ -22,6 +22,11 @@ function main.ui.defineUI(id, eType)
     self.y = self.y or 0
     self.width = self.width or self.defaultWidth or 0
     self.height = self.height or self.defaultHeight or 0
+    self.r = 0
+    self.sx = 1
+    self.sy = 1
+    self.ox = 0
+    self.oy = 0
     if self.screenSpace == nil then
       self.screenSpace = true
     end
@@ -40,7 +45,7 @@ function main.ui.defineUI(id, eType)
 
       if self.image then
         local image = system.getImage(self.image)
-        love.graphics.draw(image, self.x, self.y)
+        love.graphics.draw(image, self.x, self.y, self.r, self.sx, self.sy, self.ox, self.oy)
       else
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
       end

@@ -8,8 +8,8 @@ main.defineCard("testCard", {
   --     chart.bullPower = chart.bullPower + 0.5
   --   end
   -- end
-  trigger = {"PRE"},
+  trigger = {"POST"},
   onActivate = function (ent)
-    print("aaa")
+    print("i have been triggered")
   end,
 })

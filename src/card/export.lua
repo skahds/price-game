@@ -64,42 +64,36 @@ local function isEInTable(e, t)
   return false
 end
 
-function main.triggerEnt(ent, trigger)
+function main.canTrigger(ent, trigger)
   if ent and ent.trigger then
     if isEInTable(trigger, ent.trigger) == false then
       return false
     end
 
-    -- i don't know what to return.. why would you even use trigger while not having an onActivate??
-    if ent.onActivate == nil then
-      return
-    end
-
-    ent:onActivate()
-    return true
   end
-  return false
+  return true
 end
 
-local function triggerCardInOrder(order, trigger)
-  local card = main.getCardInOrder(order)
-  if not card then
-    return
+function main.triggerEnt(ent, trigger)
+  if main.canTrigger(ent, trigger) then
+    if ent.onActivate then
+      ent:onActivate()
+    end
+    
+    system.call("main:entityTriggered", ent)
   end
-
-  local triggered = main.triggerEnt(card, trigger)
-  if triggered then
-    main.waitWithMult(1, function ()
-      triggerCardInOrder(order+1, trigger)
-    end)
-  else
-    triggerCardInOrder(order+1, trigger)
-  end
+  return true
 end
 
 function main.triggerAllCardOwned(trigger)
-  triggerCardInOrder(1, trigger)
-  return true
+  local pipeline = main.getPipeline("main")
+  for _, card in ipairs(main.card.ownedCards) do
+    if main.canTrigger(card, trigger) then
+      pipeline:add(0.5, function ()
+        main.triggerEnt(card, trigger)
+      end)
+    end
+  end
 end
 
 --card-in folder functions
