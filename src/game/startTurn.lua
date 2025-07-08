@@ -27,8 +27,7 @@ end)
 
 system.on("main:endTurn", function ()
   local money = system.getStorage("main:money")
-  local sliderPos = system.getStorage("main:ownSliderSlideAmount") or 0.5
-  local percentageHold = (sliderPos-0.5)*200
+  local percentageHold = system.getStorage("main:ownedPercentage") or 0.5
   local bar = system.getStorage("main:currentBar")
 
   if bar then

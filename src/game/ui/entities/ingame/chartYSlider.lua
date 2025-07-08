@@ -1,9 +1,9 @@
-main.ui.defineSlider("ownSlider", {
-  width = 200,
-  height = 40,
-  renderLayer = 200,
-  slideDirection = "horizontal",
-  slideAmount = 0.5,
+main.ui.defineSlider("scaleYSlider", {
+  width = 40,
+  height = 200,
+  renderLayer = 230,
+  slideDirection = "vertical",
+  slideAmount = 0.85,
   screenSpace = true,
 
   onDraw = function (ent)
@@ -20,21 +20,19 @@ main.ui.defineSlider("ownSlider", {
       x = x + ent.width /2
     end
 
-    system.render(201, function ()
+    system.render(231, function ()
       --circle thing in the middle
       love.graphics.setColor(0.6, 0.6, 0.6)
-      love.graphics.circle("fill", x, y, ent.height/2)
+      love.graphics.circle("fill", x, y, ent.width/2)
 
 
       -- text
       love.graphics.setColor(1, 1, 1)
-      local frontText = "buy"
-      if slideAmount < 0.5 then frontText = "short" end
-      local text = frontText .. " " .. (ent.slideAmount-0.5)*200 .. "%"
+      local text = "scale: " .. (ent.slideAmount)*100 .. "%"
       local font = system.getStorage("defaultFont")
       local textWidth = font:getWidth(text)
       love.graphics.setFont(font)
-      love.graphics.print(text, ent.x+ent.width/2-textWidth/2, ent.y-ent.height*1.2)
+      love.graphics.print(text, ent.x+ent.width/2-textWidth/2, ent.y+ent.height*1.2)
     end, ent.screenSpace)
 
   end,
@@ -42,9 +40,9 @@ main.ui.defineSlider("ownSlider", {
   onSlide = function (ent, amountScrolled)
     -- snaps it by increments of 0.05
     local increment = 1 / ( 0.05 )
-    local slideAmount = math.floor(amountScrolled*increment + 0.5)/increment
+    local slideAmount = math.floor(amountScrolled*increment+0.5)/increment
     ent.slideAmount = slideAmount
-    local percentageHold = (slideAmount-0.5)*200
-    system.updateStorage("main:ownedPercentage", percentageHold)
+
+    system.updateStorage("main:priceYScale", slideAmount)
   end
 })

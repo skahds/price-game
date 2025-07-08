@@ -42,7 +42,12 @@ function chart:forAllBar(fun)
 end
 
 function chart:priceToYPos(price)
-  return price*10
+  local sliderScale = system.getStorage("main:priceYScale")
+  if sliderScale then
+    sliderScale = 2^(sliderScale*4)
+  end
+  local yScale = sliderScale or 10
+  return price*yScale
 end
 
 function chart:update()
@@ -78,7 +83,10 @@ function bar:init(args)
 end
 
 function bar:update()
-  
+  local height = -chart:priceToYPos(self.endPrice-self.startPrice)
+  local flux = system.getStorage("flux")
+  self.tweenHeight = flux.to(self, 0.2, {height = height})
+  self.y = chart:priceToYPos(-self.startPrice)
 end
 
 function bar:draw()
@@ -97,11 +105,6 @@ function bar:changePricePIP(pip)
     self.endPrice = price
     
     chart.price = price
-    
-    local height = -chart:priceToYPos(change)
-    
-    local flux = system.getStorage("flux")
-    self.tweenHeight = flux.to(self, 0.2, {height = height})
 
     system.call("main:currentPriceChanged", self)
   end
