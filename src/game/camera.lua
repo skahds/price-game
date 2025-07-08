@@ -6,7 +6,7 @@ cam:followPos(playerCam)
 system.on("@update", function ()
   local key = love.keyboard.isDown
   local dt = system.getStorage("dt")
-  local speed = playerCam.speed * dt
+  local speed = playerCam.speed / playerCam.zoom * dt
   local a = key("a")
   local d = key("d")
   local w = key("w")
@@ -27,9 +27,9 @@ system.on("@update", function ()
 end)
 
 function love.wheelmoved(x, y)
-  if y > 0 then
+  if y > 0 and playerCam.zoom < 5 then
     playerCam.zoom = playerCam.zoom*1.2
-  elseif y < 0 then
+  elseif y < 0 and playerCam.zoom > 0.5 then
     playerCam.zoom = playerCam.zoom/1.2
   end
   cam:setZoom(playerCam.zoom)

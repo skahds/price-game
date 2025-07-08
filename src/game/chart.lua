@@ -41,8 +41,23 @@ function chart:forAllBar(fun)
   end
 end
 
+function chart:priceToYPos(price)
+  return price*10
+end
+
 function chart:update()
 
+end
+
+function chart:draw()
+  system.render(10, function ()
+    love.graphics.setColor(0.2, 0.2, 0.2, 0.5)
+    for i=1, 100 do
+      local pricePerLine = (i-50)*2
+      local y = self:priceToYPos(pricePerLine)
+      love.graphics.line(-10000, y, 10000, y)
+    end
+  end)
 end
 
 
@@ -53,6 +68,7 @@ local bar = main.entities.bar
 function bar:init(args)
   self.defaultWidth = 10
   self.defaultHeight = 0
+  self.renderLayer = 1
   basicEnt.init(self, args)
 end
 
@@ -79,7 +95,8 @@ function bar:changePricePIP(pip)
     
     chart.price = price
     
-    local height = -change*10
+    local height = -chart:priceToYPos(change)
+    
     local flux = system.getStorage("flux")
     self.tweenHeight = flux.to(self, 0.2, {height = height})
 
