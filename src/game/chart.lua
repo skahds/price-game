@@ -69,6 +69,11 @@ function bar:init(args)
   self.defaultWidth = 10
   self.defaultHeight = 0
   self.renderLayer = 1
+
+  local currentChart = system.getStorage("main:chart")
+  local price = currentChart.price
+  self.startPrice = price
+
   basicEnt.init(self, args)
 end
 
@@ -85,11 +90,9 @@ function bar:changePricePIP(pip)
   -- self.endPrice = 
   local chart = system.getStorage("main:chart")
   if chart then
+
     local price = chart.price
-
     local change = price*pip
-
-    self.startPrice = price
     price = price + change
     self.endPrice = price
     

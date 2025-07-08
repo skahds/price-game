@@ -10,6 +10,7 @@ main.defineCard("testCard", {
   -- end
   trigger = {"POST"},
   onActivate = function (ent)
-    print("i have been triggered")
+    local bar = system.getStorage("main:currentBar")
+    bar:changePricePIP(0.1)
   end,
 })

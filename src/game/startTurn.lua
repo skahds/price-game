@@ -13,9 +13,13 @@ system.on("main:startTurn", function ()
     pipeline:add(0.5, function()
 
       -- do some stuff before ending turn
-      system.call("main:endTurn")
       main.triggerAllCardOwned("POST")
 
+    pipeline:add(0.5, function ()
+
+      system.call("main:endTurn")
+
+    end)
     end)
     end)
   end
