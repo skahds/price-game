@@ -14,6 +14,12 @@ system.on("@load", function ()
     main.createCard("testCard", {})
   end
   main.card.updateAllCardPositionBackToOriginalPosition()
+
+  
+end)
+
+system.on("@update", function ()
+  system.playAudio("boop")
 end)
 
 --[[

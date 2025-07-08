@@ -1,4 +1,5 @@
 system.sprites = {}
+system.audio = {}
 
 -- this is made by chatgipity, im not smart enough to use love.filesystem
 
@@ -23,6 +24,13 @@ local function requireFolder(folder)
       -- Store the sprite with the file name as the key
       system.sprites[fileName] = love.graphics.newImage(fullPath)
       print("[" .. os.date() .."]: Loaded image " .. fileName)
+    elseif info.type == "file" and item:match("%.wav$") then
+      -- Extract the file name without the extension
+      local fileName = item:gsub("%.wav$", "")
+      print("a")
+      -- not sure if it should *always* be static
+      system.audio[fileName] = love.audio.newSource(fullPath, "static")
+      print("[" .. os.date() .."]: Loaded audio " .. fileName)
     elseif info.type == "directory" then
       -- Recursively require files in subfolders
       requireFolder(fullPath)
@@ -36,6 +44,7 @@ requireFolder("src/basicFunc")
 requireFolder("src/flux")
 requireFolder("src/RichText")
 requireFolder("src/camera")
+requireFolder("src/audio")
 requireFolder("src/renderer")
 requireFolder("src/main")
 requireFolder("src/ui")
