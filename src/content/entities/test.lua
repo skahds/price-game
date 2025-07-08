@@ -1,4 +1,4 @@
-main.ui.defineUI("startTurn", {
+main.ui.defineUI("spawnCard", {
   width = 64,
   height = 64,
   image = "testBox",

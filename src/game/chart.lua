@@ -52,7 +52,7 @@ main.entities.bar = class(main.entities.basicEnt)
 local bar = main.entities.bar
 function bar:init(args)
   self.defaultWidth = 10
-  self.defaultHeight = 10
+  self.defaultHeight = 0
   basicEnt.init(self, args)
 end
 
@@ -79,7 +79,10 @@ function bar:changePricePIP(pip)
     
     chart.price = price
     
-    self.height = -change*10
+    local height = -change*10
+    local flux = system.getStorage("flux")
+    self.tweenHeight = flux.to(self, 0.2, {height = height})
+
     system.call("main:currentPriceChanged", self)
   end
 

@@ -1,7 +1,7 @@
 main.ui.defineSlider("ownSlider", {
   width = 200,
   height = 40,
-  renderLayer = 100,
+  renderLayer = 200,
   slideDirection = "horizontal",
   slideAmount = 0.5,
   screenSpace = true,
@@ -20,7 +20,7 @@ main.ui.defineSlider("ownSlider", {
       x = x + ent.width /2
     end
 
-    system.render(120, function ()
+    system.render(201, function ()
       --circle thing in the middle
       love.graphics.setColor(0.6, 0.6, 0.6)
       love.graphics.circle("fill", x, y, ent.height/2)
