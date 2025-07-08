@@ -11,6 +11,17 @@ function main.createCard(id, args)
   return card
 end
 
+function main.deleteCard(card)
+  local cardOrder = card.cardOrder
+  local cardUI = card.cardUI
+  
+  cardUI:delete()
+  card:delete()
+  table.remove(main.card.ownedCards, cardOrder)
+
+  main.card.updateAllCardPositionBackToOriginalPosition()
+end
+
 function main.defineCard(id, eType)
   -- card ent isn't shown, it will create its own UI ent
   -- card ent
