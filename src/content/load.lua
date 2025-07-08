@@ -14,3 +14,12 @@ system.on("@load", function ()
   end
   main.card.updateAllCardPositionBackToOriginalPosition()
 end)
+
+--[[
+local pipeline = main.getPipeline("main")
+for i=1, 10 do
+  pipeline:add(1, function ()
+    print("test " .. i )
+  end)
+end
+]]

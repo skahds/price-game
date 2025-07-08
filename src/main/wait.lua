@@ -26,3 +26,12 @@ system.on("@update", function ()
 
   deleteQueue = {}
 end)
+
+-- the default delay Multiplier so the game could go faster if requested
+-- please multiply this with the default swhen possible
+system.updateStorage("main:defaultDelayMult", 1)
+
+function main.waitWithMult(second, fun)
+  local defaultDelayMult = system.getStorage("main:defaultDelayMult")
+  main.wait(second * defaultDelayMult, fun)
+end

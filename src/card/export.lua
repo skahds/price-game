@@ -22,6 +22,13 @@ function main.deleteCard(card)
   main.card.updateAllCardPositionBackToOriginalPosition()
 end
 
+function main.getCardInOrder(order)
+  local card = main.card.ownedCards[order]
+  if card then
+    return card
+  end
+end
+
 function main.defineCard(id, eType)
   -- card ent isn't shown, it will create its own UI ent
   -- card ent
@@ -48,6 +55,52 @@ function main.defineCard(id, eType)
   end
 end
 
+local function isEInTable(e, t)
+  for k, v in pairs(t) do
+    if v == e then
+      return true
+    end
+  end
+  return false
+end
+
+function main.triggerEnt(ent, trigger)
+  if ent and ent.trigger then
+    if isEInTable(trigger, ent.trigger) == false then
+      return false
+    end
+
+    -- i don't know what to return.. why would you even use trigger while not having an onActivate??
+    if ent.onActivate == nil then
+      return
+    end
+
+    ent:onActivate()
+    return true
+  end
+  return false
+end
+
+local function triggerCardInOrder(order, trigger)
+  local card = main.getCardInOrder(order)
+  if not card then
+    return
+  end
+
+  local triggered = main.triggerEnt(card, trigger)
+  if triggered then
+    main.waitWithMult(1, function ()
+      triggerCardInOrder(order+1, trigger)
+    end)
+  else
+    triggerCardInOrder(order+1, trigger)
+  end
+end
+
+function main.triggerAllCardOwned(trigger)
+  triggerCardInOrder(1, trigger)
+  return true
+end
 
 --card-in folder functions
 

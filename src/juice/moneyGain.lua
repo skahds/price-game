@@ -2,7 +2,7 @@ system.on("main:moneyChanged", function (change)
   local text = main.newRichText({richText="{moneyColor}" .. math.floor(change+0.5) .. "{/moneyColor}",
   y=100,
   x=200,})
-  main.wait(1, function ()
+  main.waitWithMult(1, function ()
     text:delete()
   end)
 end)
@@ -29,7 +29,7 @@ system.on("main:currentPriceChanged", function (bar)
     y=bar.y+bar.height + love.math.random(-50, 50),
     screenSpace = false})
 
-    main.wait(0.3, function ()
+    main.waitWithMult(0.3, function ()
       text:delete()
     end)
   end

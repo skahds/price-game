@@ -52,8 +52,8 @@ end
 function chart:draw()
   system.render(10, function ()
     love.graphics.setColor(0.2, 0.2, 0.2, 0.5)
-    for i=1, 100 do
-      local pricePerLine = (i-50)*2
+    for i=1, 500 do
+      local pricePerLine = (i-250)*2
       local y = self:priceToYPos(pricePerLine)
       love.graphics.line(-10000, y, 10000, y)
     end
