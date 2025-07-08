@@ -1,7 +1,5 @@
 -- love.graphics.setBackgroundColor(238/255, 225/255, 207/255)
 love.graphics.setBackgroundColor(0.1, 0.1, 0.1)
-
-
 system.on("@load", function ()
   main.ui.spawnUI("ownSlider", {x=10, y=300})
   main.ui.spawnUI("scaleYSlider", {x=500, y=30})

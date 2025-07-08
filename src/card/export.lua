@@ -89,7 +89,7 @@ function main.triggerAllCardOwned(trigger)
   local pipeline = main.getPipeline("main")
   for _, card in ipairs(main.card.ownedCards) do
     if main.canTrigger(card, trigger) then
-      pipeline:add(0.5, function ()
+      pipeline:add(0.3, function ()
         main.triggerEnt(card, trigger)
       end)
     end

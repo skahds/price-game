@@ -12,18 +12,18 @@ system.on("main:startTurn", function ()
     system.updateStorage("main:isOnTurn", true)
     main.triggerAllCardOwned("PRE")
 
-    pipeline:add(0.5, function ()
+    pipeline:add(0.2, function ()
       
 
       local bar = main.spawnBar()
       system.updateStorage("main:currentBar", bar)
 
-    pipeline:add(0.5, function()
+    pipeline:add(0.2, function()
 
       -- do some stuff before ending turn
       main.triggerAllCardOwned("POST")
 
-    pipeline:add(0.5, function ()
+    pipeline:add(0.2, function ()
 
       system.call("main:endTurn")
       system.updateStorage("main:isOnTurn", false)
