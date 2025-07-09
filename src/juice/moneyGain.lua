@@ -32,8 +32,14 @@ system.on("main:currentPriceChanged", function (bar)
     main.waitWithMult(0.5, function ()
       text:delete()
     end)
-
-
-    local audio = system.playAudio("boop")
   end
+end)
+
+
+-- audio related
+
+system.on("main:currentPriceChanged", function (bar)
+  local combo = system.getStorage("main:currentCombo")
+  local audio = system.playAudio("boop")
+  main.audio.offsetAudioSourcePitch(audio, combo)
 end)

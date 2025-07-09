@@ -18,6 +18,13 @@ function system.playAudio(id)
   end
 end
 
+main.audio = {}
+function main.audio.offsetAudioSourcePitch(source, semitonesOffset)
+    local currentPitch = source:getPitch()
+    local newPitch = currentPitch * (2 ^ (semitonesOffset / 12))
+    source:setPitch(newPitch)
+end
+
 system.on("@update", function ()
   for i=#audios, 1, -1 do
     local audio = audios[i]
