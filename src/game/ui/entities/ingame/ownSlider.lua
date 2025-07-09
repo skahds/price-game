@@ -1,6 +1,6 @@
 main.ui.defineSlider("ownSlider", {
-  width = 200,
-  height = 40,
+  width = 400,
+  height = 80,
   renderLayer = 200,
   slideDirection = "horizontal",
   slideAmount = 0.5,

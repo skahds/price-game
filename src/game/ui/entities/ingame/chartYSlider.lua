@@ -1,6 +1,6 @@
 main.ui.defineSlider("scaleYSlider", {
-  width = 40,
-  height = 200,
+  width = 80,
+  height = 400,
   renderLayer = 230,
   slideDirection = "vertical",
   slideAmount = 0.85,

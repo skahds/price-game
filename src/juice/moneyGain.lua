@@ -29,8 +29,11 @@ system.on("main:currentPriceChanged", function (bar)
     y=bar.y+bar.height + love.math.random(-50, 50),
     screenSpace = false})
 
-    main.waitWithMult(0.3, function ()
+    main.waitWithMult(0.5, function ()
       text:delete()
     end)
+
+
+    local audio = system.playAudio("boop")
   end
 end)

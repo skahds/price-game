@@ -1,8 +1,8 @@
 -- love.graphics.setBackgroundColor(238/255, 225/255, 207/255)
 love.graphics.setBackgroundColor(0.1, 0.1, 0.1)
 system.on("@load", function ()
-  main.ui.spawnUI("ownSlider", {x=10, y=300})
-  main.ui.spawnUI("scaleYSlider", {x=500, y=30})
+  main.ui.spawnUI("ownSlider", {x=20, y=600})
+  main.ui.spawnUI("scaleYSlider", {x=1100, y=30})
   main.ui.spawnUI("startTurn", {x=10, y=20})
   main.ui.spawnUI("spawnCard", {x=150, y=20})
   main.spawnChart({bearPower = 0.2, bullPower = 0.2})
@@ -16,15 +16,14 @@ system.on("@load", function ()
   
 end)
 
-system.on("@update", function ()
-  system.playAudio("boop")
-end)
+-- system.on("@update", function ()
 
---[[
-local pipeline = main.getPipeline("main")
-for i=1, 10 do
-  pipeline:add(1, function ()
-    print("test " .. i )
-  end)
-end
-]]
+-- end)
+
+
+-- local pipeline = main.getPipeline("main")
+-- for i=1, 10 do
+--   pipeline:add(0.01, function ()
+--   system.playAudio("boop")
+--   end)
+-- end

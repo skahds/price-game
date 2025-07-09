@@ -5,9 +5,10 @@ local cam = system.getStorage("camera")
 local virtualWidth = 1280 
 local virtualHeight = 720 
 local defaultCanvas = love.graphics.newCanvas(virtualWidth, virtualHeight)
-system.updateStorage("screenDimension", {w=love.graphics.getWidth(), h=love.graphics.getHeight()})
+local scale = love.graphics.getDPIScale()
+system.updateStorage("screenDimension", {w=love.graphics.getWidth()*scale, h=love.graphics.getHeight()*scale})
 system.on("@update", function ()
-  system.updateStorage("screenDimension", {w=love.graphics.getWidth(), h=love.graphics.getHeight()})
+  system.updateStorage("screenDimension", {w=love.graphics.getWidth()*scale, h=love.graphics.getHeight()*scale})
 end)
 
 system.render =  function (layer, func, fixed)

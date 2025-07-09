@@ -13,5 +13,7 @@ system.on("main:entityTriggered", function (ent)
     main.wait(0.2, function ()
       flux.to(cardUI, 0.2, {sx = sx/1.5, sy=sy/1.5, ox=originalOx, oy=originalOy})
     end)
+
+    -- main.playAudio("boop")
   end
 end)
