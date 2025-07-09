@@ -1,9 +1,4 @@
 system.on("@update", function ()
-  local mousePosX, mousePosY = love.mouse.getPosition()
-  system.updateStorage("realMouse", {x=mousePosX, y=mousePosY})
-end)
-
-system.on("@update", function ()
   for _, ent in pairs(main.world) do
     if ent.update then
       ent:update()

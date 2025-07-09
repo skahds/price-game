@@ -32,7 +32,10 @@ end
 
 system.on("@update", function ()
   local screenWidth, screenHeight = system.getStorage("screenDimension").w, system.getStorage("screenDimension").h
-  local mouseX, mouseY = love.mouse.getPosition()
+  local mouse = system.getStorage("realMouse")
+  local mouseX , mouseY = mouse.x, mouse.y
+  mouseX = mouseX
+  mouseY = mouseY
   local relativeMouseX = mouseX - (screenWidth / 2)
   local relativeMouseY = mouseY - (screenHeight / 2)
   local unzoomedX = relativeMouseX / cam.zoom
