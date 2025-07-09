@@ -8,7 +8,7 @@ main.ui.defineUI("startTurn", {
   onDraw = function (ent)
 
   end,
-  onClicked = function (ent)
+  onMouseReleased = function (ent)
     system.call("main:startTurn")
   end
 })

@@ -8,7 +8,7 @@ main.ui.defineUI("spawnCard", {
   onDraw = function (ent)
 
   end,
-  onClicked = function (ent)
+  onMouseReleased = function (ent)
     main.createCard("testCard", {})
   end
 })

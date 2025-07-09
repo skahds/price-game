@@ -1,4 +1,4 @@
-system.on("@mouse:pressed", function (button)
+local function clickTop(button, uiFun)
   -- for making sure that *only* the top gets clicked
   local UIlist = {}
   local UIkey = 0
@@ -12,28 +12,37 @@ system.on("@mouse:pressed", function (button)
       mouse = system.getStorage("mouse")
     end
     if main.AABB_check(ent, mouse) then
-      if ent.onClicked then
-        UIlist[ent.renderLayer] = {}
+      if ent[uiFun] then
+        if UIlist[ent.renderLayer] == nil then
+          UIlist[ent.renderLayer] = {}
+        end
         if UIkey < ent.renderLayer then
           UIkey = ent.renderLayer
         end
         table.insert(UIlist[ent.renderLayer], ent)
-
-        hasClicked = true
       end
+      hasClicked = true
     end
   end
 
   local layer = UIlist[UIkey]
   if layer then
     for _, ent in pairs(layer) do
-      ent.onClicked(ent, button)
+      ent[uiFun](ent, button)
     end
   end
 
   if hasClicked == false then
     system.call("noUIClicked", button)
   end
+end
+
+system.on("@mouse:pressed", function (button)
+  clickTop(button, "onMouseClicked")
+end)
+
+system.on("@mouse:released", function (button)
+  clickTop(button, "onMouseReleased")
 end)
 
 system.on("@update", function ()
