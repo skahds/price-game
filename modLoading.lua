@@ -1,5 +1,6 @@
 system.sprites = {}
 system.audio = {}
+system.fonts = {}
 
 -- this is made by chatgipity, im not smart enough to use love.filesystem
 
@@ -27,10 +28,12 @@ local function requireFolder(folder)
     elseif info.type == "file" and item:match("%.wav$") then
       -- Extract the file name without the extension
       local fileName = item:gsub("%.wav$", "")
-      print("a")
       -- not sure if it should *always* be static
       system.audio[fileName] = love.audio.newSource(fullPath, "static")
       print("[" .. os.date() .."]: Loaded audio " .. fileName)
+    elseif info.type == "file" and item:match("%.ttf$") then
+      local fileName = item:gsub("%.ttf$", "")
+      system.fonts[fileName] =love.graphics.newFont(fullPath, 60)
     elseif info.type == "directory" then
       -- Recursively require files in subfolders
       requireFolder(fullPath)

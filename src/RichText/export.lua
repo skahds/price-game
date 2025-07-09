@@ -1,7 +1,7 @@
 local texts = {}
 local deleteQueue = {}
 system.updateStorage("textsTable", texts)
-system.updateStorage("defaultFont", love.graphics.newFont(30))
+system.updateStorage("defaultFont", system.getFont("defaultFont"))
 
 local RichText = require("src.RichText.richtext")
 
@@ -51,9 +51,12 @@ function main.newRichText(args)
   return texts[#texts]
 end
 
-
-
-
+function system.getFont(id)
+  if system.fonts[id] == nil then
+    error("font " .. id .. " does not exist")
+  end
+  return system.fonts[id]
+end
 
 system.on("@update", function ()
   for i=#deleteQueue, 1, -1 do

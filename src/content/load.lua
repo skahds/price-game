@@ -2,7 +2,7 @@
 love.graphics.setBackgroundColor(0.1, 0.1, 0.1)
 system.on("@load", function ()
   main.ui.spawnUI("ownSlider", {x=20, y=600})
-  main.ui.spawnUI("scaleYSlider", {x=1100, y=30})
+  main.ui.spawnUI("scaleYSlider", {x=1050, y=30})
   main.ui.spawnUI("startTurn", {x=10, y=20})
   main.ui.spawnUI("spawnCard", {x=150, y=20})
   main.spawnChart({bearPower = 0.2, bullPower = 0.2})

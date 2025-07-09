@@ -1,7 +1,7 @@
 system.on("main:moneyChanged", function (change)
   local text = main.newRichText({richText="{moneyColor}" .. math.floor(change+0.5) .. "{/moneyColor}",
-  y=100,
-  x=200,})
+  y=200,
+  x=20,})
   main.waitWithMult(1, function ()
     text:delete()
   end)

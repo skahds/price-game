@@ -1,6 +1,9 @@
 local audios = {}
 
 function system.getAudio(id)
+  if system.audio[id] == nil then
+    error("audio " .. id .. " does not exist")
+  end
   return system.audio[id]
 end
 
