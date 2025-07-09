@@ -1,7 +1,7 @@
 main.ui.defineUI("card_ui", {
   image = "blank_card",
-  defaultWidth = 64,
-  defaultHeight = 64,
+  defaultWidth = 128,
+  defaultHeight = 128,
   screenSpace = true,
   renderLayer = 40,
   onHover = function (ent)

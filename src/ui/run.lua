@@ -54,21 +54,25 @@ system.on("@update", function ()
     if ent.update then
       ent:update()
     end
-
-    -- for hover
-    if ent.onHover then
-      local mouse
-      if ent.screenSpace then
-        mouse = system.getStorage("realMouse")
-      else
-        mouse = system.getStorage("mouse")
-      end
-      if main.AABB_check(mouse, ent) then
+    local mouse
+    if ent.screenSpace then
+      mouse = system.getStorage("realMouse")
+    else
+      mouse = system.getStorage("mouse")
+    end
+    if main.AABB_check(mouse, ent) then
+      -- for hover
+      if ent.onHover then
         UIlist[ent.renderLayer] = {}
         if UIkey < ent.renderLayer then
           UIkey = ent.renderLayer
         end
         table.insert(UIlist[ent.renderLayer], ent)
+      end
+    else
+      -- for notHovered
+      if ent.notHovered then
+        ent:notHovered()
       end
     end
   end

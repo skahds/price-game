@@ -118,7 +118,7 @@ function main.card.updateAllCardPositionBackToOriginalPosition()
 
     local cardWidth, cardHeight = uiEnt.width, uiEnt.cardHeight
     
-    local spaceBetweenCard = 200/(#main.card.ownedCards/2+1)
+    local spaceBetweenCard = 500/(#main.card.ownedCards/2+1)
     local orderOffset = (card.cardOrder-1)*spaceBetweenCard
     local leftOffset = -(#main.card.ownedCards-1)*(spaceBetweenCard/2)
     local originalX = screenW/2 - cardWidth/2

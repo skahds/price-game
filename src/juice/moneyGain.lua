@@ -38,7 +38,7 @@ end)
 
 -- audio related
 
-system.on("main:currentPriceChanged", function (bar)
+system.on("main:entityTriggered", function (bar)
   local combo = system.getStorage("main:currentCombo")
   local audio = system.playAudio("boop")
   main.audio.offsetAudioSourcePitch(audio, combo)

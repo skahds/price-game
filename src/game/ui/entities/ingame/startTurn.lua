@@ -1,14 +1,15 @@
-main.ui.defineUI("startTurn", {
-  width = 128,
-  height = 64,
-  image = "startTurn",
+main.ui.defineButton("startTurn", {
+  width = 256,
+  height = 128,
+  onButtonUpImage = "startTurnUp",
+  onButtonDownImage = "startTurnDown",
   renderLayer = 101,
   screenSpace = true,
 
-  onDraw = function (ent)
+  -- onDraw = function (ent)
 
-  end,
-  onMouseReleased = function (ent)
+  -- end,
+  onButtonClicked = function (ent)
     system.call("main:startTurn")
   end
 })

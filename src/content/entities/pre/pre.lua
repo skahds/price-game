@@ -1,6 +1,6 @@
 main.defineCard("testCard", {
   name = "Test Card",
-  -- image = "testBox",
+  image = "upCard",
   -- onReleased = function (ent)
   --   main.deleteCard(ent)
   --   local chart = system.getStorage("main:chart")
@@ -12,5 +12,15 @@ main.defineCard("testCard", {
   onActivate = function (ent)
     local bar = system.getStorage("main:currentBar")
     bar:changePricePIP(0.1)
+  end,
+})
+
+main.defineCard("volatilityCard", {
+  name = "Test Card",
+  image = "volatilityCard",
+  trigger = {"PRE"},
+  onActivate = function (ent)
+    local chart = system.getStorage("main:chart")
+    chart.volatility = chart.volatility + 0.2
   end,
 })
