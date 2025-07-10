@@ -22,3 +22,11 @@ end)
 system.on("ui:entityDrawn", function (ent)
   richTextUpdate(ent)
 end)
+
+system.on("ui:entityDeleted", function (ent)
+  if ent.richtext == nil then
+    return
+  end
+
+  ent.richtext:delete()
+end)

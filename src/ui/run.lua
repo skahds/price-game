@@ -86,6 +86,7 @@ system.on("@update", function ()
 
   for i=#main.ui.deleteQueue, 1, -1 do
     local ent = main.ui.deleteQueue[i]
+    system.call("ui:entityDeleted", ent)
     local entIndex = ent.index
 
     if ent.index ~= #main.ui.world then

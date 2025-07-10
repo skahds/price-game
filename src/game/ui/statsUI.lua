@@ -1,4 +1,7 @@
 system.on("@renderer:render", function ()
+  if system.getStorage("main:currentScene") ~= "play" then
+    return
+  end
   system.render(200, function ()
     local money = system.getStorage("main:money")
     if money then
