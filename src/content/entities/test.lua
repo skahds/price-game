@@ -1,5 +1,5 @@
 main.ui.defineButton("spawnCard", {
-  width = 128,
+  width = 160,
   height = 64,
   renderLayer = 101,
   screenSpace = true,
