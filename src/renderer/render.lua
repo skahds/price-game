@@ -6,10 +6,10 @@ local virtualWidth = 1280
 local virtualHeight = 720 
 local defaultCanvas = love.graphics.newCanvas(virtualWidth, virtualHeight)
 local scale = love.graphics.getDPIScale()
-system.updateStorage("screenDimension", {w=love.graphics.getWidth()*scale, h=love.graphics.getHeight()*scale})
-system.on("@update", function ()
-  system.updateStorage("screenDimension", {w=love.graphics.getWidth()*scale, h=love.graphics.getHeight()*scale})
-end)
+system.updateStorage("screenDimension", {w=virtualWidth, h=virtualHeight})
+-- system.on("@update", function ()
+--   system.updateStorage("screenDimension", {w=love.graphics.getWidth()*scale, h=love.graphics.getHeight()*scale})
+-- end)
 
 system.render =  function (layer, func, fixed)
   fixed = fixed or false

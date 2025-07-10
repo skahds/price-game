@@ -1,8 +1,7 @@
 main.ui.defineButton("startTurn", {
   width = 256,
   height = 128,
-  onButtonUpImage = "startTurnUp",
-  onButtonDownImage = "startTurnDown",
+  color = {0.5, 0.5, 0.8},
   renderLayer = 101,
   screenSpace = true,
 
