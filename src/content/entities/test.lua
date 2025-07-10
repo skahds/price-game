@@ -1,13 +1,11 @@
 main.ui.defineButton("spawnCard", {
-  width = 64,
+  width = 128,
   height = 64,
-  image = "testBox",
   renderLayer = 101,
   screenSpace = true,
+  text="Card",
+  color = {0.8, 0.8, 0.8},
 
-  onDraw = function (ent)
-
-  end,
   onButtonClicked = function (ent)
     if love.math.random() > 0.5 then
       main.createCard("volatilityCard", {})

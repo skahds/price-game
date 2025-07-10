@@ -107,7 +107,7 @@ function main.card.updateAllCardPositionBackToOriginalPosition()
   end)
   for i, card in ipairs(main.card.ownedCards) do
     card.cardOrder = i
-    card.cardUI.renderLayer = 40+i
+    card.cardUI.renderLayer = 140+i
   end
 
   local dimension = system.getStorage("screenDimension")
@@ -116,7 +116,7 @@ function main.card.updateAllCardPositionBackToOriginalPosition()
     local uiEnt = card.cardUI
     local flux = system.getStorage("flux")
 
-    local cardWidth, cardHeight = uiEnt.width, uiEnt.cardHeight
+    local cardWidth, cardHeight = uiEnt.width, uiEnt.height
     
     local spaceBetweenCard = 500/(#main.card.ownedCards/2+1)
     local orderOffset = (card.cardOrder-1)*spaceBetweenCard
@@ -124,10 +124,11 @@ function main.card.updateAllCardPositionBackToOriginalPosition()
     local originalX = screenW/2 - cardWidth/2
 
     local finalX = originalX + orderOffset + leftOffset
+    local finalY = screenH - cardHeight - 10
 
     if uiEnt.tween then
       uiEnt.tween:stop()
     end
-    uiEnt.tween = flux.to(uiEnt, 0.3, { x = finalX, y = 10 })
+    uiEnt.tween = flux.to(uiEnt, 0.3, { x = finalX, y = finalY })
   end
 end

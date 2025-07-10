@@ -3,7 +3,7 @@ main.ui.defineUI("card_ui", {
   defaultWidth = 128,
   defaultHeight = 128,
   screenSpace = true,
-  renderLayer = 40,
+  renderLayer = 140,
   onHover = function (ent)
     system.call("main:cardHovered", ent.card)
     -- love.graphics.print(ent.card.cardOrder, ent.x, ent.y+60)

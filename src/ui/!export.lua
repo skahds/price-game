@@ -8,6 +8,7 @@ function main.ui.spawnUI(id, args, ret)
   local ent = main.ui.entities[id]:new(args)
   table.insert(main.ui.world, ent)
   ent.index = #main.ui.world
+  system.call("ui:spawnedUI", ent)
   if ret then
     return ent
   end

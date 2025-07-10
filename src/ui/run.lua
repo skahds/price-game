@@ -103,6 +103,7 @@ system.on("@renderer:render", function ()
   for _, ent in pairs(main.ui.world) do
     if ent.draw then
       ent:draw()
+      system.call("ui:entityDrawn", ent)
     end
   end
 end)

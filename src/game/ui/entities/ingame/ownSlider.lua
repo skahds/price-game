@@ -34,7 +34,7 @@ main.ui.defineSlider("ownSlider", {
       local font = system.getStorage("defaultFont")
       local textWidth = font:getWidth(text)
       love.graphics.setFont(font)
-      love.graphics.print(text, ent.x+ent.width/2-textWidth/2, ent.y-ent.height*1.2)
+      love.graphics.print(text, ent.x+ent.width/2-textWidth/2, ent.y+ent.height*1.2)
     end, ent.screenSpace)
 
   end,

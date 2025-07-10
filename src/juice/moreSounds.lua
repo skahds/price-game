@@ -1,0 +1,4 @@
+system.on("main:startTurn", function ()
+  local audio = system.playAudio("breaker")
+  audio:setVolume(0.2)
+end)
