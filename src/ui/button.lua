@@ -54,6 +54,10 @@ function main.ui.defineButton(id, eType)
 
   function eType.onMouseReleased(ent)
     buttonUp(ent)
+
+    if ent.audio then
+      system.playAudio(ent.audio)
+    end
     
     if ent.onButtonClicked then
       ent:onButtonClicked()

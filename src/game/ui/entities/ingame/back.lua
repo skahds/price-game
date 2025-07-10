@@ -1,11 +1,11 @@
--- main.ui.defineButton("backToMenu", {
---   width = 300,
---   height = 200,
---   color = {0.5, 0.5, 0.8},
---   renderLayer = 101,
---   screenSpace = true,
---   text = "Back",
---   onButtonClicked = function (ent)
---     main.playScene("menu")
---   end
--- })
+main.ui.defineButton("backToMenu", {
+  width = 300,
+  height = 200,
+  color = {0.5, 0.5, 0.8},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "Back",
+  onButtonClicked = function (ent)
+    main.playScene("menu")
+  end
+})

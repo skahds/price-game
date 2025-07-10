@@ -66,6 +66,14 @@ function chart:draw()
   end)
 end
 
+function chart:delete()
+  self:forAllBar(function (bar)
+    bar:delete()
+  end)
+
+  basicEnt.delete(self)
+end
+
 
 
 --bar ent

@@ -5,6 +5,7 @@ main.ui.defineButton("menuPlay", {
   renderLayer = 101,
   screenSpace = true,
   text = "START",
+  audio = "breaker",
   onButtonClicked = function (ent)
     main.playScene("play")
   end
