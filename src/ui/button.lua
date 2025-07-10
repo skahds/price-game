@@ -12,6 +12,17 @@ local function basicSetter(ent)
   end
 end
 
+local function richTextUpdate(ent)
+  if ent.richtext == nil then
+    return
+  end
+  local font = system.getStorage("defaultFont")
+  local textWidth = font:getWidth(ent.richtext.format)
+  local textHeight = font:getHeight(ent.richtext.format)
+  ent.richtext.x = ent.x+ent.width/2-textWidth/2
+  ent.richtext.y = ent.y+ent.height/2-textHeight/2
+end
+
 local function buttonUp(ent)
   basicSetter(ent)
 
@@ -36,8 +47,14 @@ end
 
 function main.ui.defineButton(id, eType)
   eType.isButtonDown = false
-  -- width = 200
-  -- height = 100
+  if eType.text then
+    eType.richtext = main.newRichText({format=eType.text,
+    x=eType.x,
+    y=eType.y,
+    screenSpace = eType.screenSpace,
+    renderLayer = eType.renderLayer+1})
+  end
+
   if eType.width > eType.height then
     local a = eType.width / ((eType.width/eType.height) * 4)
     local b = eType.height / ((eType.width/eType.height) * 2)
@@ -51,9 +68,7 @@ function main.ui.defineButton(id, eType)
     eType.rx = r
     eType.ry = r
   end
-  -- eType.rx = eType.width / ((eType.height/eType.width) * 2)
-  -- eType.ry = eType.height / ((eType.width/eType.height) * 2)
-  -- print("button", eType.rx, eType.ry)
+
   function eType.onMouseReleased(ent)
     if ent.onButtonClicked then
       ent:onButtonClicked()
@@ -74,6 +89,7 @@ function main.ui.defineButton(id, eType)
 
   function eType.onDraw(ent)
     basicSetter(ent)
+    richTextUpdate(ent)
 
     local rl = ent.renderLayer
     system.render(rl-1, function ()

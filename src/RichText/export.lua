@@ -33,7 +33,7 @@ system.updateStorage("RichText", RichText)
 
 function main.newRichText(args)
   local font = args.font or system.getStorage("defaultFont")
-  local text = RichText.new(font, args.richText)
+  local text = RichText.new(font, args.format)
   
   table.insert(texts, {richText=text})
   local textTable = texts[#texts]

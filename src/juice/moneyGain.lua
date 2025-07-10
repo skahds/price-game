@@ -1,5 +1,5 @@
 system.on("main:moneyChanged", function (change)
-  local text = main.newRichText({richText="{moneyColor}" .. math.floor(change+0.5) .. "{/moneyColor}",
+  local text = main.newRichText({format="{moneyColor}" .. math.floor(change+0.5) .. "{/moneyColor}",
   y=200,
   x=20,})
   main.waitWithMult(1, function ()
@@ -24,7 +24,7 @@ system.on("main:currentPriceChanged", function (bar)
       form = "0%"
     end
 
-    local text = main.newRichText({richText=form,
+    local text = main.newRichText({format=form,
     x=bar.x + love.math.random(-20, 20),
     y=bar.y+bar.height + love.math.random(-50, 50),
     screenSpace = false})

@@ -4,6 +4,7 @@ main.ui.defineButton("startTurn", {
   color = {0.5, 0.5, 0.8},
   renderLayer = 101,
   screenSpace = true,
+  text = "aafemiaofweio",
 
   -- onDraw = function (ent)
 
