@@ -1,5 +1,6 @@
 local cover
 local buyBox
+local reroll
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -14,16 +15,10 @@ main.defineScene("shop", function ()
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
   buyBox = main.ui.spawnUI("buyBox", {x=800, y= 232}, true)
+  reroll = main.ui.spawnUI("rerollButton", {x=100, y= 100}, true)
   system.updateStorage("shop:buyBox", buyBox)
-
-  local bag = system.getStorage("rarity:bag")
-  for i=1, 5 do
-    local card = bag:getRandomCard()
-    main.createCard(card, {}, "shop")
-  end
-
-  main.card.updateAllCardPositionBackToOriginalPosition("shop", {x=640, y=100})
+  main.shop.spawnCards()
 end, function ()
 
-  deleteAll({cover, buyBox})
+  deleteAll({cover, buyBox, reroll})
 end)

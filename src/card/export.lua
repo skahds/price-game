@@ -18,9 +18,9 @@ function main.deleteCard(card)
   local cardOrder = card.cardOrder
   local cardUI = card.cardUI
   
+  table.remove(main.card[card.ownerShip], cardOrder)
   cardUI:delete()
   card:delete()
-  table.remove(main.card.ownedCards, cardOrder)
 
   main.card.updateAllCardPositionBackToOriginalPosition()
 end
@@ -105,15 +105,31 @@ function main.triggerAllCardOwned(trigger)
   end
 end
 
+local function orderBasedOnPosition(ownerShip)
+  --reorder them based on their x position
+  table.sort(main.card[ownerShip], function (a, b)
+    local uiEnt1, uiEnt2 = a.cardUI, b.cardUI
+    return uiEnt1.x < uiEnt2.x
+  end)
+  for i, card in ipairs(main.card[ownerShip]) do
+    card.cardOrder = i
+    card.cardUI.renderLayer = 140+i
+  end
+end
+
 function main.transferOwnership(card, newOwnership)
   if card.ownerShip == nil or card.ownerShip == newOwnership then
     return
   end
   local currentCardOwnership = card.ownerShip
   local cardOrder = card.cardOrder
+  
   table.remove(main.card[currentCardOwnership], cardOrder)
   table.insert(main.card[newOwnership], card)
   card.ownerShip = newOwnership
+  
+  orderBasedOnPosition(currentCardOwnership)
+
   system.call("main:cardTransferedOwnership")
 end
 
@@ -127,17 +143,9 @@ function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, pos)
   local pos = pos or {}
   local middleY = pos.y or screenH - 80
   local middleX = pos.x or screenW/2
-  
-  --reorder them based on their x position
-  table.sort(main.card[ownerShip], function (a, b)
-    local uiEnt1, uiEnt2 = a.cardUI, b.cardUI
-    return uiEnt1.x < uiEnt2.x
-  end)
-  for i, card in ipairs(main.card[ownerShip]) do
-    card.cardOrder = i
-    card.cardUI.renderLayer = 140+i
-  end
 
+  orderBasedOnPosition(ownerShip)
+  
   for i, card in pairs(main.card[ownerShip]) do
     local uiEnt = card.cardUI
     local flux = system.getStorage("flux")
