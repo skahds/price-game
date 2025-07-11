@@ -1,5 +1,5 @@
 main.defineCard("testCard", {
-  name = "Test Card",
+  name = "add Card",
   image = "upCard",
   -- onReleased = function (ent)
   --   main.deleteCard(ent)
@@ -16,7 +16,7 @@ main.defineCard("testCard", {
 })
 
 main.defineCard("volatilityCard", {
-  name = "Test Card",
+  name = "volatility Card",
   image = "volatilityCard",
   trigger = {"PRE"},
   onActivate = function (ent)

@@ -35,6 +35,7 @@ end
 function main.defineCard(id, eType)
   -- card ent isn't shown, it will create its own UI ent
   -- card ent
+  eType.id = id
   main.entities[id] = class(main.entities.basicEnt)
   local card = main.entities[id]
   local basicEnt = main.entities.basicEnt
@@ -55,6 +56,11 @@ function main.defineCard(id, eType)
 
   function card:draw(args)
 
+  end
+
+  local rarityClass = system.getStorage("rarity:rarityClass")
+  if rarityClass then
+    rarityClass:new(eType)
   end
 end
 
@@ -103,9 +109,11 @@ function main.transferOwnership(card, newOwnership)
   if card.ownerShip == nil or card.ownerShip == newOwnership then
     return
   end
+  local currentCardOwnership = card.ownerShip
   local cardOrder = card.cardOrder
-  table.remove(main.card.ownedCards, cardOrder)
+  table.remove(main.card[currentCardOwnership], cardOrder)
   table.insert(main.card[newOwnership], card)
+  card.ownerShip = newOwnership
   system.call("main:cardTransferedOwnership")
 end
 
@@ -116,9 +124,9 @@ function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, pos)
   ownerShip = ownerShip or "ownedCards"
   local dimension = system.getStorage("screenDimension")
   local screenW, screenH = dimension.w, dimension.h
-  local pos = pos
-  local middleY = screenH - 80
-  local middleX = screenW/2
+  local pos = pos or {}
+  local middleY = pos.y or screenH - 80
+  local middleX = pos.x or screenW/2
   
   --reorder them based on their x position
   table.sort(main.card[ownerShip], function (a, b)

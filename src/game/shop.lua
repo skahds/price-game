@@ -1,5 +1,9 @@
 system.on("main:cardReleased", function (uiEnt)
-  if uiEnt.x > 600 then
+  local buyBox = system.getStorage("shop:buyBox")
+  if buyBox == nil then
+    return
+  end
+  if main.AABB_check(uiEnt, buyBox) and uiEnt.card.ownerShip == "shop" then
     main.transferOwnership(uiEnt.card, "ownedCards")
   end
 end)

@@ -1,0 +1,6 @@
+-- system.on("@load", function ()
+--   local bag = system.getStorage("rarity:bag")
+--   for i=1, 10 do
+--     print(bag:getRandomCard())
+--   end
+-- end)
