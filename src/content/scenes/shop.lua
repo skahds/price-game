@@ -15,7 +15,7 @@ main.defineScene("shop", function ()
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
   buyBox = main.ui.spawnUI("buyBox", {x=800, y= 232}, true)
-  reroll = main.ui.spawnUI("rerollButton", {x=100, y= 100}, true)
+  reroll = main.ui.spawnUI("rerollButton", {x=70, y=200}, true)
   system.updateStorage("shop:buyBox", buyBox)
   main.shop.spawnCards()
 end, function ()

@@ -8,7 +8,8 @@ local function basicSetter(ent)
 
   if ent.buttonDownColor == nil then
     local color = ent.color or {1, 1, 1, 1}
-    ent.buttonDownColor = {color[1]/2, color[2]/2, color[3]/2, color[4] or 1}
+    local c = 2/3
+    ent.buttonDownColor = {color[1]*c, color[2]*c, color[3]*c, color[4] or 1}
   end
 end
 

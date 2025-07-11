@@ -194,6 +194,10 @@ function RichText:getRotation()
   return self.rotation
 end
 
+function RichText:getWidth()
+  return self.width
+end
+
 function RichText:update()
   self.text:clear()
 
@@ -233,6 +237,7 @@ function RichText:update()
           self.scalex, self.scaley,
           0, 0, self.skewx, self.skewy)
         x = x + self.font:getWidth(char) * self.scalex
+        self.width = x
       end
     elseif type(effectOrStr) == "table" then
       local effectName = effectOrStr[1]

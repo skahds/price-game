@@ -1,11 +1,12 @@
 
 main.ui.defineButton("rerollButton", {
-  width = 200,
+  width = 360,
   height = 100,
-  color = {0.3, 0.9, 0.3},
+  color = {0.4, 0.7, 0.4},
   renderLayer = 101,
   screenSpace = true,
-  text = "REROLL",
+  -- text = "{moneyColor}REROLL{/moneyColor}",
+  text = "REROLL {moneyColor}$1{/moneyColor}",
   audio = "breaker",
   onButtonClicked = function (ent)
     local pipeline = main.getPipeline("main")
