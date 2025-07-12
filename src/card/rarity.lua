@@ -16,7 +16,6 @@ function bag:addCardEtype(eType)
   -- local rarity = self:getRarity(eType.rarity)
   
   table.insert(self.bag, {rarity=eType.rarity, card=eType.id})
-  print("added to bag ".. eType.name, eType.rarity)
 end
 
 function bag:getRarity(rarity)

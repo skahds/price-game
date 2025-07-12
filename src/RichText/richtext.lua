@@ -204,6 +204,10 @@ function RichText:getWidth()
   return self.width
 end
 
+function RichText:getHeight()
+  return self.height
+end
+
 function RichText:update()
   self.text:clear()
 
@@ -244,6 +248,7 @@ function RichText:update()
           0, 0, self.skewx, self.skewy)
         x = x + self.font:getWidth(char) * self.scalex
         self.width = x
+        self.height = self.font:getHeight(char)
       end
     elseif type(effectOrStr) == "table" then
       local effectName = effectOrStr[1]

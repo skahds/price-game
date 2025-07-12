@@ -17,7 +17,8 @@ system.on("@renderer:render", function ()
 
     system.render(t.renderLayer or 50, function ()
       local text = t.richText
-      text:draw(t.x or 0, t.y or 0)
+      love.graphics.setColor(t.color or {1, 1, 1})
+      text:draw(t.x or 0, t.y or 0, t.r or 0, t.sx or 1, t.sy or 1, t.ox or 0, t.oy or 0)
     end, fixed)
   end
 
