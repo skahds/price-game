@@ -37,7 +37,7 @@ local function basicBarSpawnChange(bar, chart)
   chart.bearPower = chart.bearPower+(changePIP/trendSlowdown)
 
   chart.bullPower = math.max(0, chart.bullPower)
-  chart.bearPower = math.min(1, math.max(0, chart.bearPower))
+  chart.bearPower = math.max(0, chart.bearPower)
 
   print(chart.bullPower, chart.bearPower, changePIP)
   

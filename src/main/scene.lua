@@ -16,6 +16,6 @@ function main.playScene(id)
 
   scenes[id].load()
   currentScene = scenes[id]
-  system.call("main:sceneChanged", id)
   system.updateStorage("main:currentScene", id)
+  system.call("main:sceneChanged", id)
 end

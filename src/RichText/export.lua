@@ -51,6 +51,10 @@ function main.newRichText(args)
   return texts[#texts]
 end
 
+function main.updateRichTextText(richtext, newformat)
+  richtext.richText:setText(newformat)
+end
+
 function system.getFont(id)
   if system.fonts[id] == nil then
     error("font " .. id .. " does not exist")

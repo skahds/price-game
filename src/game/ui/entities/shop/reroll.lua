@@ -1,4 +1,3 @@
-
 main.ui.defineButton("rerollButton", {
   width = 360,
   height = 100,
@@ -9,9 +8,7 @@ main.ui.defineButton("rerollButton", {
   text = "REROLL {moneyColor}$1{/moneyColor}",
   audio = "breaker",
   onButtonClicked = function (ent)
-    local pipeline = main.getPipeline("main")
-    if #pipeline.pipeline == 0 then
-      system.call("shop:reroll")
-    end
+
+    system.call("shop:reroll")
   end
 })

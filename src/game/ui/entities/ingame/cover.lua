@@ -3,7 +3,7 @@ main.ui.defineUI("cover", {
   defaultWidth = 100,
   defaultHeight = 100,
   screenSpace = true,
-  renderLayer = 100,
+  renderLayer = 50,
   outline = 0,
   outlineColor = {1, 1, 1, 1},
 

@@ -2,16 +2,18 @@ main.shop = {}
 
 system.on("shop:reroll", function ()
   local pipeline = main.getPipeline("main")
-  for i=#main.card.shop, 1, -1 do
+  if #pipeline.pipeline == 0 then
+    for i=#main.card.shop, 1, -1 do
+      pipeline:add(0.1, function ()
+        local card = main.card.shop[i]
+        main.deleteCard(card)
+      end)
+    end
+
     pipeline:add(0.1, function ()
-      local card = main.card.shop[i]
-      main.deleteCard(card)
+      main.shop.spawnCards()
     end)
   end
-
-  pipeline:add(0.1, function ()
-    main.shop.spawnCards()
-  end)
 end)
 
 function main.shop.spawnCards()

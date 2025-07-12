@@ -1,6 +1,7 @@
 local cover
 local buyBox
 local reroll
+local continue
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -16,9 +17,14 @@ main.defineScene("shop", function ()
     outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
   buyBox = main.ui.spawnUI("buyBox", {x=800, y= 232}, true)
   reroll = main.ui.spawnUI("rerollButton", {x=70, y=200}, true)
+  continue = main.ui.spawnUI("continueButton", {x=70, y=400}, true)
   system.updateStorage("shop:buyBox", buyBox)
   main.shop.spawnCards()
 end, function ()
 
-  deleteAll({cover, buyBox, reroll})
+  deleteAll({cover, buyBox, reroll, continue})
+  for i=#main.card.shop, 1, -1 do
+    local card = main.card.shop[i]
+    main.deleteCard(card)
+  end
 end)

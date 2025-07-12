@@ -151,6 +151,12 @@ function RichText.new(font, format)
   return instance
 end
 
+function RichText:setText(format, ...)
+    local finalString = string.format(format, ...)
+    self.format = RichText.parse(finalString)
+    self:update()
+end
+
 function RichText:setColor(r, g, b, a)
   self.color = {r, g, b, a}
 end
