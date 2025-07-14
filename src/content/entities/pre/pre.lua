@@ -13,6 +13,7 @@ main.defineCard("testCard", {
     local bar = system.getStorage("main:currentBar")
     bar:changePricePIP(0.1)
   end,
+  price = 2,
 })
 
 main.defineCard("volatilityCard", {
@@ -23,4 +24,5 @@ main.defineCard("volatilityCard", {
     local chart = system.getStorage("main:chart")
     chart.volatility = chart.volatility + 0.2
   end,
+  price = 1,
 })

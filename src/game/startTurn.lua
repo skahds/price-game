@@ -35,16 +35,19 @@ system.on("main:startTurn", function ()
 end)
 
 system.on("main:endTurn", function ()
-  local money = system.getStorage("main:money")
-  local originalMoney = 100
+  local point = system.getStorage("main:point")
+  local originalPoint = point
   local percentageHold = system.getStorage("main:ownedPercentage") or 0.5
   local bar = system.getStorage("main:currentBar")
 
   if bar then
     local change = bar.endPrice - bar.startPrice
-    change = change * percentageHold/100 * (originalMoney/bar.startPrice)
-    money = money + change
-    system.updateStorage("main:money", money)
-    system.call("main:moneyChanged", change)
+    change = change * percentageHold/100 * (originalPoint/bar.startPrice)
+    point = point + change
+    if point < 100 then
+      point = 100
+    end
+    system.updateStorage("main:point", point)
+    system.call("main:pointChanged", change)
   end
 end)

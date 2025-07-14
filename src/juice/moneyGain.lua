@@ -1,4 +1,4 @@
-system.on("main:moneyChanged", function (change)
+system.on("main:pointChanged", function (change)
   local text = main.newRichText({format="{moneyColor}" .. math.floor(change+0.5) .. "{/moneyColor}",
   y=250,
   x=80,
