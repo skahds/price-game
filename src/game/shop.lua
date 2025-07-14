@@ -42,17 +42,27 @@ function main.shop.spawnCards()
 end
 
 system.on("main:cardReleased", function (uiEnt)
+  local success = true
   local buyBox = system.getStorage("shop:buyBox")
   if buyBox == nil then
     return
   end
+  
   if main.AABB_check(uiEnt, buyBox) and uiEnt.card.ownerShip == "shop" then
     local price = uiEnt.card.price or 0
     local money = main.getMoney()
     if money < price then
-      return
+      success = false
     end
-    main.addMoney(-price)
-    main.transferOwnership(uiEnt.card, "ownedCards")
+    if success then
+      main.addMoney(-price)
+      main.transferOwnership(uiEnt.card, "ownedCards")
+    end
+  else
+    success = false
+  end
+  
+  if success == false then
+    main.card.updateAllCardPositionBackToOriginalPosition("shop", {x=640, y=100})
   end
 end)
