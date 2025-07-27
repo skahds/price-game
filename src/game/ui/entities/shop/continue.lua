@@ -4,7 +4,6 @@ main.ui.defineButton("continueButton", {
   color = {0.4, 0.4, 0.7},
   renderLayer = 101,
   screenSpace = true,
-  -- text = "{moneyColor}REROLL{/moneyColor}",
   text = "Continue",
   audio = "breaker",
   onButtonClicked = function (ent)

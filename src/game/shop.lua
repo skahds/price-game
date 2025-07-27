@@ -47,7 +47,7 @@ system.on("main:cardReleased", function (uiEnt)
   if buyBox == nil then
     return
   end
-  
+
   if main.AABB_check(uiEnt, buyBox) and uiEnt.card.ownerShip == "shop" then
     local price = uiEnt.card.price or 0
     local money = main.getMoney()
@@ -58,11 +58,7 @@ system.on("main:cardReleased", function (uiEnt)
       main.addMoney(-price)
       main.transferOwnership(uiEnt.card, "ownedCards")
     end
-  else
-    success = false
   end
   
-  if success == false then
     main.card.updateAllCardPositionBackToOriginalPosition("shop", {x=640, y=100})
-  end
 end)

@@ -1,7 +1,8 @@
 system.on("main:pointChanged", function (change)
-  local text = main.newRichText({format="{moneyColor}" .. math.floor(change+0.5) .. "{/moneyColor}",
+  local text = main.newRichText({format="{pointColor}" .. math.floor(change+0.5) .. "{/pointColor}",
   y=250,
   x=80,
+  outline = true,
   renderLayer = 105,})
   main.waitWithMult(1, function ()
     text:delete()
@@ -33,6 +34,7 @@ system.on("main:currentPriceChanged", function (bar)
     r=(love.math.random()-0.5)*math.pi/3,
     sx=size,
     sy=size,
+    outline = true,
     screenSpace = false})
     text.ox = text.richText:getWidth()/2
     text.oy = text.richText:getHeight()/2

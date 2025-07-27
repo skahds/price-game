@@ -7,7 +7,6 @@ local function richTextUpdate(ent)
   local textHeight = font:getHeight(ent.richtext.format)
   ent.richtext.x = ent.x+ent.width/2-textWidth/2
   ent.richtext.y = ent.y+ent.height/2-textHeight/2
-  -- print(ent.richtext.x)
 end
 
 system.on("ui:spawnedUI", function (ent)

@@ -1,6 +1,6 @@
 main.ui.defineUI("buyBox", {
-  defaultWidth = 256,
-  defaultHeight = 256,
+  defaultWidth = 128,
+  defaultHeight = 128,
   image = "buyBox",
   screenSpace = true,
   renderLayer = 50,
