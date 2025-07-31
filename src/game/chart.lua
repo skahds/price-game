@@ -33,6 +33,12 @@ function chart:addBar(bar)
 end
 
 function chart:getBar(index)
+  if index < 0 then
+    -- why do i even need to do this?
+    index = #self.bars+index+1
+  end
+  print(index)
+  print(self.bars[index])
   return self.bars[index]
 end
 

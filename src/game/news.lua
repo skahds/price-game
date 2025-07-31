@@ -18,6 +18,9 @@ function main.defineNews(id, eType)
       error("news needs XY position")
     end
     self.ui = main.ui.spawnUI("news_ui", {parent=self}, true)
+    local ui = self.ui
+    ui.x = self.x
+    ui.y = self.y
 
     basicEnt.init(self, args)
   end

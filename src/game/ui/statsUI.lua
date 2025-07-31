@@ -1,6 +1,6 @@
 local defaultPoint = 0
 local point = system.getStorage("main:point")
-local pointText = main.newRichText({format="Point: {pointColor}" ..  math.floor(point-defaultPoint+0.5) .. "{/pointColor}",
+local pointText = main.newRichText({format="Point: " ..  math.floor(point-defaultPoint+0.5) .. "",
   y=200,
   x=60,
   renderLayer = 200,})
@@ -14,7 +14,7 @@ local moneyText = main.newRichText({format="Money: {moneyColor}" .. money .. "{/
 --point text
 system.on("main:pointChanged", function ()
   local point = system.getStorage("main:point")
-  main.updateRichTextText(pointText, "Point: {pointColor}" .. math.floor(point-defaultPoint+0.5) .. "{/pointColor}")
+  main.updateRichTextText(pointText, "Point: " .. math.floor(point-defaultPoint+0.5) .. "")
 end)
 
 system.on("main:sceneChanged", function()
