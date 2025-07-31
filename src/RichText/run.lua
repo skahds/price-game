@@ -31,10 +31,12 @@ local function drawOutline(t)
     end
     
     love.graphics.setColor(color)
-    text:draw(x-2, y-2, r, sx, sy, ox, oy)
-    text:draw(x-2, y+2, r, sx, sy, ox, oy)
-    text:draw(x+2, y+2, r, sx, sy, ox, oy)
-    text:draw(x+2, y-2, r, sx, sy, ox, oy)
+    --offset
+    local o = 2*math.max(sx, sy)
+    text:draw(x-o, y-o, r, sx, sy, ox, oy)
+    text:draw(x-o, y+o, r, sx, sy, ox, oy)
+    text:draw(x+o, y+o, r, sx, sy, ox, oy)
+    text:draw(x+o, y-o, r, sx, sy, ox, oy)
   end, fixed)
 end
 

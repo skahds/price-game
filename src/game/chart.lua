@@ -1,4 +1,4 @@
--- this contains the chart and bar entities
+-- this contains the chart, bar and news entities
 -- chart ent
 main.entities.chart = class(main.entities.basicEnt)
 local chart = main.entities.chart
@@ -7,6 +7,7 @@ local basicEnt = main.entities.basicEnt
 function chart:init(args)
   basicEnt.init(self, args)
   self.bars = self.bars or {}
+  self.news = self.news or {}
 
   -- bull power is a number from 0-inf, ex: 0.5 means 50% increase
   self.bullPower = self.bullPower or 0
@@ -41,6 +42,16 @@ function chart:forAllBar(fun)
   end
 end
 
+function chart:forAllNews(fun)
+  for i, news in pairs(self.news) do
+    fun(news)
+  end
+end
+
+function chart:addNews(news)
+  table.insert(self.news, news)
+end
+
 function chart:priceToYPos(price)
   local sliderScale = system.getStorage("main:priceYScale")
   if sliderScale then
@@ -69,6 +80,10 @@ end
 function chart:delete()
   self:forAllBar(function (bar)
     bar:delete()
+  end)
+
+  self:forAllNews(function (news)
+    news:delete()
   end)
 
   basicEnt.delete(self)
