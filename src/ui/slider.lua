@@ -13,9 +13,9 @@ local function sliderUpdate(sliderObject)
     if main.AABB_check(sliderObject, mouse) then
       local amountScrolled
       if slideDirection == "horizontal" then
-        amountScrolled = (mouse.x - sliderObject.x) / (sliderObject.width)
+        amountScrolled = (mouse.x - sliderObject.x) / (sliderObject:getWidth())
       elseif slideDirection == "vertical" then
-        amountScrolled = (mouse.y - sliderObject.y) / (sliderObject.height)
+        amountScrolled = (mouse.y - sliderObject.y) / (sliderObject:getHeight())
       end
       -- makes sure it cant go outside of 0-1
       amountScrolled = math.max(0, math.min(1, amountScrolled))

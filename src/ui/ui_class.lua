@@ -59,6 +59,14 @@ function main.ui.defineUI(id, eType)
     end
   end
 
+  function ent:getWidth()
+    return self.width * (self.sx or 1)
+  end
+  
+  function ent:getHeight()
+    return self.height * (self.sy or 1)
+  end
+
 
   function ent:delete()
     local isIn = false

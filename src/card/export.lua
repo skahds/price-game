@@ -150,7 +150,7 @@ function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, pos)
     local uiEnt = card.cardUI
     local flux = system.getStorage("flux")
 
-    local cardWidth, cardHeight = uiEnt.width, uiEnt.height
+    local cardWidth, cardHeight = uiEnt:getWidth(), uiEnt:getHeight()
     
     local spaceBetweenCard = 500/(#main.card[ownerShip]/2+1)
     local orderOffset = (card.cardOrder-1)*spaceBetweenCard

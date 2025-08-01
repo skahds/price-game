@@ -1,9 +1,9 @@
 main.ui.defineUI("news_ui", {
   image = "blankNews",
-  defaultWidth = 64,
-  defaultHeight = 64,
+  defaultWidth = 32,
+  defaultHeight = 32,
   screenSpace = false,
-  renderLayer = 140,
+  renderLayer = 10,
   onHover = function (ent)
     system.call("main:newsHovered", ent.parent)
   end,

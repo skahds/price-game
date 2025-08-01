@@ -37,8 +37,6 @@ function chart:getBar(index)
     -- why do i even need to do this?
     index = #self.bars+index+1
   end
-  print(index)
-  print(self.bars[index])
   return self.bars[index]
 end
 
@@ -58,13 +56,29 @@ function chart:addNews(news)
   table.insert(self.news, news)
 end
 
+function chart:getCurrentPricePos()
+  local bar = self:getBar(-1)
+  if bar then
+    -- check if it goes up or down
+    local direction = 1
+    if bar.endPrice < bar.startPrice then
+      direction = -1
+    end
+
+    return {x=bar.x,y=bar.y+bar.height, direction = direction}
+  else
+    return {x=0, y=0, direction=1}
+  end
+end
+
 function chart:priceToYPos(price)
   local sliderScale = system.getStorage("main:priceYScale")
   if sliderScale then
     sliderScale = 2^(sliderScale*4)
   end
   local yScale = sliderScale or 10
-  return price*yScale
+  yScale = yScale * 5
+  return price*yScale + 10*yScale
 end
 
 function chart:update()
@@ -72,15 +86,15 @@ function chart:update()
 end
 
 function chart:draw()
-  system.render(10, function ()
-    love.graphics.setLineWidth(1)
-    love.graphics.setColor(0.2, 0.2, 0.2, 0.5)
-    for i=1, 500 do
-      local pricePerLine = (i-250)*2
-      local y = self:priceToYPos(pricePerLine)
-      love.graphics.line(-10000, y, 10000, y)
-    end
-  end)
+  -- system.render(10, function ()
+  --   love.graphics.setLineWidth(1)
+  --   love.graphics.setColor(0.2, 0.2, 0.2, 0.5)
+  --   for i=1, 500 do
+  --     local pricePerLine = (i-250)*2
+  --     local y = self:priceToYPos(pricePerLine)
+  --     love.graphics.line(-10000, y, 10000, y)
+  --   end
+  -- end)
 end
 
 function chart:delete()
@@ -101,7 +115,7 @@ end
 main.entities.bar = class(main.entities.basicEnt)
 local bar = main.entities.bar
 function bar:init(args)
-  self.defaultWidth = 10
+  self.defaultWidth = 40
   self.defaultHeight = 0
   self.renderLayer = 1
 
@@ -113,7 +127,7 @@ function bar:init(args)
 end
 
 function bar:update()
-  local height = -chart:priceToYPos(self.endPrice-self.startPrice)
+  local height = -(chart:priceToYPos(self.endPrice)-chart:priceToYPos(self.startPrice))
   local flux = system.getStorage("flux")
   self.tweenHeight = flux.to(self, 0.2, {height = height})
   self.y = chart:priceToYPos(-self.startPrice)

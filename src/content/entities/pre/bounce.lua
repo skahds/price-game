@@ -1,15 +1,15 @@
 main.defineCard("bounceSpawner", {
   name = "bounce Card",
   image = "volatilityCard",
-  trigger = {"PRE"},
+  trigger = {"POST"},
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")
-    local bar = chart:getBar(-1)
-    if bar == nil then
-      print("bar nil")
+    local pos = chart:getCurrentPricePos(-1)
+    if pos == nil then
       return
     end
-    main.spawnNews("bouncer", {x=bar.x, y=bar.y})
+    local yoffset = -pos.direction * 32 + love.math.random(-20, 20)
+    main.spawnNews("bouncer", {x=pos.x, y=pos.y+yoffset})
   end,
   price = 1,
 })

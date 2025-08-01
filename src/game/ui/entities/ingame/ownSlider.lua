@@ -13,17 +13,17 @@ main.ui.defineSlider("ownSlider", {
     local y = ent.y
 
     if ent.slideDirection == "horizontal" then
-      x = x + ent.width * slideAmount
-      y = y + ent.height/2
+      x = x + ent:getWidth() * slideAmount
+      y = y + ent:getHeight()/2
     elseif ent.slideDirection == "vertical" then
-      y = y + ent.height * slideAmount
-      x = x + ent.width /2
+      y = y + ent:getHeight() * slideAmount
+      x = x + ent:getWidth() /2
     end
 
     system.render(201, function ()
       --circle thing in the middle
       love.graphics.setColor(0.6, 0.6, 0.6)
-      love.graphics.circle("fill", x, y, ent.height/2)
+      love.graphics.circle("fill", x, y, ent:getHeight()/2)
 
 
       -- text
@@ -35,7 +35,7 @@ main.ui.defineSlider("ownSlider", {
       local font = system.getStorage("defaultFont")
       local textWidth = font:getWidth(text)
       love.graphics.setFont(font)
-      love.graphics.print(text, ent.x+ent.width/2-textWidth/2, ent.y+ent.height*1.2)
+      love.graphics.print(text, ent.x+ent:getWidth()/2-textWidth/2, ent.y+ent:getHeight()*1.2)
     end, ent.screenSpace)
 
   end,
