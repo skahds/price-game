@@ -65,9 +65,12 @@ function chart:getCurrentPricePos()
       direction = -1
     end
 
-    return {x=bar.x,y=bar.y+bar.height, direction = direction}
+    local height = -(chart:priceToYPos(bar.endPrice)-chart:priceToYPos(bar.startPrice))
+    local y = chart:priceToYPos(-bar.startPrice)
+
+    return {x=bar.x,y=y+height, direction = direction, width=bar.width, height=height}
   else
-    return {x=0, y=0, direction=1}
+    return {x=0, y=0, direction=1, width=40, height=0}
   end
 end
 

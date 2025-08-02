@@ -21,6 +21,10 @@ function main.defineNews(id, eType)
     local ui = self.ui
     ui.x = self.x
     ui.y = self.y
+    if self.image then
+      ui.image = self.image
+      self.image = nil
+    end
 
     basicEnt.init(self, args)
   end

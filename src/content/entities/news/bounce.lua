@@ -1,3 +1,4 @@
 main.defineNews("bouncer", {
-  name = "bouncer"
+  name = "bouncer",
+  image = "bouncer",
 })
