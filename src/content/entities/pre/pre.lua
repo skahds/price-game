@@ -11,7 +11,7 @@ main.defineCard("testCard", {
   trigger = {"POST"},
   onActivate = function (ent)
     local bar = system.getStorage("main:currentBar")
-    bar:changePricePIP(0.1)
+    bar:changePrice(3)
   end,
   price = 2,
 })

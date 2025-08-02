@@ -52,5 +52,4 @@ end
 
 system.on("main:currentPriceChanged", function ()
   main.triggerAllNews("PRICECHANGE")
-  print("newsTriggered")
 end)

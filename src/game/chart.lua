@@ -163,6 +163,27 @@ function bar:changePricePIP(pip)
   end
 end
 
+function bar:changePrice(amount)
+  local chart = system.getStorage("main:chart")
+  if chart then
+
+    local price = chart.price
+    local change = amount
+    price = price + change
+    self.endPrice = price
+    
+    chart.price = price
+
+    system.call("main:currentPriceChanged", self)
+  end
+
+  if self.startPrice < self.endPrice then
+    self.color = {0.2, 0.7, 0.2}
+  else
+    self.color = {0.7, 0.2, 0.2}
+  end
+end
+
 function bar:checkCollide(ent)
   local height = -(chart:priceToYPos(self.endPrice)-chart:priceToYPos(self.startPrice))
   local originalHeight = self.height

@@ -16,14 +16,14 @@ end
 
 system.on("main:currentPriceChanged", function (bar)
   if bar then
-    local change = math.floor(((bar.endPrice / bar.startPrice)-1)*100+0.5)
+    local change = math.floor((bar.endPrice - bar.startPrice)*10+0.5)/10
     local form
     if change > 0 then
-      form = addCoolEffect("{greenColor}" .. change .. "%{/greenColor}")
+      form = addCoolEffect("{greenColor}+" .. change .. "{/greenColor}")
     elseif change < 0 then
-      form = addCoolEffect("{redColor}" .. change .. "%{/redColor}")
+      form = addCoolEffect("{redColor}" .. change .. "{/redColor}")
     else
-      form = "0%"
+      form = "0"
     end
 
     local size = love.math.random()/2+0.75
