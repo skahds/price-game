@@ -1,6 +1,9 @@
 local combo = 0
 
-system.on("main:entityTriggered", function ()
+system.on("main:entityTriggered", function (ent)
+  if ent.isCard == nil then
+    return
+  end
   combo = combo + 1
 end)
 

@@ -11,6 +11,7 @@ system.on("main:startTurn", function ()
   if chart then
     system.updateStorage("main:isOnTurn", true)
     main.triggerAllCardOwned("PRE")
+    main.triggerAllNews("PRE")
 
     pipeline:add(0.2, function ()
       
@@ -22,6 +23,7 @@ system.on("main:startTurn", function ()
 
       -- do some stuff before ending turn
       main.triggerAllCardOwned("POST")
+      main.triggerAllNews("POST")
 
     pipeline:add(0.2, function ()
 

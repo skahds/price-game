@@ -1,4 +1,4 @@
--- this contains the chart, bar and news entities
+-- this contains the chart, bar
 -- chart ent
 main.entities.chart = class(main.entities.basicEnt)
 local chart = main.entities.chart
@@ -160,5 +160,18 @@ function bar:changePricePIP(pip)
     self.color = {0.2, 0.7, 0.2}
   else
     self.color = {0.7, 0.2, 0.2}
+  end
+end
+
+function bar:checkCollide(ent)
+  local height = -(chart:priceToYPos(self.endPrice)-chart:priceToYPos(self.startPrice))
+  local originalHeight = self.height
+  self.height = height
+  local didCollide = main.AABB_check(ent, self)
+  self.height = originalHeight
+  if didCollide then
+    return true
+  else
+    return false
   end
 end

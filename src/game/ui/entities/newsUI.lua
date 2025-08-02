@@ -8,10 +8,6 @@ main.ui.defineUI("news_ui", {
     system.call("main:newsHovered", ent.parent)
   end,
 
-  onReleased = function (ent)
-
-  end,
-
   onMouseClicked = function (ent)
     system.call("main:newsClicked", ent.parent)
   end

@@ -29,3 +29,28 @@ function main.defineNews(id, eType)
     basicEnt.init(self, args)
   end
 end
+
+function main.triggerAllNews(trigger)
+  local chart = system.getStorage("main:chart")
+  local pipeline = main.getPipeline("main")
+  if chart == nil then
+    return
+  end
+  chart:forAllNews(function (news)
+    if news.trigger == nil then
+      return
+    end
+    if main.canTrigger(news, trigger) then
+      pipeline:add(0.3, function ()
+        main.triggerEnt(news, trigger)
+      end)
+    end
+  end)
+end
+
+
+
+system.on("main:currentPriceChanged", function ()
+  main.triggerAllNews("PRICECHANGE")
+  print("newsTriggered")
+end)
