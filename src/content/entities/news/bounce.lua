@@ -9,7 +9,9 @@ main.defineNews("bouncer", {
     if bar == nil then
       return
     end
+    print("activateNews")
     if bar:checkCollide(ent.ui) then
+      print("collided")
       local change = (bar.startPrice - bar.endPrice)/2
       bar:changePrice(change)
     end
