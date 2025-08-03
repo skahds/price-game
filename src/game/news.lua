@@ -4,6 +4,8 @@ local basicEnt = main.entities.basicEnt
 --IMPORTANT: this doesn't have an image/sprite themself but has a UI that do
 --if image is nil then it just displays nothing (for if it wants to draw its own stuff)
 function main.defineNews(id, eType)
+  eType.isNews = true
+  
   main.entities[id] = class(main.entities.basicEnt)
   local news = main.entities[id]
   function news:init(args)

@@ -3,17 +3,20 @@ system.on("main:entityTriggered", function (ent)
     local cardUI = ent.cardUI
 
     local flux = system.getStorage("flux")
-    local sx = cardUI.sx * 1.5
-    local sy = cardUI.sy * 1.5
+    local scaleFactor = 1.5
+    local sx = cardUI.sx * scaleFactor
+    local sy = cardUI.sy * scaleFactor
     local originalOx = cardUI.oy
     local originalOy = cardUI.oy
-    local ox = cardUI.ox+cardUI.width*sx/10
-    local oy = cardUI.oy+cardUI.width*sy/10
+    local ox = cardUI.ox + (cardUI:getWidth()*scaleFactor-cardUI:getWidth())/4
+    local oy = cardUI.oy + (cardUI:getHeight()*scaleFactor-cardUI:getHeight())/4
     flux.to(cardUI, 0.2, {sx = sx, sy=sy, ox=ox, oy=oy})
     main.wait(0.2, function ()
-      flux.to(cardUI, 0.2, {sx = sx/1.5, sy=sy/1.5, ox=originalOx, oy=originalOy})
+      flux.to(cardUI, 0.2, {sx = sx/scaleFactor, sy=sy/scaleFactor, ox=originalOx, oy=originalOy})
     end)
-
-    -- main.playAudio("boop")
   end
+
+  local combo = system.getStorage("main:currentCombo") or 0
+  local audio = system.playAudio("boop")
+  main.audio.offsetAudioSourcePitch(audio, combo)
 end)

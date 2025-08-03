@@ -54,11 +54,11 @@ end)
 
 -- audio related
 
-system.on("main:entityTriggered", function (ent)
-  if ent.isCard == nil then
-    return
-  end
-  local combo = system.getStorage("main:currentCombo")
-  local audio = system.playAudio("boop")
-  main.audio.offsetAudioSourcePitch(audio, combo)
-end)
+-- system.on("main:entityTriggered", function (ent)
+--   if ent.isCard == nil then
+--     return
+--   end
+--   local combo = system.getStorage("main:currentCombo")
+--   local audio = system.playAudio("boop")
+--   main.audio.offsetAudioSourcePitch(audio, combo)
+-- end)
