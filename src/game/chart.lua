@@ -69,15 +69,19 @@ function chart:addNews(news)
 end
 
 function chart:removeNews(index)
-  if self.news < 1 then
+  if #self.news < 1 then
     print("news empty")
     return
   end
 
+  print("removed news")
+
   for i=#self.news, index, -1 do
-    local news = self.news[index]
+    local news = self.news[i]
     news.chartOrder = news.chartOrder-1
   end
+
+  print("deleting index" .. index .. " with remain " .. #self.news)
   table.remove(self.news, index)
 end
 

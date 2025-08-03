@@ -77,3 +77,12 @@ function main.spawnBar()
   end
   return bar
 end
+
+-- pretty hacky.. this is more of a "helper" function
+function main.deleteEntity(ent)
+  if ent.isCard then
+    main.deleteCard(ent)
+  elseif ent.isNews then
+    main.deleteNews(ent)
+  end
+end

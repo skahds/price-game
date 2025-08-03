@@ -76,6 +76,8 @@ function main.deleteNews(news)
 
   local newsOrder = news.chartOrder
   chart:removeNews(newsOrder)
+  local newsUI = news.ui
+  newsUI:delete()
   news:delete()
 end
 
