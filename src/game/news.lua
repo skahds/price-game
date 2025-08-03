@@ -15,6 +15,7 @@ function main.defineNews(id, eType)
 
     self.x = self.x or args.x
     self.y = self.y or args.y
+    self.chartOrder = self.chartOrder
 
     if self.x == nil or self.y == nil then
       error("news needs XY position")
@@ -32,24 +33,61 @@ function main.defineNews(id, eType)
   end
 end
 
+local function repeatingTriggerNews(news, trigger)
+  local pipeline = main.getPipeline("main")
+  local chart = system.getStorage("main:chart")
+  if main.canTrigger(news, trigger) then
+    pipeline:insert(0.3, 1, function ()
+      main.triggerEnt(news, trigger)
+
+      local nextNews = chart:getNews(news.chartOrder + 1)
+      if nextNews then
+        repeatingTriggerNews(nextNews, trigger)
+      end
+    end)
+  else
+    local nextNews = chart:getNews(news.chartOrder + 1)
+    if nextNews then
+      repeatingTriggerNews(nextNews, trigger)
+    end
+  end
+end
+
+--it sucks that i can't do a "repeating triggerAllNews"
 function main.triggerAllNews(trigger)
   local chart = system.getStorage("main:chart")
-  local pipeline = main.getPipeline("main")
   if chart == nil then
     return
   end
-  chart:forAllNews(function (news)
-    if news.trigger == nil then
-      return
-    end
-    if main.canTrigger(news, trigger) then
-      pipeline:add(0.3, function ()
-        main.triggerEnt(news, trigger)
-      end)
-    end
-  end)
+  if chart:getNews(1) == nil then
+    return
+  end
+  repeatingTriggerNews(chart:getNews(1), trigger)
 end
 
+function main.deleteNews(news)
+  if news == nil then
+    error("news is nil")
+  end
+  local chart = system.getStorage("main:chart")
+  if chart == nil then
+    error("tried to delete news with nil chart")
+  end
+
+  local newsOrder = news.chartOrder
+  chart:removeNews(newsOrder)
+  news:delete()
+end
+
+function main.spawnNews(id, args)
+  local chart = system.getStorage("main:chart")
+  local news = main.spawnEntity(id, args, true)
+  if chart then
+    chart:addNews(news)
+  end
+  news.chartOrder = chart:getNewsAmount()
+  return news
+end
 
 
 system.on("main:currentPriceChanged", function ()

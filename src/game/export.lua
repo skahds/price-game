@@ -77,13 +77,3 @@ function main.spawnBar()
   end
   return bar
 end
-
-
-function main.spawnNews(id, args)
-  local chart = system.getStorage("main:chart")
-  local news = main.spawnEntity(id, args, true)
-  if chart then
-    chart:addNews(news)
-  end
-  return news
-end

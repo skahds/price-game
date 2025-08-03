@@ -9,11 +9,11 @@ function chart:init(args)
   self.bars = self.bars or {}
   self.news = self.news or {}
 
-  -- bull power is a number from 0-inf, ex: 0.5 means 50% increase
+  -- bull power is a number from 0-inf, ex: 0.5 means 50% chance of increase
   self.bullPower = self.bullPower or 0
-  -- bear power is a number from 0-1, ex: 0.5 means 50% reduction
+  -- bear power is a number from 0-1, ex: 0.5 means 50% chance of reduction
   self.bearPower = self.bearPower or 0
-  -- trend is a number from -1 - inf, ex: 0.3 means 30% min and max increase
+  -- trend is a number from -1 - inf, ex: 0.3 means 30% min and max chance increase
   self.trend = self.trend or 0
   -- volatility is a number from 0-inf, ex: 0.3 means change^1.3
   self.volatility = self.volatility or 0
@@ -46,14 +46,39 @@ function chart:forAllBar(fun)
   end
 end
 
+function chart:getNewsAmount()
+  return #self.news
+end
+
+function chart:getNews(index)
+  if index < 0 then
+    -- negative index.. for some reason- why do i even need this
+    index = #self.news+index+1
+  end
+  return self.news[index]
+end
+
 function chart:forAllNews(fun)
-  for i, news in pairs(self.news) do
+  for i, news in ipairs(self.news) do
     fun(news)
   end
 end
 
 function chart:addNews(news)
   table.insert(self.news, news)
+end
+
+function chart:removeNews(index)
+  if self.news < 1 then
+    print("news empty")
+    return
+  end
+
+  for i=#self.news, index, -1 do
+    local news = self.news[index]
+    news.chartOrder = news.chartOrder-1
+  end
+  table.remove(self.news, index)
 end
 
 function chart:getCurrentPricePos()

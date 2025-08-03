@@ -20,7 +20,7 @@ system.on("main:entityTriggered", function (ent)
     flux.to(ui, 0.2, {sx = sx/scaleFactor, sy=sy/scaleFactor, ox=originalOx, oy=originalOy})
   end)
 
-  local combo = system.getStorage("main:currentCombo") or 0
-  local audio = system.playAudio("boop")
-  main.audio.offsetAudioSourcePitch(audio, combo)
+  -- local combo = system.getStorage("main:currentCombo") or 0
+  -- local audio = system.playAudio("boop")
+  -- main.audio.offsetAudioSourcePitch(audio, combo)
 end)

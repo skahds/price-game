@@ -10,19 +10,24 @@ system.on("main:startTurn", function ()
 
   if chart then
     system.updateStorage("main:isOnTurn", true)
+
     main.triggerAllCardOwned("PRE")
-    main.triggerAllNews("PRE")
 
     pipeline:add(0.2, function ()
-      
+
+      main.triggerAllNews("PRE")
+
+    pipeline:add(0.2, function ()
 
       local bar = main.spawnBar()
       system.updateStorage("main:currentBar", bar)
 
     pipeline:add(0.2, function()
 
-      -- do some stuff before ending turn
       main.triggerAllCardOwned("POST")
+
+    pipeline:add(0.2, function ()
+
       main.triggerAllNews("POST")
 
     pipeline:add(0.2, function ()
@@ -30,6 +35,8 @@ system.on("main:startTurn", function ()
       system.call("main:endTurn")
       system.updateStorage("main:isOnTurn", false)
 
+    end)
+    end)
     end)
     end)
     end)

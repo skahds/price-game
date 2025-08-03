@@ -64,15 +64,32 @@ function main.defineCard(id, eType)
   end
 end
 
-function main.triggerAllCardOwned(trigger)
+local function repeatingTriggerCard(card, trigger)
   local pipeline = main.getPipeline("main")
-  for _, card in ipairs(main.card.ownedCards) do
-    if main.canTrigger(card, trigger) then
-      pipeline:add(0.3, function ()
-        main.triggerEnt(card, trigger)
-      end)
+  if main.canTrigger(card, trigger) then
+    pipeline:insert(0.3, 1, function ()
+      main.triggerEnt(card, trigger)
+
+      local nextCard = main.card.ownedCards[card.cardOrder + 1]
+      if nextCard then
+        repeatingTriggerCard(nextCard, trigger)
+      end
+    end)
+  else
+    local nextCard = main.card.ownedCards[card.cardOrder + 1]
+    if nextCard then
+      repeatingTriggerCard(nextCard, trigger)
     end
   end
+end
+
+function main.triggerAllCardOwned(trigger)
+  local pipeline = main.getPipeline("main")
+  if #main.card.ownedCards < 1 then
+    return
+  end
+  local card = main.card.ownedCards[1]
+  repeatingTriggerCard(card, trigger)
 end
 
 local function orderBasedOnPosition(ownerShip)

@@ -18,6 +18,9 @@ function main.canTrigger(ent, trigger)
 end
 
 function main.triggerEnt(ent, trigger)
+  if trigger == nil then
+    error("trigger can't be nil")
+  end
   if main.canTrigger(ent, trigger) then
     if ent.onActivate then
       ent:onActivate()
