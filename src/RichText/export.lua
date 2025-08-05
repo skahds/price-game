@@ -53,6 +53,11 @@ function main.newRichText(args)
   end
 
   function textTable.delete(t)
+    for k, text in pairs(deleteQueue) do
+      if text.index == t.index then
+        return
+      end
+    end
     table.insert(deleteQueue, t)
   end
 

@@ -5,7 +5,7 @@ main.addDescriptionType(function (ent)
 end)
 
 main.addDescriptionType(function (ent)
-  if ent.image then
-    return ent.image
+  if ent.description then
+    return ent.description
   end
 end)

@@ -1,6 +1,7 @@
 main.defineCard("testCard", {
   name = "add Card",
   image = "upCard",
+  description = "cool {pointColor}things{/pointColor}",
   -- onReleased = function (ent)
   --   main.deleteCard(ent)
   --   local chart = system.getStorage("main:chart")
