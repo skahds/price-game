@@ -1,14 +1,14 @@
 local function normalizeRect(x, y, w, h)
-    local nx, ny, nw, nh = x, y, w, h
-    if nw < 0 then
-        nx = x + w
-        nw = -w
-    end
-    if nh < 0 then
-        ny = y + h
-        nh = -h
-    end
-    return nx, ny, nw, nh
+  local nx, ny, nw, nh = x, y, w, h
+  if nw < 0 then
+    nx = x + w
+    nw = -w
+  end
+  if nh < 0 then
+    ny = y + h
+    nh = -h
+  end
+  return nx, ny, nw, nh
 end
 
 function main.AABB_check(t1, t2)

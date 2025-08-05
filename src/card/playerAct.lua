@@ -47,7 +47,7 @@ system.on("main:cardClicked", function (card)
 end)
 
 -- different situation from up, so i will be repeating this code
-system.on("noUIClicked", function ()
+system.on("ui:noUIClicked", function ()
   local currentCard = player.cardUIselected
   if currentCard then
 

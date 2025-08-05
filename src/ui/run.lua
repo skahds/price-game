@@ -33,7 +33,7 @@ local function clickTop(button, uiFun)
   end
 
   if hasClicked == false then
-    system.call("noUIClicked", button)
+    system.call("ui:noUIClicked", button)
   end
 end
 
@@ -61,14 +61,11 @@ system.on("@update", function ()
       mouse = system.getStorage("mouse")
     end
     if main.AABB_check(mouse, ent) then
-      -- for hover
-      if ent.onHover then
-        UIlist[ent.renderLayer] = {}
-        if UIkey < ent.renderLayer then
-          UIkey = ent.renderLayer
-        end
-        table.insert(UIlist[ent.renderLayer], ent)
+      UIlist[ent.renderLayer] = {}
+      if UIkey < ent.renderLayer then
+        UIkey = ent.renderLayer
       end
+      table.insert(UIlist[ent.renderLayer], ent)
     else
       -- for notHovered
       if ent.notHovered then
@@ -80,10 +77,18 @@ system.on("@update", function ()
   local layer = UIlist[UIkey]
   if layer then
     for _, ent in pairs(layer) do
-      ent:onHover()
+      system.call("ui:UIHovered", ent)
+      if ent.onHover then
+        ent:onHover()
+      end
     end
+  else
+    system.call("ui:noUIHovered")
   end
 
+
+
+  
   for i=#main.ui.deleteQueue, 1, -1 do
     local ent = main.ui.deleteQueue[i]
     system.call("ui:entityDeleted", ent)
