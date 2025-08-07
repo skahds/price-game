@@ -1,6 +1,6 @@
 local descriptionList = {}
 local activeDescriptions = {}
-local maxWidth = 0
+local maxWidth = {}
 local defaultRenderLayer = 400
 local spacing = 10
 
@@ -39,31 +39,32 @@ local function drawDescription(ent, location, activeDescriptionIndex)
   local startY = location.y
 
   local t = {}
+  -- local maxWidth = maxWidth[activeDescriptionIndex] or 0
   for i, format in ipairs(descriptionTable) do
     local text = main.newRichText({format=format,
-    x=startX + spacing,
-    y=startY + (i-1)*(height+spacing),
+    x=0,
+    y=0,
     outline = true,
     screenSpace = true,
     renderLayer = defaultRenderLayer})
     table.insert(t, text)
     local width = text.richText:getWidth(format)
-    maxWidth = math.max(maxWidth, width)
+    maxWidth[activeDescriptionIndex] = math.max(maxWidth[activeDescriptionIndex] or 0, width)
+  end
+  
+
+  -- set x and y to not get out of screen
+  local dimension = system.getStorage("screenDimension")
+  local screenW, screenH = dimension.w, dimension.h
+  local fixX = math.min(startX+maxWidth[activeDescriptionIndex], screenW)-maxWidth[activeDescriptionIndex]
+  local fixY = math.min(startY+totalHeight, screenH)-totalHeight
+  for i, richtext in ipairs(t) do
+    richtext.x = fixX + spacing
+    richtext.y = fixY + (i-1)*(height+spacing)
   end
   
   activeDescriptions[activeDescriptionIndex] = t
 end
-
--- local function updateDescription(currentDescription, location)
---   local mouse = system.getStorage("realMouse")
---   local startX = location.x
---   local startY = location.y
---   for i, text in ipairs(currentDescription) do
---     local height = text.richText:getHeight()
---     text.x = location.x
---     text.y=startY + (i-1)*(height+spacing)
---   end
--- end
 
 local function removeDescription(index)
   local RichTextsList = activeDescriptions[index]
@@ -73,7 +74,7 @@ local function removeDescription(index)
   if #RichTextsList == 0 then
     return
   end
-  maxWidth = 0
+  maxWidth[index] = 0
   for _, text in ipairs(RichTextsList) do
     text:delete()
   end
@@ -102,7 +103,7 @@ end)
 
 -- cool background
 system.on("@renderer:render", function ()
-  for k, RichTextsList in pairs(activeDescriptions) do
+  for index, RichTextsList in pairs(activeDescriptions) do
     if #RichTextsList == 0 then
       return
     end
@@ -110,9 +111,9 @@ system.on("@renderer:render", function ()
     local startX = RichTextsList[1].x
     local endX = RichTextsList[#RichTextsList].x
     local endY = RichTextsList[#RichTextsList].y + RichTextsList[#RichTextsList].richText:getHeight()
-    local width= endX-startX
     local height = endY-startY
     system.render(defaultRenderLayer-1, function ()
+      local maxWidth = maxWidth[index] or 0
       love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
       love.graphics.rectangle("fill", startX, startY, maxWidth, height)
       love.graphics.setColor(0.3, 0.3, 0.3, 0.9)
