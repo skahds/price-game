@@ -4,15 +4,22 @@ local maxWidth = {}
 local defaultRenderLayer = 400
 local spacing = 10
 
--- later add order
-function main.addDescriptionType(func)
-  table.insert(descriptionList, func)
+--[[
+ORDER LISTS:
+MISC - 50
+IMPORTANT-er MISC - 60
+]]
+function main.addDescriptionType(order, func)
+  table.insert(descriptionList, {order=order, func=func})
+  table.sort(descriptionList, function (a, b)
+    return a.order < b.order
+  end)
 end
 
 local function parseDescriptionList(ent)
   local t = {}
-  for i, func in ipairs(descriptionList) do
-    local text = func(ent)
+  for i, descriptionType in ipairs(descriptionList) do
+    local text = descriptionType.func(ent)
     -- later seperate \n
     -- local ss, se = string.find(text, "\n")
     -- if ss then
