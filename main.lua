@@ -7,7 +7,6 @@ require('class')
 require('utils')
 
 function love.load()
-  jit.off()
   require('modLoading')
 
   system.call("@load")

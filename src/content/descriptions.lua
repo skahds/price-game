@@ -9,3 +9,9 @@ main.addDescriptionType(function (ent)
     return ent.description
   end
 end)
+
+main.addDescriptionType(function (ent)
+  if ent.price then
+    return "{moneyColor}$" .. ent.price .. "{/moneyColor}"
+  end
+end)
