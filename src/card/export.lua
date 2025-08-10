@@ -117,7 +117,7 @@ function main.transferOwnership(card, newOwnership)
   
   orderBasedOnPosition(currentCardOwnership)
 
-  system.call("main:cardTransferedOwnership")
+  system.call("main:cardTransferedOwnership", card, currentCardOwnership, newOwnership)
 end
 
 --card-in folder functions

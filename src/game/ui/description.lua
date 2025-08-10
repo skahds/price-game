@@ -66,8 +66,8 @@ local function drawDescription(ent, location, activeDescriptionIndex)
   local fixX = math.min(startX+maxWidth[activeDescriptionIndex], screenW)-maxWidth[activeDescriptionIndex]
   local fixY = math.min(startY+totalHeight, screenH)-totalHeight
   for i, richtext in ipairs(t) do
-    richtext.x = fixX + spacing
-    richtext.y = fixY + (i-1)*(height+spacing)
+    richtext.x = fixX
+    richtext.y = fixY + (i-1)*(height)
   end
   
   activeDescriptions[activeDescriptionIndex] = t
