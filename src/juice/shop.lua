@@ -5,7 +5,7 @@ system.on("main:cardTransferedOwnership", function (card, oldOwnerShip, newOwner
   end
 
   local form
-  local cardUI = card.cardUI
+  local cardUI = card.ui
   if card.price > 0 then
     form = "{redColor}-$" .. card.price .. "{/redColor}"
   else

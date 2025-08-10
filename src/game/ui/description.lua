@@ -63,8 +63,8 @@ local function drawDescription(ent, location, activeDescriptionIndex)
   -- set x and y to not get out of screen
   local dimension = system.getStorage("screenDimension")
   local screenW, screenH = dimension.w, dimension.h
-  local fixX = math.min(startX+maxWidth[activeDescriptionIndex], screenW)-maxWidth[activeDescriptionIndex]
-  local fixY = math.min(startY+totalHeight, screenH)-totalHeight
+  local fixX = math.min(startX+maxWidth[activeDescriptionIndex], screenW-spacing)-maxWidth[activeDescriptionIndex]
+  local fixY = math.min(startY+totalHeight, screenH-spacing)-totalHeight
   for i, richtext in ipairs(t) do
     richtext.x = fixX
     richtext.y = fixY + (i-1)*(height)
@@ -89,7 +89,13 @@ local function removeDescription(index)
 end
 
 system.on("ui:UIHovered", function (ui)
-  local ent = ui.card or (ui.ui and ui.ui.isNews)
+  local ent
+  if ui.card then
+    ent = ui.card
+  elseif ui.parent and ui.parent.isNews then
+    ent = ui.parent
+  end
+
   if ent then
     local mouse = system.getStorage("realMouse")
     drawDescription(ent, mouse, "held")
@@ -114,13 +120,12 @@ system.on("@renderer:render", function ()
     if #RichTextsList == 0 then
       return
     end
-    local startY = RichTextsList[1].y
-    local startX = RichTextsList[1].x
-    local endX = RichTextsList[#RichTextsList].x
+    local startY = RichTextsList[1].y - spacing
+    local startX = RichTextsList[1].x - spacing
     local endY = RichTextsList[#RichTextsList].y + RichTextsList[#RichTextsList].richText:getHeight()
-    local height = endY-startY
+    local height = endY-startY + spacing
     system.render(defaultRenderLayer-1, function ()
-      local maxWidth = maxWidth[index] or 0
+      local maxWidth = (maxWidth[index] or 0) + spacing*2
       love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
       love.graphics.rectangle("fill", startX, startY, maxWidth, height)
       love.graphics.setColor(0.3, 0.3, 0.3, 0.9)

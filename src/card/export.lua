@@ -16,7 +16,7 @@ end
 
 function main.deleteCard(card)
   local cardOrder = card.cardOrder
-  local cardUI = card.cardUI
+  local cardUI = card.ui
   
   table.remove(main.card[card.ownerShip], cardOrder)
   cardUI:delete()
@@ -50,8 +50,8 @@ function main.defineCard(id, eType)
 
     local image = self.image or "blank_card"
     
-    self.cardUI = main.ui.spawnUI("card_ui", {image=image, x=self.x, y=self.y}, true)
-    self.cardUI.card = self
+    self.ui = main.ui.spawnUI("card_ui", {image=image, x=self.x, y=self.y}, true)
+    self.ui.card = self
   end
 
   function card:draw(args)
@@ -95,12 +95,12 @@ end
 local function orderBasedOnPosition(ownerShip)
   --reorder them based on their x position
   table.sort(main.card[ownerShip], function (a, b)
-    local uiEnt1, uiEnt2 = a.cardUI, b.cardUI
+    local uiEnt1, uiEnt2 = a.ui, b.ui
     return uiEnt1.x < uiEnt2.x
   end)
   for i, card in ipairs(main.card[ownerShip]) do
     card.cardOrder = i
-    card.cardUI.renderLayer = 140+i
+    card.ui.renderLayer = 140+i
   end
 end
 
@@ -134,7 +134,7 @@ function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, pos)
   orderBasedOnPosition(ownerShip)
   
   for i, card in pairs(main.card[ownerShip]) do
-    local uiEnt = card.cardUI
+    local uiEnt = card.ui
     local flux = system.getStorage("flux")
 
     local cardWidth, cardHeight = uiEnt:getWidth(), uiEnt:getHeight()

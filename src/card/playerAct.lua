@@ -23,7 +23,7 @@ local function releaseUICard(card)
 end
 
 system.on("main:cardClicked", function (card)
-  local cardUI = card.cardUI
+  local cardUI = card.ui
   local currentCard = player.cardUIselected
   if currentCard then
     releaseUICard(currentCard)

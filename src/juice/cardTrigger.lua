@@ -1,6 +1,6 @@
 system.on("main:entityTriggered", function (ent)
-  if ent.cardUI then
-    local cardUI = ent.cardUI
+  if ent.ui then
+    local cardUI = ent.ui
 
     local flux = system.getStorage("flux")
     local scaleFactor = 1.5
