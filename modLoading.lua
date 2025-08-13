@@ -33,7 +33,9 @@ local function requireFolder(folder)
       print("[" .. os.date() .."]: Loaded audio " .. fileName)
     elseif info.type == "file" and item:match("%.ttf$") then
       local fileName = item:gsub("%.ttf$", "")
-      system.fonts[fileName] =love.graphics.newFont(fullPath, 60)
+      for i=30, 80 do
+        system.fonts[fileName .. i] = love.graphics.newFont(fullPath, i)
+      end
     elseif info.type == "directory" then
       -- Recursively require files in subfolders
       requireFolder(fullPath)
