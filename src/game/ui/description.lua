@@ -254,10 +254,10 @@ system.on("@renderer:render", function ()
       system.render(defaultRenderLayer-1, function ()
         local maxWidth = (maxWidth[index] or 0) + spacing*2
         love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
-        love.graphics.rectangle("fill", startX, startY, maxWidth, height)
+        love.graphics.rectangle("fill", startX, startY, maxWidth, height, spacing, spacing)
         love.graphics.setColor(0.3, 0.3, 0.3, 0.9)
         love.graphics.setLineWidth(spacing/2)
-        love.graphics.rectangle("line", startX, startY, maxWidth, height)
+        love.graphics.rectangle("line", startX, startY, maxWidth, height, spacing, spacing)
       end, true)
     end
   end
