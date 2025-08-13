@@ -1,6 +1,7 @@
 main.defineCard("bounceSpawner", {
   name = "bounce Card",
   image = "bounceCard",
+  description = "test\nwith \\n",
   trigger = {"POST"},
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")

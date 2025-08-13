@@ -7,17 +7,17 @@ main.ui.defineUI("card_ui", {
   screenSpace = true,
   renderLayer = 140,
   onHover = function (ent)
-    system.call("main:cardHovered", ent.card)
-    -- love.graphics.print(ent.card.cardOrder, ent.x, ent.y+60)
+    system.call("main:cardHovered", ent.parent)
+    -- love.graphics.print(ent.parent.cardOrder, ent.x, ent.y+60)
   end,
 
   onReleased = function (ent)
-    if ent.card and ent.card.onReleased then
-      ent.card:onReleased()
+    if ent.parent and ent.parent.onReleased then
+      ent.parent:onReleased()
     end
   end,
 
   onMouseClicked = function (ent)
-    system.call("main:cardClicked", ent.card)
+    system.call("main:cardClicked", ent.parent)
   end
 })

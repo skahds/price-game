@@ -51,7 +51,7 @@ function main.defineCard(id, eType)
     local image = self.image or "blank_card"
     
     self.ui = main.ui.spawnUI("card_ui", {image=image, x=self.x, y=self.y}, true)
-    self.ui.card = self
+    self.ui.parent = self
   end
 
   function card:draw(args)

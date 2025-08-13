@@ -20,12 +20,20 @@ local function parseDescriptionList(ent)
   local t = {}
   for i, descriptionType in ipairs(descriptionList) do
     local text = descriptionType.func(ent)
-    -- later seperate \n
-    -- local ss, se = string.find(text, "\n")
-    -- if ss then
-      
-    -- end
     if text then
+
+    while true do
+      local ss, se = string.find(text, "\n")
+      if ss then
+        local firstPart = string.sub(text, 1, ss)
+        table.insert(t, firstPart)
+        text = string.sub(text, se+1, #text)
+      else
+        break
+      end
+    end
+
+    
       table.insert(t, text)
     end
   end
@@ -90,8 +98,8 @@ end
 
 system.on("ui:UIHovered", function (ui)
   local ent
-  if ui.card then
-    ent = ui.card
+  if ui.parent then
+    ent = ui.parent
   elseif ui.parent and ui.parent.isNews then
     ent = ui.parent
   end
