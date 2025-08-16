@@ -102,14 +102,14 @@ local function getAllTagsIndexOfDescription(index)
   return t
 end
 
-local function setPositionToBeInScreen(location, descriptionTable, maxWidth)
+local function setPositionToBeInScreen(location, descriptionTable, maxWidth, maxHeight)
   -- set x and y to not get out of screen
   local dimension = system.getStorage("screenDimension")
   local screenW, screenH = dimension.w, dimension.h
   local height = font:getHeight()
   local totalHeight = height * #descriptionTable
   local fixX = math.min(location.x+maxWidth, screenW-spacing)-maxWidth
-  local fixY = math.min(location.y+totalHeight, screenH-spacing)-totalHeight
+  local fixY = math.min(location.y+totalHeight, screenH-spacing-maxHeight)-totalHeight
   for i, richtext in ipairs(descriptionTable) do
     richtext.x = fixX
     richtext.y = fixY + (i-1)*(height)
@@ -165,7 +165,7 @@ local function drawDescription(descriptionTable, location, activeDescriptionInde
   end
   
 
-  setPositionToBeInScreen(location, t, maxWidth[activeDescriptionIndex])
+  setPositionToBeInScreen(location, t, maxWidth[activeDescriptionIndex], 0)
   
   activeDescriptions[activeDescriptionIndex] = t
 end
@@ -186,10 +186,15 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
     local originalDescription = activeDescriptions[activeDescriptionIndex][1]
     local NewLocation = {x=originalDescription.x - (maxWidth[newIndex]+spacing*2), y=originalDescription.y+currentHeightAdded}
 
-    local newTag = activeDescriptions[newIndex]    
+    local newTag = activeDescriptions[newIndex]
+    setPositionToBeInScreen(NewLocation, newTag, maxWidth[newIndex], currentHeightAdded)
     currentHeightAdded = currentHeightAdded + font:getHeight() * #newTag + spacing*2
-    setPositionToBeInScreen(NewLocation, newTag, maxWidth[newIndex])
   end
+  -- local activeTags = getAllTagsIndexOfDescription(activeDescriptionIndex)
+  -- for i, index in ipairs(activeTags) do
+  --   local tag = activeDescriptions[index]
+  --   setPositionToBeInScreen(NewLocation, tag, maxWidth[newIndex], currentHeightAdded)
+  -- end
 end
 
 --[[

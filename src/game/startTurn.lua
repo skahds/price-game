@@ -55,4 +55,5 @@ system.on("main:endTurn", function ()
     system.updateStorage("main:point", point)
     system.call("main:pointChanged", change)
   end
+  main.drawCard()
 end)

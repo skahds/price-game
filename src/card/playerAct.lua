@@ -5,7 +5,7 @@ system.on("@update", function ()
   local uiEnt = player.cardUIselected
   if uiEnt then
     local flux = system.getStorage("flux")
-    uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt.width/2, y = mouse.y-uiEnt.height/2})
+    uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = mouse.y-uiEnt:getHeight()/2})
     uiEnt.renderLayer = 300
   end
 end)

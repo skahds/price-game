@@ -5,23 +5,25 @@ local function clickTop(button, uiFun)
 
   local hasClicked = false
   for _, ent in pairs(main.ui.world) do
-    local mouse
-    if ent.screenSpace then
-      mouse = system.getStorage("realMouse")
-    else
-      mouse = system.getStorage("mouse")
-    end
-    if main.AABB_check(ent, mouse) then
-      if ent[uiFun] then
-        if UIlist[ent.renderLayer] == nil then
-          UIlist[ent.renderLayer] = {}
-        end
-        if UIkey < ent.renderLayer then
-          UIkey = ent.renderLayer
-        end
-        table.insert(UIlist[ent.renderLayer], ent)
+    if ent.isVisible then
+      local mouse
+      if ent.screenSpace then
+        mouse = system.getStorage("realMouse")
+      else
+        mouse = system.getStorage("mouse")
       end
-      hasClicked = true
+      if main.AABB_check(ent, mouse) then
+        if ent[uiFun] then
+          if UIlist[ent.renderLayer] == nil then
+            UIlist[ent.renderLayer] = {}
+          end
+          if UIkey < ent.renderLayer then
+            UIkey = ent.renderLayer
+          end
+          table.insert(UIlist[ent.renderLayer], ent)
+        end
+        hasClicked = true
+      end
     end
   end
 
@@ -54,22 +56,24 @@ system.on("@update", function ()
     if ent.update then
       ent:update()
     end
-    local mouse
-    if ent.screenSpace then
-      mouse = system.getStorage("realMouse")
-    else
-      mouse = system.getStorage("mouse")
-    end
-    if main.AABB_check(mouse, ent) then
-      UIlist[ent.renderLayer] = {}
-      if UIkey < ent.renderLayer then
-        UIkey = ent.renderLayer
+    if ent.isVisible then
+      local mouse
+      if ent.screenSpace then
+        mouse = system.getStorage("realMouse")
+      else
+        mouse = system.getStorage("mouse")
       end
-      table.insert(UIlist[ent.renderLayer], ent)
-    else
-      -- for notHovered
-      if ent.notHovered then
-        ent:notHovered()
+      if main.AABB_check(mouse, ent) then
+        UIlist[ent.renderLayer] = {}
+        if UIkey < ent.renderLayer then
+          UIkey = ent.renderLayer
+        end
+        table.insert(UIlist[ent.renderLayer], ent)
+      else
+        -- for notHovered
+        if ent.notHovered then
+          ent:notHovered()
+        end
       end
     end
   end
@@ -107,7 +111,7 @@ end)
 
 system.on("@renderer:render", function ()
   for _, ent in pairs(main.ui.world) do
-    if ent.draw then
+    if ent.draw and ent.isVisible then
       ent:draw()
       system.call("ui:entityDrawn", ent)
     end

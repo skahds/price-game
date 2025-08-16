@@ -74,14 +74,11 @@ function chart:removeNews(index)
     return
   end
 
-  print("removed news")
-
   for i=#self.news, index, -1 do
     local news = self.news[i]
     news.chartOrder = news.chartOrder-1
   end
 
-  print("deleting index" .. index .. " with remain " .. #self.news)
   table.remove(self.news, index)
 end
 

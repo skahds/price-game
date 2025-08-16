@@ -1,16 +1,24 @@
 -- for storing stuff that'll be used in this card folder, not for use outside
 main.card = {
   -- the cards we own.. the index defines the order
-  ownedCards = {},
-  shop = {}
+  hand = {},
+  -- to be used in the shop scene
+  shop = {},
+  -- the pile to draw
+  draw = {},
+  -- the pile after a card is used
+  discard = {},
 }
 
 function main.createCard(id, args, ownerShip)
-  ownerShip = ownerShip or "ownedCards"
+  ownerShip = ownerShip or "hand"
   local card = main.spawnEntity(id, args, true)
   table.insert(main.card[ownerShip], card)
-  card.cardOrder = #main.card.ownedCards
+  card.cardOrder = #main.card.hand
   card.ownerShip = ownerShip
+  if card.ownerShip == "draw" or card.ownerShip == "discard" then
+    card.ui.isVisible = false
+  end
   return card
 end
 
@@ -26,7 +34,7 @@ function main.deleteCard(card)
 end
 
 function main.getCardInOrder(order)
-  local card = main.card.ownedCards[order]
+  local card = main.card.hand[order]
   if card then
     return card
   end
@@ -70,13 +78,13 @@ local function repeatingTriggerCard(card, trigger)
     pipeline:insert(0.3, 1, function ()
       main.triggerEnt(card, trigger)
 
-      local nextCard = main.card.ownedCards[card.cardOrder + 1]
+      local nextCard = main.card.hand[card.cardOrder + 1]
       if nextCard then
         repeatingTriggerCard(nextCard, trigger)
       end
     end)
   else
-    local nextCard = main.card.ownedCards[card.cardOrder + 1]
+    local nextCard = main.card.hand[card.cardOrder + 1]
     if nextCard then
       repeatingTriggerCard(nextCard, trigger)
     end
@@ -85,10 +93,10 @@ end
 
 function main.triggerAllCardOwned(trigger)
   local pipeline = main.getPipeline("main")
-  if #main.card.ownedCards < 1 then
+  if #main.card.hand < 1 then
     return
   end
-  local card = main.card.ownedCards[1]
+  local card = main.card.hand[1]
   repeatingTriggerCard(card, trigger)
 end
 
@@ -104,6 +112,7 @@ local function orderBasedOnPosition(ownerShip)
   end
 end
 
+-- warning: does not update the cardOrder of the transfered card
 function main.transferOwnership(card, newOwnership)
   if card.ownerShip == nil or card.ownerShip == newOwnership then
     return
@@ -116,15 +125,77 @@ function main.transferOwnership(card, newOwnership)
   card.ownerShip = newOwnership
   
   orderBasedOnPosition(currentCardOwnership)
+  orderBasedOnPosition(newOwnership)
 
   system.call("main:cardTransferedOwnership", card, currentCardOwnership, newOwnership)
+end
+
+function main.discardCard(card)
+  if card.ownerShip ~= "hand" then
+    error("card ownerShip needs to be hand, not " .. card.ownerShip)
+  end
+  main.transferOwnership(card, "discard")
+  local dimension = system.getStorage("screenDimension")
+  local targetX, targetY = -200, dimension.h
+  local flux = system.getStorage("flux")
+  local ui = card.ui
+  if ui.tween then
+    ui.tween:stop()
+  end
+  ui.tween = flux.to(ui, 0.3, { x = targetX, y = targetY })
+  main.wait(0.3, function ()
+    ui.isVisible = false
+  end)
+  main.card.updateAllCardPositionBackToOriginalPosition("hand")
+end
+
+function main.drawCard()
+  local card = main.card.draw[1]
+  if card == nil then
+    main.shuffleDiscardToDraw()
+    print("shuffled")
+    return
+  end
+
+  main.transferOwnership(card, "hand")
+  local ui = card.ui
+  ui.isVisible = true
+  main.card.updateAllCardPositionBackToOriginalPosition("hand")
+end
+
+function main.addCardToDraw(card)
+  main.transferOwnership(card, "draw")
+
+  local dimension = system.getStorage("screenDimension")
+  local targetX, targetY = dimension.w+20, dimension.h
+  local flux = system.getStorage("flux")
+  local ui = card.ui
+  if ui.tween then
+    ui.tween:stop()
+  end
+  ui.tween = flux.to(ui, 0.3, { x = targetX, y = targetY })
+  main.wait(0.3, function ()
+    ui.isVisible = false
+  end)
+end
+
+function main.shuffleDiscardToDraw()
+  for i, card in ipairs(main.card.discard) do
+    table.insert(main.card.draw, card)
+  end
+  main.card.discard = {}
+  utils.shuffle(main.card.discard)
+  -- fix the order since it got shuffled
+  for i, card in ipairs(main.card.draw) do
+    card.cardOrder = i
+  end
 end
 
 --card-in folder functions
 
 --cards are put in the middle of the screen, then extend per card
 function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, pos)
-  ownerShip = ownerShip or "ownedCards"
+  ownerShip = ownerShip or "hand"
   local dimension = system.getStorage("screenDimension")
   local screenW, screenH = dimension.w, dimension.h
   local pos = pos or {}

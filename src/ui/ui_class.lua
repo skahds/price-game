@@ -32,6 +32,7 @@ function main.ui.defineUI(id, eType)
     if self.screenSpace == nil then
       self.screenSpace = true
     end
+    self.isVisible = true
     self.renderLayer = self.renderLayer or 100
   end
 

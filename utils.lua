@@ -51,7 +51,7 @@ end
 function utils.shuffle(array)
   -- fisher-yates
   local output = {}
-  local random = math.random
+  local random = love.math.random
 
   for index = 1, #array do
     local offset = index - 1
