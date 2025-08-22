@@ -4,7 +4,7 @@ local activeDescriptions = {}
 local maxWidth = {}
 local defaultRenderLayer = 400
 local spacing = 10
-local font = system.getFont("defaultFont30")
+local font = system.getFont("defaultFont22")
 
 --[[
 ORDER LISTS:
@@ -102,14 +102,19 @@ local function getAllTagsIndexOfDescription(index)
   return t
 end
 
-local function setPositionToBeInScreen(location, descriptionTable, maxWidth, maxHeight)
+local function setPositionToBeInScreen(location, descriptionTable, maxWidth, extraInfo)
+  extraInfo = extraInfo or {totalHeightAdded=0, currentHeight=0}
   -- set x and y to not get out of screen
   local dimension = system.getStorage("screenDimension")
   local screenW, screenH = dimension.w, dimension.h
   local height = font:getHeight()
   local totalHeight = height * #descriptionTable
+  local gap = extraInfo.totalHeightAdded-extraInfo.currentHeight
+  if gap ~= 0 then
+    gap = gap - totalHeight
+  end
   local fixX = math.min(location.x+maxWidth, screenW-spacing)-maxWidth
-  local fixY = math.min(location.y+totalHeight, screenH-spacing-maxHeight)-totalHeight
+  local fixY = math.min(location.y+totalHeight, screenH-spacing-gap)-totalHeight
   for i, richtext in ipairs(descriptionTable) do
     richtext.x = fixX
     richtext.y = fixY + (i-1)*(height)
@@ -165,7 +170,7 @@ local function drawDescription(descriptionTable, location, activeDescriptionInde
   end
   
 
-  setPositionToBeInScreen(location, t, maxWidth[activeDescriptionIndex], 0)
+  setPositionToBeInScreen(location, t, maxWidth[activeDescriptionIndex])
   
   activeDescriptions[activeDescriptionIndex] = t
 end
@@ -177,24 +182,30 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
   drawDescription(descriptionTable, location, activeDescriptionIndex)
 
 
+  -- spawn tag
   local tags = parseTagsList(ent)
-  local currentHeightAdded = 0
+  local totalHeightAdded = 0
   for i, tag in ipairs(tags) do
     -- draw the tags
     local newIndex = getEmptyIndexForTag(activeDescriptionIndex)
     drawDescription(tag, location, newIndex)
-    local originalDescription = activeDescriptions[activeDescriptionIndex][1]
-    local NewLocation = {x=originalDescription.x - (maxWidth[newIndex]+spacing*2), y=originalDescription.y+currentHeightAdded}
 
     local newTag = activeDescriptions[newIndex]
-    setPositionToBeInScreen(NewLocation, newTag, maxWidth[newIndex], currentHeightAdded)
-    currentHeightAdded = currentHeightAdded + font:getHeight() * #newTag + spacing*2
+    totalHeightAdded = totalHeightAdded + font:getHeight() * #newTag + spacing
   end
-  -- local activeTags = getAllTagsIndexOfDescription(activeDescriptionIndex)
-  -- for i, index in ipairs(activeTags) do
-  --   local tag = activeDescriptions[index]
-  --   setPositionToBeInScreen(NewLocation, tag, maxWidth[newIndex], currentHeightAdded)
-  -- end
+  totalHeightAdded = totalHeightAdded + spacing
+
+  -- set position
+  local currentHeightAdded = 0
+  local activeTags = getAllTagsIndexOfDescription(activeDescriptionIndex)
+  for i, index in ipairs(activeTags) do
+    local tag = activeDescriptions[index]
+    local originalDescription = activeDescriptions[activeDescriptionIndex][1]
+    local NewLocation = {x=originalDescription.x - (maxWidth[index]+spacing*2), y=originalDescription.y+currentHeightAdded}
+    setPositionToBeInScreen(NewLocation, tag, maxWidth[index],
+    {totalHeightAdded=totalHeightAdded, currentHeight=currentHeightAdded})
+    currentHeightAdded = currentHeightAdded + font:getHeight() * #tag + spacing*2
+  end
 end
 
 --[[
