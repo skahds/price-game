@@ -17,15 +17,24 @@ main.addDescriptionType(60, function (ent)
 end)
 
 main.addDescriptionTag(10, function (ent)
-  if ent.trigger then
+  if main.canTrigger(ent, "PRE") then
     return "PRE:\nActivates before\nBar spawns."
   end
 end)
 
-main.addDescriptionTag(20, function (ent)
-  return "1234567890-+"
+main.addDescriptionTag(11, function (ent)
+  if main.canTrigger(ent, "POST") then
+    return "POST:\nActivates after\nBar spawns."
+  end
 end)
 
+-- main.addDescriptionTag(20, function (ent)
+--   return "1234567890-+"
+-- end)
+
 main.addDescriptionTag(30, function (ent)
-  return "Sphinx of black quartz, judge my vow"
+  if ent.temporary then
+    local n = ent.temporary
+    return "Temporary " .. n ..":\nDeleted after " .. n .. " turn"
+  end
 end)

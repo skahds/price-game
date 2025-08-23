@@ -68,7 +68,9 @@ local function parseTagsList(ent)
 
       table.insert(t, text)
     end
-    table.insert(allTags, t)
+    if #t > 0 then
+      table.insert(allTags, t)
+    end
   end
 
   -- returns something like {{"BLUE"}, {"YEAH", "COOL"}}
