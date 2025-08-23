@@ -20,7 +20,7 @@ system.render =  function (layer, func, fixed)
   table.insert(renderTable[layer], {func=func, fixed=fixed})
 end
 
-system.on("@renderer:render", function ()
+system.on("renderer:render", function ()
   table.sort(renderKeys)
 
   love.graphics.setCanvas(defaultCanvas)

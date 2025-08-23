@@ -19,7 +19,7 @@ system.on("@update", function ()
   main.deleteQueue = {}
 end)
 
-system.on("@renderer:render", function ()
+system.on("@draw", function ()
   for _, ent in pairs(main.world) do
     if ent.draw then
       ent:draw()

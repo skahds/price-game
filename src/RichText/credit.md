@@ -1,1 +1,1 @@
-font name: IBMPlexMono-Regular
+font: https://somepx.itch.io/humble-fonts-free

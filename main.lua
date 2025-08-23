@@ -20,7 +20,8 @@ function love.update(dt)
 end
 
 function love.draw()
-  system.call("@renderer:render")
+  system.call("@draw")
+  system.call("renderer:render")
 end
 
 function love.keyreleased(key)

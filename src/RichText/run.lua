@@ -40,7 +40,7 @@ local function drawOutline(t)
   end, fixed)
 end
 
-system.on("@renderer:render", function ()
+system.on("@draw", function ()
 
   for _, t in pairs(textTable) do
     local fixed = true
