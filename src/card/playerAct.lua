@@ -7,6 +7,10 @@ system.on("@update", function ()
     local flux = system.getStorage("flux")
     uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = mouse.y-uiEnt:getHeight()/2})
     uiEnt.renderLayer = 300
+
+    system.updateStorage("main:currentSelectedCard", uiEnt.parent)
+  else
+    system.updateStorage("main:currentSelectedCard", nil)
   end
 end)
 

@@ -1,5 +1,5 @@
 system.on("@load", function ()
-  main.playScene("menu")
+  main.playScene("shop")
 end)
 
 -- system.on("@update", function ()

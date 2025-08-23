@@ -113,8 +113,8 @@ local function setPositionToBeInScreen(location, descriptionTable, maxWidth, ext
   if gap ~= 0 then
     gap = gap - totalHeight
   end
-  local fixX = math.min(location.x+maxWidth, screenW-spacing)-maxWidth
-  local fixY = math.min(location.y+totalHeight, screenH-spacing-gap)-totalHeight
+  local fixX = math.min(location.x+maxWidth, screenW-spacing*2)-maxWidth
+  local fixY = math.min(location.y+totalHeight, screenH-spacing*2-gap)-totalHeight
   for i, richtext in ipairs(descriptionTable) do
     richtext.x = fixX
     richtext.y = fixY + (i-1)*(height)
@@ -208,29 +208,6 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
   end
 end
 
---[[
-local function updateDescriptionPos(index, newPosition)
-  local RichTextsList = activeDescriptions[index]
-  if RichTextsList == nil then
-    return
-  end
-  if #RichTextsList == 0 then
-    return
-  end
-
-  setPositionToBeInScreen(newPosition, RichTextsList, maxWidth[index])
-end
-
-local function updateCompleteDescriptionPos(index, newPos)
-  updateDescriptionPos(index, newPos)
-  local tagsIndex = getAllTagsIndexOfDescription(index)
-  for i, tagIndex in ipairs(tagsIndex) do
-    local NewLocation = {x=newPos.x - (maxWidth[index]+spacing*2), y=newPos.y+((i-1)*100)}
-    updateDescriptionPos(tagIndex, NewLocation)
-  end
-end
-]]
-
 system.on("ui:UIHovered", function (ui)
   local ent
   if ui.parent then
@@ -241,7 +218,8 @@ system.on("ui:UIHovered", function (ui)
 
   if ent then
     local mouse = system.getStorage("realMouse")
-    drawCompleteDescription(ent, mouse, "held")
+    local newPos = {x=mouse.x+spacing, y=mouse.y+spacing}
+    drawCompleteDescription(ent, newPos, "held")
   else
     removeCompleteDescription("held")
   end
@@ -250,14 +228,6 @@ end)
 system.on("ui:noUIHovered", function ()
   removeCompleteDescription("held")
 end)
-
--- system.on("@mouse:moved", function ()
---   local mouse = system.getStorage("realMouse")
---   -- since it constantly moves, we don't use updateDescriptionPos
---   -- removeCompleteDescription("held")
---   updateCompleteDescriptionPos("held", mouse)
---   -- automatically gets added back in UIHovered
--- end)
 
 -- cool background
 system.on("@draw", function ()
