@@ -19,6 +19,9 @@ local function buttonUp(ent)
   if ent.isButtonDown == false then
     return
   end
+  if ent.tween then
+    ent.tween:stop()
+  end
   ent.tween = flux.to(ent, 0.1, {y=ent.originalY})
 
   ent.isButtonDown = false
@@ -29,6 +32,9 @@ local function buttonDown(ent)
 
   if ent.isButtonDown == true then
     return
+  end
+  if ent.tween then
+    ent.tween:stop()
   end
   ent.tween = flux.to(ent, 0.1, {y=ent.originalY+ent.height/5})
 

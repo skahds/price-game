@@ -19,9 +19,9 @@ system.on("main:currentPriceChanged", function (bar)
     local change = math.floor((bar.endPrice - bar.startPrice)*10+0.5)/10
     local form
     if change > 0 then
-      form = addCoolEffect("{greenColor}+" .. change .. "{/greenColor}")
+      form = addCoolEffect("{brightGreenColor}+" .. change .. "{/brightGreenColor}")
     elseif change < 0 then
-      form = addCoolEffect("{redColor}" .. change .. "{/redColor}")
+      form = addCoolEffect("{brightRedColor}" .. change .. "{/brightRedColor}")
     else
       form = "0"
     end

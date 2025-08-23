@@ -1,6 +1,6 @@
 main.addDescriptionType(10, function (ent)
   if ent.name then
-    return ent.name
+    return "   " .. ent.name .. "   "
   end
 end)
 
@@ -23,9 +23,9 @@ main.addDescriptionTag(10, function (ent)
 end)
 
 main.addDescriptionTag(20, function (ent)
-  return "Other tag!"
+  return "1234567890-+"
 end)
 
 main.addDescriptionTag(30, function (ent)
-  return "And another tag or something!"
+  return "Sphinx of black quartz, judge my vow"
 end)
