@@ -5,17 +5,41 @@ function main.defineScene(id, loadFunc, unloadFunc)
   scenes[id] = {load=loadFunc, unload=unloadFunc}
 end
 
+local flux = system.getStorage("flux")
+local waitTime = 0.3
+local dimension = system.getStorage("screenDimension")
+local bigScreenCoverPosition = {x=0, y=0}
+
+main.newPipeline("scene")
+local pipeline = main.getPipeline("scene")
+
 function main.playScene(id)
   if scenes[id] == nil then
     error("scene does not exist")
   end
 
+  flux.to(bigScreenCoverPosition, waitTime, {x=0, y=0})
   if currentScene then
-    currentScene.unload()
+    pipeline:add(waitTime, function ()
+      currentScene.unload()
+    end)
   end
 
-  scenes[id].load()
-  currentScene = scenes[id]
-  system.updateStorage("main:currentScene", id)
-  system.call("main:sceneChanged", id)
+  pipeline:add(waitTime, function ()
+    scenes[id].load()
+    currentScene = scenes[id]
+    system.updateStorage("main:currentScene", id)
+    system.call("main:sceneChanged", id)
+
+    flux.to(bigScreenCoverPosition, waitTime, {x=0, y=-dimension.h}):oncomplete(function ()
+      bigScreenCoverPosition.y = dimension.h
+    end)
+  end)
 end
+
+system.on("@draw", function ()
+  system.render(9999, function ()
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.rectangle("fill", bigScreenCoverPosition.x, bigScreenCoverPosition.y, dimension.w, dimension.h)
+  end, true)
+end)

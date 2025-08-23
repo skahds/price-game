@@ -7,6 +7,6 @@ main.ui.defineButton("menuPlay", {
   text = "START",
   audio = "breaker",
   onButtonClicked = function (ent)
-    main.playScene("play")
+    main.playScene("shop")
   end
 })

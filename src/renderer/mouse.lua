@@ -1,8 +1,13 @@
-local virtualWidth = 1280
-local virtualHeight = 720
+local virtualWidth
+local virtualHeight
 
 system.updateStorage("realMouse", {x=0, y=0})
 system.updateStorage("system:screenScale", {ox=0, oy=0, scale=1})
+
+system.on("@load", function ()
+  virtualWidth = system.getStorage("screenDimension").w
+  virtualHeight = system.getStorage("screenDimension").h
+end)
 
 system.on("@update", function ()
   local scale = system.getStorage("system:screenScale")
