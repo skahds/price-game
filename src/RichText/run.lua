@@ -48,22 +48,25 @@ system.on("@renderer:render", function ()
       fixed = false
     end
 
-    if t.outline then
-      drawOutline(t)
-    end
+    -- smoothens up so no double-draw
+    if t.insideDeleteQueue ~= true then
+      if t.outline then
+        drawOutline(t)
+      end
 
-    system.render(t.renderLayer or 50, function ()
-      local text = t.richText
-      local x = t.x or 0
-      local y = t.y or 0
-      local r = t.r or 0
-      local sx = t.sx or 1
-      local sy = t.sy or 1
-      local ox = t.ox or 0
-      local oy = t.oy or 0
-      love.graphics.setColor(t.color or {1, 1, 1})
-      text:draw(x, y, r, sx, sy, ox, oy)
-    end, fixed)
+      system.render(t.renderLayer or 50, function ()
+        local text = t.richText
+        local x = t.x or 0
+        local y = t.y or 0
+        local r = t.r or 0
+        local sx = t.sx or 1
+        local sy = t.sy or 1
+        local ox = t.ox or 0
+        local oy = t.oy or 0
+        love.graphics.setColor(t.color or {1, 1, 1})
+        text:draw(x, y, r, sx, sy, ox, oy)
+      end, fixed)
+    end
   end
 
 end)

@@ -59,6 +59,7 @@ function main.newRichText(args)
       end
     end
     table.insert(deleteQueue, t)
+    t.insideDeleteQueue = true
   end
 
   return texts[#texts]
