@@ -2,6 +2,7 @@ unpack = table.unpack or unpack
 
 system.events = {}
 system.storage = {}
+system.questions = {}
 
 ---calls all event
 ---@param event string
@@ -36,4 +37,27 @@ end
 ---@param newVar any
 function system.updateStorage(name, newVar)
   system.storage[name] = newVar
+end
+
+---question bus
+---@param name string
+---@param combiner function
+---@param ... any
+function system.ask(name, combiner, ...)
+  local currentAnswer
+  for i, answers in ipairs(system.questions[name]) do
+    if currentAnswer then
+      currentAnswer = combiner(answers(...), currentAnswer)
+    else
+      currentAnswer = answers(...)
+    end
+  end
+  return currentAnswer
+end
+
+function system.answer(name, func)
+  if not system.questions[name] then
+    system.questions = {}
+  end
+  table.insert(system.questions[name], func)
 end

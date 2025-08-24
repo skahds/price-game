@@ -11,9 +11,9 @@ function chart:init(args)
 
   -- bull power is a number from 0-inf, ex: 0.5 means 50% chance of increase
   self.bullPower = self.bullPower or 0
-  -- bear power is a number from 0-1, ex: 0.5 means 50% chance of reduction
+  -- bear power is a number from 0-inf, ex: 0.5 means 50% chance of reduction
   self.bearPower = self.bearPower or 0
-  -- trend is a number from -1 - inf, ex: 0.3 means 30% min and max chance increase
+  -- trend is a number from -inf to inf, ex: 0.3 means 30% min and max chance increase
   self.trend = self.trend or 0
   -- volatility is a number from 0-inf, ex: 0.3 means change^1.3
   self.volatility = self.volatility or 0

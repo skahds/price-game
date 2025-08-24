@@ -28,11 +28,12 @@ main.ui.defineSlider("ownSlider", {
 
       -- text
       love.graphics.setColor(1, 1, 1)
-      local frontText = "Buy"
-      if slideAmount < 0.5 then frontText = "Short" end
-      if slideAmount == 0.5 then frontText = "Skip" end
-      local text = frontText .. " " .. (ent.slideAmount-0.5)*200 .. "%"
-      local font = system.getStorage("defaultFont")
+      -- local frontText = "Buy"
+      -- if slideAmount < 0.5 then frontText = "Short" end
+      -- if slideAmount == 0.5 then frontText = "Skip" end
+      -- local text = frontText .. " " .. (ent.slideAmount-0.5)*200 .. "%"
+      local text = "x" .. (ent.slideAmount-0.5)*2
+      local font = system.getFont("defaultFont80")
       local textWidth = font:getWidth(text)
       love.graphics.setFont(font)
       love.graphics.print(text, ent.x+ent:getWidth()/2-textWidth/2, ent.y+ent:getHeight()*1.2)
@@ -46,7 +47,7 @@ main.ui.defineSlider("ownSlider", {
     end
 
     -- snaps it by increments of 0.05
-    local increment = 1 / ( 0.05 )
+    local increment = 1 / ( 0.1 )
     local slideAmount = math.floor(amountScrolled*increment + 0.5)/increment
     ent.slideAmount = slideAmount
     local percentageHold = (slideAmount-0.5)*200

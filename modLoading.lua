@@ -33,7 +33,7 @@ local function requireFolder(folder)
       print("[" .. os.date() .."]: Loaded audio " .. fileName)
     elseif info.type == "file" and item:match("%.ttf$") then
       local fileName = item:gsub("%.ttf$", "")
-      for i=10, 60 do
+      for i=10, 90 do
         system.fonts[fileName .. i] = love.graphics.newFont(fullPath, i)
       end
     elseif info.type == "directory" then
