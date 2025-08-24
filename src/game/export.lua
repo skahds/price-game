@@ -45,9 +45,8 @@ local function basicBarSpawnChange(bar, chart)
   --   changeAmount = 0.01
   -- end
 
-  local basicFactor = system.getStorage("main:basicChangeFactor") or 10
+  
   local pointChange = changeAmount
-  changeAmount = changeAmount * basicFactor
   
   --balances bear with bulls
   -- local softenFactor = 0.5
@@ -56,7 +55,16 @@ local function basicBarSpawnChange(bar, chart)
   -- end
 
   -- volatility
-  changeAmount = ((changeAmount) * (1+chart.volatility))
+  local positivity = 1
+  if changeAmount < 0 then
+    positivity = -1
+  end
+  changeAmount = ((math.abs(changeAmount)+1) ^ (chart.volatility+1)-1) * positivity
+  print(chart.bullPower, chart.bearPower, chart.volatility, changeAmount)
+
+  local basicFactor = system.getStorage("main:basicChangeFactor") or 100
+  changeAmount = changeAmount * basicFactor
+
   chart.volatility = chart.volatility^(7/8)
 
   chart.bullPower = chart.bullPower-(pointChange/trendSlowdown)

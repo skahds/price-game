@@ -17,7 +17,7 @@ function chart:init(args)
   self.trend = self.trend or 0
   -- volatility is a number from 0-inf, ex: 0.3 means change^1.3
   self.volatility = self.volatility or 0
-  self.price = self.price or 10
+  self.price = self.price or 0
 end
 
 function chart:addBar(bar)
@@ -106,8 +106,8 @@ function chart:priceToYPos(price)
     sliderScale = 2^(sliderScale*4)
   end
   local yScale = sliderScale or 10
-  yScale = yScale * 5
-  return price*yScale + 10*yScale
+  yScale = yScale / 5
+  return price*yScale
 end
 
 function chart:update()

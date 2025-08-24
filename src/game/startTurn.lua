@@ -49,7 +49,7 @@ system.on("main:endTurn", function ()
   local bar = system.getStorage("main:currentBar")
 
   if bar then
-    local change = bar.endPrice - bar.startPrice
+    local change = math.floor((bar.endPrice - bar.startPrice)+0.5)
     change = change * percentageHold/100 
     point = point + change
     system.updateStorage("main:point", point)

@@ -1,4 +1,5 @@
 local cam = system.getStorage("camera")
+local flux = system.getStorage("flux")
 local playerCam = {x=0, y=0, speed=500, zoom=1}
 
 cam:followPos(playerCam)
@@ -24,6 +25,18 @@ system.on("@update", function ()
     playerCam.y = playerCam.y + speed
   end
   
+end)
+
+system.on("main:currentPriceChanged", function ()
+  local bar = system.getStorage("main:currentBar")
+  if bar then
+    if playerCam.tween then
+      playerCam.tween:stop()
+    end
+    local targetX = bar.x+bar.width/2
+    local targetY = bar.y+bar.height
+    playerCam.tween = flux.to(playerCam, 0.2, {x=targetX, y=targetY})
+  end
 end)
 
 function love.wheelmoved(x, y)
