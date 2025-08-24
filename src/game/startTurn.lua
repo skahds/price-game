@@ -44,6 +44,7 @@ system.on("main:startTurn", function ()
 end)
 
 system.on("main:endTurn", function ()
+  local pipeline = main.getPipeline("main")
   local point = system.getStorage("main:point")
   local percentageHold = system.getStorage("main:ownedPercentage") or 0.5
   local bar = system.getStorage("main:currentBar")
@@ -55,5 +56,11 @@ system.on("main:endTurn", function ()
     system.updateStorage("main:point", point)
     system.call("main:pointChanged", change)
   end
-  main.drawCard()
+
+  pipeline:add(0.1, function ()
+    main.discardCurrentCardsInHand()
+    pipeline:add(0.1, function ()
+      main.drawCardTillMaxCapacity()
+    end)
+  end)
 end)

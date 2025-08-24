@@ -57,7 +57,7 @@ end
 
 function system.answer(name, func)
   if not system.questions[name] then
-    system.questions = {}
+    system.questions[name] = {}
   end
   table.insert(system.questions[name], func)
 end

@@ -75,6 +75,7 @@ end
 local function repeatingTriggerCard(card, trigger)
   local pipeline = main.getPipeline("main")
   if main.canTrigger(card, trigger) then
+
     pipeline:insert(0.3, 1, function ()
       main.triggerEnt(card, trigger)
 
@@ -82,6 +83,7 @@ local function repeatingTriggerCard(card, trigger)
       if nextCard then
         repeatingTriggerCard(nextCard, trigger)
       end
+
     end)
   else
     local nextCard = main.card.hand[card.cardOrder + 1]
@@ -92,7 +94,6 @@ local function repeatingTriggerCard(card, trigger)
 end
 
 function main.triggerAllCardOwned(trigger)
-  local pipeline = main.getPipeline("main")
   if #main.card.hand < 1 then
     return
   end
@@ -153,7 +154,6 @@ function main.drawCard()
   local card = main.card.draw[1]
   if card == nil then
     main.shuffleDiscardToDraw()
-    print("shuffled")
     return
   end
 
@@ -161,6 +161,26 @@ function main.drawCard()
   local ui = card.ui
   ui.isVisible = true
   main.card.updateAllCardPositionBackToOriginalPosition("hand")
+end
+
+function main.drawCardWithMaxCapacity()
+  local maxCard = system.getStorage("main:maxCardAmount")
+  -- later we'll add a qbus to get how much space a card takes up
+  if #main.card.hand < maxCard then
+    main.drawCard()
+  end
+end
+
+function main.drawCardTillMaxCapacity()
+  local pipeline = main.getPipeline("main")
+  local maxCard = system.getStorage("main:maxCardAmount")
+  if #main.card.hand < maxCard and #main.card.draw + #main.card.discard > 0 then
+    -- later we'll add a qbus to get how much space a card takes up
+    main.drawCard()
+    pipeline:add(0.15, function ()
+      main.drawCardTillMaxCapacity()
+    end)
+  end
 end
 
 function main.addCardToDraw(card)
@@ -180,14 +200,32 @@ function main.addCardToDraw(card)
 end
 
 function main.shuffleDiscardToDraw()
-  for i, card in ipairs(main.card.discard) do
-    table.insert(main.card.draw, card)
+
+  for i=#main.card.discard, 1, -1 do
+    local card = main.card.discard[i]
+    main.transferOwnership(card, "draw")
   end
-  main.card.discard = {}
-  utils.shuffle(main.card.discard)
+
+  utils.shuffle(main.card.draw)
   -- fix the order since it got shuffled
   for i, card in ipairs(main.card.draw) do
     card.cardOrder = i
+
+    local dimension = system.getStorage("screenDimension")
+    local targetX, targetY = dimension.w+20, dimension.h
+    card.ui.x, card.ui.y = targetX, targetY
+  end
+end
+
+function main.discardCurrentCardsInHand()
+  local pipeline = main.getPipeline("main")
+  for i=#main.card.hand, 1, -1 do
+    local card = main.card.hand[i]
+    if not system.ask("main:shouldCardNotBeDiscared", combiner.OR, card) then
+      pipeline:insert(0.15, 1, function ()
+        main.discardCard(card)
+      end)
+    end
   end
 end
 

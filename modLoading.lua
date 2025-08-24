@@ -46,6 +46,7 @@ end
 
 -- Call the function for the folder you want to load files from
 requireFolder("src/basicFunc")
+requireFolder("src/combiner")
 requireFolder("src/flux")
 requireFolder("src/RichText")
 requireFolder("src/camera")
