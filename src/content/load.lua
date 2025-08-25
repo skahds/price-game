@@ -1,5 +1,5 @@
 system.on("@load", function ()
-  main.playScene("shop")
+  main.playScene("menu")
 
   for i=1, 10 do
     local card = main.createCard("testCard", {}, "hand")

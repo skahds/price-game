@@ -25,6 +25,8 @@ main.defineScene("play", function ()
   -- back = main.ui.spawnUI("backToMenu", {x=300, y=350}, true)
   main.spawnChart({bearPower = 0.2, bullPower = 0.2})
   chart = system.getStorage("main:chart")
+
+  main.drawCardTillMaxCapacity()
 end, function ()
   deleteAll({cover, ownSlider, scaleYSlider, startTurn, spawnCard, chart})
 end)

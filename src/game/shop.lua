@@ -56,7 +56,8 @@ system.on("main:cardReleased", function (uiEnt)
     end
     if success then
       main.addMoney(-price)
-      main.addCardToDraw(uiEnt.parent)
+      -- main.addCardToDraw(uiEnt.parent)
+      main.transferOwnership(uiEnt.parent, "hand")
     end
   end
   

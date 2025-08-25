@@ -20,11 +20,22 @@ main.defineScene("shop", function ()
   continue = main.ui.spawnUI("continueButton", {x=70, y=450}, true)
   system.updateStorage("shop:buyBox", buyBox)
   main.shop.spawnCards()
+
+  while #main.card.draw + #main.card.discard > 0 do
+    main.drawCard()
+  end
+  
+  main.card.updateAllCardPositionBackToOriginalPosition()
 end, function ()
 
   deleteAll({cover, buyBox, reroll, continue})
   for i=#main.card.shop, 1, -1 do
     local card = main.card.shop[i]
     main.deleteCard(card)
+  end
+
+  for i=#main.card.hand, 1, -1 do
+    local card = main.card.hand[i]
+    main.addCardToDraw(card)
   end
 end)
