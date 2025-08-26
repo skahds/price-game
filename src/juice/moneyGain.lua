@@ -51,6 +51,35 @@ system.on("main:currentPriceChanged", function (bar)
   end
 end)
 
+system.on("main:multChanged", function (change)
+  local bar = system.getStorage("main:currentBar")
+  if bar then
+    local form = "{brightPurpleColor}x" .. math.floor(change+0.5) .. "{/brightPurpleColor}"
+    local size = love.math.random()/2+0.75
+
+    local text = main.newRichText({format=form,
+    x=bar.x + love.math.random(-20, 20),
+    y=bar.y+bar.height + love.math.random(-30, 30),
+    r=(love.math.random()-0.5)*math.pi/3,
+    sx=size,
+    sy=size,
+    outline = true,
+    screenSpace = false})
+    text.ox = text.richText:getWidth()/2
+    text.oy = text.richText:getHeight()/2
+
+    local flux = system.getStorage("flux")
+    local randomSpin = (love.math.random()-0.5)*3
+    local randomSizeIncrease = love.math.random()
+    flux.to(text, 0.3, {r=text.r+randomSpin})
+    flux.to(text, 0.5, {sx=size+randomSizeIncrease, sy=size+randomSizeIncrease})
+
+    main.waitWithMult(0.2, function ()
+      text:delete()
+    end)
+  end
+end)
+
 
 -- audio related
 

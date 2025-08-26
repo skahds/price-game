@@ -19,7 +19,7 @@ main.defineCard("testCard", {
 main.defineCard("testCardOther", {
   name = "mult Card",
   image = "upCard",
-  description = "+1{brightRedColor}mult{/brightRedColor}",
+  description = "+1 {brightPurpleColor}mult{/brightPurpleColor}",
   -- onReleased = function (ent)
   --   main.deleteCard(ent)
   --   local chart = system.getStorage("main:chart")

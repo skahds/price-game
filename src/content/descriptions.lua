@@ -11,9 +11,14 @@ main.addDescriptionType(20, function (ent)
 end)
 
 main.addDescriptionType(60, function (ent)
+  local text = ""
   if ent.price then
-    return "{moneyColor}$" .. ent.price .. "{/moneyColor}"
+    text = text .. "{moneyColor}$" .. ent.price .. "{/moneyColor} "
   end
+  if ent.rarity then
+    text =  text .. ent.rarity.format
+  end
+  return text
 end)
 
 main.addDescriptionTag(10, function (ent)

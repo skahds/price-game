@@ -11,7 +11,7 @@ local moneyText = main.newRichText({format="Money: {moneyColor}" .. money .. "{/
   x=60,
   renderLayer = 200,})
 
-local multText = main.newRichText({format="{brightRedColor}X" ..  math.floor(0+0.5) .. "{/brightRedColor}",
+local multText = main.newRichText({format="{brightPurpleColor}X" ..  math.floor(0+0.5) .. "{/brightPurpleColor}",
   y=300,
   x=300,
   renderLayer = 200,
@@ -59,7 +59,7 @@ end)
 -- mult text
 system.on("@update", function ()
   local mult = system.getStorage("main:mult")
-  main.updateRichTextText(multText, "{brightRedColor}X" ..  math.floor(mult+0.5) .. "{/brightRedColor}")
+  main.updateRichTextText(multText, "{brightPurpleColor}X" ..  math.floor(mult+0.5) .. "{/brightPurpleColor}")
 end)
 
 system.on("main:sceneChanged", function()
