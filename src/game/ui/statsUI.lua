@@ -73,15 +73,15 @@ system.on("main:sceneChanged", function()
 end)
 
 -- currentPointText
-system.on("@update", function ()
-  local bar = system.getStorage("main:currentBar")
-  local isOnTurn = system.getStorage("main:isOnTurn")
-  if bar and isOnTurn then
-    local change = bar.endPrice - bar.startPrice
-    main.updateRichTextText(currentPointText, "{pointColor}" ..  math.floor(change+0.5) .. "{/pointColor}")
-  else
-    main.updateRichTextText(currentPointText, "{pointColor}0{/pointColor}")
-  end
+local currentPoint = 0
+system.on("main:currentPriceChanged", function (bar)
+  currentPoint = bar.endPrice - bar.startPrice
+  main.updateRichTextText(currentPointText, "{pointColor}" ..  math.floor(currentPoint+0.5) .. "{/pointColor}")
+end)
+
+system.on("main:endTurn", function ()
+  currentPoint = 0
+  main.updateRichTextText(currentPointText, "{pointColor}0{/pointColor}")
 end)
 
 system.on("main:sceneChanged", function()
