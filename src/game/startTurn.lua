@@ -51,7 +51,9 @@ system.on("main:endTurn", function ()
 
   if bar then
     local change = math.floor((bar.endPrice - bar.startPrice)+0.5)
-    change = change * percentageHold/100 
+    local mult = system.getStorage("main:mult")
+    change = change * percentageHold/100
+    change = change * mult
     point = point + change
     system.updateStorage("main:point", point)
     system.call("main:pointChanged", change)
@@ -63,4 +65,6 @@ system.on("main:endTurn", function ()
       main.drawCardTillMaxCapacity()
     end)
   end)
+
+  system.updateStorage("main:mult", 1)
 end)

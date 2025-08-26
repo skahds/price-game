@@ -11,8 +11,25 @@ main.defineCard("testCard", {
   -- end
   trigger = {"POST"},
   onActivate = function (ent)
-    local bar = system.getStorage("main:currentBar")
-    bar:changePrice(3)
+    main.addPoint(3)
+  end,
+  price = 2,
+})
+
+main.defineCard("testCardOther", {
+  name = "mult Card",
+  image = "upCard",
+  description = "+1{brightRedColor}mult{/brightRedColor}",
+  -- onReleased = function (ent)
+  --   main.deleteCard(ent)
+  --   local chart = system.getStorage("main:chart")
+  --   if chart then
+  --     chart.bullPower = chart.bullPower + 0.5
+  --   end
+  -- end
+  trigger = {"POST"},
+  onActivate = function (ent)
+    main.addMult(1)
   end,
   price = 2,
 })

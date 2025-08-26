@@ -94,3 +94,16 @@ function main.deleteEntity(ent)
     main.deleteNews(ent)
   end
 end
+
+function main.addPoint(amount)
+  local bar = system.getStorage("main:currentBar")
+  if bar then
+    bar:changePrice(amount)
+  end
+end
+
+function main.addMult(amount)
+  local mult = system.getStorage("main:mult")
+  mult = mult + amount
+  system.updateStorage("main:mult", mult)
+end

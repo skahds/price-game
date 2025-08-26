@@ -2,9 +2,7 @@ local cover
 local ownSlider
 local scaleYSlider
 local startTurn
-local spawnCard
 local chart
-local back
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -21,12 +19,12 @@ main.defineScene("play", function ()
   ownSlider = main.ui.spawnUI("ownSlider", {x=50, y=10}, true)
   scaleYSlider = main.ui.spawnUI("scaleYSlider", {x=1050, y=30}, true)
   startTurn = main.ui.spawnUI("startTurn", {x=80, y=450}, true)
-  spawnCard = main.ui.spawnUI("spawnCard", {x=80, y=350}, true)
+  -- spawnCard = main.ui.spawnUI("spawnCard", {x=80, y=350}, true)
   -- back = main.ui.spawnUI("backToMenu", {x=300, y=350}, true)
   main.spawnChart({bearPower = 0.2, bullPower = 0.2})
   chart = system.getStorage("main:chart")
 
   main.drawCardTillMaxCapacity()
 end, function ()
-  deleteAll({cover, ownSlider, scaleYSlider, startTurn, spawnCard, chart})
+  deleteAll({cover, ownSlider, scaleYSlider, startTurn, chart})
 end)

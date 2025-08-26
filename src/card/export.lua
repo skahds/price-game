@@ -154,6 +154,7 @@ function main.drawCard()
   local card = main.card.draw[1]
   if card == nil then
     main.shuffleDiscardToDraw()
+    main.drawCard()
     return
   end
 
@@ -212,6 +213,9 @@ function main.shuffleDiscardToDraw()
     card.cardOrder = i
 
     local dimension = system.getStorage("screenDimension")
+    if card.ui.tween then
+      card.ui.tween:stop()
+    end
     local targetX, targetY = dimension.w+20, dimension.h
     card.ui.x, card.ui.y = targetX, targetY
   end
