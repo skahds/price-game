@@ -12,15 +12,25 @@ local moneyText = main.newRichText({format="Money: {moneyColor}" .. money .. "{/
   renderLayer = 200,})
 
 local multText = main.newRichText({format="{brightPurpleColor}X" ..  math.floor(0+0.5) .. "{/brightPurpleColor}",
-  y=300,
-  x=300,
+  y=350,
+  x=0,
+  sx=1,
+  sy=1,
+  ox=1,
+  oy=1,
+  r=0,
   renderLayer = 200,
   font = biggerFont,
   })
 
 local currentPointText = main.newRichText({format="{pointColor}" ..  math.floor(0+0.5) .. "{/pointColor}",
-  y=300,
-  x=100,
+  y=350,
+  x=0,
+  sx=1,
+  sy=1,
+  ox=1,
+  oy=1,
+  r=0,
   renderLayer = 200,
   font = biggerFont})
 
@@ -68,7 +78,7 @@ system.on("main:sceneChanged", function()
     multText.x = -2000
   end
   if scene == "play" then
-    multText.x = 300
+    multText.x = 350
   end
 end)
 
@@ -90,6 +100,34 @@ system.on("main:sceneChanged", function()
     currentPointText.x = -2000
   end
   if scene == "play" then
-    currentPointText.x = 100
+    currentPointText.x = 150
   end
 end)
+
+-- juice
+-- designed to stack
+local function makeJuice(text, event)
+  system.on(event, function ()
+    local flux = system.getStorage("flux")
+    local originalRotation = text.r
+    local rotation = text.r + (love.math.random()-0.5)*3
+    local scaleFactor = 1.5
+    local sx = text.sx * scaleFactor
+    local sy = text.sy * scaleFactor
+    flux.to(text, 0.1, {sx = sx, sy=sy, r=rotation})
+    main.wait(0.1, function ()
+      flux.to(text, 0.1, {sx = sx/scaleFactor, sy=sy/scaleFactor,r=originalRotation})
+    end)
+  end)
+
+  system.on("@update", function ()
+    local richText = text.richText
+    local ox = richText:getWidth()/2
+    local oy = richText:getHeight()/2
+    text.ox = ox
+    text.oy = oy
+  end)
+end
+
+makeJuice(currentPointText, "main:currentPriceChanged")
+makeJuice(multText, "main:multChanged")
