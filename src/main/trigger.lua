@@ -12,9 +12,9 @@ function main.canTrigger(ent, trigger)
     if isEInTable(trigger, ent.trigger) == false then
       return false
     end
-
+    return true
   end
-  return true
+  return false
 end
 
 function main.triggerEnt(ent, trigger)

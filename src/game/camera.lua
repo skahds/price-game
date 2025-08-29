@@ -27,15 +27,19 @@ system.on("@update", function ()
   
 end)
 
+function main.tweenCamera(time, pos)
+  if playerCam.tween then
+    playerCam.tween:stop()
+  end
+  playerCam.tween = flux.to(playerCam, time, pos)
+end
+
 system.on("main:currentPriceChanged", function ()
   local bar = system.getStorage("main:currentBar")
   if bar then
-    if playerCam.tween then
-      playerCam.tween:stop()
-    end
     local targetX = bar.x+bar.width/2
     local targetY = bar.y+bar.height
-    playerCam.tween = flux.to(playerCam, 0.2, {x=targetX, y=targetY})
+    main.tweenCamera(0.2, {x=targetX, y=targetY})
   end
 end)
 

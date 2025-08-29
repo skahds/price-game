@@ -214,8 +214,8 @@ system.on("ui:UIHovered", function (ui)
   local ent
   if ui.parent then
     ent = ui.parent
-  elseif ui.parent and ui.parent.isNews then
-    ent = ui.parent
+  elseif ui.showDescription then
+    ent= ui
   end
 
   if ent then

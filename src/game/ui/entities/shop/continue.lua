@@ -11,6 +11,6 @@ main.ui.defineButton("continueButton", {
     if #pipeline.pipeline > 0 then
       return
     end
-    main.playScene("play")
+    main.playScene("levelSelect")
   end
 })

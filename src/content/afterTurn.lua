@@ -1,4 +1,4 @@
-local roundPerDay = 6
+local roundPerDay = 3
 
 system.on("main:endTurn", function ()
   local chart = system.getStorage("main:chart")

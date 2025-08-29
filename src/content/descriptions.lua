@@ -18,7 +18,9 @@ main.addDescriptionType(60, function (ent)
   if ent.rarity then
     text =  text .. ent.rarity.format
   end
-  return text
+  if text ~= "" then
+    return text
+  end
 end)
 
 main.addDescriptionTag(10, function (ent)
