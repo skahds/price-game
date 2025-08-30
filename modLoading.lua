@@ -26,8 +26,12 @@ local function requireFolder(folder)
       system.sprites[fileName] = love.graphics.newImage(fullPath)
       print("[" .. os.date() .."]: Loaded image " .. fileName)
     elseif info.type == "file" and item:match("%.wav$") then
-      -- Extract the file name without the extension
       local fileName = item:gsub("%.wav$", "")
+      -- not sure if it should *always* be static
+      system.audio[fileName] = love.audio.newSource(fullPath, "static")
+      print("[" .. os.date() .."]: Loaded audio " .. fileName)
+    elseif info.type == "file" and item:match("%.mp3$") then
+      local fileName = item:gsub("%.mp3$", "")
       -- not sure if it should *always* be static
       system.audio[fileName] = love.audio.newSource(fullPath, "static")
       print("[" .. os.date() .."]: Loaded audio " .. fileName)
