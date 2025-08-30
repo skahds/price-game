@@ -98,3 +98,12 @@ end
 function utils.distanceBetween(x1, x2, y1, y2)
     return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
 end
+
+function utils.isEInTable(e, t)
+  for k, v in pairs(t) do
+    if v == e then
+      return true
+    end
+  end
+  return false
+end

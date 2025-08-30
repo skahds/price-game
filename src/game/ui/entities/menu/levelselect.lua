@@ -12,6 +12,5 @@ main.ui.defineUI("levelSelect", {
     if ent.isLastLevel == true then
       main.playScene("play")
     end
-    print("y")
   end,
 })

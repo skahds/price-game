@@ -13,7 +13,7 @@ function system.playAudio(id)
   local clone = audio:clone()
   if clone then
     clone:play()
-    table.insert(audios, clone)
+    table.insert(audios, {id=id, clone=clone})
     return clone
   end
 end
@@ -27,10 +27,12 @@ end
 
 system.on("@update", function ()
   for i=#audios, 1, -1 do
-    local audio = audios[i]
+    local audioTable = audios[i]
+    local audio = audioTable.clone
     if audio:isPlaying() then
       return
     end
+    system.call("audio:audioFinished", audioTable.id)
     table.remove(audios, i)
   end
 end)

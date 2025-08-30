@@ -1,15 +1,6 @@
-local function isEInTable(e, t)
-  for k, v in pairs(t) do
-    if v == e then
-      return true
-    end
-  end
-  return false
-end
-
 function main.canTrigger(ent, trigger)
   if ent and ent.trigger then
-    if isEInTable(trigger, ent.trigger) == false then
+    if utils.isEInTable(trigger, ent.trigger) == false then
       return false
     end
     return true
