@@ -23,7 +23,7 @@ main.ui.defineSlider("basicSlider", {
       x = x + ent:getWidth() /2
     end
 
-    system.render(ent.renderLayer+1 or 201, function ()
+    system.render(ent.renderLayer+1, function ()
       --circle thing in the middle
       love.graphics.setColor(ent.ballColor)
       love.graphics.circle("fill", x, y, ent:getHeight()/2)

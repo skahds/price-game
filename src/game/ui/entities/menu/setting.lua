@@ -1,5 +1,5 @@
 local isSettingShown = false
-local cover, sfxSlider, musicSlider, exit
+local cover, sfxSlider, musicSlider, exit, back
 local sfxStorage, musicStorage = "audio:sfxVolume", "audio:musicVolume"
 
 local function deleteAll(arg)
@@ -64,11 +64,17 @@ function main.ui.gameSettings()
 
     exit = main.ui.spawnUI("exit", {
       x=dimension.w/2-width/4-75,
-      y=dimension.h/2+40,
+      y=dimension.h/2+80,
+      renderLayer = 412,
+    }, true)
+
+    back = main.ui.spawnUI("back", {
+      x=dimension.w/2-width/4-75,
+      y=dimension.h/2-30,
       renderLayer = 412,
     }, true)
   else
-    deleteAll({cover, sfxSlider, musicSlider, exit})
+    deleteAll({cover, sfxSlider, musicSlider, exit, back})
     isSettingShown = false
   end
 end
