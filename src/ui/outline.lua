@@ -1,5 +1,5 @@
 system.on("ui:entityDrawn", function (ent)
-  if ent.outline == nil then
+  if ent.outline == nil or ent.outline == 0 then
     return
   end
   local outlineColor = ent.outlineColor or {1, 1, 1, 1}

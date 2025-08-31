@@ -79,6 +79,7 @@ function main.ui.defineUI(id, eType)
     
     if isIn == false then
       table.insert(main.ui.deleteQueue, self)
+      system.call("ui:entityDeleted", self)
     end
   end
 

@@ -13,15 +13,13 @@ local function clickTop(button, uiFun)
         mouse = system.getStorage("mouse")
       end
       if main.AABB_check(ent, mouse) then
-        if ent[uiFun] then
-          if UIlist[ent.renderLayer] == nil then
-            UIlist[ent.renderLayer] = {}
-          end
-          if UIkey < ent.renderLayer then
-            UIkey = ent.renderLayer
-          end
-          table.insert(UIlist[ent.renderLayer], ent)
+        if UIlist[ent.renderLayer] == nil then
+          UIlist[ent.renderLayer] = {}
         end
+        if UIkey < ent.renderLayer then
+          UIkey = ent.renderLayer
+        end
+        table.insert(UIlist[ent.renderLayer], ent)
         hasClicked = true
       end
     end
@@ -30,7 +28,9 @@ local function clickTop(button, uiFun)
   local layer = UIlist[UIkey]
   if layer then
     for _, ent in pairs(layer) do
-      ent[uiFun](ent, button)
+      if ent[uiFun] then
+        ent[uiFun](ent, button)
+      end
     end
   end
 
@@ -95,7 +95,6 @@ system.on("@update", function ()
   
   for i=#main.ui.deleteQueue, 1, -1 do
     local ent = main.ui.deleteQueue[i]
-    system.call("ui:entityDeleted", ent)
     local entIndex = ent.index
 
     if ent.index ~= #main.ui.world then

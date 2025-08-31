@@ -1,6 +1,6 @@
 system.on("@keyreleased", function (key)
   if key == "escape" then
-    love.event.quit()
+    main.ui.gameSettings()
   end
 end)
 
