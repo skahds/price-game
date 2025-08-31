@@ -1,4 +1,5 @@
 local audios = {}
+local audioCreateFuncs = {}
 
 function system.getAudio(id)
   if system.audio[id] == nil then
@@ -14,15 +15,20 @@ function system.playAudio(id)
   if clone then
     clone:play()
     table.insert(audios, {id=id, clone=clone})
+    if audioCreateFuncs[id] then
+      for i, func in ipairs(audioCreateFuncs[id]) do
+        func(clone)
+      end
+    end
     return clone
   end
 end
 
 main.audio = {}
 function main.audio.offsetAudioSourcePitch(source, semitonesOffset)
-    local currentPitch = source:getPitch()
-    local newPitch = currentPitch * (2 ^ (semitonesOffset / 12))
-    source:setPitch(newPitch)
+  local currentPitch = source:getPitch()
+  local newPitch = currentPitch * (2 ^ (semitonesOffset / 12))
+  source:setPitch(newPitch)
 end
 
 system.on("@update", function ()
@@ -36,3 +42,20 @@ system.on("@update", function ()
     table.remove(audios, i)
   end
 end)
+
+function main.audio.setDefaultAudioFunction(id, func)
+  if audioCreateFuncs[id] == nil then
+    audioCreateFuncs[id] = {}
+  end
+  table.insert(audioCreateFuncs[id], func)
+end
+
+function main.audio.forAllCurrentAudio(idTable, func)
+  for i=#audios, 1, -1 do
+    local audioTable = audios[i]
+    if utils.isEInTable(audioTable.id, idTable) then
+      local audio = audioTable.clone
+      func(audio)
+    end
+  end
+end

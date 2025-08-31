@@ -38,7 +38,7 @@ function main.ui.gameSettings()
         love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
       end,
       targetStorage = sfxStorage,
-      slideAmount = system.getStorage(sfxStorage) or 0.5,
+      slideAmount = system.getStorage(sfxStorage) or 1,
       ballColor = {0.8, 0.4, 0.4},
       renderLayer = 410,
     }, true)
@@ -57,7 +57,7 @@ function main.ui.gameSettings()
         love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
       end,
       targetStorage = musicStorage,
-      slideAmount = system.getStorage(musicStorage) or 0.5,
+      slideAmount = system.getStorage(musicStorage) or 1,
       ballColor = {0.8, 0.4, 0.4},
       renderLayer = 411,
     }, true)

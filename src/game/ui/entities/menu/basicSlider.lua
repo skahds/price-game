@@ -36,10 +36,6 @@ main.ui.defineSlider("basicSlider", {
   end,
 
   onSlide = function (ent, amountScrolled)
-    if system.getStorage("main:isOnTurn") == true then
-      return
-    end
-
     -- snaps it by increments
     local increment = ent.increment
     local slideAmount = math.floor(amountScrolled*increment + 0.5)/increment

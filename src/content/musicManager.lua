@@ -13,3 +13,10 @@ system.on("audio:audioFinished", function (id)
     system.playAudio(music)
   end
 end)
+
+system.on("@update", function ()
+  main.audio.forAllCurrentAudio(musicList, function (audio)
+    local volume = system.getStorage("audio:musicVolume") or 1
+    audio:setVolume(volume)
+  end)
+end)
