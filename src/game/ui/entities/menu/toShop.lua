@@ -11,6 +11,6 @@ main.ui.defineButton("continueToShop", {
     if #pipeline.pipeline > 0 then
       return
     end
-    main.playScene("levelSelect")
+    main.playScene("shop")
   end
 })

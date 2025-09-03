@@ -11,6 +11,9 @@ system.on("main:startTurn", function ()
   if chart then
     system.updateStorage("main:isOnTurn", true)
 
+    local roundsRemaining = system.getStorage("main:roundsRemaining")
+    system.updateStorage("main:roundsRemaining", roundsRemaining-1)
+
     main.triggerAllCardOwned("PRE")
 
     pipeline:add(0.2, function ()

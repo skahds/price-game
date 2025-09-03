@@ -8,6 +8,7 @@ main.ui.defineUI("levelSelect", {
   width = 64,
   height= 64,
   screenSpace = false,
+  pointRequirement = 0,
   onMouseReleased = function (ent)
     if ent.isLastLevel == true then
       main.playScene("play")

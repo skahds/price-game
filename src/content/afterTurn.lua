@@ -1,15 +1,19 @@
-local roundPerDay = 3
-
 system.on("main:endTurn", function ()
-  local chart = system.getStorage("main:chart")
-  local counter = 0
-  chart:forAllBar(function ()
-    counter = counter + 1
-  end)
+  local roundsRemaining = system.getStorage("main:roundsRemaining")
+  local pipeline = main.getPipeline("main")
 
-  if counter >= roundPerDay then
-    local pipeline = main.getPipeline("main")
-    -- show some day-end ui
+  local pointRequired = system.getStorage("main:pointRequirement")
+  local point = system.getStorage("main:point")
+
+  if pointRequired < point then
+    pipeline:add(0.1, function ()
+      main.playScene("levelEnd")
+    end)
+  end
+
+  -- if counter >= roundPerDay then
+  if roundsRemaining <= 0 then
+    -- show some lose UI
     pipeline:add(0.1, function ()
       main.playScene("levelEnd")
     end)

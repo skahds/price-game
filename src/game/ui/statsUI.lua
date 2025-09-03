@@ -2,13 +2,18 @@ local biggerFont = system.getFont("defaultFont100")
 local point = system.getStorage("main:point")
 local pointText = main.newRichText({format="Point: " ..  math.floor(point+0.5) .. "",
   y=200,
-  x=60,
+  x=70,
   renderLayer = 200,})
 
 local money = main.getMoney()
 local moneyText = main.newRichText({format="Money: {moneyColor}" .. money .. "{/moneyColor}",
   y=200,
-  x=60,
+  x=70,
+  renderLayer = 200,})
+
+local roundsRemainingText = main.newRichText({format="Bars: 0",
+  y=600,
+  x=70,
   renderLayer = 200,})
 
 local multText = main.newRichText({format="{brightPurpleColor}X" ..  math.floor(0+0.5) .. "{/brightPurpleColor}",
@@ -46,7 +51,7 @@ system.on("main:sceneChanged", function()
     pointText.x = -2000
   end
   if scene == "play" then
-    pointText.x = 60
+    pointText.x = 70
   end
 end)
 
@@ -62,7 +67,24 @@ system.on("main:sceneChanged", function()
     moneyText.x = -2000
   end
   if scene == "shop" then
-    moneyText.x = 60
+    moneyText.x = 70
+  end
+end)
+
+-- roundsRemainingText
+system.on("@update", function ()
+  local roundsRemaining = system.getStorage("main:roundsRemaining")
+  if roundsRemaining then
+    main.updateRichTextText(roundsRemainingText, "Bars: " .. roundsRemaining)
+  end
+end)
+
+system.on("main:sceneChanged", function()
+  local scene = system.getStorage("main:currentScene")
+  if utils.isEInTable(scene, {"play", "shop"}) then
+    roundsRemainingText.x = 70
+  else
+    roundsRemainingText.x = -2000
   end
 end)
 

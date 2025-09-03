@@ -19,22 +19,44 @@ main.defineScene("levelEnd", function ()
   continueToShop = main.ui.spawnUI("continueToShop", {x=70, y=100}, true)
 
   local finalStats = system.getStorage("main:endLevelStats")
+  local roundsRemaining = system.getStorage("main:roundsRemaining")
   local t = {}
   table.insert(t, "Total point: " .. finalStats.finalPoint)
   table.insert(t, "Turn played: " .. finalStats.barsTaken)
+  if roundsRemaining < 10 then
+    local text = "Money Earned: "
+    for i=1, roundsRemaining do
+      text = text .. "$"
+    end
+    table.insert(t, text)
+  else
+    table.insert(t, "Money Earned: $" .. roundsRemaining)
+  end
+    
 
   local height = font:getHeight()
 
+  local pipeline = main.getPipeline("main")
+
   for i, format in ipairs(t) do
-    table.insert(stats, main.newRichText({
-      format = format,
-      x=500,
-      y=200+height*(i-1),
-    }))
+    pipeline:add(0.5, function ()
+      table.insert(stats, main.newRichText({
+        format = format,
+        x=500,
+        y=200+height*(i-1),
+      }))
+    end)
   end
 
   while #main.card.draw + #main.card.discard > 0 do
     main.drawCard()
+  end
+
+  local money = roundsRemaining
+  for i=1, money do
+    pipeline:add(0.1, function ()
+      main.addMoney(1)
+    end)
   end
 end, function ()
 

@@ -24,6 +24,9 @@ main.defineScene("shop", function ()
   while #main.card.draw + #main.card.discard > 0 do
     main.drawCard()
   end
+
+  local roundsPerDay = system.getStorage("main:roundsPerDay")
+  system.updateStorage("main:roundsRemaining", roundsPerDay)
   
   main.card.updateAllCardPositionBackToOriginalPosition()
 end, function ()
