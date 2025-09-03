@@ -26,5 +26,10 @@ main.defineScene("play", function ()
 
   main.drawCardTillMaxCapacity()
 end, function ()
+  local endStats = {
+    finalPoint = system.getStorage("main:point"),
+    barsTaken = #chart.bars
+  }
+  system.updateStorage("main:endLevelStats", endStats)
   deleteAll({cover, ownSlider, scaleYSlider, startTurn, chart})
 end)

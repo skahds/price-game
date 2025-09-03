@@ -11,7 +11,7 @@ system.on("main:endTurn", function ()
     local pipeline = main.getPipeline("main")
     -- show some day-end ui
     pipeline:add(0.1, function ()
-      main.playScene("shop")
+      main.playScene("levelEnd")
     end)
   end
 end)
