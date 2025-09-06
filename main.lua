@@ -6,6 +6,9 @@ require('broadcast')
 require('class')
 require('utils')
 
+-- advanced source lib
+love.audio.newAdvancedSource = require 'asl'
+
 function love.load()
   require('modLoading')
 

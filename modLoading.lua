@@ -29,12 +29,11 @@ local function requireFolder(folder)
       local fileName = item:gsub("%.wav$", "")
       -- not sure if it should *always* be static
       system.audio[fileName] = love.audio.newSource(fullPath, "static")
-      print("[" .. os.date() .."]: Loaded audio " .. fileName)
+      print("[" .. os.date() .."]: Loaded wav " .. fileName)
     elseif info.type == "file" and item:match("%.mp3$") then
       local fileName = item:gsub("%.mp3$", "")
-      -- not sure if it should *always* be static
       system.audio[fileName] = love.audio.newSource(fullPath, "static")
-      print("[" .. os.date() .."]: Loaded audio " .. fileName)
+      print("[" .. os.date() .."]: Loaded mp3 " .. fileName)
     elseif info.type == "file" and item:match("%.ttf$") then
       local fileName = item:gsub("%.ttf$", "")
       for i=10, 100 do

@@ -13,6 +13,11 @@ function system.playAudio(id)
 
   local clone = audio:clone()
   if clone then
+    if clone.setResamplingRatio then
+      clone.setPitch = clone.setResamplingRatio
+      clone.getPitch = clone.getResamplingRatio
+    end
+
     clone:play()
     table.insert(audios, {id=id, clone=clone})
     if audioCreateFuncs[id] then
@@ -20,6 +25,7 @@ function system.playAudio(id)
         func(clone)
       end
     end
+
     return clone
   end
 end
@@ -28,7 +34,9 @@ main.audio = {}
 function main.audio.offsetAudioSourcePitch(source, semitonesOffset)
   local currentPitch = source:getPitch()
   local newPitch = currentPitch * (2 ^ (semitonesOffset / 12))
+
   source:setPitch(newPitch)
+  
 end
 
 system.on("@update", function ()

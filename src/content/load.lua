@@ -14,6 +14,7 @@ end)
 
 -- local pipeline = main.getPipeline("main")
 -- for i=1, 10 do
---   main.playScene("shop")
---   main.playScene("play")
+--   pipeline:add(0.5, function ()
+--     system.playAudioMono("boop")
+--   end)
 -- end
