@@ -13,11 +13,6 @@ function system.playAudio(id)
 
   local clone = audio:clone()
   if clone then
-    if clone.setResamplingRatio then
-      clone.setPitch = clone.setResamplingRatio
-      clone.getPitch = clone.getResamplingRatio
-    end
-
     clone:play()
     table.insert(audios, {id=id, clone=clone})
     if audioCreateFuncs[id] then
