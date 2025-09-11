@@ -1,13 +1,13 @@
-system.on("main:pointChanged", function (change)
-  local text = main.newRichText({format="{pointColor}" .. math.floor(change+0.5) .. "{/pointColor}",
-  y=250,
-  x=80,
-  outline = true,
-  renderLayer = 105,})
-  main.waitWithMult(1, function ()
-    text:delete()
-  end)
-end)
+-- system.on("main:pointChanged", function (change)
+--   local text = main.newRichText({format="{pointColor}" .. math.floor(change+0.5) .. "{/pointColor}",
+--   y=250,
+--   x=80,
+--   outline = true,
+--   renderLayer = 205,})
+--   main.waitWithMult(1, function ()
+--     text:delete()
+--   end)
+-- end)
 
 local function addCoolEffect(s)
   return s

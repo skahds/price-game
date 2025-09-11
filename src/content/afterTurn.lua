@@ -5,7 +5,7 @@ system.on("main:endTurn", function ()
   local pointRequired = system.getStorage("main:pointRequirement")
   local point = system.getStorage("main:point")
 
-  if pointRequired < point then
+  if pointRequired <= point then
     pipeline:add(0.1, function ()
       main.playScene("levelEnd")
     end)

@@ -1,23 +1,23 @@
 local biggerFont = system.getFont("defaultFont100")
 local point = system.getStorage("main:point")
 local pointText = main.newRichText({format="Point: " ..  math.floor(point+0.5) .. "",
-  y=200,
+  y=100,
   x=70,
   renderLayer = 200,})
 
 local money = main.getMoney()
 local moneyText = main.newRichText({format="Money: {moneyColor}" .. money .. "{/moneyColor}",
-  y=200,
+  y=150,
   x=70,
   renderLayer = 200,})
 
 local roundsRemainingText = main.newRichText({format="Bars: 0",
-  y=600,
+  y=200,
   x=70,
   renderLayer = 200,})
 
 local multText = main.newRichText({format="{brightPurpleColor}X" ..  math.floor(0+0.5) .. "{/brightPurpleColor}",
-  y=350,
+  y=160,
   x=0,
   sx=1,
   sy=1,
@@ -29,7 +29,7 @@ local multText = main.newRichText({format="{brightPurpleColor}X" ..  math.floor(
   })
 
 local currentPointText = main.newRichText({format="{pointColor}" ..  math.floor(0+0.5) .. "{/pointColor}",
-  y=350,
+  y=80,
   x=0,
   sx=1,
   sy=1,
@@ -42,7 +42,8 @@ local currentPointText = main.newRichText({format="{pointColor}" ..  math.floor(
 --point text
 system.on("main:pointChanged", function ()
   local point = system.getStorage("main:point")
-  main.updateRichTextText(pointText, "Point: " .. math.floor(point+0.5) .. "")
+  local pointRequired = system.getStorage("main:pointRequirement")
+  main.updateRichTextText(pointText, "Point: " .. math.floor(point+0.5) .. "/" .. pointRequired)
 end)
 
 system.on("main:sceneChanged", function()
@@ -51,6 +52,8 @@ system.on("main:sceneChanged", function()
     pointText.x = -2000
   end
   if scene == "play" then
+    local pointRequired = system.getStorage("main:pointRequirement")
+    main.updateRichTextText(pointText, "Point: " .. math.floor(point+0.5) .. "/" .. pointRequired)
     pointText.x = 70
   end
 end)
@@ -63,11 +66,10 @@ end)
 
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
-  if scene ~= "shop" then
-    moneyText.x = -2000
-  end
-  if scene == "shop" then
+  if utils.isEInTable(scene, {"play", "shop"}) then
     moneyText.x = 70
+  else
+    moneyText.x = -2000
   end
 end)
 
@@ -100,7 +102,7 @@ system.on("main:sceneChanged", function()
     multText.x = -2000
   end
   if scene == "play" then
-    multText.x = 350
+    multText.x = 1100
   end
 end)
 
@@ -122,7 +124,7 @@ system.on("main:sceneChanged", function()
     currentPointText.x = -2000
   end
   if scene == "play" then
-    currentPointText.x = 150
+    currentPointText.x = 1100
   end
 end)
 
