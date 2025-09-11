@@ -1,5 +1,5 @@
 system.on("main:entityTriggered", function (ent)
-  if ent.isNews == false then
+  if ent.isNews ~= true then
     return
   end
   if ent.ui == nil then
@@ -20,7 +20,9 @@ system.on("main:entityTriggered", function (ent)
     flux.to(ui, 0.2, {sx = sx/scaleFactor, sy=sy/scaleFactor, ox=originalOx, oy=originalOy})
   end)
 
-  -- local combo = system.getStorage("main:currentCombo") or 0
-  -- local audio = system.playAudio("boop")
-  -- main.audio.offsetAudioSourcePitch(audio, combo)
+  main.tweenCamera(0.2, {x=ui.x+ui:getWidth()/2, y=ui.y+ui:getHeight()/2})
+
+  local combo = system.getStorage("main:currentCombo") or 0
+  local audio = system.playAudio("boop")
+  main.audio.offsetAudioSourcePitch(audio, combo)
 end)

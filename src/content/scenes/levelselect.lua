@@ -3,7 +3,7 @@ local levels = {{x=0, y=0}}
 local activeUI = {}
 
 local function getPointRequirement(i)
-  return math.floor(10*(1.5^i)+0.5)
+  return math.floor(50*(1.5^i)+0.5)
 end
 
 main.defineScene("levelSelect", function ()

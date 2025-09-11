@@ -132,7 +132,7 @@ function chart:delete()
   end)
 
   self:forAllNews(function (news)
-    news:delete()
+    main.deleteNews(news)
   end)
 
   basicEnt.delete(self)

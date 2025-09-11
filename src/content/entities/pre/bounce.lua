@@ -5,18 +5,13 @@ main.defineCard("bounceSpawner", {
   trigger = {"POST"},
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")
-    local pos = chart:getCurrentPricePos(-1)
+    local pos = chart:getCurrentPricePos()
 
     if pos == nil then
       return
     end
 
     local yoffset
-    -- if pos.direction == 1 then
-    --   yoffset = (-pos.height) + love.math.random(0, 60)
-    -- else
-    --   yoffset = love.math.random(0, 60)
-    -- end
     if pos.direction == 1 then
       yoffset = pos.height - love.math.random(0, 60)
     else
