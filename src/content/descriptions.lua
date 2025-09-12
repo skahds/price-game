@@ -25,13 +25,15 @@ end)
 
 main.addDescriptionTag(11, function (ent)
   if main.canTrigger(ent, "POST") then
-    return "POST:\nActivates after\nBar spawns."
+    return "POST:\nActivates when turn starts."
   end
 end)
 
--- main.addDescriptionTag(20, function (ent)
---   return "1234567890-+"
--- end)
+main.addDescriptionTag(12, function (ent)
+  if main.canTrigger(ent, "POST") then
+    return "DEPLOY:\nCan be instantly activated."
+  end
+end)
 
 main.addDescriptionTag(30, function (ent)
   if ent.temporary then
