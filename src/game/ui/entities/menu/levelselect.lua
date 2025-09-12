@@ -9,7 +9,7 @@ main.ui.defineUI("levelSelect", {
   height= 64,
   screenSpace = false,
   pointRequirement = 0,
-  onMouseReleased = function (ent)
+  onMouseReleased = function (ent, button)
     if ent.isLastLevel == true then
       main.playScene("play")
     end

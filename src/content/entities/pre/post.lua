@@ -9,7 +9,7 @@ main.defineCard("testCard", {
   --     chart.bullPower = chart.bullPower + 0.5
   --   end
   -- end
-  trigger = {"POST"},
+  trigger = {"POST", "DEPLOY"},
   onActivate = function (ent)
     main.addPoint(3)
   end,
@@ -37,7 +37,7 @@ main.defineCard("testCardOther", {
 main.defineCard("volatilityCard", {
   name = "volatility Card",
   image = "volatilityCard",
-  trigger = {"PRE"},
+  trigger = {"DEPLOY"},
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")
     chart.volatility = chart.volatility + 0.2

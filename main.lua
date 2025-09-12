@@ -42,7 +42,7 @@ system.on("@update", function ()
   for i=1, 3 do
     if love.mouse.isDown(i) then
       if isDown[i] == false then
-        system.call("@mouse:pressed")
+        system.call("@mouse:pressed", i)
         isDown[i] = true
       end
     else

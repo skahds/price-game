@@ -17,7 +17,7 @@ main.ui.defineUI("card_ui", {
     end
   end,
 
-  onMouseClicked = function (ent)
-    system.call("main:cardClicked", ent.parent)
+  onMouseClicked = function (ent, button)
+    system.call("main:cardClicked", ent.parent, button)
   end
 })

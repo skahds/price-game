@@ -8,7 +8,7 @@ main.ui.defineUI("news_ui", {
     system.call("main:newsHovered", ent.parent)
   end,
 
-  onMouseClicked = function (ent)
+  onMouseClicked = function (ent, button)
     system.call("main:newsClicked", ent.parent)
   end
 })

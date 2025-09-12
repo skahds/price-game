@@ -14,23 +14,23 @@ system.on("@update", function ()
   end
 end)
 
-system.on("main:cardReleased", function (ent)
+system.on("main:cardUIReleased", function (uiEnt)
   main.card.updateAllCardPositionBackToOriginalPosition()
 end)
 
-local function releaseUICard(card)
+local function releaseUICard(card, button)
   if card.onReleased then
     card.onReleased(card)
   end
 
-  system.call("main:cardReleased", card)
+  system.call("main:cardUIReleased", card, button)
 end
 
-system.on("main:cardClicked", function (card)
+system.on("main:cardClicked", function (card, button)
   local cardUI = card.ui
   local currentCard = player.cardUIselected
   if currentCard then
-    releaseUICard(currentCard)
+    releaseUICard(currentCard, button)
 
     -- see wether the card we chose is the same or different than the current held
     if currentCard.index == cardUI.index then
@@ -51,11 +51,11 @@ system.on("main:cardClicked", function (card)
 end)
 
 -- different situation from up, so i will be repeating this code
-system.on("ui:noUIClicked", function ()
+system.on("ui:noUIClicked", function (button)
   local currentCard = player.cardUIselected
   if currentCard then
 
     player.cardUIselected = nil
-    releaseUICard(currentCard)
+    releaseUICard(currentCard, button)
   end
 end)

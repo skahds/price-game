@@ -25,6 +25,9 @@ main.defineScene("play", function ()
   main.spawnChart({bearPower = 0.2, bullPower = 0.2})
   chart = system.getStorage("main:chart")
 
+  local bar = main.spawnBar()
+  system.updateStorage("main:currentBar", bar)
+
   main.drawCardTillMaxCapacity()
 end, function ()
   local endStats = {

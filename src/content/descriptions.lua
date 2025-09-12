@@ -23,12 +23,6 @@ main.addDescriptionType(60, function (ent)
   end
 end)
 
-main.addDescriptionTag(10, function (ent)
-  if main.canTrigger(ent, "PRE") then
-    return "PRE:\nActivates before\nBar spawns."
-  end
-end)
-
 main.addDescriptionTag(11, function (ent)
   if main.canTrigger(ent, "POST") then
     return "POST:\nActivates after\nBar spawns."

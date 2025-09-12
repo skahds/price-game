@@ -9,4 +9,4 @@ triggers:
 ACTIVE -- deployable card which insta activate, can change stuff/spawn stuff on the grid etc
 REACTIVE -- cards that react their own way? example:
 trigger = {"ACTIVE"}
-trigger = {"PRE", "POST"}
+trigger = {"POST"}

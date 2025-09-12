@@ -39,17 +39,10 @@ system.on("main:startTurn", function ()
 
     local roundsRemaining = system.getStorage("main:roundsRemaining")
     system.updateStorage("main:roundsRemaining", roundsRemaining-1)
+    pipeline:add(0.2, function()
 
-    main.triggerAllCardOwned("PRE")
-
-    pipeline:add(0.2, function ()
-
-      main.triggerAllNews("PRE")
-
-    pipeline:add(0.2, function ()
-
-      local bar = main.spawnBar()
-      system.updateStorage("main:currentBar", bar)
+      local bar = system.getStorage("main:currentBar")
+      main.basicBarSpawnChange(bar, chart)
 
     pipeline:add(0.2, function()
 
@@ -67,6 +60,11 @@ system.on("main:startTurn", function ()
 
       system.call("main:endTurn")
       system.updateStorage("main:isOnTurn", false)
+
+    pipeline:add(0.2, function ()
+
+      local bar = main.spawnBar()
+      system.updateStorage("main:currentBar", bar)
 
     end)
     end)

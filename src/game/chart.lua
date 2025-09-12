@@ -151,6 +151,7 @@ function bar:init(args)
   local currentChart = system.getStorage("main:chart")
   local price = currentChart.price
   self.startPrice = price
+  self.endPrice = price
 
   basicEnt.init(self, args)
 end

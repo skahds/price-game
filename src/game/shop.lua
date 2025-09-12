@@ -41,7 +41,7 @@ function main.shop.spawnCards()
   end
 end
 
-system.on("main:cardReleased", function (uiEnt)
+system.on("main:cardUIReleased", function (uiEnt)
   local success = true
   local buyBox = system.getStorage("shop:buyBox")
   if buyBox == nil then

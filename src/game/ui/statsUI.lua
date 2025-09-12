@@ -1,6 +1,6 @@
 local biggerFont = system.getFont("defaultFont100")
 local point = system.getStorage("main:point")
-local pointText = main.newRichText({format="Point: " ..  math.floor(point+0.5) .. "",
+local pointText = main.newRichText({format="Points: " ..  math.floor(point+0.5) .. "",
   y=100,
   x=70,
   renderLayer = 200,})
@@ -43,7 +43,7 @@ local currentPointText = main.newRichText({format="{pointColor}" ..  math.floor(
 system.on("main:pointChanged", function ()
   local point = system.getStorage("main:point")
   local pointRequired = system.getStorage("main:pointRequirement")
-  main.updateRichTextText(pointText, "Point: " .. math.floor(point+0.5) .. "/" .. pointRequired)
+  main.updateRichTextText(pointText, "Points: " .. math.floor(point+0.5) .. "/" .. pointRequired)
 end)
 
 system.on("main:sceneChanged", function()
@@ -107,16 +107,19 @@ system.on("main:sceneChanged", function()
 end)
 
 -- currentPointText
-local currentPoint = 0
-system.on("main:currentPriceChanged", function (bar)
-  currentPoint = bar.endPrice - bar.startPrice
-  main.updateRichTextText(currentPointText, "{pointColor}" ..  math.floor(currentPoint+0.5) .. "{/pointColor}")
+-- local currentPoint = 0
+system.on("@update", function ()
+  local bar = system.getStorage("main:currentBar")
+  if bar then
+    local currentPoint = bar.endPrice - bar.startPrice
+    main.updateRichTextText(currentPointText, "{pointColor}" ..  math.floor(currentPoint+0.5) .. "{/pointColor}")
+  end
 end)
 
-system.on("main:endTurn", function ()
-  currentPoint = 0
-  main.updateRichTextText(currentPointText, "{pointColor}0{/pointColor}")
-end)
+-- system.on("main:endTurn", function ()
+--   currentPoint = 0
+--   main.updateRichTextText(currentPointText, "{pointColor}0{/pointColor}")
+-- end)
 
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")

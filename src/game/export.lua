@@ -34,26 +34,17 @@ local function basicBarSpawnChange(bar, chart)
 end
 ]]
 
-local function basicBarSpawnChange(bar, chart)
+function main.basicBarSpawnChange(bar, chart)
   local trendSlowdown = 3
   local bigNum = 1000000
   local changeAmount = love.math.random(
   -(chart.bearPower+chart.trend)*bigNum,
   (chart.bullPower+chart.trend)*bigNum
   )/bigNum
-  -- if changeAmount == 0 then
-  --   changeAmount = 0.01
-  -- end
 
   
   local pointChange = changeAmount
   
-  --balances bear with bulls
-  -- local softenFactor = 0.5
-  -- if changeAmount < 0 then
-  --   changeAmount = changeAmount*softenFactor
-  -- end
-
   -- volatility
   local positivity = 1
   if changeAmount < 0 then
@@ -81,7 +72,7 @@ function main.spawnBar()
   local bar = main.spawnEntity("bar", {}, true)
   if chart then
     chart:addBar(bar)
-    basicBarSpawnChange(bar, chart)
+    -- bar:changePrice(0)
   end
   return bar
 end
