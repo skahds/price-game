@@ -41,3 +41,21 @@ main.addDescriptionTag(30, function (ent)
     return "Temporary " .. n ..":\nDeleted after " .. n .. " turn"
   end
 end)
+
+main.addDescriptionType(22, function (ent)
+  if ent.defaultPointGain then
+    return "Gains {pointColor}" .. ent.defaultPointGain .. "{/pointColor} Points"
+  end
+end)
+
+main.addDescriptionType(22, function (ent)
+  if ent.defaultMultGain then
+    return "Gains {multColor}" .. ent.defaultMultGain .. "{/multColor} Mult"
+  end
+end)
+
+main.addDescriptionType(22, function (ent)
+  if ent.defaultMoneyGain then
+    return "Gains {moneyColor}" .. ent.defaultPointGain .. "{/moneyColor} Money"
+  end
+end)

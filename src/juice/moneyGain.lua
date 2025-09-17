@@ -54,7 +54,7 @@ end)
 system.on("main:multChanged", function (change)
   local bar = system.getStorage("main:currentBar")
   if bar then
-    local form = "{brightPurpleColor}x" .. math.floor(change+0.5) .. "{/brightPurpleColor}"
+    local form = "{multColor}x" .. math.floor(change+0.5) .. "{/multColor}"
     local size = love.math.random()/2+0.75
 
     local text = main.newRichText({format=form,

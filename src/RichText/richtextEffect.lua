@@ -16,6 +16,14 @@ RichText.addEffect("pointColor", function (self, args, info)
   self:setColor(r, g, b, a)
 end)
 
+RichText.addEffect("multColor", function(self, args, info)
+  local r = args.r or 1
+  local g = args.g or 0.7
+  local b = args.b or 0.97
+  local a = args.a or 1
+  self:setColor(r, g, b, a)
+end)
+
 RichText.addEffect("greenColor", function(self, args, info)
   local r = args.r or 0.3
   local g = args.g or 0.9
@@ -44,14 +52,6 @@ RichText.addEffect("brightRedColor", function(self, args, info)
   local r = args.r or 1
   local g = args.g or 0.6
   local b = args.b or 0.6
-  local a = args.a or 1
-  self:setColor(r, g, b, a)
-end)
-
-RichText.addEffect("brightPurpleColor", function(self, args, info)
-  local r = args.r or 1
-  local g = args.g or 0.7
-  local b = args.b or 0.97
   local a = args.a or 1
   self:setColor(r, g, b, a)
 end)

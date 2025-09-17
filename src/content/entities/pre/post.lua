@@ -2,35 +2,17 @@ main.defineCard("testCard", {
   name = "add Card",
   image = "upCard",
   description = "cool {pointColor}things{/pointColor}",
-  -- onReleased = function (ent)
-  --   main.deleteCard(ent)
-  --   local chart = system.getStorage("main:chart")
-  --   if chart then
-  --     chart.bullPower = chart.bullPower + 0.5
-  --   end
-  -- end
   trigger = {"POST", "DEPLOY"},
-  onActivate = function (ent)
-    main.addPoint(3)
-  end,
+  defaultPointGain = 3,
   price = 2,
 })
 
 main.defineCard("testCardOther", {
   name = "mult Card",
   image = "upCard",
-  description = "+1 {brightPurpleColor}mult{/brightPurpleColor}",
-  -- onReleased = function (ent)
-  --   main.deleteCard(ent)
-  --   local chart = system.getStorage("main:chart")
-  --   if chart then
-  --     chart.bullPower = chart.bullPower + 0.5
-  --   end
-  -- end
+  description = "beep boop",
   trigger = {"POST"},
-  onActivate = function (ent)
-    main.addMult(1)
-  end,
+  defaultMultGain = 1,
   price = 2,
 })
 
@@ -40,7 +22,9 @@ main.defineCard("volatilityCard", {
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")
-    chart.volatility = chart.volatility + 0.2
+    if chart then
+      chart.volatility = chart.volatility + 0.2
+    end
   end,
   price = 1,
 })

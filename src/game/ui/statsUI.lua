@@ -16,7 +16,7 @@ local roundsRemainingText = main.newRichText({format="Bars: 0",
   x=70,
   renderLayer = 200,})
 
-local multText = main.newRichText({format="{brightPurpleColor}X" ..  math.floor(0+0.5) .. "{/brightPurpleColor}",
+local multText = main.newRichText({format="{multColor}X" ..  math.floor(0+0.5) .. "{/multColor}",
   y=160,
   x=0,
   sx=1,
@@ -93,7 +93,7 @@ end)
 -- mult text
 system.on("@update", function ()
   local mult = system.getStorage("main:mult")
-  main.updateRichTextText(multText, "{brightPurpleColor}X" ..  math.floor(mult+0.5) .. "{/brightPurpleColor}")
+  main.updateRichTextText(multText, "{multColor}X" ..  math.floor(mult+0.5) .. "{/multColor}")
 end)
 
 system.on("main:sceneChanged", function()
