@@ -14,9 +14,10 @@ local function addCoolEffect(s)
   -- return "{basicPulse}" .. s .. "{/basicPulse}"
 end
 
-system.on("main:currentPriceChanged", function (bar)
+system.on("main:currentPriceChanged", function (change)
+  local bar = system.getStorage("main:currentBar")
   if bar then
-    local change = math.floor((bar.endPrice - bar.startPrice)+0.5)
+    local change = math.floor(change+0.5)
     local form
     if change > 0 then
       form = addCoolEffect("{brightGreenColor}+" .. change .. "{/brightGreenColor}")

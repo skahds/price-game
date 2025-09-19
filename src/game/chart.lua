@@ -180,7 +180,7 @@ function bar:changePricePIP(pip)
     
     chart.price = price
 
-    system.call("main:currentPriceChanged", self)
+    system.call("main:currentPriceChanged", change)
   end
 
   if self.startPrice < self.endPrice then
@@ -201,7 +201,7 @@ function bar:changePrice(amount)
     
     chart.price = price
 
-    system.call("main:currentPriceChanged", self)
+    system.call("main:currentPriceChanged", change)
   end
 
   if self.startPrice < self.endPrice then

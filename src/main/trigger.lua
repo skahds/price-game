@@ -9,15 +9,16 @@ function main.canTrigger(ent, trigger)
 end
 
 function main.triggerEnt(ent, trigger)
+  local bypass = false
   if trigger == nil then
-    error("trigger can't be nil")
+    bypass = true
   end
-  if main.canTrigger(ent, trigger) then
+  if main.canTrigger(ent, trigger) or bypass then
     if ent.onActivate then
       ent:onActivate()
     end
     
     system.call("main:entityTriggered", ent)
+    return true
   end
-  return true
 end

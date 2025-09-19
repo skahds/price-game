@@ -3,6 +3,7 @@ main.defineCard("testCard", {
   image = "upCard",
   description = "cool {pointColor}things{/pointColor}",
   trigger = {"POST", "DEPLOY"},
+  repeatActivation = 3,
   defaultPointGain = 3,
   price = 2,
 })

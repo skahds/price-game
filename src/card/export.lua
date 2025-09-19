@@ -74,14 +74,17 @@ end
 
 local function repeatingTriggerCard(card, trigger)
   local pipeline = main.getPipeline("main")
+  local finished = false
   if main.canTrigger(card, trigger) then
 
-    pipeline:insert(0.3, 1, function ()
+    pipeline:add(0.3, function ()
       main.triggerEnt(card, trigger)
 
       local nextCard = main.card.hand[card.cardOrder + 1]
       if nextCard then
         repeatingTriggerCard(nextCard, trigger)
+      else
+        system.call("main:repeatingTriggerCardEnd", trigger)
       end
 
     end)
@@ -89,6 +92,8 @@ local function repeatingTriggerCard(card, trigger)
     local nextCard = main.card.hand[card.cardOrder + 1]
     if nextCard then
       repeatingTriggerCard(nextCard, trigger)
+    else
+      system.call("main:repeatingTriggerCardEnd", trigger)
     end
   end
 end

@@ -13,5 +13,12 @@ end)
 
 
 system.on("@update", function ()
+  local pipeline = main.getPipeline("main")
+  if pipeline then
+    if #pipeline.pipeline == 0 then
+      combo = 0
+    end
+  end
+
   system.updateStorage("main:currentCombo", combo)
 end)

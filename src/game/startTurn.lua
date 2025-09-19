@@ -1,7 +1,7 @@
 system.updateStorage("main:isOnTurn", false)
+local pipeline = main.getPipeline("main")
 
 local function updatePoint()
-  local pipeline = main.getPipeline("main")
   local point = system.getStorage("main:point")
   local percentageHold = system.getStorage("main:ownedPercentage") or 0.5
   local bar = system.getStorage("main:currentBar")
@@ -28,7 +28,6 @@ end
 
 system.on("main:startTurn", function ()
   local chart = system.getStorage("main:chart")
-  local pipeline = main.getPipeline("main")
 
   if system.getStorage("main:isOnTurn") == true then
     return
@@ -48,33 +47,43 @@ system.on("main:startTurn", function ()
 
       main.triggerAllCardOwned("POST")
 
-    pipeline:add(0.2, function ()
-
-      main.triggerAllNews("POST")
-
-    pipeline:add(0.2, function ()
-
-      updatePoint()
-
-    pipeline:add(0.2, function ()
-
-      system.call("main:endTurn")
-      system.updateStorage("main:isOnTurn", false)
-
-    pipeline:add(0.2, function ()
-
-      local bar = main.spawnBar()
-      system.updateStorage("main:currentBar", bar)
-
-    end)
-    end)
-    end)
-    end)
     end)
     end)
   end
 end)
 
-system.on("main:endTurn", function ()
+system.on("main:repeatingTriggerCardEnd", function (trigger)
+  if trigger ~= "POST" then
+    return
+  end
 
+  pipeline:add(0.2, function ()
+
+    main.triggerAllNews("POST")
+
+  end)
+end)
+
+system.on("main:repeatingTriggerNewsEnd", function (trigger)
+  if trigger ~= "POST" then
+    return
+  end
+
+  pipeline:add(0.2, function ()
+
+    updatePoint()
+
+  pipeline:add(0.2, function ()
+
+    system.call("main:endTurn")
+    system.updateStorage("main:isOnTurn", false)
+
+  pipeline:add(0.2, function ()
+
+    local bar = main.spawnBar()
+    system.updateStorage("main:currentBar", bar)
+
+  end)
+  end)
+  end)
 end)

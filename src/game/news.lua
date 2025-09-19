@@ -36,20 +36,29 @@ end
 local function repeatingTriggerNews(news, trigger)
   local pipeline = main.getPipeline("main")
   local chart = system.getStorage("main:chart")
+  local finished = false
   if main.canTrigger(news, trigger) then
-    pipeline:insert(0.3, 1, function ()
+    pipeline:add(0.3, function ()
       main.triggerEnt(news, trigger)
 
       local nextNews = chart:getNews(news.chartOrder + 1)
       if nextNews then
         repeatingTriggerNews(nextNews, trigger)
+      else
+        finished = true
       end
     end)
   else
     local nextNews = chart:getNews(news.chartOrder + 1)
     if nextNews then
       repeatingTriggerNews(nextNews, trigger)
+    else
+      finished = true
     end
+  end
+
+  if finished then
+    system.call("main:repeatingTriggerNewsEnd", trigger)
   end
 end
 
@@ -60,6 +69,7 @@ function main.triggerAllNews(trigger)
     return
   end
   if chart:getNews(1) == nil then
+    system.call("main:repeatingTriggerNewsEnd", trigger)
     return
   end
   repeatingTriggerNews(chart:getNews(1), trigger)

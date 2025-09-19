@@ -42,20 +42,27 @@ main.addDescriptionTag(30, function (ent)
   end
 end)
 
+main.addDescriptionTag(31, function (ent)
+  if ent.repeatActivation then
+    local n = ent.repeatActivation
+    return "Repeat " .. n ..":\nRetrigger " .. n .. " times"
+  end
+end)
+
 main.addDescriptionType(22, function (ent)
   if ent.defaultPointGain then
-    return "Gains {pointColor}" .. ent.defaultPointGain .. "{/pointColor} Points"
+    return "Gains {pointColor}" .. ent.defaultPointGain .. "{/pointColor} points"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultMultGain then
-    return "Gains {multColor}" .. ent.defaultMultGain .. "{/multColor} Mult"
+    return "Gains {multColor}" .. ent.defaultMultGain .. "X{/multColor} mult"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultMoneyGain then
-    return "Gains {moneyColor}" .. ent.defaultPointGain .. "{/moneyColor} Money"
+    return "Gains {moneyColor}$" .. ent.defaultPointGain .. "{/moneyColor}"
   end
 end)
