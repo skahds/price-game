@@ -45,7 +45,7 @@ local function repeatingTriggerNews(news, trigger)
       if nextNews then
         repeatingTriggerNews(nextNews, trigger)
       else
-        finished = true
+        system.call("main:repeatingTriggerNewsEnd", trigger)
       end
     end)
   else
@@ -53,12 +53,8 @@ local function repeatingTriggerNews(news, trigger)
     if nextNews then
       repeatingTriggerNews(nextNews, trigger)
     else
-      finished = true
+      system.call("main:repeatingTriggerNewsEnd", trigger)
     end
-  end
-
-  if finished then
-    system.call("main:repeatingTriggerNewsEnd", trigger)
   end
 end
 
