@@ -1,3 +1,6 @@
+-- hard coded
+local originalScale = 1
+
 system.on("main:entityTriggered", function (ent)
   if ent.isNews ~= true then
     return
@@ -9,16 +12,12 @@ system.on("main:entityTriggered", function (ent)
 
   local flux = system.getStorage("flux")
   local scaleFactor = 1.5
-  local originalOx = ui.oy
-  local originalOy = ui.oy
-  local sx = ui.sx * scaleFactor
-  local sy = ui.sy * scaleFactor
+  local sx = originalScale * scaleFactor
+  local sy = originalScale * scaleFactor
   local ox = ui.ox + (ui:getWidth()*scaleFactor-ui:getWidth())/4
   local oy = ui.oy + (ui:getHeight()*scaleFactor-ui:getHeight())/4
   flux.to(ui, 0.2, {sx = sx, sy=sy, ox=ox, oy=oy})
-  main.wait(0.2, function ()
-    flux.to(ui, 0.2, {sx = sx/scaleFactor, sy=sy/scaleFactor, ox=originalOx, oy=originalOy})
-  end)
+  :after(ui, 0.2, {sx = originalScale, sy=originalScale, ox=0, oy=0})
 
   main.tweenCamera(0.2, {x=ui.x+ui:getWidth()/2, y=ui.y+ui:getHeight()/2})
 

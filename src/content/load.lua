@@ -5,6 +5,12 @@ system.on("@load", function ()
     local card = main.createCard("testCard", {}, "hand")
     main.addCardToDraw(card)
   end
+  local card = main.createCard("bounceSpawner", {}, "hand")
+  main.addCardToDraw(card)
+  local card2 = main.createCard("bounceSpawner", {}, "hand")
+  main.addCardToDraw(card2)
+  local card3 = main.createCard("bounceSpawner", {}, "hand")
+  main.addCardToDraw(card3)
 
 end)
 
