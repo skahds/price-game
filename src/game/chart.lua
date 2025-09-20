@@ -131,9 +131,10 @@ function chart:delete()
     bar:delete()
   end)
 
-  self:forAllNews(function (news)
+  for i=#self.news, 1, -1 do
+    local news = self.news[1]
     main.deleteNews(news)
-  end)
+  end
 
   basicEnt.delete(self)
 end

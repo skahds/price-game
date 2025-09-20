@@ -79,7 +79,7 @@ function main.deleteNews(news)
   if chart == nil then
     error("tried to delete news with nil chart")
   end
-  -- todo: fix, because news order change after deletion
+
   local newsOrder = news.chartOrder
   chart:removeNews(newsOrder)
   local newsUI = news.ui
