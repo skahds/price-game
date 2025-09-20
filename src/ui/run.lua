@@ -12,7 +12,7 @@ local function clickTop(button, uiFun)
       else
         mouse = system.getStorage("mouse")
       end
-      if main.AABB_check(ent, mouse) then
+      if main.AABB_check(ent, mouse) and ent.ignoreUIChecks ~= true then
         if UIlist[ent.renderLayer] == nil then
           UIlist[ent.renderLayer] = {}
         end
@@ -63,7 +63,7 @@ system.on("@update", function ()
       else
         mouse = system.getStorage("mouse")
       end
-      if main.AABB_check(mouse, ent) then
+      if main.AABB_check(mouse, ent) and ent.ignoreUIChecks ~= true then
         UIlist[ent.renderLayer] = {}
         if UIkey < ent.renderLayer then
           UIkey = ent.renderLayer

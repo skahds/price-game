@@ -79,7 +79,7 @@ function main.deleteNews(news)
   if chart == nil then
     error("tried to delete news with nil chart")
   end
-
+  -- todo: fix, because news order change after deletion
   local newsOrder = news.chartOrder
   chart:removeNews(newsOrder)
   local newsUI = news.ui
@@ -89,10 +89,12 @@ end
 
 function main.spawnNews(id, args)
   local chart = system.getStorage("main:chart")
-  local news = main.spawnEntity(id, args, true)
-  if chart then
-    chart:addNews(news)
+  if chart == nil then
+    return
   end
+
+  local news = main.spawnEntity(id, args, true)
+  chart:addNews(news)
   news.chartOrder = chart:getNewsAmount()
   return news
 end

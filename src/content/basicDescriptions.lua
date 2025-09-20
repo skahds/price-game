@@ -1,12 +1,24 @@
 main.addDescriptionType(10, function (ent)
   if ent.name then
-    return "   " .. ent.name .. "   "
+    return ent.name
   end
 end)
 
 main.addDescriptionType(20, function (ent)
   if ent.description then
     return ent.description
+  end
+end)
+
+main.addDescriptionType(59, function (ent)
+  if main.canTrigger(ent, "POST") then
+    return "POST: On turn starts"
+  end
+end)
+
+main.addDescriptionType(59, function (ent)
+  if main.canTrigger(ent, "DEPLOY") then
+    return "DEPLOY: On release"
   end
 end)
 
@@ -20,18 +32,6 @@ main.addDescriptionType(60, function (ent)
   end
   if text ~= "" then
     return text
-  end
-end)
-
-main.addDescriptionTag(11, function (ent)
-  if main.canTrigger(ent, "POST") then
-    return "POST:\nActivates when turn starts."
-  end
-end)
-
-main.addDescriptionTag(12, function (ent)
-  if main.canTrigger(ent, "POST") then
-    return "DEPLOY:\nCan be instantly activated."
   end
 end)
 

@@ -4,6 +4,7 @@ main.ui.defineUI("cover", {
   defaultHeight = 100,
   screenSpace = true,
   renderLayer = 50,
+  ignoreUIChecks = true,
   outline = 0,
   outlineColor = {1, 1, 1, 1},
 
