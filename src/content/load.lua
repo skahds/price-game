@@ -7,9 +7,9 @@ system.on("@load", function ()
   end
   local card = main.createCard("bounceSpawner", {}, "hand")
   main.addCardToDraw(card)
-  local card2 = main.createCard("bounceSpawner", {}, "hand")
+  local card2 = main.createCard("amplifier", {}, "hand")
   main.addCardToDraw(card2)
-  local card3 = main.createCard("bounceSpawner", {}, "hand")
+  local card3 = main.createCard("amplifier", {}, "hand")
   main.addCardToDraw(card3)
 
 end)

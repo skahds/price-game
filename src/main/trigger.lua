@@ -14,6 +14,8 @@ function main.triggerEnt(ent, trigger)
     bypass = true
   end
   if main.canTrigger(ent, trigger) or bypass then
+    system.call("main:entityAboutToTrigger", ent)
+    
     if ent.onActivate then
       ent:onActivate()
     end
