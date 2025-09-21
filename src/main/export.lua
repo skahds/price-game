@@ -6,7 +6,10 @@ function main.spawnEntity(id, args, ret)
     error("unknown entity " .. id)
   end
   table.insert(main.world, main.entities[id]:new(args))
-  main.world[#main.world].index = #main.world
+  local entity =  main.world[#main.world]
+  entity.index = #main.world
+
+  system.call("main:entitySpawned", entity)
 
   if ret then
     return main.world[#main.world]

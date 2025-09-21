@@ -16,7 +16,7 @@ end)
 
 system.on("@update", function ()
   main.audio.forAllCurrentAudio(musicList, function (audio)
-    local volume = system.getStorage("audio:musicVolume") or 1
+    local volume = system.getStorage("audio:musicVolume") or 0
     audio:setVolume(volume)
   end)
 end)

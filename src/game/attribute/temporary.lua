@@ -1,3 +1,7 @@
+main.defineComponent("temporary", math.huge)
+
+local pipeline = main.getPipeline("main")
+
 system.on("main:entityTriggered", function (ent)
   if ent.temporary == nil then
     return
@@ -7,13 +11,8 @@ system.on("main:entityTriggered", function (ent)
     ent.temporary = ent.temporary - 1
   end
   if ent.temporary <= 0 then
-    main.deleteEntity(ent)
+    pipeline:add(0.1, function ()
+      main.deleteEntity(ent)
+    end)
   end
-end)
-
-system.answer("main:shouldCardNotBeDiscared", function (card)
-  if card.temporary and card.temporary > 1 then
-    return true
-  end
-  return false
 end)

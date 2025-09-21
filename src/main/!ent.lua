@@ -50,14 +50,8 @@ function basicEnt:draw()
 end
 
 function basicEnt:delete()
-  local isIn = false
-  for _, ent in pairs(main.deleteQueue) do
-    if ent.index == main.deleteQueue then
-      isIn = true
-    end
-  end
-  
-  if isIn == false then
+  if self.isAboutToBeDeleted ~= true then
+    self.isAboutToBeDeleted = true
     table.insert(main.deleteQueue, self)
     system.call("main:entityDeleted", self)
   end

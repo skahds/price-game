@@ -210,7 +210,25 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
   end
 end
 
+local currentHeldCard
+system.on("@update", function ()
+  currentHeldCard = system.getStorage("main:currentSelectedCard")
+  
+  if currentHeldCard then
+    local screenDimension = system.getStorage("screenDimension")
+    local pos = {x=screenDimension.w*3/4+20, y=270}
+    drawCompleteDescription(currentHeldCard, pos, "selected")
+  else
+    removeCompleteDescription("selected")
+  end
+end)
+
 system.on("ui:UIHovered", function (ui)
+  if currentHeldCard then
+    removeCompleteDescription("held")
+    return
+  end
+
   local ent
   if ui.parent then
     ent = ui.parent

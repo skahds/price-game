@@ -1,3 +1,5 @@
+main.defineComponent("repeatActivation", 0)
+
 system.on("main:entityTriggered", function (ent)
   if ent.repeatActivation == nil or ent.repeatActivation <= 0 then
     return

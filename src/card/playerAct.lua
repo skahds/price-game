@@ -4,11 +4,15 @@ system.on("@update", function ()
   local mouse = system.getStorage("realMouse")
   local uiEnt = player.cardUIselected
   if uiEnt then
+    system.updateStorage("main:currentSelectedCard", uiEnt.parent)
+
+    if uiEnt.parent.ownerShip == "shop" then
+      return
+    end
+    
     local flux = system.getStorage("flux")
     uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = mouse.y-uiEnt:getHeight()/2})
     uiEnt.renderLayer = 300
-
-    system.updateStorage("main:currentSelectedCard", uiEnt.parent)
   else
     system.updateStorage("main:currentSelectedCard", nil)
   end
@@ -19,6 +23,9 @@ system.on("main:cardUIReleased", function (uiEnt)
 end)
 
 local function releaseUICard(card, button)
+  print(card.parent.ownerShip)
+  print(#main.card.hand)
+
   if card.onReleased then
     card.onReleased(card)
   end

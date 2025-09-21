@@ -23,13 +23,19 @@ function main.createCard(id, args, ownerShip)
 end
 
 function main.deleteCard(card)
+  if card.isAboutToBeDeleted == true then
+    return
+  end
+
   local cardOrder = card.cardOrder
   local cardUI = card.ui
   
-  table.remove(main.card[card.ownerShip], cardOrder)
+  local stack = main.card[card.ownerShip]
+  table.remove(stack, cardOrder)
+
   cardUI:delete()
   card:delete()
-
+  
   main.card.updateAllCardPositionBackToOriginalPosition()
 end
 
@@ -100,6 +106,7 @@ end
 
 function main.triggerAllCardOwned(trigger)
   if #main.card.hand < 1 then
+    system.call("main:repeatingTriggerCardEnd", trigger)
     return
   end
   local card = main.card.hand[1]

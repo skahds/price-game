@@ -6,6 +6,7 @@ function main.upgradeNextActivation(func, turns)
   table.insert(enhances, {func=func, turns=turns})
 end
 
+-- todo: fix infinite amplifier loop
 system.on("main:entityAboutToTrigger", function (ent)
   for _, enhance in ipairs(enhances) do
     enhance.func(ent)

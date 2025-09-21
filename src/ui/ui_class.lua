@@ -70,14 +70,8 @@ function main.ui.defineUI(id, eType)
 
 
   function ent:delete()
-    local isIn = false
-    for _, ent in pairs(main.ui.deleteQueue) do
-      if ent.index == main.ui.deleteQueue then
-        isIn = true
-      end
-    end
-    
-    if isIn == false then
+    if self.isAboutToBeDeleted ~= true then
+      self.isAboutToBeDeleted = true
       table.insert(main.ui.deleteQueue, self)
       system.call("ui:entityDeleted", self)
     end

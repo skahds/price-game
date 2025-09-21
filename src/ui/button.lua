@@ -59,7 +59,7 @@ function main.ui.defineButton(id, eType)
     eType.ry = r
   end
 
-  function eType.onMouseReleased(ent)
+  function eType.onMouseReleased(ent, button)
     buttonUp(ent)
 
     if ent.audio then
@@ -67,7 +67,7 @@ function main.ui.defineButton(id, eType)
     end
     
     if ent.onButtonClicked then
-      ent:onButtonClicked()
+      ent:onButtonClicked(button)
     end
   end
 

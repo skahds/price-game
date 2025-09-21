@@ -36,33 +36,33 @@ main.addDescriptionType(60, function (ent)
 end)
 
 main.addDescriptionTag(30, function (ent)
-  if ent.temporary then
+  if ent.temporary ~= math.huge then
     local n = ent.temporary
     return "Temporary " .. n ..":\nDeleted after " .. n .. " turn"
   end
 end)
 
 main.addDescriptionTag(31, function (ent)
-  if ent.repeatActivation then
+  if ent.repeatActivation > 0 then
     local n = ent.repeatActivation
     return "Repeat " .. n ..":\nRetrigger " .. n .. " times"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
-  if ent.defaultPointGain then
+  if ent.defaultPointGain ~= 0 then
     return "Gains {pointColor}" .. ent.defaultPointGain .. "{/pointColor} points"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
-  if ent.defaultMultGain then
+  if ent.defaultMultGain ~= 0 then
     return "Gains {multColor}" .. ent.defaultMultGain .. "X{/multColor} mult"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
-  if ent.defaultMoneyGain then
+  if ent.defaultMoneyGain ~= 0 then
     return "Gains {moneyColor}$" .. ent.defaultPointGain .. "{/moneyColor}"
   end
 end)
