@@ -1,9 +1,13 @@
 -- example use: upgrade next card activated with +1 repeat
 local enhances = {}
 
+local pipeline = main.getPipeline("main")
+
 function main.upgradeNextActivation(func, turns)
-  turns = turns or 1
-  table.insert(enhances, {func=func, turns=turns})
+  pipeline:add(0, function ()
+    turns = turns or 1
+    table.insert(enhances, {func=func, turns=turns})
+  end)
 end
 
 -- todo: fix infinite amplifier loop
