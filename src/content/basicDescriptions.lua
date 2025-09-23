@@ -12,13 +12,13 @@ end)
 
 main.addDescriptionType(59, function (ent)
   if main.canTrigger(ent, "POST") then
-    return "POST: On turn starts"
+    return "{triggerColor}POST{/triggerColor}: On turn starts"
   end
 end)
 
 main.addDescriptionType(59, function (ent)
   if main.canTrigger(ent, "DEPLOY") then
-    return "DEPLOY: On release"
+    return "{triggerColor}DEPLOY{/triggerColor}: On release"
   end
 end)
 
@@ -32,6 +32,12 @@ main.addDescriptionType(60, function (ent)
   end
   if text ~= "" then
     return text
+  end
+end)
+
+main.addDescriptionTag(29, function (ent)
+  if ent.isRelic > 0 then
+    return "Relic:\nStays in hand"
   end
 end)
 

@@ -24,6 +24,14 @@ RichText.addEffect("multColor", function(self, args, info)
   self:setColor(r, g, b, a)
 end)
 
+RichText.addEffect("triggerColor", function(self, args, info)
+  local r = args.r or 0.87
+  local g = args.g or 0.61
+  local b = args.b or 0.3
+  local a = args.a or 1
+  self:setColor(r, g, b, a)
+end)
+
 RichText.addEffect("repeatColor", function(self, args, info)
   local r = args.r or 0.8
   local g = args.g or 0.38

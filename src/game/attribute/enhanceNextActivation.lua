@@ -10,7 +10,6 @@ function main.upgradeNextActivation(func, turns)
   end)
 end
 
--- todo: fix infinite amplifier loop
 system.on("main:entityAboutToTrigger", function (ent)
   for _, enhance in ipairs(enhances) do
     enhance.func(ent)
