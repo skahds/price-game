@@ -162,6 +162,13 @@ function main.discardCard(card)
   main.card.updateAllCardPositionBackToOriginalPosition("hand")
 end
 
+function main.cardToHand(card)
+  main.transferOwnership(card, "hand")
+  local ui = card.ui
+  ui.isVisible = true
+  main.card.updateAllCardPositionBackToOriginalPosition("hand")
+end
+
 function main.drawCard()
   local card = main.card.draw[1]
   if card == nil then
@@ -176,23 +183,46 @@ function main.drawCard()
   main.card.updateAllCardPositionBackToOriginalPosition("hand")
 end
 
+function main.getNextCard()
+  local card = main.card.draw[1]
+  if card == nil then
+    main.shuffleDiscardToDraw()
+    local card = main.card.draw[1]
+    if card == nil then
+      return
+    end
+    return card
+  end
+  return card
+end
+
 function main.drawCardWithMaxCapacity()
   local maxCard = system.getStorage("main:maxCardAmount")
-  -- later we'll add a qbus to get how much space a card takes up
-  if #main.card.hand < maxCard then
-    main.drawCard()
+  local nextCard = main.getNextCard()
+  if nextCard then
+    local space = system.ask("main:cardSpaceUsed", combiner.ADD, nextCard)
+    if space and #main.card.hand + space <= maxCard then
+      main.drawCard()
+    end
   end
 end
+
+system.answer("main:cardSpaceUsed", function ()
+  return 1
+end)
 
 function main.drawCardTillMaxCapacity()
   local pipeline = main.getPipeline("main")
   local maxCard = system.getStorage("main:maxCardAmount")
-  if #main.card.hand < maxCard and #main.card.draw + #main.card.discard > 0 then
-    -- later we'll add a qbus to get how much space a card takes up
-    main.drawCard()
-    pipeline:add(0.15, function ()
-      main.drawCardTillMaxCapacity()
-    end)
+  local nextCard = main.getNextCard()
+  if nextCard then
+    local space = system.ask("main:cardSpaceUsed", combiner.ADD, nextCard)
+    if space and #main.card.hand + space <= maxCard then
+      main.drawCard()
+      pipeline:add(0.15, function ()
+        main.drawCardTillMaxCapacity()
+      end)
+    end
   end
 end
 

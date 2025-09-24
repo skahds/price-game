@@ -36,7 +36,7 @@ main.addDescriptionType(60, function (ent)
 end)
 
 main.addDescriptionTag(29, function (ent)
-  if ent.isRelic > 0 then
+  if ent.isRelic == true then
     return "Relic:\nStays in hand"
   end
 end)

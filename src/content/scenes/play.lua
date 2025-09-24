@@ -12,6 +12,22 @@ local function deleteAll(args)
   end
 end
 
+local function drawAllRelics()
+  local pipeline = main.getPipeline("main")
+  local maxCard = system.getStorage("main:maxCardAmount")
+  for i=#main.card.draw, 1, -1 do
+    local card = main.card.draw[i]
+    local space = system.ask("main:cardSpaceUsed", combiner.ADD, card)
+    if space and #main.card.hand + space <= maxCard then
+      if card.isRelic == true then
+        pipeline:add(0.15, function ()
+          main.cardToHand(card)
+        end)
+      end
+    end
+  end
+end
+
 main.defineScene("play", function ()
   local dimension = system.getStorage("screenDimension")
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=1500,
@@ -27,6 +43,9 @@ main.defineScene("play", function ()
 
   local bar = main.spawnBar()
   system.updateStorage("main:currentBar", bar)
+
+  -- draw all relics
+  drawAllRelics()
 
   main.drawCardTillMaxCapacity()
 end, function ()
