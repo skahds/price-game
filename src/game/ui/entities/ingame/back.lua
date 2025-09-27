@@ -5,6 +5,7 @@ main.ui.defineButton("backToMenu", {
   renderLayer = 101,
   screenSpace = true,
   text = "Back",
+  audio = "breaker",
   onButtonClicked = function (ent)
     main.playScene("menu")
   end

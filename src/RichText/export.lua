@@ -1,4 +1,6 @@
 local texts = {}
+local temporaryTextsFrameOne = {}
+local temporaryTextsFrameTwo = {}
 local deleteQueue = {}
 system.updateStorage("textsTable", texts)
 system.updateStorage("defaultFont", system.getFont("defaultFont60"))
@@ -31,6 +33,27 @@ function main.newRichText(args)
   end
 
   return texts[#texts]
+end
+
+system.on("@update", function ()
+  for i=#temporaryTextsFrameTwo, 1, -1 do
+    local richtext = temporaryTextsFrameTwo[i]
+    richtext:delete()
+  end
+  temporaryTextsFrameTwo = {}
+
+  for i=#temporaryTextsFrameOne, 1, -1 do
+    local richtext = temporaryTextsFrameOne[i]
+    table.insert(temporaryTextsFrameTwo, richtext)
+    table.remove(temporaryTextsFrameOne, #temporaryTextsFrameOne)
+  end
+  temporaryTextsFrameOne = {}
+end)
+
+function main.printRichText(args)
+  local richText = main.newRichText(args)
+  table.insert(temporaryTextsFrameOne, richText)
+  return richText
 end
 
 function main.updateRichTextText(richtext, newformat)

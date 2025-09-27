@@ -14,8 +14,11 @@ system.on("@load", function ()
 
 end)
 
--- system.on("@update", function ()
-
+-- system.on("@draw", function ()
+--   main.printRichText({format="TEST",
+--   y=100,
+--   x=70,
+--   renderLayer = 300,})
 -- end)
 
 
