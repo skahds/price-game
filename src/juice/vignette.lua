@@ -1,0 +1,5 @@
+system.on("@draw", function ()
+  system.render(9000, function ()
+    love.graphics.draw(system.getImage("vignette"), 0, 0)
+  end, true)
+end)
