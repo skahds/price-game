@@ -24,7 +24,9 @@ local function drawOutline(t)
     local ox = t.ox or 0
     local oy = t.oy or 0
     local color
-    if t.color then
+    if t.outlineColor then
+      color = t.outlineColor
+    elseif t.color then
       color = {t.color[1]/1.5, t.color[2]/1.5, t.color[3]/1.5}
     else
       color = {0.7, 0.7, 0.7}

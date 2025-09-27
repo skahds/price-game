@@ -1,6 +1,4 @@
 system.on("@load", function ()
-  main.playScene("menu")
-
   for i=1, 10 do
     local card = main.createCard("testCard", {}, "hand")
     main.addCardToDraw(card)
@@ -12,6 +10,7 @@ system.on("@load", function ()
   local card3 = main.createCard("amplifier", {}, "hand")
   main.addCardToDraw(card3)
 
+  main.playScene("shop")
 end)
 
 -- system.on("@draw", function ()

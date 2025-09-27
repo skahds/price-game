@@ -38,3 +38,20 @@ system.on("main:cardTransferedOwnership", function (card, oldOwnerShip, newOwner
     text:delete()
   end)
 end)
+
+-- card prices juice
+system.on("@draw", function ()
+  for i, card in ipairs(main.card.shop) do
+    local ui = card.ui
+    local width, height = ui:getWidth(), ui:getHeight()
+    if card.price then
+      local richText = main.printRichText({format="{moneyColor}$" .. card.price,
+      x=ui.x+width/2,
+      y=ui.y+height-10,
+      renderLayer = 300,
+      })
+      local richTextWidth = richText.richText:getWidth()
+      richText.x = richText.x - richTextWidth/2
+    end
+  end
+end)
