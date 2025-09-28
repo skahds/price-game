@@ -57,18 +57,18 @@ end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultPointGain ~= 0 then
-    return "Gains {pointColor}" .. ent.defaultPointGain .. "{/pointColor} points"
+    return "Gives {pointColor}" .. ent.defaultPointGain .. "{/pointColor} points"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultMultGain ~= 0 then
-    return "Gains {multColor}" .. ent.defaultMultGain .. "X{/multColor} mult"
+    return "Gives {multColor}" .. ent.defaultMultGain .. "X{/multColor} mult"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultMoneyGain ~= 0 then
-    return "Gains {moneyColor}$" .. ent.defaultPointGain .. "{/moneyColor}"
+    return "Gives {moneyColor}$" .. ent.defaultMoneyGain .. "{/moneyColor}"
   end
 end)

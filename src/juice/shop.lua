@@ -9,7 +9,7 @@ system.on("main:cardTransferedOwnership", function (card, oldOwnerShip, newOwner
   if card.price > 0 then
     form = "{redColor}-$" .. card.price .. "{/redColor}"
   else
-    form = "{moneyColor}+$" .. card.price .. "{/moneyColor}"
+    form = "{moneyColor}+$" .. math.abs(card.price) .. "{/moneyColor}"
   end
   
   local size = love.math.random()+2
@@ -22,7 +22,7 @@ system.on("main:cardTransferedOwnership", function (card, oldOwnerShip, newOwner
   sy=size,
   outline = true,
   screenSpace = true,
-  renderLayer = 300,})
+  renderLayer = 350,})
   text.ox = text.richText:getWidth()/2
   text.oy = text.richText:getHeight()/2
 
