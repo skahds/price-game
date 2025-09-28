@@ -22,3 +22,13 @@ main.defineCard("bounceSpawner", {
   end,
   price = 1,
 })
+
+main.defineCard("cell", {
+  name = "Cell",
+  image = "cell",
+  trigger = {"POST"},
+  price = 2,
+  onActivate = function (ent)
+    main.createCardBesidesEntInHand("add", {}, ent)
+  end
+})

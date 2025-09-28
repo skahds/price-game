@@ -49,25 +49,19 @@ function utils.deepCopy(original)
 end
 
 function utils.shuffle(array)
-  -- fisher-yates
-  local output = {}
+  local n = #array
   local random = love.math.random
 
-  for index = 1, #array do
-    local offset = index - 1
-    local value = array[index]
-    local randomIndex = offset * random()
-    local flooredIndex = randomIndex - randomIndex % 1
-
-    if flooredIndex == offset then
-      output[#output + 1] = value
-    else
-      output[#output + 1] = output[flooredIndex + 1]
-      output[flooredIndex + 1] = value
-    end
+  -- Perform the Fisher-Yates shuffle in-place
+  for i = n, 2, -1 do
+    -- Pick a random index j from 1 to i (inclusive)
+    local j = random(i)
+    
+    -- Swap array[i] and array[j]
+    array[i], array[j] = array[j], array[i]
   end
-
-  return output
+  
+  return array
 end
 
 function utils.getRectIntersection(r1, r2)

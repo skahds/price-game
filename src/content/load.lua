@@ -15,7 +15,7 @@ system.on("@load", function ()
   end
 
   for i=1, 2 do
-    local card = main.createCard("goldenHex", {}, "hand")
+    local card = main.createCard("cell", {}, "hand")
     main.addCardToDraw(card)
   end
 
@@ -25,6 +25,8 @@ system.on("@load", function ()
   main.addCardToDraw(card2)
   local card3 = main.createCard("amplifier", {}, "hand")
   main.addCardToDraw(card3)
+
+  main.shuffleDraw()
 
   main.playScene("menu")
 end)

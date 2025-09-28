@@ -22,6 +22,20 @@ function main.createCard(id, args, ownerShip)
   return card
 end
 
+function main.createCardBesidesEntInHand(id, args, ent, positionOffset)
+  local ownerShip = "hand"
+  local positionOffset = positionOffset or 1
+  local finalX = ent.ui.x + positionOffset
+  local card = main.spawnEntity(id, args, true)
+  card.ui.x = finalX
+  card.ui.y = ent.ui.y
+  table.insert(main.card[ownerShip], card)
+  card.cardOrder = #main.card.hand
+  card.ownerShip = ownerShip
+  main.card.updateAllCardPositionBackToOriginalPosition()
+  return card
+end
+
 function main.deleteCard(card)
   if card.isAboutToBeDeleted == true then
     return
@@ -80,19 +94,19 @@ end
 
 local function repeatingTriggerCard(card, trigger)
   local pipeline = main.getPipeline("main")
-  local finished = false
-  if main.canTrigger(card, trigger) then
 
+  if main.canTrigger(card, trigger) then
     pipeline:add(0.3, function ()
       main.triggerEnt(card, trigger)
 
-      local nextCard = main.card.hand[card.cardOrder + 1]
-      if nextCard then
-        repeatingTriggerCard(nextCard, trigger)
-      else
-        system.call("main:repeatingTriggerCardEnd", trigger)
-      end
-
+      pipeline:add(0, function ()
+        local nextCard = main.card.hand[card.cardOrder + 1]
+        if nextCard then
+          repeatingTriggerCard(nextCard, trigger)
+        else
+          system.call("main:repeatingTriggerCardEnd", trigger)
+        end
+      end)
     end)
   else
     local nextCard = main.card.hand[card.cardOrder + 1]
@@ -242,13 +256,7 @@ function main.addCardToDraw(card)
   end)
 end
 
-function main.shuffleDiscardToDraw()
-
-  for i=#main.card.discard, 1, -1 do
-    local card = main.card.discard[i]
-    main.transferOwnership(card, "draw")
-  end
-
+function main.shuffleDraw()
   utils.shuffle(main.card.draw)
   -- fix the order since it got shuffled
   for i, card in ipairs(main.card.draw) do
@@ -261,6 +269,16 @@ function main.shuffleDiscardToDraw()
     local targetX, targetY = dimension.w+20, dimension.h
     card.ui.x, card.ui.y = targetX, targetY
   end
+end
+
+function main.shuffleDiscardToDraw()
+
+  for i=#main.card.discard, 1, -1 do
+    local card = main.card.discard[i]
+    main.transferOwnership(card, "draw")
+  end
+
+  main.shuffleDraw()
 end
 
 function main.discardCurrentCardsInHand()

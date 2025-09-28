@@ -11,8 +11,8 @@ system.on("main:entityTriggered", function (ent)
     local sy = originalScale * scaleFactor
     local ox = cardUI:getWidth()/8
     local oy = cardUI:getHeight()/8
-    flux.to(cardUI, 0.2, {sx = sx, sy=sy, ox=ox, oy=oy})
-    :after(cardUI, 0.2, {sx = originalScale, sy=originalScale, ox=0, oy=0})
+    flux.to(cardUI, 0.15, {sx = sx, sy=sy, ox=ox, oy=oy})
+    :after(cardUI, 0.15, {sx = originalScale, sy=originalScale, ox=0, oy=0})
     
     local combo = system.getStorage("main:currentCombo") or 0
     local audio = system.playAudio("boop")
