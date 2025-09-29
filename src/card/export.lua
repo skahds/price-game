@@ -36,6 +36,27 @@ function main.createCardBesidesEntInHand(id, args, ent, positionOffset)
   return card
 end
 
+-- helperish function, this was made during creation of content
+function main.basicSpawnCard(id, args, ent, ownership)
+  args.x, args.y = args.x or ent.y, args.y or ent.y
+  if ownership == "hand" then
+    return main.createCardBesidesEntInHand(id, args, ent)
+  end
+
+  if ownership == "draw" then
+    local card = main.createCard(id, args, "draw")
+    main.addCardToDraw(card)
+    return card
+  end
+
+  if ownership == "discard" then
+    local card = main.createCard(id, args, "discard")
+    main.discardCard(card)
+    return card
+  end
+end
+
+-- todo: fix?
 function main.deleteCard(card)
   if card.isAboutToBeDeleted == true then
     return
@@ -99,7 +120,7 @@ local function repeatingTriggerCard(card, trigger)
     pipeline:add(0.3, function ()
       main.triggerEnt(card, trigger)
 
-      pipeline:add(0, function ()
+      pipeline:add(0.0, function ()
         local nextCard = main.card.hand[card.cardOrder + 1]
         if nextCard then
           repeatingTriggerCard(nextCard, trigger)
@@ -155,25 +176,6 @@ function main.transferOwnership(card, newOwnership)
   orderBasedOnPosition(newOwnership)
 
   system.call("main:cardTransferedOwnership", card, currentCardOwnership, newOwnership)
-end
-
-function main.discardCard(card)
-  if card.ownerShip ~= "hand" then
-    error("card ownerShip needs to be hand, not " .. card.ownerShip)
-  end
-  main.transferOwnership(card, "discard")
-  local dimension = system.getStorage("screenDimension")
-  local targetX, targetY = -200, dimension.h
-  local flux = system.getStorage("flux")
-  local ui = card.ui
-  if ui.tween then
-    ui.tween:stop()
-  end
-  ui.tween = flux.to(ui, 0.3, { x = targetX, y = targetY })
-  main.wait(0.3, function ()
-    ui.isVisible = false
-  end)
-  main.card.updateAllCardPositionBackToOriginalPosition("hand")
 end
 
 function main.cardToHand(card)
@@ -238,6 +240,22 @@ function main.drawCardTillMaxCapacity()
       end)
     end
   end
+end
+
+function main.discardCard(card)
+  main.transferOwnership(card, "discard")
+  local dimension = system.getStorage("screenDimension")
+  local targetX, targetY = -200, dimension.h
+  local flux = system.getStorage("flux")
+  local ui = card.ui
+  if ui.tween then
+    ui.tween:stop()
+  end
+  ui.tween = flux.to(ui, 0.3, { x = targetX, y = targetY })
+  main.wait(0.3, function ()
+    ui.isVisible = false
+  end)
+  main.card.updateAllCardPositionBackToOriginalPosition("hand")
 end
 
 function main.addCardToDraw(card)

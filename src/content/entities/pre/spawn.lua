@@ -29,6 +29,6 @@ main.defineCard("cell", {
   trigger = {"POST"},
   price = 2,
   onActivate = function (ent)
-    main.createCardBesidesEntInHand("add", {}, ent)
+    main.basicSpawnCard("add", {temporary = 1}, ent, "hand")
   end
 })
