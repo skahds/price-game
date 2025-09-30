@@ -97,5 +97,5 @@ function main.addMult(amount)
   local mult = system.getStorage("main:mult")
   mult = mult + amount
   system.updateStorage("main:mult", mult)
-  system.call("main:multChanged", mult)
+  system.call("main:multChanged", amount)
 end

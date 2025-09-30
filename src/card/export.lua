@@ -88,6 +88,10 @@ function main.getCardInOrder(order)
   end
 end
 
+function main.getCardBesides(ent, cardOrder)
+  return main.getCardInOrder(ent.cardOrder+cardOrder)
+end
+
 function main.defineCard(id, eType)
   -- card ent isn't shown, it will create its own UI ent
   -- card ent
@@ -168,7 +172,6 @@ local function orderBasedOnPosition(ownerShip)
   end
 end
 
--- warning: does not update the cardOrder of the transfered card
 function main.transferOwnership(card, newOwnership)
   if card.ownerShip == nil or card.ownerShip == newOwnership then
     return

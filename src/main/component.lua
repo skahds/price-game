@@ -4,6 +4,13 @@ function main.defineComponent(name, defaultValue)
   componentList[name] = defaultValue
 end
 
+function main.isComponent(name)
+  if componentList[name] ~= nil then
+    return true
+  end
+  return false
+end
+
 system.on("main:entitySpawned", function (ent)
   for k, v in pairs(componentList) do
     if ent[k] == nil then

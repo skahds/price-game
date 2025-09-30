@@ -5,7 +5,7 @@ system.on("@load", function ()
   end
 
   for i=1, 3 do
-    local card = main.createCard("subtract", {}, "hand")
+    local card = main.createCard("giver", {}, "hand")
     main.addCardToDraw(card)
   end
 

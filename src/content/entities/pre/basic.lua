@@ -30,6 +30,16 @@ main.defineCard("goldenHex", {
   price = 2,
 })
 
+main.defineCard("giver", {
+  name = "Giver",
+  image = "addRight",
+  trigger = {"POST"},
+  onActivate = function (ent)
+    local targetEnt = main.getCardBesides(ent, 1)
+    main.changeEntityComponent(targetEnt, "defaultPointGain", 3, combiner.ADD)
+  end,
+  price = 2,
+})
 
 main.defineCard("volatilityCard", {
   name = "volatility Card",
