@@ -56,7 +56,13 @@ function main.basicSpawnCard(id, args, ent, ownership)
   end
 end
 
--- todo: fix?
+local function fixCardOrderOnStack(ownerShip)
+  local stack = main.card[ownerShip]
+  for i, card in ipairs(stack) do
+    card.cardOrder = i
+  end
+end
+
 function main.deleteCard(card)
   if card.isAboutToBeDeleted == true then
     return
@@ -67,6 +73,7 @@ function main.deleteCard(card)
   
   local stack = main.card[card.ownerShip]
   table.remove(stack, cardOrder)
+  fixCardOrderOnStack(card.ownerShip)
 
   cardUI:delete()
   card:delete()
@@ -118,16 +125,15 @@ local function repeatingTriggerCard(card, trigger)
 
   if main.canTrigger(card, trigger) then
     pipeline:add(0.3, function ()
+      -- print("current order :" .. card.cardOrder)
       main.triggerEnt(card, trigger)
 
-      pipeline:add(0.0, function ()
-        local nextCard = main.card.hand[card.cardOrder + 1]
-        if nextCard then
-          repeatingTriggerCard(nextCard, trigger)
-        else
-          system.call("main:repeatingTriggerCardEnd", trigger)
-        end
-      end)
+      local nextCard = main.card.hand[card.cardOrder + 1]
+      if nextCard then
+        repeatingTriggerCard(nextCard, trigger)
+      else
+        system.call("main:repeatingTriggerCardEnd", trigger)
+      end
     end)
   else
     local nextCard = main.card.hand[card.cardOrder + 1]
@@ -149,12 +155,14 @@ function main.triggerAllCardOwned(trigger)
 end
 
 local function orderBasedOnPosition(ownerShip)
+  local stack = main.card[ownerShip]
+
   --reorder them based on their x position
-  table.sort(main.card[ownerShip], function (a, b)
+  table.sort(stack, function (a, b)
     local uiEnt1, uiEnt2 = a.ui, b.ui
     return uiEnt1.x < uiEnt2.x
   end)
-  for i, card in ipairs(main.card[ownerShip]) do
+  for i, card in ipairs(stack) do
     card.cardOrder = i
     card.ui.renderLayer = 140+i
   end
@@ -172,8 +180,11 @@ function main.transferOwnership(card, newOwnership)
   table.insert(main.card[newOwnership], card)
   card.ownerShip = newOwnership
   
-  orderBasedOnPosition(currentCardOwnership)
-  orderBasedOnPosition(newOwnership)
+  fixCardOrderOnStack(currentCardOwnership)
+  fixCardOrderOnStack(newOwnership)
+
+  -- orderBasedOnPosition(currentCardOwnership)
+  -- orderBasedOnPosition(newOwnership)
 
   system.call("main:cardTransferedOwnership", card, currentCardOwnership, newOwnership)
 end

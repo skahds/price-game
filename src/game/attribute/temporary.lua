@@ -11,6 +11,7 @@ system.on("main:entityTriggered", function (ent)
     ent.temporary = ent.temporary - 1
   end
   if ent.temporary <= 0 then
+    print("tempo")
     pipeline:add(0.1, function ()
       main.deleteEntity(ent)
     end)
