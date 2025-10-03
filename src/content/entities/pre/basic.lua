@@ -36,7 +36,9 @@ main.defineCard("giver", {
   trigger = {"POST"},
   onActivate = function (ent)
     local targetEnt = main.getCardBesides(ent, 1)
-    main.changeEntityComponent(targetEnt, "defaultPointGain", 3, combiner.ADD)
+    if targetEnt then
+      main.changeEntityComponent(targetEnt, "defaultPointGain", 3, combiner.ADD)
+    end
   end,
   price = 2,
 })

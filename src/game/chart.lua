@@ -147,7 +147,7 @@ local bar = main.entities.bar
 function bar:init(args)
   self.defaultWidth = 40
   self.defaultHeight = 0
-  self.renderLayer = 1
+  self.renderLayer = 9
 
   local currentChart = system.getStorage("main:chart")
   local price = currentChart.price
