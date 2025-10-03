@@ -1,18 +1,18 @@
 system.on("@load", function ()
-  for i=1, 3 do
-    local card = main.createCard("add", {}, "hand")
-    main.addCardToDraw(card)
-  end
+  -- for i=1, 3 do
+  --   local card = main.createCard("add", {}, "hand")
+  --   main.addCardToDraw(card)
+  -- end
 
-  for i=1, 3 do
-    local card = main.createCard("giver", {}, "hand")
-    main.addCardToDraw(card)
-  end
+  -- for i=1, 3 do
+  --   local card = main.createCard("giver", {}, "hand")
+  --   main.addCardToDraw(card)
+  -- end
 
-  for i=1, 3 do
-    local card = main.createCard("multiply", {}, "hand")
-    main.addCardToDraw(card)
-  end
+  -- for i=1, 3 do
+  --   local card = main.createCard("multiply", {}, "hand")
+  --   main.addCardToDraw(card)
+  -- end
 
   for i=1, 2 do
     local card = main.createCard("cell", {}, "hand")

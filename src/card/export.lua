@@ -10,6 +10,13 @@ main.card = {
   discard = {},
 }
 
+local function fixCardOrderOnStack(ownerShip)
+  local stack = main.card[ownerShip]
+  for i, card in ipairs(stack) do
+    card.cardOrder = i
+  end
+end
+
 function main.createCard(id, args, ownerShip)
   ownerShip = ownerShip or "hand"
   local card = main.spawnEntity(id, args, true)
@@ -32,6 +39,7 @@ function main.createCardBesidesEntInHand(id, args, ent, positionOffset)
   table.insert(main.card[ownerShip], card)
   card.cardOrder = #main.card.hand
   card.ownerShip = ownerShip
+  fixCardOrderOnStack(ownerShip)
   main.card.updateAllCardPositionBackToOriginalPosition()
   return card
 end
@@ -53,13 +61,6 @@ function main.basicSpawnCard(id, args, ent, ownership)
     local card = main.createCard(id, args, "discard")
     main.discardCard(card)
     return card
-  end
-end
-
-local function fixCardOrderOnStack(ownerShip)
-  local stack = main.card[ownerShip]
-  for i, card in ipairs(stack) do
-    card.cardOrder = i
   end
 end
 
@@ -129,15 +130,23 @@ local function repeatingTriggerCard(card, trigger)
 
   if main.canTrigger(card, trigger) then
     pipeline:add(0.3, function ()
-      -- print("current order :" .. card.cardOrder)
       main.triggerEnt(card, trigger)
 
-      local nextCard = main.card.hand[card.cardOrder + 1]
-      if nextCard then
-        repeatingTriggerCard(nextCard, trigger)
-      else
-        system.call("main:repeatingTriggerCardEnd", trigger)
-      end
+      pipeline:add(0, function ()
+        local nextCard
+        if card.isAboutToBeDeleted ~= true then
+          nextCard = main.getCardBesides(card, 1)
+        else
+          nextCard = main.getCardBesides(card, 0)
+        end
+
+        if nextCard then
+          repeatingTriggerCard(nextCard, trigger)
+        else
+          system.call("main:repeatingTriggerCardEnd", trigger)
+        end
+      end)
+      
     end)
   else
     local nextCard = main.card.hand[card.cardOrder + 1]

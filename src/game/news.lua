@@ -41,12 +41,20 @@ local function repeatingTriggerNews(news, trigger)
     pipeline:add(0.3, function ()
       main.triggerEnt(news, trigger)
 
-      local nextNews = chart:getNews(news.chartOrder + 1)
-      if nextNews then
-        repeatingTriggerNews(nextNews, trigger)
-      else
-        system.call("main:repeatingTriggerNewsEnd", trigger)
-      end
+      pipeline:add(0, function ()
+        local nextNews
+        if news.isAboutToBeDeleted ~= true then
+          chart:getNews(news.chartOrder + 1)
+        else
+          chart:getNews(news.chartOrder)
+        end
+        
+        if nextNews then
+          repeatingTriggerNews(nextNews, trigger)
+        else
+          system.call("main:repeatingTriggerNewsEnd", trigger)
+        end
+      end)
     end)
   else
     local nextNews = chart:getNews(news.chartOrder + 1)
