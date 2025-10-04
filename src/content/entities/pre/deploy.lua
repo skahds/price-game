@@ -13,9 +13,10 @@ main.defineCard("amplifier", {
   end
 })
 
-main.defineCard("newsUpgrade", {
-  name = "News Enhance",
-  image = "cell",
+main.defineCard("magnifyingGlass", {
+  name = "Magnifying Glass",
+  image = "magnifyingGlass",
+  description = "News in area gains {pointColor}+3{/pointColor} points",
   mouseHeldArea = {size=100, fixed=false},
   trigger = {"DEPLOY"},
   price = 2,

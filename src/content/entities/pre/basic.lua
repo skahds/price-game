@@ -33,7 +33,7 @@ main.defineCard("goldenHex", {
 main.defineCard("giver", {
   name = "Giver",
   image = "addRight",
-  description = "Card to the right gains {pointColor}3{/pointColor} points",
+  description = "Card to the right gains {pointColor}+3{/pointColor} points",
   trigger = {"POST"},
   onActivate = function (ent)
     local targetEnt = main.getCardBesides(ent, 1)

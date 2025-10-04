@@ -36,6 +36,7 @@ main.defineCard("bounceSpawner", {
 main.defineCard("cell", {
   name = "Cell",
   image = "cell",
+  description = "Spawns News which gives +3 Points",
   trigger = {"POST"},
   price = 2,
   onActivate = function (ent)
