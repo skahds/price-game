@@ -14,13 +14,17 @@ system.on("@load", function ()
   --   main.addCardToDraw(card)
   -- end
 
-  for i=1, 2 do
+  for i=1, 4 do
+    local card = main.createCard("newsUpgrade", {}, "hand")
+    main.addCardToDraw(card)
+  end
+    for i=1, 4 do
     local card = main.createCard("cell", {}, "hand")
     main.addCardToDraw(card)
   end
 
-  local card = main.createCard("bounceSpawner", {}, "hand")
-  main.addCardToDraw(card)
+  -- local card = main.createCard("bounceSpawner", {}, "hand")
+  -- main.addCardToDraw(card)
   local card2 = main.createCard("amplifier", {}, "hand")
   main.addCardToDraw(card2)
   local card3 = main.createCard("amplifier", {}, "hand")

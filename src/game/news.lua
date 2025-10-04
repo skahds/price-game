@@ -44,9 +44,9 @@ local function repeatingTriggerNews(news, trigger)
       pipeline:add(0, function ()
         local nextNews
         if news.isAboutToBeDeleted ~= true then
-          chart:getNews(news.chartOrder + 1)
+          nextNews = chart:getNews(news.chartOrder + 1)
         else
-          chart:getNews(news.chartOrder)
+          nextNews = chart:getNews(news.chartOrder)
         end
         
         if nextNews then

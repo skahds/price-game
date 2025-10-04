@@ -23,12 +23,31 @@ main.defineCard("bounceSpawner", {
   price = 1,
 })
 
+-- main.defineCard("cell", {
+--   name = "Cell",
+--   image = "cell",
+--   trigger = {"POST"},
+--   price = 2,
+--   onActivate = function (ent)
+--     main.basicSpawnCard("add", {temporary = 1}, ent, "hand")
+--   end
+-- })
+
 main.defineCard("cell", {
   name = "Cell",
   image = "cell",
   trigger = {"POST"},
   price = 2,
   onActivate = function (ent)
-    main.basicSpawnCard("add", {temporary = 1}, ent, "hand")
+    local chart = system.getStorage("main:chart")
+    local pos = chart:getCurrentPricePos()
+
+    if pos == nil then
+      return
+    end
+
+    local xoffset = love.math.random(-40, 40)
+    local yoffset = love.math.random(-40, 40)
+    main.spawnNews("goodNews", {x=pos.x+xoffset, y=pos.y+yoffset})
   end
 })

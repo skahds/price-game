@@ -1,6 +1,6 @@
 main.defineNews("bouncer", {
   name = "bouncer",
-  image = "bouncer",
+  image = "upNews",
   trigger = {"POST"},
   temporary = 3,
   onActivate = function (ent)

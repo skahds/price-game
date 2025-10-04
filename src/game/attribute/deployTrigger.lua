@@ -26,6 +26,8 @@ end)
 
 system.on("@draw", function ()
   local card = system.getStorage("main:currentSelectedCard")
+  local realMouse = system.getStorage("realMouse")
+  local mouse = system.getStorage("mouse")
 
   if card == nil then
     return
@@ -33,6 +35,24 @@ system.on("@draw", function ()
   
   if card.ownerShip == "shop" then
     return
+  end
+
+  if card.mouseHeldArea then
+    local area = card.mouseHeldArea.size
+    local fixed = card.mouseHeldArea.fixed
+    local pos
+    if fixed then
+      pos = realMouse
+    else
+      pos = mouse
+    end
+    system.render(301, function ()
+      love.graphics.setColor(0.4, 0.7, 0.4, 0.5)
+      love.graphics.rectangle("fill", pos.x-area/2, pos.y-area/2, area, area)
+      love.graphics.setColor(0.5, 0.8, 0.5, 1)
+      love.graphics.setLineWidth(5)
+      love.graphics.rectangle("line", pos.x-area/2, pos.y-area/2, area, area)
+    end, fixed)
   end
 
   if main.canTrigger(card, "DEPLOY") then

@@ -1,19 +1,15 @@
 main.defineNews("goodNews", {
   name = "Good thing",
-  image = "bouncer",
+  image = "upNews",
   trigger = {"POST"},
   temporary = 3,
-  onActivate = function (ent)
-    main.addPoint(3)
-  end,
+  defaultPointGain=3,
 })
 
 main.defineNews("badNews", {
   name = "Bad thing",
-  image = "bouncer",
+  image = "downNews",
   trigger = {"POST"},
   temporary = 3,
-  onActivate = function (ent)
-    main.addPoint(-3)
-  end,
+  defaultPointGain=-3,
 })

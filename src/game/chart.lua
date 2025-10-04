@@ -74,12 +74,11 @@ function chart:removeNews(index)
     return
   end
 
-  for i=#self.news, index, -1 do
-    local news = self.news[i]
-    news.chartOrder = news.chartOrder-1
-  end
-
   table.remove(self.news, index)
+
+  for i, news in ipairs(self.news) do
+    news.chartOrder = i
+  end
 end
 
 function chart:getCurrentPricePos()
@@ -212,11 +211,11 @@ function bar:changePrice(amount)
   end
 end
 
-function bar:checkCollide(ent)
+function bar:checkCollide(area)
   local height = -(chart:priceToYPos(self.endPrice)-chart:priceToYPos(self.startPrice))
   local originalHeight = self.height
   self.height = height
-  local didCollide = main.AABB_check(ent, self)
+  local didCollide = main.AABB_check(area, self)
   self.height = originalHeight
   if didCollide then
     return true
