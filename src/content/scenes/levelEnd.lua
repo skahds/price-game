@@ -13,6 +13,8 @@ local function deleteAll(args)
 end
 
 main.defineScene("levelEnd", function ()
+  local pipeline = main.getPipeline("main")
+
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=400, height=1500,
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
@@ -38,8 +40,6 @@ main.defineScene("levelEnd", function ()
 
   local height = font:getHeight()
 
-  local pipeline = main.getPipeline("main")
-
   for i, format in ipairs(t) do
     pipeline:add(0.5, function ()
       table.insert(stats, main.newRichText({
@@ -50,9 +50,9 @@ main.defineScene("levelEnd", function ()
     end)
   end
 
-  -- while #main.card.draw + #main.card.discard > 0 do
-  --   main.drawCard()
-  -- end
+  while #main.card.draw + #main.card.discard > 0 do
+    main.drawCard()
+  end
 
   local money = roundsRemaining
   for i=1, money do

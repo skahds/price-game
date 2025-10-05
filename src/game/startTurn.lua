@@ -17,10 +17,13 @@ local function updatePoint()
   end
 
   pipeline:add(0.1, function ()
-    main.discardCurrentCardsInHand()
-    pipeline:add(0.1, function ()
-      main.drawCardTillMaxCapacity()
-    end)
+    local scene = system.getStorage("main:currentScene")
+    if scene == "play" then
+      main.discardCurrentCardsInHand()
+      pipeline:add(0.1, function ()
+        main.drawCardTillMaxCapacity()
+      end)
+    end
   end)
 
   system.updateStorage("main:mult", 1)

@@ -1,4 +1,16 @@
+-- todo: fix
+local function updateRXRY(sliderObject)
+  local width = sliderObject.width or sliderObject.defaultWidth
+  local height = sliderObject.height or sliderObject.defaultHeight
+  local a = width/2
+  local b = height/2
+  local r = math.min(a, b)
+  sliderObject.rx = r
+  sliderObject.ry = r
+end
+
 local function sliderUpdate(sliderObject)
+  updateRXRY(sliderObject)
   local slideDirection = sliderObject.slideDirection or "horizontal"
   if love.mouse.isDown(sliderObject.button or 1) then
     local mouse
@@ -28,7 +40,6 @@ end
 
 -- tertiery UI, this is the "end product"
 function main.ui.defineSlider(id, eType)
-  
   eType.update = sliderUpdate
   main.ui.defineUI(id, eType)
 end
