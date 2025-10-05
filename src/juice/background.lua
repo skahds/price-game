@@ -3,7 +3,7 @@ local distance = 200
 
 for x=0, 30 do
   for y=0, 30 do
-    local randomColor = love.math.random(120, 140)/1000
+    local randomColor = love.math.random(115, 150)/1000
     local randomAlpha = love.math.random()/2 + 0.5
     table.insert(objects, {
       x=x*distance,

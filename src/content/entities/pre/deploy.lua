@@ -1,7 +1,7 @@
 main.defineCard("amplifier", {
   name = "Amplifier",
   image = "amplifier",
-  description = "Next card activated +1 {repeatColor}repeat{/repeatColor}",
+  description = "Next activation +1 {repeatColor}repeat{/repeatColor}",
   trigger = {"DEPLOY", "POST"},
   price = 2,
   rarity = "RARE",

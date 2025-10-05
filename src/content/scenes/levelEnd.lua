@@ -50,9 +50,9 @@ main.defineScene("levelEnd", function ()
     end)
   end
 
-  while #main.card.draw + #main.card.discard > 0 do
-    main.drawCard()
-  end
+  -- while #main.card.draw + #main.card.discard > 0 do
+  --   main.drawCard()
+  -- end
 
   local money = roundsRemaining
   for i=1, money do

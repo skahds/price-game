@@ -9,8 +9,58 @@ local RichText = require("src.RichText.richtext")
 
 system.updateStorage("RichText", RichText)
 
+-- the formatting code (ie: turning text into scientific notation, 5000 to 5.000) is made by ai
+local SCI_NOTATION_THRESHOLD = 1000000000
+
+local function format_number_string(n_input)
+  local num = tonumber(n_input)
+
+  if not num then
+    return tostring(n_input)
+  end
+
+  if math.abs(num) >= SCI_NOTATION_THRESHOLD then
+    return string.format("%.1e", num)
+  end
+
+  local sign = num < 0 and "-" or ""
+  local abs_num = math.abs(num)
+  local integer_part, fractional_part = math.modf(abs_num)
+  local integer_str = tostring(math.floor(integer_part))
+
+  local s_reversed = integer_str:reverse()
+  local separated_reversed = s_reversed:gsub("(%d%d%d)", "%1.")
+  local formatted = separated_reversed:reverse()
+
+  formatted = formatted:gsub("^%.", "")
+
+  formatted = sign .. formatted
+  if math.abs(fractional_part) > 0.0000001 then
+    local decimal_part = string.format("%.2f", math.abs(fractional_part)):sub(2)
+    formatted = formatted .. decimal_part
+  end
+
+  return formatted
+end
+
+local function format_mixed_string(text_input)
+  local text_input = tostring(text_input)
+  local pattern = "([+-]?%d+%.?%d*)"
+
+  local formatted_text = text_input:gsub(pattern, function(matched_number_str)
+    local num = tonumber(matched_number_str)
+    if num then
+      return format_number_string(num)
+    else
+      return matched_number_str
+    end
+  end)
+  return formatted_text
+end
+
 function main.newRichText(args)
   local font = args.font or system.getStorage("defaultFont")
+  args.format = format_mixed_string(args.format)
   local text = RichText.new(font, args.format)
   
   table.insert(texts, {richText=text})
@@ -57,6 +107,7 @@ function main.printRichText(args)
 end
 
 function main.updateRichTextText(richtext, newformat)
+  newformat = format_mixed_string(newformat)
   richtext.richText:setText(newformat)
 end
 
