@@ -13,12 +13,14 @@ system.on("@update", function ()
     local flux = system.getStorage("flux")
     uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = mouse.y-uiEnt:getHeight()/2})
     uiEnt.renderLayer = 300
+    uiEnt.color = {1, 1, 1, 0.8}
   else
     system.updateStorage("main:currentSelectedCard", nil)
   end
 end)
 
 system.on("main:cardUIReleased", function (uiEnt)
+  uiEnt.color = {1, 1, 1, 1}
   main.card.updateAllCardPositionBackToOriginalPosition()
 end)
 
