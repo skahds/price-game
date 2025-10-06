@@ -7,6 +7,9 @@ main.ui.defineButton("backToMenu", {
   text = "Back",
   audio = "breaker",
   onButtonClicked = function (ent)
-    main.playScene("menu")
+    local pipeline = main.getPipeline("scene")
+    if #pipeline.pipeline == 0 then
+      main.playScene("levelSelect")
+    end
   end
 })

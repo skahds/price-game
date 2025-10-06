@@ -7,10 +7,9 @@ main.ui.defineButton("continueToShop", {
   text = "Continue",
   audio = "breaker",
   onButtonClicked = function (ent)
-    local pipeline = main.getPipeline("main")
-    if #pipeline.pipeline > 0 then
-      return
+    local pipeline = main.getPipeline("scene")
+    if #pipeline.pipeline == 0 then
+      main.playScene("shop")
     end
-    main.playScene("shop")
   end
 })

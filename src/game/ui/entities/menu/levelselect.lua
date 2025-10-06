@@ -11,7 +11,10 @@ main.ui.defineUI("levelSelect", {
   pointRequirement = 0,
   onMouseReleased = function (ent, button)
     if ent.isLastLevel == true then
-      main.playScene("play")
+      local pipeline = main.getPipeline("scene")
+      if #pipeline.pipeline == 0 then
+        main.playScene("play")
+      end
     end
   end,
 })

@@ -1,16 +1,4 @@
--- todo: fix
-local function updateRXRY(sliderObject)
-  local width = sliderObject.width or sliderObject.defaultWidth
-  local height = sliderObject.height or sliderObject.defaultHeight
-  local a = width/2
-  local b = height/2
-  local r = math.min(a, b)
-  sliderObject.rx = r
-  sliderObject.ry = r
-end
-
 local function sliderUpdate(sliderObject)
-  updateRXRY(sliderObject)
   local slideDirection = sliderObject.slideDirection or "horizontal"
   if love.mouse.isDown(sliderObject.button or 1) then
     local mouse
@@ -43,3 +31,19 @@ function main.ui.defineSlider(id, eType)
   eType.update = sliderUpdate
   main.ui.defineUI(id, eType)
 end
+
+system.on("ui:entityDrawn", function (ent)
+  if ent.onSlide == nil then
+    return
+  end
+
+  system.render(ent.renderLayer, function ()
+    local color = ent.color
+    if color then
+      love.graphics.setColor(color)
+    end
+    local r = math.min(ent.width, ent.height)/2
+    love.graphics.circle("fill", ent.x, ent.y+ent.height/2, r)
+    love.graphics.circle("fill", ent.x+ent.width, ent.y+ent.height/2, r)
+  end, ent.screenSpace)
+end)
