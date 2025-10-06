@@ -26,6 +26,11 @@ function basicEnt:init(args)
 end
 
 function basicEnt:draw()
+  if self.ui then
+    -- this ent has a specialized ui which handles its appearance
+    return
+  end
+
   local renderLayer = self.renderLayer
   system.render(renderLayer, function ()
 

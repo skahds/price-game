@@ -46,6 +46,9 @@ main.defineScene("play", function ()
 
   -- draw all relics
   drawAllRelics()
+  
+  local pos = chart:getCurrentPricePos()
+  main.spawnNews("randomEvents", {x=pos.x-128, y=pos.y-32})
 
   main.drawCardTillMaxCapacity()
 end, function ()

@@ -1,3 +1,4 @@
+--background
 local objects = {}
 local distance = 200
 

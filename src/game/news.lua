@@ -24,6 +24,8 @@ function main.defineNews(id, eType)
     local ui = self.ui
     ui.x = self.x
     ui.y = self.y
+    ui.width = self.width or ui.width
+    ui.height = self.height or ui.height
     if self.image then
       ui.image = self.image
       self.image = nil
