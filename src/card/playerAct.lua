@@ -50,6 +50,10 @@ system.on("main:cardClicked", function (card, button)
     
   -- select the card if we aren't currently selecting any
   else
+    
+    if system.getStorage("main:isOnTurn") == true then
+      return
+    end
 
     if cardUI.tween then
       cardUI.tween:stop()

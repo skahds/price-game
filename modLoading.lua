@@ -39,6 +39,7 @@ local function requireFolder(folder)
       for i=10, 100 do
         system.fonts[fileName .. i] = love.graphics.newFont(fullPath, i)
       end
+      print("[" .. os.date() .."]: Loaded font " .. fileName)
     elseif info.type == "directory" then
       -- Recursively require files in subfolders
       requireFolder(fullPath)

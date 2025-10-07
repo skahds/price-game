@@ -44,9 +44,9 @@ system.on("main:currentPriceChanged", function ()
 end)
 
 function love.wheelmoved(x, y)
-  if y > 0 and playerCam.zoom < 5 then
+  if y > 0 and playerCam.zoom < 3 then
     playerCam.zoom = playerCam.zoom*1.2
-  elseif y < 0 and playerCam.zoom > 0.5 then
+  elseif y < 0 and playerCam.zoom > 0.7 then
     playerCam.zoom = playerCam.zoom/1.2
   end
   cam:setZoom(playerCam.zoom)
