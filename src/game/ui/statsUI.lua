@@ -1,18 +1,18 @@
 local biggerFont = system.getFont("defaultFont100")
 local point = system.getStorage("main:point")
 local pointText = main.newRichText({format="Points: " ..  math.floor(point+0.5) .. "",
-  y=100,
+  y=130,
   x=70,
   renderLayer = 200,})
 
 local money = main.getMoney()
-local moneyText = main.newRichText({format="Money: {moneyColor}" .. money .. "{/moneyColor}",
-  y=150,
+local moneyText = main.newRichText({format="{moneyColor}$" .. money .. "{/moneyColor}",
+  y=180,
   x=70,
   renderLayer = 200,})
 
 local roundsRemainingText = main.newRichText({format="Bars: 0",
-  y=200,
+  y=230,
   x=70,
   renderLayer = 200,})
 
@@ -39,6 +39,16 @@ local currentPointText = main.newRichText({format="{pointColor}" ..  math.floor(
   renderLayer = 200,
   font = biggerFont})
 
+local cardHeldText = main.newRichText({format=0 .. "/" .. system.getStorage("main:maxCardAmount"),
+  y=525,
+  x=0,
+  sx=1,
+  sy=1,
+  ox=1,
+  oy=1,
+  r=0,
+  renderLayer = 200,})
+
 --point text
 system.on("main:pointChanged", function ()
   local point = system.getStorage("main:point")
@@ -61,7 +71,7 @@ end)
 --money text
 system.on("main:moneyChanged", function ()
   local money = main.getMoney()
-  main.updateRichTextText(moneyText, "Money: {moneyColor}" .. math.floor(money) .. "{/moneyColor}")
+  main.updateRichTextText(moneyText, "{moneyColor}$" .. math.floor(money) .. "{/moneyColor}")
 end)
 
 system.on("main:sceneChanged", function()
@@ -128,6 +138,21 @@ system.on("main:sceneChanged", function()
   end
   if scene == "play" then
     currentPointText.x = 1100
+  end
+end)
+
+-- cardHeldText
+
+system.on("@update", function ()
+  local format = #main.card.hand .. "/" .. system.getStorage("main:maxCardAmount")
+  main.updateRichTextText(cardHeldText, format)
+
+  local scene = system.getStorage("main:currentScene")
+  if scene ~= "play" then
+    cardHeldText.x = -2000
+  end
+  if scene == "play" then
+    cardHeldText.x = 640-cardHeldText.richText:getWidth()/2
   end
 end)
 

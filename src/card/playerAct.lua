@@ -25,9 +25,6 @@ system.on("main:cardUIReleased", function (uiEnt)
 end)
 
 local function releaseUICard(card, button)
-  print(card.parent.ownerShip)
-  print(#main.card.hand)
-
   if card.onReleased then
     card.onReleased(card)
   end

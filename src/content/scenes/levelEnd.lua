@@ -41,7 +41,7 @@ main.defineScene("levelEnd", function ()
   local height = font:getHeight()
 
   for i, format in ipairs(t) do
-    pipeline:add(0.5, function ()
+    pipeline:add(0.2, function ()
       table.insert(stats, main.newRichText({
         format = format,
         x=500,
@@ -60,6 +60,7 @@ main.defineScene("levelEnd", function ()
       main.addMoney(1)
     end)
   end
+  system.updateStorage("main:point", 0)
 end, function ()
 
   deleteAll({cover, continueToShop})
