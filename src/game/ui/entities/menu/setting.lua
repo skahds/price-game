@@ -41,6 +41,9 @@ function main.ui.gameSettings()
       slideAmount = system.getStorage(sfxStorage) or 1,
       ballColor = {0.8, 0.4, 0.4},
       renderLayer = 410,
+      outline = 10,
+      outlineBelow = true,
+      outlineColor = {0.5, 0.5, 0.5},
     }, true)
 
     musicSlider = main.ui.spawnUI("basicSlider", {
@@ -60,6 +63,9 @@ function main.ui.gameSettings()
       slideAmount = system.getStorage(musicStorage) or 1,
       ballColor = {0.8, 0.4, 0.4},
       renderLayer = 411,
+      outline = 10,
+      outlineBelow = true,
+      outlineColor = {0.5, 0.5, 0.5},
     }, true)
 
     exit = main.ui.spawnUI("exit", {

@@ -5,6 +5,9 @@ main.ui.defineSlider("ownSlider", {
   slideDirection = "horizontal",
   slideAmount = 0.5,
   screenSpace = true,
+  outline = 10,
+  outlineBelow = true,
+  outlineColor = {0.6, 0.6, 0.6},
 
   onDraw = function (ent)
     
@@ -22,7 +25,7 @@ main.ui.defineSlider("ownSlider", {
 
     system.render(201, function ()
       --circle thing in the middle
-      love.graphics.setColor(0.6, 0.6, 0.6)
+      love.graphics.setColor(0.7, 0.7, 0.7)
       love.graphics.circle("fill", x, y, ent:getHeight()/2)
 
 
