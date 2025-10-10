@@ -72,3 +72,9 @@ main.addDescriptionType(22, function (ent)
     return "Gives {moneyColor}$" .. ent.defaultMoneyGain .. "{/moneyColor}"
   end
 end)
+
+main.addDescriptionType(23, function (ent)
+  if ent.isRelic == true then
+    return "Hollow: Doesn't take up space"
+  end
+end)

@@ -26,7 +26,7 @@ main.ui.defineSlider("ownSlider", {
     system.render(201, function ()
       --circle thing in the middle
       love.graphics.setColor(0.7, 0.7, 0.7)
-      love.graphics.circle("fill", x, y, ent:getHeight()/2)
+      love.graphics.circle("fill", x, y, ent:getHeight()/2.2)
 
 
       -- text

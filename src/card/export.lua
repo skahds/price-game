@@ -222,6 +222,14 @@ function main.drawCard()
   main.card.updateAllCardPositionBackToOriginalPosition("hand")
 end
 
+function main.getCurrentCardInHandAmount()
+  local space = 0
+  for i, card in ipairs(main.card.hand) do
+    space = space + system.ask("main:cardSpaceUsed", combiner.ADD, card)
+  end
+  return space
+end
+
 function main.getNextCard()
   local card = main.card.draw[1]
   if card == nil then
@@ -236,12 +244,16 @@ function main.getNextCard()
 end
 
 function main.drawCardWithMaxCapacity()
+  local pipeline = main.getPipeline("main")
   local maxCard = system.getStorage("main:maxCardAmount")
   local nextCard = main.getNextCard()
   if nextCard then
+    local currentSpace = main.getCurrentCardInHandAmount()
     local space = system.ask("main:cardSpaceUsed", combiner.ADD, nextCard)
-    if space and #main.card.hand + space <= maxCard then
-      main.drawCard()
+    if currentSpace + space <= maxCard then
+      pipeline:add(0, function ()
+        main.drawCard()
+      end)
     end
   end
 end
@@ -255,11 +267,14 @@ function main.drawCardTillMaxCapacity()
   local maxCard = system.getStorage("main:maxCardAmount")
   local nextCard = main.getNextCard()
   if nextCard then
-    local space = system.ask("main:cardSpaceUsed", combiner.ADD, nextCard)
-    if space and #main.card.hand + space <= maxCard then
-      main.drawCard()
-      pipeline:add(0.15, function ()
-        main.drawCardTillMaxCapacity()
+    local currentSpace = main.getCurrentCardInHandAmount()
+    local newCardSpace = system.ask("main:cardSpaceUsed", combiner.ADD, nextCard)
+    if currentSpace + newCardSpace <= maxCard then
+      pipeline:add(0, function ()
+        main.drawCard()
+        pipeline:add(0.15, function ()
+          main.drawCardTillMaxCapacity()
+        end)
       end)
     end
   end

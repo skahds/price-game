@@ -17,8 +17,9 @@ local function drawAllRelics()
   local maxCard = system.getStorage("main:maxCardAmount")
   for i=#main.card.draw, 1, -1 do
     local card = main.card.draw[i]
+    local currentSpace = main.getCurrentCardInHandAmount()
     local space = system.ask("main:cardSpaceUsed", combiner.ADD, card)
-    if space and #main.card.hand + space <= maxCard then
+    if currentSpace + space <= maxCard then
       if card.isRelic == true then
         pipeline:add(0.15, function ()
           main.cardToHand(card)
@@ -43,6 +44,8 @@ main.defineScene("play", function ()
 
   local bar = main.spawnBar()
   system.updateStorage("main:currentBar", bar)
+
+  print("rn there's " .. #main.card.hand)
 
   -- draw all relics
   drawAllRelics()
