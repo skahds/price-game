@@ -5,3 +5,9 @@ system.answer("main:shouldCardNotBeDiscared", function (ent)
     return true
   end
 end)
+
+system.answer("main:shouldNewsNotBeDeleted", function (ent)
+  if ent.isRelic == true then
+    return true
+  end
+end)

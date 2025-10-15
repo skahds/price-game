@@ -3,11 +3,6 @@ local range = {1, 3}
 local randomNewsCounter = love.math.random(range[1], range[2])
 local currentCounter = 0
 
--- system.on("main:endTurn", function ()
---   -- random news?
-
--- end)
-
 main.defineNews("randomEvents", {
   name = "Random Events",
   image = "randomEventNews",
@@ -15,6 +10,7 @@ main.defineNews("randomEvents", {
   height = 64,
   description = "Creates a random news in " .. randomNewsCounter .. " activation",
   trigger = {"POST"},
+  isRelic = true,
   onActivate = function (ent)
     currentCounter = currentCounter + 1
     if currentCounter >= randomNewsCounter then

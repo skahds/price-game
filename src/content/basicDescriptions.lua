@@ -37,7 +37,12 @@ end)
 
 main.addDescriptionTag(29, function (ent)
   if ent.isRelic == true then
-    return "Relic:\nStays in hand"
+    if ent.isCard then
+      return "Relic:\nStays in hand"
+    end
+    if ent.isNews then
+      return "Relic:\nStays in chart"
+    end
   end
 end)
 
@@ -74,7 +79,7 @@ main.addDescriptionType(22, function (ent)
 end)
 
 main.addDescriptionType(23, function (ent)
-  if ent.isRelic == true then
+  if ent.isHollow == true then
     return "Hollow: Doesn't take up space"
   end
 end)

@@ -132,10 +132,27 @@ function chart:delete()
 
   for i=#self.news, 1, -1 do
     local news = self.news[1]
-    main.deleteNews(news)
+    if system.ask("main:shouldNewsNotBeDeleted", combiner.OR, news) ~= true then
+      main.deleteNews(news)
+    end
   end
 
   basicEnt.delete(self)
+end
+
+function chart:clear()
+  self:forAllBar(function (bar)
+    bar:delete()
+  end)
+  self.bars = {}
+  self.price = 0
+
+  for i=#self.news, 1, -1 do
+    local news = self.news[i]
+    if system.ask("main:shouldNewsNotBeDeleted", combiner.OR, news) ~= true then
+      main.deleteNews(news)
+    end
+  end
 end
 
 

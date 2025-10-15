@@ -35,23 +35,20 @@ main.defineScene("play", function ()
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
   ownSlider = main.ui.spawnUI("ownSlider", {x=dimension.w/2-200, y=30}, true)
-  -- scaleYSlider = main.ui.spawnUI("scaleYSlider", {x=1050, y=30}, true)
   startTurn = main.ui.spawnUI("startTurn", {x=80, y=350}, true)
-  -- spawnCard = main.ui.spawnUI("spawnCard", {x=80, y=350}, true)
-  -- back = main.ui.spawnUI("backToMenu", {x=300, y=350}, true)
-  main.spawnChart({bearPower = 0.2, bullPower = 0.2})
   chart = system.getStorage("main:chart")
+  if chart == nil then
+    main.spawnChart({bearPower = 0.2, bullPower = 0.2})
+    chart = system.getStorage("main:chart")
+    local pos = chart:getCurrentPricePos()
+    main.spawnNews("randomEvents", {x=pos.x-128, y=pos.y-32})
+  end
 
   local bar = main.spawnBar()
   system.updateStorage("main:currentBar", bar)
 
-  print("rn there's " .. #main.card.hand)
-
   -- draw all relics
   drawAllRelics()
-  
-  local pos = chart:getCurrentPricePos()
-  main.spawnNews("randomEvents", {x=pos.x-128, y=pos.y-32})
 
   main.drawCardTillMaxCapacity()
 end, function ()
@@ -60,5 +57,6 @@ end, function ()
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)
-  deleteAll({cover, ownSlider, scaleYSlider, startTurn, chart})
+  deleteAll({cover, ownSlider, scaleYSlider, startTurn})
+  chart:clear()
 end)
