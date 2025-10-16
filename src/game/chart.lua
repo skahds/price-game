@@ -125,20 +125,20 @@ function chart:draw()
   -- end)
 end
 
-function chart:delete()
-  self:forAllBar(function (bar)
-    bar:delete()
-  end)
+-- function chart:delete()
+--   self:forAllBar(function (bar)
+--     bar:delete()
+--   end)
 
-  for i=#self.news, 1, -1 do
-    local news = self.news[1]
-    if system.ask("main:shouldNewsNotBeDeleted", combiner.OR, news) ~= true then
-      main.deleteNews(news)
-    end
-  end
+--   for i=#self.news, 1, -1 do
+--     local news = self.news[1]
+--     if system.ask("main:shouldNewsNotBeDeleted", combiner.OR, news) ~= true then
+--       main.deleteNews(news)
+--     end
+--   end
 
-  basicEnt.delete(self)
-end
+--   basicEnt.delete(self)
+-- end
 
 function chart:clear()
   self:forAllBar(function (bar)
@@ -154,8 +154,6 @@ function chart:clear()
     end
   end
 end
-
-
 
 --bar ent
 main.entities.bar = class(main.entities.basicEnt)

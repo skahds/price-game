@@ -18,7 +18,11 @@ end)
 
 main.addDescriptionType(59, function (ent)
   if main.canTrigger(ent, "DEPLOY") then
-    return "{triggerColor}DEPLOY{/triggerColor}: On release"
+    if ent.isLocked then
+      return "(LOCKED) {triggerColor}DEPLOY{/triggerColor}: On release"
+    else
+      return "{triggerColor}DEPLOY{/triggerColor}: On release"
+    end
   end
 end)
 

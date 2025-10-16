@@ -1,9 +1,15 @@
+main.defineComponent("isLocked", false)
+
 local cancelSize = 200
 
 system.on("main:cardUIReleased", function (uiEnt, button)
   local ent = uiEnt.parent
 
   if ent.ownerShip == "shop" then
+    return
+  end
+
+  if ent.isLocked then
     return
   end
 
@@ -34,6 +40,10 @@ system.on("@draw", function ()
   end
   
   if card.ownerShip == "shop" then
+    return
+  end
+
+  if card.isLocked then
     return
   end
 

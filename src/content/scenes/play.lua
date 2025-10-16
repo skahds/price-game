@@ -47,6 +47,16 @@ main.defineScene("play", function ()
   local bar = main.spawnBar()
   system.updateStorage("main:currentBar", bar)
 
+  for i, card in ipairs(main.card.hand) do
+    card.isLocked = false
+  end
+  for i, card in ipairs(main.card.draw) do
+    card.isLocked = false
+  end
+  for i, card in ipairs(main.card.discard) do
+    card.isLocked = false
+  end
+
   -- draw all relics
   drawAllRelics()
 
@@ -59,4 +69,14 @@ end, function ()
   system.updateStorage("main:endLevelStats", endStats)
   deleteAll({cover, ownSlider, scaleYSlider, startTurn})
   chart:clear()
+
+  for i, card in ipairs(main.card.hand) do
+    card.isLocked = true
+  end
+  for i, card in ipairs(main.card.draw) do
+    card.isLocked = true
+  end
+  for i, card in ipairs(main.card.discard) do
+    card.isLocked = true
+  end
 end)
