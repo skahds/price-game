@@ -22,6 +22,7 @@ function main.ui.defineUI(id, eType)
     self.y = self.y or 0
     self.width = self.width or self.defaultWidth or 0
     self.height = self.height or self.defaultHeight or 0
+    self.overrideHitbox = self.overrideHitbox -- if size changes, update this too explicitly
     self.r = self.r or 0
     self.sx = self.sx or 1
     self.sy = self.sy or 1
@@ -33,6 +34,7 @@ function main.ui.defineUI(id, eType)
       self.screenSpace = true
     end
     self.isVisible = true
+    self.drawDefaultRectangle = true
     self.renderLayer = self.renderLayer or 100
   end
 
@@ -49,7 +51,7 @@ function main.ui.defineUI(id, eType)
       if self.image then
         local image = system.getImage(self.image)
         love.graphics.draw(image, self.x, self.y, self.r, self.sx, self.sy, self.ox, self.oy)
-      else
+      elseif self.drawDefaultRectangle then
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height, self.rx, self.ry)
       end
 

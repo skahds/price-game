@@ -12,7 +12,8 @@ local function clickTop(button, uiFun)
       else
         mouse = system.getStorage("mouse")
       end
-      if main.AABB_check(ent, mouse) and ent.ignoreUIChecks ~= true then
+      local hitbox = ent.overrideHitbox or ent
+      if main.AABB_check(hitbox, mouse) and ent.ignoreUIChecks ~= true then
         if UIlist[ent.renderLayer] == nil then
           UIlist[ent.renderLayer] = {}
         end
@@ -63,7 +64,8 @@ system.on("@update", function ()
       else
         mouse = system.getStorage("mouse")
       end
-      if main.AABB_check(mouse, ent) and ent.ignoreUIChecks ~= true then
+      local hitbox = ent.overrideHitbox or ent
+      if main.AABB_check(hitbox, mouse) and ent.ignoreUIChecks ~= true then
         UIlist[ent.renderLayer] = {}
         if UIkey < ent.renderLayer then
           UIkey = ent.renderLayer
@@ -92,7 +94,6 @@ system.on("@update", function ()
 
 
 
-  
   for i=#main.ui.deleteQueue, 1, -1 do
     local ent = main.ui.deleteQueue[i]
     local entIndex = ent.index

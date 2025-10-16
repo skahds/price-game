@@ -9,8 +9,18 @@ local function sliderUpdate(sliderObject)
       mouse = system.getStorage("realMouse")
     end
 
+    local r = math.min(sliderObject.width, sliderObject.height)/2
+
+    -- made it only work for horizontal sliders since that's the only one on the game
+    sliderObject.overrideHitbox = {
+      x = sliderObject.x - r - sliderObject.outline/2,
+      y = sliderObject.y - sliderObject.outline/2,
+      width = sliderObject:getWidth() + r*2 + sliderObject.outline,
+      height = sliderObject:getHeight() + sliderObject.outline
+    }
+
     -- onSlide gets itself and slide amount in percentage
-    if main.AABB_check(sliderObject, mouse) then
+    if main.AABB_check(sliderObject.overrideHitbox, mouse) then
       local amountScrolled
       if slideDirection == "horizontal" then
         amountScrolled = (mouse.x - sliderObject.x) / (sliderObject:getWidth())
