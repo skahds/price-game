@@ -76,6 +76,9 @@ system.on("@draw", function ()
       love.graphics.setColor(0.9, 0.6, 0.6, 1)
       love.graphics.setLineWidth(10)
       love.graphics.line(0, y, 2000, y)
+
+      love.graphics.setColor(1, 1, 1)
+      love.graphics.draw(system.getImage("mouseRight"), dimension.w-150, dimension.h-cancelSize+60)
     end, true)
   end
 end)
