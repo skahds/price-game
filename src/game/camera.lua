@@ -51,3 +51,25 @@ function love.wheelmoved(x, y)
   end
   cam:setZoom(playerCam.zoom)
 end
+
+local hasPressed = false
+system.on("@update", function ()
+  if not love.keyboard.isDown("space") then
+    hasPressed = false
+    return
+  end
+
+  if hasPressed == true then
+    return
+  end
+  hasPressed = true
+
+  local bar = system.getStorage("main:currentBar")
+  if bar then
+    local targetX = bar.x+bar.width/2
+    local targetY = bar.y+bar.height
+    main.tweenCamera(0.2, {x=targetX, y=targetY})
+  else
+    main.tweenCamera(0.2, {x=0, y=0})
+  end
+end)

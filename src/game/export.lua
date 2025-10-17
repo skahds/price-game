@@ -72,7 +72,6 @@ function main.spawnBar()
   local bar = main.spawnEntity("bar", {}, true)
   if chart then
     chart:addBar(bar)
-    -- bar:changePrice(0)
   end
   return bar
 end

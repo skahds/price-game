@@ -24,8 +24,20 @@ main.ui.defineSlider("ownSlider", {
     end
 
     system.render(201, function ()
+      local x=1280/2
+      love.graphics.draw(system.getImage("arrowLeft"), x-200, 70-24, 0, 2, 2)
+      love.graphics.draw(system.getImage("arrowLeft"), x+200, 70-24, 0, -2, 2)
+    end, true)
+
+    system.render(202, function ()
       --circle thing in the middle
       love.graphics.setColor(0.7, 0.7, 0.7)
+      if ent.slideAmount-0.5 > 0 then
+        love.graphics.setColor(0.4, 0.7 + (ent.slideAmount-0.5), 0.4)
+      elseif ent.slideAmount-0.5 < 0 then
+        love.graphics.setColor(0.7 + (0.5-ent.slideAmount), 0.4, 0.4)
+      end
+      
       love.graphics.circle("fill", x, y, ent:getHeight()/2.2)
 
 
