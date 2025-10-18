@@ -12,7 +12,7 @@ system.updateStorage("RichText", RichText)
 -- the formatting code (ie: turning text into scientific notation, 5000 to 5.000) is made by ai
 local SCI_NOTATION_THRESHOLD = 1000000000
 
-local function format_number_string(n_input)
+local function format_number_string(n_input, original_str)
   local num = tonumber(n_input)
 
   if not num then
@@ -23,7 +23,14 @@ local function format_number_string(n_input)
     return string.format("%.1e", num)
   end
 
-  local sign = num < 0 and "-" or ""
+  -- Check if original string had explicit + sign
+  local sign = ""
+  if original_str and original_str:match("^%+") then
+    sign = "+"
+  elseif num < 0 then
+    sign = "-"
+  end
+  
   local abs_num = math.abs(num)
   local integer_part, fractional_part = math.modf(abs_num)
   local integer_str = tostring(math.floor(integer_part))
@@ -50,12 +57,21 @@ local function format_mixed_string(text_input)
   local formatted_text = text_input:gsub(pattern, function(matched_number_str)
     local num = tonumber(matched_number_str)
     if num then
-      return format_number_string(num)
+      return format_number_string(num, matched_number_str)
     else
       return matched_number_str
     end
   end)
   return formatted_text
+end
+
+local parsed = RichText.parse("Spawns a news which gives {pointColor}+3 points")
+for i, v in ipairs(parsed) do
+  if type(v) == "string" then
+    print(i, "string:", v)
+  else
+    print(i, "table:", v[1])
+  end
 end
 
 function main.newRichText(args)

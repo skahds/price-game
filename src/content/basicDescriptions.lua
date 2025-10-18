@@ -1,3 +1,11 @@
+local function format(num)
+  if num > 0 then
+    return "+" .. num
+  else
+    return num
+  end
+end
+
 main.addDescriptionType(10, function (ent)
   if ent.name then
     return ent.name
@@ -66,19 +74,19 @@ end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultPointGain ~= 0 then
-    return "Gives {pointColor}" .. ent.defaultPointGain .. "{/pointColor} points"
+    return "Gives {pointColor}" .. format(ent.defaultPointGain) .. " points"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultMultGain ~= 0 then
-    return "Gives {multColor}" .. ent.defaultMultGain .. "X{/multColor} mult"
+    return "Gives {multColor}" .. format(ent.defaultMultGain) .. " mult"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultMoneyGain ~= 0 then
-    return "Gives {moneyColor}$" .. ent.defaultMoneyGain .. "{/moneyColor}"
+    return "Gives {moneyColor}$" .. ent.defaultMoneyGain
   end
 end)
 

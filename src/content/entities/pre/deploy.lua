@@ -1,7 +1,7 @@
 main.defineCard("amplifier", {
   name = "Amplifier",
   image = "amplifier",
-  description = "Next activation +1 {repeatColor}repeat{/repeatColor}",
+  description = "Next activation {repeatColor}+1 repeat{/repeatColor}",
   trigger = {"DEPLOY", "POST"},
   price = 2,
   rarity = "RARE",
@@ -16,7 +16,7 @@ main.defineCard("amplifier", {
 main.defineCard("magnifyingGlass", {
   name = "Magnifying Glass",
   image = "magnifyingGlass",
-  description = "News in area gains {pointColor}+3{/pointColor} points",
+  description = "News in area gains {pointColor}+3 points",
   mouseHeldArea = {size=100, fixed=false},
   trigger = {"DEPLOY"},
   price = 2,
@@ -42,6 +42,7 @@ main.defineCard("void", {
   temporary = 1,
   price = 2,
   rarity = "RARE",
+  defaultMoneyGain = 1,
   
   filter = function (ent)
     local target = main.getCardBesides(ent, 1)
@@ -52,8 +53,6 @@ main.defineCard("void", {
 
   onActivate = function (ent)
     local target = main.getCardBesides(ent, 1)
-    if main.tryDestroyEntity(target) then
-      main.addMoney(1)
-    end
+    main.tryDestroyEntity(target)
   end
 })

@@ -50,7 +50,8 @@ local function defineRarity(name, arg)
 end
 
 defineRarity("COMMON", {chanceWeight=10, format="COMMON"})
-defineRarity("RARE", {chanceWeight=1, format="RARE"})
+defineRarity("RARE", {chanceWeight=6, format="RARE"})
+defineRarity("EPIC", {chanceWeight=2, format="EPIC"})
 
 local rarity = class()
 function rarity:init(card)
