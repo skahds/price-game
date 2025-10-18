@@ -3,6 +3,7 @@ function main.canTrigger(ent, trigger)
     if utils.isEInTable(trigger, ent.trigger) == false then
       return false
     end
+
     return true
   end
   return false
@@ -14,6 +15,9 @@ function main.triggerEnt(ent, trigger)
     bypass = true
   end
   if main.canTrigger(ent, trigger) or bypass then
+    if ent.filter and ent:filter() ~= true and bypass == false then
+      return false
+    end
     system.call("main:entityAboutToTrigger", ent)
     
     if ent.onActivate then

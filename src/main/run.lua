@@ -21,7 +21,7 @@ end)
 
 system.on("@draw", function ()
   for _, ent in pairs(main.world) do
-    if ent.draw then
+    if ent.draw and ent.isVisible then
       ent:draw()
     end
   end

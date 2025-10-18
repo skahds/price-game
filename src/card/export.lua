@@ -80,6 +80,8 @@ function main.deleteCard(card)
   card:delete()
   
   main.card.updateAllCardPositionBackToOriginalPosition()
+
+  return true
 end
 
 function main.getCardInOrder(order)
@@ -283,7 +285,7 @@ end
 function main.discardCard(card)
   main.transferOwnership(card, "discard")
   local dimension = system.getStorage("screenDimension")
-  local targetX, targetY = -200, dimension.h
+  local targetX, targetY = card.ui.x, dimension.h+100
   local flux = system.getStorage("flux")
   local ui = card.ui
   if ui.tween then

@@ -41,11 +41,14 @@ main.defineScene("play", function ()
     main.spawnChart({bearPower = 0.2, bullPower = 0.2})
     chart = system.getStorage("main:chart")
     local pos = chart:getCurrentPricePos()
-    main.spawnNews("randomEvents", {x=pos.x-128, y=pos.y-32})
+    main.spawnNews("randomEvents", {x=pos.x-64, y=pos.y-32})
+
+    local bar = main.spawnBar()
+    system.updateStorage("main:currentBar", bar)
   end
 
-  local bar = main.spawnBar()
-  system.updateStorage("main:currentBar", bar)
+  -- local bar = main.spawnBar()
+  -- system.updateStorage("main:currentBar", bar)
 
   for i, card in ipairs(main.card.hand) do
     card.isLocked = false
@@ -69,6 +72,9 @@ end, function ()
   system.updateStorage("main:endLevelStats", endStats)
   deleteAll({cover, ownSlider, scaleYSlider, startTurn})
   chart:clear()
+
+  local bar = main.spawnBar()
+  system.updateStorage("main:currentBar", bar)
 
   for i, card in ipairs(main.card.hand) do
     card.isLocked = true

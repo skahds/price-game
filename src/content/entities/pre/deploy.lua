@@ -33,3 +33,27 @@ main.defineCard("magnifyingGlass", {
     end)
   end
 })
+
+main.defineCard("void", {
+  name = "Void",
+  image = "void",
+  description = "Destroy card to the right and gain {moneyColor}$1",
+  trigger = {"DEPLOY"},
+  temporary = 1,
+  price = 2,
+  rarity = "RARE",
+  
+  filter = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      return true
+    end
+  end,
+
+  onActivate = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if main.tryDestroyEntity(target) then
+      main.addMoney(1)
+    end
+  end
+})

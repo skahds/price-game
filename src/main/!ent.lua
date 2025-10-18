@@ -23,6 +23,7 @@ function basicEnt:init(args)
   self.oy = 0
   self.screenSpace = self.screenSpace or false
   self.renderLayer = self.renderLayer or 1
+  self.isVisible = self.isVisible or true
 end
 
 function basicEnt:draw()

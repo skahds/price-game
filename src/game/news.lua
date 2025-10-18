@@ -94,6 +94,8 @@ function main.deleteNews(news)
   local newsUI = news.ui
   newsUI:delete()
   news:delete()
+
+  return true
 end
 
 function main.spawnNews(id, args)

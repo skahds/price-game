@@ -21,11 +21,14 @@ system.on("main:cardUIReleased", function (uiEnt, button)
     end
 
     local pipline = main.getPipeline("main")
+    local success = false
     pipline:add(0, function ()
-      main.triggerEnt(ent, "DEPLOY")
+      success = main.triggerEnt(ent, "DEPLOY")
     end)
     pipline:add(0, function ()
-      main.discardCard(ent)
+      if success then
+        main.discardCard(ent)
+      end
     end)
   end
 end)

@@ -15,7 +15,7 @@ system.on("@load", function ()
   -- end
 
   for i=1, 4 do
-    local card = main.createCard("magnifyingGlass", {}, "hand")
+    local card = main.createCard("void", {}, "hand")
     main.addCardToDraw(card)
   end
     for i=1, 4 do

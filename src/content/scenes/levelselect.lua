@@ -26,6 +26,17 @@ main.defineScene("levelSelect", function ()
   main.tweenCamera(0.2, {
     x=lastUI.x+lastUI.width/2,
     y=lastUI.y+lastUI.height/2})
+  
+  local chart = system.getStorage("main:chart")
+  if chart then
+    chart:forAllNews(function (news)
+      news.ui.isVisible = false
+    end)
+
+    chart:forAllBar(function (bar)
+      bar.isVisible = false
+    end)
+  end
 end, function ()
   for i, ui in ipairs(activeUI) do
     ui:delete()
@@ -35,4 +46,15 @@ end, function ()
   local xAdd = 150
   local yAdd = love.math.random(-100, 100)
   table.insert(levels, {x=lastLevel.x+xAdd, y=lastLevel.y+yAdd})
+
+  local chart = system.getStorage("main:chart")
+  if chart then
+    chart:forAllNews(function (news)
+      news.ui.isVisible = true
+    end)
+
+    chart:forAllBar(function (bar)
+      bar.isVisible = true
+    end)
+  end
 end)

@@ -79,9 +79,18 @@ end
 -- pretty hacky.. this is more of a "helper" function
 function main.deleteEntity(ent)
   if ent.isCard then
-    main.deleteCard(ent)
+    return main.deleteCard(ent)
   elseif ent.isNews then
-    main.deleteNews(ent)
+    return main.deleteNews(ent)
+  end
+end
+
+-- for cards to use, ie destroy card to the right
+function main.tryDestroyEntity(ent)
+  if ent.isCard then
+    return main.deleteCard(ent)
+  elseif ent.isNews then
+    return main.deleteNews(ent)
   end
 end
 
