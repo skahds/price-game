@@ -213,8 +213,6 @@ end
 function main.drawCard()
   local card = main.card.draw[1]
   if card == nil then
-    main.shuffleDiscardToDraw()
-    main.drawCard()
     return
   end
 
@@ -273,6 +271,9 @@ function main.drawCardTillMaxCapacity()
     local newCardSpace = system.ask("main:cardSpaceUsed", combiner.ADD, nextCard)
     if currentSpace + newCardSpace <= maxCard then
       pipeline:add(0, function ()
+        if #main.card.draw == 0 and #main.card.discard > 0 then
+          main.shuffleDiscardToDraw()
+        end
         main.drawCard()
         pipeline:add(0.15, function ()
           main.drawCardTillMaxCapacity()

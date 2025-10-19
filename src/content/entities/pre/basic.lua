@@ -44,6 +44,12 @@ main.defineCard("giver", {
   price = 2,
 })
 
+main.defineCard("junk", {
+  name = "Junk",
+  image = "junk",
+  price = -1,
+})
+
 -- main.defineCard("volatilityCard", {
 --   name = "volatility Card",
 --   image = "volatilityCard",

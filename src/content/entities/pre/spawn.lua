@@ -53,3 +53,16 @@ main.defineCard("cell", {
     main.spawnNews("goodNews", {x=pos.x+xoffset, y=pos.y+yoffset})
   end
 })
+
+main.defineCard("factory", {
+  name = "Factory",
+  description = "Spawns a temporary-2 junk",
+  defaultMoneyGain = 1,
+  image = "redfan", -- temp
+  trigger = {"POST"},
+  price = 2,
+  onActivate = function (ent)
+    main.basicSpawnCard("junk", {temporary = 2}, ent, "hand")
+  end,
+  rarity = "RARE"
+})

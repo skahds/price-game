@@ -7,6 +7,14 @@ main.defineCard("advancer", {
   trigger = {"POST"},
   price = 2,
   rarity = "EPIC",
+
+  onActivate = function (ent)
+    local target = main.getCardBesides(ent, -1)
+
+    if target then
+      main.changeEntityComponent(target, "defaultMultGain", 1, combiner.ADD)
+    end
+  end
 })
 
 main.defineCard("retribution", {

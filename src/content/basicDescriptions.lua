@@ -72,6 +72,12 @@ main.addDescriptionTag(31, function (ent)
   end
 end)
 
+main.addDescriptionTag(32, function (ent)
+  if ent.isHollow == true then
+    return "Hollow:\nDoesn't take up space"
+  end
+end)
+
 main.addDescriptionType(22, function (ent)
   if ent.defaultPointGain ~= 0 then
     return "Gives {pointColor}" .. format(ent.defaultPointGain) .. " points"
@@ -90,8 +96,8 @@ main.addDescriptionType(22, function (ent)
   end
 end)
 
-main.addDescriptionType(23, function (ent)
-  if ent.isHollow == true then
-    return "Hollow: Doesn't take up space"
+main.addDescriptionType(22, function (ent)
+  if ent.defaultDrawCard ~= 0 then
+    return "Draws " .. ent.defaultDrawCard .. " card"
   end
 end)
