@@ -1,11 +1,11 @@
 local discardPileText = main.newRichText({format="0",
   x=0,
-  y=505,
+  y=70,
   renderLayer = 200,})
 
 local drawPileText = main.newRichText({format="0",
   x=0,
-  y=455,
+  y=70,
   renderLayer = 200,})
 
 system.on("@draw", function ()
@@ -15,8 +15,8 @@ system.on("@draw", function ()
   end
 
   system.render(280, function ()
-    love.graphics.draw(system.getImage("discardPile"), 1100, 500)
-    love.graphics.draw(system.getImage("drawPile"), 1100, 450)
+    love.graphics.draw(system.getImage("discardPile"), 80, 60)
+    love.graphics.draw(system.getImage("drawPile"), 250, 60)
   end, true)
 end)
 
@@ -28,8 +28,8 @@ system.on("@update", function ()
     return
   end
 
-  discardPileText.x = 1170
-  drawPileText.x = 1170
+  discardPileText.x = 160
+  drawPileText.x = 330
   local c = #main.card.discard
   main.updateRichTextText(discardPileText, c)
   local d = #main.card.draw

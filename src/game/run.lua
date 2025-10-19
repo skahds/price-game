@@ -1,3 +1,3 @@
--- system.on("main:startTurn", function ()
-  
+-- system.on("@update", function ()
+--   print("running")
 -- end)

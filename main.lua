@@ -1,3 +1,5 @@
+jit.off()
+
 love.graphics.setDefaultFilter("nearest", "nearest")
 system = {}
 main = {}

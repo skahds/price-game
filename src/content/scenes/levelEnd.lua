@@ -50,7 +50,8 @@ main.defineScene("levelEnd", function ()
     end)
   end
 
-  while #main.card.draw + #main.card.discard > 0 do
+  main.shuffleDiscardToDraw()
+  while #main.card.draw > 0 do
     main.drawCard()
   end
 

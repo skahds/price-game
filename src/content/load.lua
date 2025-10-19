@@ -27,7 +27,7 @@ system.on("@load", function ()
   -- main.addCardToDraw(card)
   local card2 = main.createCard("factory", {}, "hand")
   main.addCardToDraw(card2)
-  local card3 = main.createCard("retribution", {}, "hand")
+  local card3 = main.createCard("advancer", {}, "hand")
   main.addCardToDraw(card3)
 
   main.shuffleDraw()

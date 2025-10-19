@@ -20,16 +20,16 @@ end)
 
 main.addDescriptionType(59, function (ent)
   if main.canTrigger(ent, "POST") then
-    return "{triggerColor}POST{/triggerColor}: On turn starts"
+    return "{triggerColor}TRIGGER{/triggerColor} on turn start"
   end
 end)
 
 main.addDescriptionType(59, function (ent)
   if main.canTrigger(ent, "DEPLOY") then
     if ent.isLocked then
-      return "(LOCKED) {triggerColor}DEPLOY{/triggerColor}: On release"
+      return "(LOCKED) {triggerColor}TRIGGER{/triggerColor} on {triggerColor}DEPLOY{/triggerColor}"
     else
-      return "{triggerColor}DEPLOY{/triggerColor}: On release"
+      return "{triggerColor}TRIGGER{/triggerColor} on {triggerColor}DEPLOY{/triggerColor}"
     end
   end
 end)

@@ -9,7 +9,7 @@ main.defineCard("advancer", {
   rarity = "EPIC",
 
   onActivate = function (ent)
-    local target = main.getCardBesides(ent, -1)
+    local target = main.getCardBesides(ent, 1)
 
     if target then
       main.changeEntityComponent(target, "defaultMultGain", 1, combiner.ADD)
