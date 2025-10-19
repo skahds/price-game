@@ -47,6 +47,7 @@ main.defineCard("giver", {
 main.defineCard("junk", {
   name = "Junk",
   image = "junk",
+  trigger = {"POST"},
   price = -1,
 })
 

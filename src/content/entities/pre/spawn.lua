@@ -58,7 +58,7 @@ main.defineCard("factory", {
   name = "Factory",
   description = "Spawns a temporary-2 junk",
   defaultMoneyGain = 1,
-  image = "redfan", -- temp
+  image = "factory",
   trigger = {"POST"},
   price = 2,
   onActivate = function (ent)

@@ -25,7 +25,7 @@ system.on("@load", function ()
 
   -- local card = main.createCard("bounceSpawner", {}, "hand")
   -- main.addCardToDraw(card)
-  local card2 = main.createCard("redFan", {}, "hand")
+  local card2 = main.createCard("factory", {}, "hand")
   main.addCardToDraw(card2)
   local card3 = main.createCard("retribution", {}, "hand")
   main.addCardToDraw(card3)
