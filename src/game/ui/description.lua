@@ -11,8 +11,8 @@ ORDER LISTS:
 MISC - 50
 IMPORTANT-er MISC - 60
 ]]
-function main.addDescriptionType(order, func)
-  table.insert(descriptionList, {order=order, func=func})
+function main.addDescriptionType(order, func, isLine)
+  table.insert(descriptionList, {order=order, func=func, isLine = isLine})
   table.sort(descriptionList, function (a, b)
     return a.order < b.order
   end)
@@ -272,6 +272,10 @@ system.on("@draw", function ()
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.setLineWidth(spacing/4)
         love.graphics.rectangle("line", startX, startY, width, height, spacing, spacing)
+
+        love.graphics.setColor(0.6, 0.6, 0.6, 0.6)
+        local y = RichTextsList[1].y + RichTextsList[1].richText:getHeight()
+        love.graphics.line(RichTextsList[1].x-centerGap, y, RichTextsList[1].x+centerGap+RichTextsList[1].richText:getWidth(), y)
       end, true)
     end
   end

@@ -50,10 +50,10 @@ end)
 main.addDescriptionTag(29, function (ent)
   if ent.isRelic == true then
     if ent.isCard then
-      return "Relic:\nStays in hand"
+      return "Relic\nStays in hand"
     end
     if ent.isNews then
-      return "Relic:\nStays in chart"
+      return "Relic\nStays in chart"
     end
   end
 end)
@@ -61,20 +61,20 @@ end)
 main.addDescriptionTag(30, function (ent)
   if ent.temporary ~= math.huge then
     local n = ent.temporary
-    return "Temporary " .. n ..":\nDeleted after " .. n .. " turn"
+    return "Temporary " .. n .."\nDeleted after " .. n .. " turn"
   end
 end)
 
 main.addDescriptionTag(31, function (ent)
   if ent.repeatActivation > 0 then
     local n = ent.repeatActivation
-    return "Repeat " .. n ..":\nRetrigger " .. n .. " times"
+    return "Repeat " .. n .."\nRetrigger " .. n .. " times"
   end
 end)
 
 main.addDescriptionTag(32, function (ent)
   if ent.isHollow == true then
-    return "Hollow:\nDoesn't take up space"
+    return "Hollow\nDoesn't take up space"
   end
 end)
 
