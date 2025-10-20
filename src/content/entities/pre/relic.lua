@@ -3,7 +3,7 @@ main.defineCard("advancer", {
   isRelic = true,
   isHollow = true,
   image = "advancer",
-  description = "Gives card to the right {multColor}+1 mult",
+  description = "Card to the right {multColor}+1 mult",
   trigger = {"POST"},
   price = 2,
   rarity = "EPIC",

@@ -121,6 +121,13 @@ local function setPositionToBeInScreen(location, descriptionTable, maxWidth, ext
     richtext.x = fixX
     richtext.y = fixY + (i-1)*(height)
   end
+
+  -- center text
+  for i, richtext in ipairs(descriptionTable) do
+    local width = richtext.richText:getWidth()
+    local extra = (maxWidth-width)/2
+    richtext.x = richtext.x + extra
+  end
 end
 
 local function removeDescription(index)
@@ -153,9 +160,6 @@ local function drawDescription(descriptionTable, location, activeDescriptionInde
   end
 
   local height = font:getHeight()
-  local totalHeight = height * #descriptionTable
-  local startX = location.x
-  local startY = location.y
 
   local t = {}
   for i, format in ipairs(descriptionTable) do
@@ -170,7 +174,6 @@ local function drawDescription(descriptionTable, location, activeDescriptionInde
     local width = text.richText:getWidth(format)
     maxWidth[activeDescriptionIndex] = math.max(maxWidth[activeDescriptionIndex] or 0, width)
   end
-  
 
   setPositionToBeInScreen(location, t, maxWidth[activeDescriptionIndex])
   
@@ -183,6 +186,10 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
   local descriptionTable = parseDescriptionList(ent)
   drawDescription(descriptionTable, location, activeDescriptionIndex)
 
+  local originalXPosition = math.huge
+  for i, text in ipairs(activeDescriptions[activeDescriptionIndex]) do
+    originalXPosition = math.min(originalXPosition, text.x)
+  end
 
   -- spawn tag
   local tags = parseTagsList(ent)
@@ -203,7 +210,7 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
   for i, index in ipairs(activeTags) do
     local tag = activeDescriptions[index]
     local originalDescription = activeDescriptions[activeDescriptionIndex][1]
-    local NewLocation = {x=originalDescription.x - (maxWidth[index]+spacing*2), y=originalDescription.y+currentHeightAdded}
+    local NewLocation = {x=originalXPosition - (maxWidth[index]+spacing*2), y=originalDescription.y+currentHeightAdded}
     setPositionToBeInScreen(NewLocation, tag, maxWidth[index],
     {totalHeightAdded=totalHeightAdded, currentHeight=currentHeightAdded})
     currentHeightAdded = currentHeightAdded + font:getHeight() * #tag + spacing*2
@@ -254,7 +261,8 @@ system.on("@draw", function ()
   for index, RichTextsList in pairs(activeDescriptions) do
     if #RichTextsList > 0 then
       local startY = RichTextsList[1].y - spacing
-      local startX = RichTextsList[1].x - spacing
+      local centerGap = ((maxWidth[index] or 0)-RichTextsList[1].richText:getWidth())/2
+      local startX = RichTextsList[1].x - spacing - centerGap
       local endY = RichTextsList[#RichTextsList].y + RichTextsList[#RichTextsList].richText:getHeight()
       local height = endY-startY + spacing
       local width = (maxWidth[index] or 0) + spacing*2
