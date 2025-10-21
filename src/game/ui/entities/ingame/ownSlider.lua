@@ -32,11 +32,11 @@ main.ui.defineSlider("ownSlider", {
     system.render(202, function ()
       --circle thing in the middle
       love.graphics.setColor(0.7, 0.7, 0.7)
-      if ent.slideAmount-0.5 > 0 then
-        love.graphics.setColor(0.4, 0.7 + (ent.slideAmount-0.5), 0.4)
-      elseif ent.slideAmount-0.5 < 0 then
-        love.graphics.setColor(0.7 + (0.5-ent.slideAmount), 0.4, 0.4)
-      end
+      -- if ent.slideAmount-0.5 > 0 then
+      --   love.graphics.setColor(0.4, 0.7 + (ent.slideAmount-0.5), 0.4)
+      -- elseif ent.slideAmount-0.5 < 0 then
+      --   love.graphics.setColor(0.7 + (0.5-ent.slideAmount), 0.4, 0.4)
+      -- end
       
       love.graphics.circle("fill", x, y, ent:getHeight()/2.2)
 
@@ -67,5 +67,6 @@ main.ui.defineSlider("ownSlider", {
     ent.slideAmount = slideAmount
     local percentageHold = (slideAmount-0.5)*200
     system.updateStorage("main:ownedPercentage", percentageHold)
+    print(percentageHold)
   end
 })

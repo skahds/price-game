@@ -16,3 +16,19 @@ main.defineCard("scale", {
     end
   end
 })
+
+main.defineCard("flag", {
+  name = "Flag",
+  image = "flag",
+  description = "Gains {pointColor}-2 points{/pointColor} for\neach green bar",
+  trigger = {"POST"},
+  price = 2,
+  onActivate = function (ent)
+    local chart = system.getStorage("main:chart")
+    chart:forAllBar(function (bar)
+      if bar.endPrice - bar.startPrice > 0 then
+        main.changeEntityComponent(ent, "defaultPointGain", -2, combiner.ADD)
+      end
+    end)
+  end
+})

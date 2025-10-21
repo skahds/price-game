@@ -75,6 +75,7 @@ end, function ()
 
   local bar = main.spawnBar()
   system.updateStorage("main:currentBar", bar)
+  system.updateStorage("main:ownedPercentage", 0)
 
   for i, card in ipairs(main.card.hand) do
     card.isLocked = true

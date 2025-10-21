@@ -65,12 +65,3 @@ main.defineCard("vision", {
   price = 2,
   rarity = "RARE",
 })
-
--- main.defineCard("vision", {
---   name = "Vision",
---   image = "vision",
---   defaultDrawCard = 1,
---   trigger = {"DEPLOY"},
---   price = 2,
---   rarity = "RARE",
--- })
