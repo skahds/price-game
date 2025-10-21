@@ -16,7 +16,7 @@ main.defineCard("amplifier", {
 main.defineCard("magnifyingGlass", {
   name = "Magnifying Glass",
   image = "magnifyingGlass",
-  description = "News in area gains {pointColor}+3 points",
+  description = "News in area gains {pointColor}+4 points",
   mouseHeldArea = {size=100, fixed=false},
   trigger = {"DEPLOY"},
   price = 2,
@@ -28,7 +28,7 @@ main.defineCard("magnifyingGlass", {
       local size = ent.mouseHeldArea.size
       local area = {x=mouse.x-size/2, y=mouse.y-size/2, width=size, height=size}
       if main.AABB_check(news.ui, area) then
-        main.changeEntityComponent(news, "defaultPointGain", 3, combiner.ADD)
+        main.changeEntityComponent(news, "defaultPointGain", 4, combiner.ADD)
       end
     end)
   end

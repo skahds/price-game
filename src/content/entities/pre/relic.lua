@@ -3,7 +3,7 @@ main.defineCard("advancer", {
   isRelic = true,
   isHollow = true,
   image = "advancer",
-  description = "Card to the right {multColor}+1 mult",
+  description = "Card to the right gains {multColor}+2 mult",
   trigger = {"POST"},
   price = 2,
   rarity = "EPIC",
@@ -12,7 +12,7 @@ main.defineCard("advancer", {
     local target = main.getCardBesides(ent, 1)
 
     if target then
-      main.changeEntityComponent(target, "defaultMultGain", 1, combiner.ADD)
+      main.changeEntityComponent(target, "defaultMultGain", 2, combiner.ADD)
     end
   end
 })

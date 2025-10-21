@@ -2,7 +2,7 @@ main.defineCard("add", {
   name = "Add",
   image = "basicAdd",
   trigger = {"POST"},
-  defaultPointGain = 5,
+  defaultPointGain = 6,
   price = 2,
 })
 
@@ -10,7 +10,7 @@ main.defineCard("multiply", {
   name = "Multiply",
   image = "basicMultiply",
   trigger = {"POST"},
-  defaultMultGain = 1,
+  defaultMultGain = 2,
   price = 2,
 })
 
@@ -18,7 +18,7 @@ main.defineCard("subtract", {
   name = "Subtract",
   image = "basicSubtract",
   trigger = {"POST"},
-  defaultPointGain = -5,
+  defaultPointGain = -6,
   price = 2,
 })
 
