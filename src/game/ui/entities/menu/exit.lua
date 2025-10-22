@@ -1,5 +1,5 @@
 main.ui.defineButton("exit", {
-  width = 150,
+  width = 200,
   height = 80,
   color = {0.7, 0.4, 0.4},
   renderLayer = 101,

@@ -31,9 +31,9 @@ main.defineCard("goldenHex", {
   price = 4,
 })
 
-main.defineCard("giver", {
-  name = "Giver",
-  image = "addRight",
+main.defineCard("grassBow", {
+  name = "Grass Bow",
+  image = "grassBow",
   description = "Card to the right gains {pointColor}+3 points",
   trigger = {"POST"},
   onActivate = function (ent)

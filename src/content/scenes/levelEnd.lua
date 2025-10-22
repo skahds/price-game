@@ -18,7 +18,7 @@ main.defineScene("levelEnd", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=400, height=1500,
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
-  continueToShop = main.ui.spawnUI("continueToShop", {x=70, y=100}, true)
+  continueToShop = main.ui.spawnUI("continueToShop", {x=70, y=310}, true)
 
   local finalStats = system.getStorage("main:endLevelStats")
   local roundsRemaining = system.getStorage("main:roundsRemaining")

@@ -1,6 +1,10 @@
 -- only can click the latest one
-local levels = {{x=0, y=0}}
+local levels = {{x=-32, y=-32}}
 local activeUI = {}
+
+-- local pointsRequired = {
+--   100,
+-- }
 
 local function getPointRequirement(i)
   return math.floor(20*(1.5^i)+0.5)

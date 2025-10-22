@@ -9,13 +9,10 @@ system.on("main:endTurn", function ()
     pipeline:add(0.1, function ()
       main.playScene("levelEnd")
     end)
-  end
-
-  -- if counter >= roundPerDay then
-  if roundsRemaining <= 0 then
-    -- show some lose UI
+  elseif roundsRemaining <= 0 then
     pipeline:add(0.1, function ()
-      main.playScene("levelEnd")
+      system.updateStorage("main:gameResult", "LOSE")
+      main.playScene("gameEnd")
     end)
   end
 end)

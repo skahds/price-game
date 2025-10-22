@@ -23,5 +23,5 @@ system.on("main:entityTriggered", function (ent)
 
   local combo = system.getStorage("main:currentCombo") or 0
   local audio = system.playAudio("boop")
-  main.audio.offsetAudioSourcePitch(audio, combo)
+  main.audio.offsetAudioSourcePitch(audio, math.min(combo, 12))
 end)

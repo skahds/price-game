@@ -1,5 +1,3 @@
-jit.off()
-
 love.graphics.setDefaultFilter("nearest", "nearest")
 system = {}
 main = {}
@@ -12,7 +10,6 @@ function love.load()
   require('modLoading')
 
   system.call("@load")
-
 end
 
 function love.update(dt)

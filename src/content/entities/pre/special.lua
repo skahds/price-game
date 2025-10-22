@@ -38,7 +38,8 @@ main.defineCard("greenHammer", {
   image = "greenHammer",
   description = "Give {pointColor}+50 points{/pointColor} if\ncurrent bar is red",
   trigger = {"POST"},
-  price = 2,
+  price = 3,
+  rarity  = "RARE",
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")
     local bar = chart:getBar(-1)
@@ -53,7 +54,8 @@ main.defineCard("redHammer", {
   image = "redHammer",
   description = "Give {pointColor}-50 points{/pointColor} if\ncurrent bar is green",
   trigger = {"POST"},
-  price = 2,
+  price = 3,
+  rarity  = "RARE",
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")
     local bar = chart:getBar(-1)
