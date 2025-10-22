@@ -5,7 +5,7 @@ main.defineCard("advancer", {
   image = "advancer",
   description = "Card to the right gains {multColor}+2 mult",
   trigger = {"POST"},
-  price = 2,
+  price = 4,
   rarity = "EPIC",
 
   onActivate = function (ent)
@@ -22,9 +22,9 @@ main.defineCard("retribution", {
   image = "retribution",
   isRelic = true,
   isHollow = true,
-  description = "Destroys card to the left\nand gain its price as {pointColor}points",
+  description = "Destroys card to the left and\ngain 2x its price as {pointColor}points",
   trigger = {"POST"},
-  price = 2,
+  price = 4,
   rarity = "EPIC",
 
   onActivate = function (ent)
@@ -34,7 +34,7 @@ main.defineCard("retribution", {
       local price = leftCard.price
       local success = main.tryDestroyEntity(leftCard)
       if success then
-        main.changeEntityComponent(ent, "defaultPointGain", price, combiner.ADD)
+        main.changeEntityComponent(ent, "defaultPointGain", price*2, combiner.ADD)
       end
     end
   end

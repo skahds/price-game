@@ -3,7 +3,7 @@ main.defineCard("amplifier", {
   image = "amplifier",
   description = "Next activation {repeatColor}+1 repeat{/repeatColor}",
   trigger = {"DEPLOY", "POST"},
-  price = 2,
+  price = 3,
   rarity = "RARE",
   
   onActivate = function ()
@@ -37,12 +37,11 @@ main.defineCard("magnifyingGlass", {
 main.defineCard("void", {
   name = "Void",
   image = "void",
-  description = "Destroy card to the right\nand gain {moneyColor}$1",
+  description = "Destroy card to the right",
   trigger = {"DEPLOY"},
   temporary = 1,
   price = 2,
   rarity = "RARE",
-  defaultMoneyGain = 1,
   
   filter = function (ent)
     local target = main.getCardBesides(ent, 1)
@@ -64,4 +63,25 @@ main.defineCard("vision", {
   trigger = {"DEPLOY"},
   price = 2,
   rarity = "RARE",
+})
+
+main.defineCard("unit", {
+  name = "Unit",
+  image = "unit",
+  description = "Spawns a relic news\nwhich gives {multColor}+2 mult",
+  trigger = {"DEPLOY"},
+  temporary = 1,
+  price = 2,
+  onActivate = function (ent)
+    local chart = system.getStorage("main:chart")
+    local pos = chart:getCurrentPricePos()
+
+    if pos == nil then
+      return
+    end
+
+    local xoffset = love.math.random(-40, 40)
+    local yoffset = love.math.random(-40, 40)
+    main.spawnNews("multNews", {x=pos.x+xoffset, y=pos.y+yoffset, isRelic=true})
+  end
 })

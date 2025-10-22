@@ -18,22 +18,6 @@ main.addDescriptionType(20, function (ent)
   end
 end)
 
-main.addDescriptionType(59, function (ent)
-  if main.canTrigger(ent, "POST") then
-    return "{triggerColor}TRIGGER{/triggerColor} on turn start"
-  end
-end)
-
-main.addDescriptionType(59, function (ent)
-  if main.canTrigger(ent, "DEPLOY") then
-    if ent.isLocked then
-      return "(LOCKED) {triggerColor}TRIGGER{/triggerColor} on {triggerColor}DEPLOY{/triggerColor}"
-    else
-      return "{triggerColor}TRIGGER{/triggerColor} on {triggerColor}DEPLOY{/triggerColor}"
-    end
-  end
-end)
-
 main.addDescriptionType(60, function (ent)
   local text = ""
   if ent.price then
@@ -75,6 +59,24 @@ end)
 main.addDescriptionTag(32, function (ent)
   if ent.isHollow == true then
     return "Hollow\nDoesn't take up space"
+  end
+end)
+
+main.addDescriptionTag(59, function (ent)
+  local text = "{triggerColor}TRIGGER{/triggerColor}"
+  if main.canTrigger(ent, "POST") then
+    text = text .. "\n-on turn start"
+  end
+  if main.canTrigger(ent, "DEPLOY") then
+    if ent.isLocked then
+      text = text .. "\n-(LOCKED)on DEPLOY"
+    else
+      text = text .. "\n-on DEPLOY"
+    end
+  end
+
+  if text ~= "{triggerColor}TRIGGER{/triggerColor}" then
+    return text
   end
 end)
 

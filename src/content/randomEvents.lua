@@ -1,4 +1,4 @@
-local newsList = {"goodNews", "badNews"}
+local newsList = {"goodNews", "badNews", "volatileNews", "calmNews"}
 local range = {1, 3}
 local randomNewsCounter = love.math.random(range[1], range[2])
 local currentCounter = 0

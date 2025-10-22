@@ -13,3 +13,31 @@ main.defineNews("badNews", {
   temporary = 3,
   defaultPointGain=-3,
 })
+
+main.defineNews("volatileNews", {
+  name = "Volatility",
+  image = "volatileNews",
+  description = "Make round-start price change bigger",
+  trigger = {"POST"},
+  temporary = 2,
+  onActivate = function ()
+    local chart = system.getStorage("main:chart")
+    if chart then
+      chart.volatility = math.max(0, chart.volatility + 0.3)
+    end
+  end
+})
+
+main.defineNews("calmNews", {
+  name = "Calmness",
+  image = "calmNews",
+  description = "Make round-start price change smaller",
+  trigger = {"POST"},
+  temporary = 2,
+  onActivate = function ()
+    local chart = system.getStorage("main:chart")
+    if chart then
+      chart.volatility = math.max(0, chart.volatility - 0.3)
+    end
+  end
+})

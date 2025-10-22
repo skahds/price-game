@@ -3,7 +3,7 @@ main.defineCard("add", {
   image = "basicAdd",
   trigger = {"POST"},
   defaultPointGain = 6,
-  price = 2,
+  price = 1,
 })
 
 main.defineCard("multiply", {
@@ -11,7 +11,7 @@ main.defineCard("multiply", {
   image = "basicMultiply",
   trigger = {"POST"},
   defaultMultGain = 2,
-  price = 2,
+  price = 1,
 })
 
 main.defineCard("subtract", {
@@ -19,7 +19,7 @@ main.defineCard("subtract", {
   image = "basicSubtract",
   trigger = {"POST"},
   defaultPointGain = -6,
-  price = 2,
+  price = 1,
 })
 
 main.defineCard("goldenHex", {
@@ -27,7 +27,8 @@ main.defineCard("goldenHex", {
   image = "goldenHex",
   trigger = {"POST"},
   defaultMoneyGain = 1,
-  price = 2,
+  rarity="RARE",
+  price = 4,
 })
 
 main.defineCard("giver", {

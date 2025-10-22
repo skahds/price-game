@@ -15,17 +15,17 @@ system.on("@load", function ()
   -- end
 
   for i=1, 4 do
-    local card = main.createCard("vision", {}, "hand")
+    local card = main.createCard("redHammer", {}, "hand")
     main.addCardToDraw(card)
   end
     for i=1, 4 do
-    local card = main.createCard("cell", {}, "hand")
+    local card = main.createCard("greenHammer", {}, "hand")
     main.addCardToDraw(card)
   end
 
   -- local card = main.createCard("bounceSpawner", {}, "hand")
   -- main.addCardToDraw(card)
-  local card2 = main.createCard("flag", {}, "hand")
+  local card2 = main.createCard("unit", {}, "hand")
   main.addCardToDraw(card2)
   local card3 = main.createCard("advancer", {}, "hand")
   main.addCardToDraw(card3)
