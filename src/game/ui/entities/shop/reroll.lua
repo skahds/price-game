@@ -4,9 +4,9 @@ main.ui.defineButton("rerollButton", {
   color = {0.4, 0.7, 0.4},
   renderLayer = 101,
   screenSpace = true,
-  text = "Reroll {moneyColor}$1{/moneyColor}",
+  text = "Reroll {moneyColor}$4{/moneyColor}",
   audio = "breaker",
   onButtonClicked = function (ent)
-    main.tryReroll(1)
+    main.tryReroll(4)
   end
 })

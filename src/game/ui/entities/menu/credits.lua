@@ -6,5 +6,5 @@ main.ui.defineUI("credits", {
   showDescription = true,
   text = "Credits",
   screenSpace = true,
-  description = "font: somepx humble-fonts-free\nmusic: pizzadoggy cozy-tunes"
+  description = "dev/sprite: skahd\nfont: somepx humble-fonts-free\nmusic: pizzadoggy cozy-tunes"
 })

@@ -23,7 +23,7 @@ main.defineNews("volatileNews", {
   onActivate = function ()
     local chart = system.getStorage("main:chart")
     if chart then
-      chart.volatility = math.max(0, chart.volatility + 0.3)
+      chart.volatility = math.max(0, chart.volatility + 0.1)
     end
   end
 })
@@ -37,7 +37,7 @@ main.defineNews("calmNews", {
   onActivate = function ()
     local chart = system.getStorage("main:chart")
     if chart then
-      chart.volatility = math.max(0, chart.volatility - 0.3)
+      chart.volatility = math.max(0, chart.volatility - 0.1)
     end
   end
 })

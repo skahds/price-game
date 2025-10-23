@@ -2,12 +2,16 @@
 local levels = {{x=-32, y=-32}}
 local activeUI = {}
 
--- local pointsRequired = {
---   100,
--- }
+local pointsRequired = {
+  100,
+  200,
+  300,
+  500,
+  1000
+}
 
 local function getPointRequirement(i)
-  return math.floor(20*(1.5^i)+0.5)
+  return pointsRequired[i] or math.floor(20*(1.5^i)+0.5)
 end
 
 main.defineScene("levelSelect", function ()
@@ -22,7 +26,7 @@ main.defineScene("levelSelect", function ()
     activeUI[i] = ui
     ui.name = "Level " .. i
     ui.pointRequirement = getPointRequirement(i)
-    ui.description = "Point Required: {pointColor}" .. ui.pointRequirement .. "{/pointColor}"
+    ui.description = "Point Required: {pointColor}" .. ui.pointRequirement .. "{/pointColor}\nGives {moneyColor}$3"
     main.updateRichTextText(ui.richtext, i)
   end
   local lastUI = activeUI[#activeUI]
@@ -42,6 +46,8 @@ main.defineScene("levelSelect", function ()
     end)
   end
 end, function ()
+  system.updateStorage("main:currentLevel", #levels)
+  
   for i, ui in ipairs(activeUI) do
     ui:delete()
   end

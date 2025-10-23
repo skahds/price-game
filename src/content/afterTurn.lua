@@ -7,7 +7,13 @@ system.on("main:endTurn", function ()
 
   if pointRequired <= point then
     pipeline:add(0.1, function ()
-      main.playScene("levelEnd")
+      local currentLevel = system.getStorage("main:currentLevel")
+      if currentLevel == 5 then
+        system.updateStorage("main:gameResult", "WIN")
+        main.playScene("gameEnd")
+      else
+        main.playScene("levelEnd")
+      end
     end)
   elseif roundsRemaining <= 0 then
     pipeline:add(0.1, function ()

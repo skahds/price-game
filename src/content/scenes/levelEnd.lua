@@ -25,16 +25,16 @@ main.defineScene("levelEnd", function ()
   local t = {}
   table.insert(t, "Total point: " .. finalStats.finalPoint)
   table.insert(t, "Turn played: " .. finalStats.barsTaken)
-  if roundsRemaining == 0 then
-    -- don't add anything
-  elseif roundsRemaining < 10 then
+
+  local money = roundsRemaining + 3
+  if money < 10 then
     local text = "Money Earned: {moneyColor}"
-    for i=1, roundsRemaining do
+    for i=1, money do
       text = text .. "$"
     end
     table.insert(t, text)
   else
-    table.insert(t, "Money Earned: {moneyColor}$" .. roundsRemaining)
+    table.insert(t, "Money Earned: {moneyColor}$" .. money)
   end
     
 
@@ -55,7 +55,6 @@ main.defineScene("levelEnd", function ()
     main.drawCard()
   end
 
-  local money = roundsRemaining
   for i=1, money do
     pipeline:add(0.1, function ()
       main.addMoney(1)

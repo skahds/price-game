@@ -1,6 +1,6 @@
 system.updateStorage("main:point", 0)
 system.updateStorage("main:mult", 1)
-system.updateStorage("main:money", 50)
+system.updateStorage("main:money", 0)
 system.updateStorage("shop:maxCardAmount", 5)
 system.updateStorage("main:maxCardAmount", 5)
 system.updateStorage("main:roundsPerDay", 5)

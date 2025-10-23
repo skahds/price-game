@@ -21,6 +21,7 @@ main.defineScene("gameEnd", function ()
     table.insert(t, "You have lost!")
   else
     table.insert(t, "You have won!")
+    table.insert(t, "Thanks for playing")
   end
   
   table.insert(t, "Total point: " .. finalStats.finalPoint)
