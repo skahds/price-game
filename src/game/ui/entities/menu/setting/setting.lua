@@ -22,6 +22,7 @@ function main.ui.gameSettings()
       color = {0.6, 0.6, 0.6},
       outline = 20,
       outlineColor = {0.2, 0.2, 0.2},
+      ignoreUIChecks = false,
       renderLayer = 400}, true)
     
     sfxSlider = main.ui.spawnUI("basicSlider", {
@@ -74,7 +75,7 @@ function main.ui.gameSettings()
       renderLayer = 412,
     }, true)
 
-    back = main.ui.spawnUI("back", {
+    back = main.ui.spawnUI("settingBack", {
       x=dimension.w/2-width/4-75,
       y=dimension.h/2-30,
       renderLayer = 412,
@@ -90,3 +91,30 @@ function main.ui.gameSettings()
     isSettingShown = false
   end
 end
+
+main.ui.defineButton("settingBack", {
+  width = 200,
+  height = 80,
+  color = {0.4, 0.4, 0.7},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "BACK",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    main.ui.gameSettings()
+  end
+})
+
+main.ui.defineButton("exit", {
+  width = 200,
+  height = 80,
+  color = {0.7, 0.4, 0.4},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "EXIT",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    -- save game later
+    love.event.quit()
+  end
+})
