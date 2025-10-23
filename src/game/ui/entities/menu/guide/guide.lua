@@ -7,15 +7,15 @@ local pages = {
   {
     image="guideSlider",
     size={445, 200},
-    text="3"
+    text={"This is a slider where you", "can adjust your {multColor}multiplier"}
   },  {
-    image="guideSlider",
-    size={445, 200},
-    text="2"
+    image="guideHand",
+    size={300, 187},
+    text={"This is your hand,", "Your cards go here,", "You can move cards around"}
   },  {
-    image="guideSlider",
-    size={445, 200},
-    text="1"
+    image="guideShop",
+    size={300, 189},
+    text={"You can upgrade your", "run in the shop", "by {moneyColor}buying{/moneyColor} cards!"}
   }
 }
 
@@ -26,7 +26,12 @@ local function deleteAll(arg)
 end
 
 local function buttonClick(n)
-  currentPage=math.max(math.min(currentPage+n, #pages), 1)
+  currentPage=currentPage+n
+  if currentPage > #pages then
+    currentPage = 1
+  elseif currentPage < 1 then
+    currentPage = #pages
+  end
 end
 
 local dimension = system.getStorage("screenDimension")
@@ -54,8 +59,8 @@ function main.ui.guidebook()
     }, true)
 
     guideSelectLeft = main.ui.spawnUI("guideSelect", {
-      x=dimension.w/2-width/4-20,
-      y=dimension.h/2+height/3-20,
+      x=dimension.w/2-width/4-40,
+      y=dimension.h/2+height/3-40,
       renderLayer = 392,
       text="<",
       onButtonClicked = function ()
@@ -64,8 +69,8 @@ function main.ui.guidebook()
     }, true)
 
     guideSelectRight = main.ui.spawnUI("guideSelect", {
-      x=dimension.w/2+width/4-20,
-      y=dimension.h/2+height/3-20,
+      x=dimension.w/2+width/4-40,
+      y=dimension.h/2+height/3-40,
       renderLayer = 392,
       text=">",
       onButtonClicked = function ()
@@ -105,12 +110,15 @@ system.on("@draw", function ()
     love.graphics.draw(system.getImage(page.image), x, y)
   end, true)
 
-  main.printRichText({
-    format = page.text,
-    x=x,
-    y=y+h+20,
-    renderLayer = 392
-  })
+  for i, text in ipairs(page.text) do
+    local t = main.printRichText({
+      format = text,
+      x=0,
+      y=y+h+10+40*(i-1),
+      renderLayer = 392
+    })
+    t.x = dimension.w/2-t.richText:getWidth()/2
+  end
 end)
 
 main.ui.defineButton("guideBack", {
@@ -127,8 +135,8 @@ main.ui.defineButton("guideBack", {
 })
 
 main.ui.defineButton("guideSelect", {
-  width = 40,
-  height = 40,
+  width = 80,
+  height = 80,
   color = {0.7, 0.4, 0.4},
   renderLayer = 101,
   screenSpace = true,

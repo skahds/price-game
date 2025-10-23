@@ -1,35 +1,22 @@
 system.on("@load", function ()
-  -- for i=1, 3 do
-  --   local card = main.createCard("add", {}, "hand")
-  --   main.addCardToDraw(card)
-  -- end
-
-  -- for i=1, 3 do
-  --   local card = main.createCard("giver", {}, "hand")
-  --   main.addCardToDraw(card)
-  -- end
-
-  -- for i=1, 3 do
-  --   local card = main.createCard("multiply", {}, "hand")
-  --   main.addCardToDraw(card)
-  -- end
-
-  for i=1, 4 do
-    local card = main.createCard("redHammer", {}, "hand")
-    main.addCardToDraw(card)
-  end
-    for i=1, 4 do
-    local card = main.createCard("greenHammer", {}, "hand")
+  for i=1, 3 do
+    local card = main.createCard("multiply", {}, "hand")
     main.addCardToDraw(card)
   end
 
-  -- local card = main.createCard("bounceSpawner", {}, "hand")
-  -- main.addCardToDraw(card)
-  local card2 = main.createCard("unit", {}, "hand")
-  main.addCardToDraw(card2)
-  local card3 = main.createCard("advancer", {}, "hand")
-  main.addCardToDraw(card3)
+  for i=1, 3 do
+    local card = main.createCard("add", {}, "hand")
+    main.addCardToDraw(card)
+  end
 
+  for i=1, 3 do
+    local card = main.createCard("subtract", {}, "hand")
+    main.addCardToDraw(card)
+  end
+
+  local card = main.createCard("amplifier", {}, "hand")
+  main.addCardToDraw(card)
+  
   main.shuffleDraw()
 
   main.playScene("menu")

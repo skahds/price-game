@@ -223,7 +223,7 @@ system.on("@update", function ()
   
   if currentHeldCard then
     local screenDimension = system.getStorage("screenDimension")
-    local pos = {x=screenDimension.w*3/4+20, y=270}
+    local pos = {x=screenDimension.w*3/4+80, y=270}
     drawCompleteDescription(currentHeldCard, pos, "selected")
   else
     removeCompleteDescription("selected")
