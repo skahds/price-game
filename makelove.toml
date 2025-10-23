@@ -8,4 +8,7 @@ love_files = [
 ]
 
 [win64]
-love_binaries = "C:/Users/user/Downloads/love-12.0-win64"
+love_binaries = "D:/code/love2d/love-12.0-win64"
+
+# [linux]
+# source_appimage = "D:/code/love2d/love12linux/love12.AppImage"
