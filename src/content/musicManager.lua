@@ -1,4 +1,5 @@
-local musicList = {"EveningHarmony"}
+local musicList = {"EveningHarmony", "PolarLights", "StrangeWorlds", "GentleBreeze"}
+system.updateStorage("audio:musicVolume", 100)
 
 system.on("@load", function ()
   local rnd = love.math.random(1, #musicList)

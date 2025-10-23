@@ -1,0 +1,11 @@
+name = "chartweaver"
+default_targets = ["win64"]
+build_directory = "D:/code/love2d/pricegamebuild"
+
+love_files = [
+    "::git-ls-tree::",
+    "-*/.*",
+]
+
+[win64]
+love_binaries = "C:/Users/user/Downloads/love-12.0-win64"
