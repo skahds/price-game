@@ -16,6 +16,10 @@ local pages = {
     image="guideShop",
     size={300, 189},
     text={"You can upgrade your", "run in the shop", "by {moneyColor}buying{/moneyColor} cards!"}
+  },  {
+    image="triggerGuide",
+    size={252, 189},
+    text={"Cards have {triggerColor}TRIGGER", "for how they activate,", "^ this one has 2!"}
   }
 }
 

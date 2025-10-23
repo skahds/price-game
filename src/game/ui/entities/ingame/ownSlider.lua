@@ -67,6 +67,5 @@ main.ui.defineSlider("ownSlider", {
     ent.slideAmount = slideAmount
     local percentageHold = (slideAmount-0.5)*200
     system.updateStorage("main:ownedPercentage", percentageHold)
-    print(percentageHold)
   end
 })

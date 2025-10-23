@@ -1,5 +1,5 @@
 local isSettingShown = false
-local cover, sfxSlider, musicSlider, exit, back, restart
+local cover, sfxSlider, musicSlider, exit, back, restart, guide
 local sfxStorage, musicStorage = "audio:sfxVolume", "audio:musicVolume"
 
 local function deleteAll(arg)
@@ -69,7 +69,7 @@ function main.ui.gameSettings()
       outlineColor = {0.5, 0.5, 0.5},
     }, true)
 
-    exit = main.ui.spawnUI("exit", {
+    exit = main.ui.spawnUI("settingExit", {
       x=dimension.w/2-width/4-75,
       y=dimension.h/2+80,
       renderLayer = 412,
@@ -81,13 +81,19 @@ function main.ui.gameSettings()
       renderLayer = 412,
     }, true)
 
-    restart = main.ui.spawnUI("restart", {
+    restart = main.ui.spawnUI("settingRestart", {
       x=dimension.w/2-width/4-75,
       y=dimension.h/2-140,
       renderLayer = 412,
     }, true)
+
+    guide = main.ui.spawnUI("settingGuide", {
+      x=dimension.w/2-width/4-75-80,
+      y=dimension.h/2-140,
+      renderLayer = 412,
+    }, true)
   else
-    deleteAll({cover, sfxSlider, musicSlider, exit, back, restart})
+    deleteAll({cover, sfxSlider, musicSlider, exit, back, restart, guide})
     isSettingShown = false
   end
 end
@@ -105,7 +111,7 @@ main.ui.defineButton("settingBack", {
   end
 })
 
-main.ui.defineButton("exit", {
+main.ui.defineButton("settingExit", {
   width = 200,
   height = 80,
   color = {0.7, 0.4, 0.4},
@@ -116,5 +122,33 @@ main.ui.defineButton("exit", {
   onButtonClicked = function (ent)
     -- save game later
     love.event.quit()
+  end
+})
+
+-- TEMPORARY
+main.ui.defineButton("settingRestart", {
+  width = 200,
+  height = 80,
+  color = {0.5, 0.7, 0.6},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "RESTART",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    love.event.restart()
+  end
+})
+
+main.ui.defineButton("settingGuide", {
+  width = 60,
+  height = 60,
+  color = {0.7, 0.4, 0.4},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "?",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    main.ui.guidebook()
+    main.ui.gameSettings()
   end
 })
