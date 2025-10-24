@@ -5,9 +5,13 @@ local currentPage = 1
 --image width, height = 400, 300
 local pages = {
   {
-    image="guideSlider",
-    size={445, 200},
-    text={"This is a slider where you", "can adjust your {multColor}multiplier"}
+    image="guideLogo",
+    size={316, 200},
+    text={"Welcome, in this game, you", "try to get lots of points!"}
+  },  {
+    image="guideRound",
+    size={459, 150},
+    text={"Decide if you think the", "price will go up or down,", "these will give you {pointColor}points"}
   },  {
     image="guideHand",
     size={300, 187},

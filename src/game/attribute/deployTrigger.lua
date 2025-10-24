@@ -81,7 +81,7 @@ system.on("@draw", function ()
       love.graphics.line(0, y, 2000, y)
 
       love.graphics.setColor(1, 1, 1)
-      love.graphics.draw(system.getImage("mouseRight"), dimension.w-150, dimension.h-cancelSize+60)
+      -- love.graphics.draw(system.getImage("mouseRight"), dimension.w-150, dimension.h-cancelSize+60)
     end, true)
   end
 end)
