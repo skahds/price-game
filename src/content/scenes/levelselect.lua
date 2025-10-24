@@ -3,10 +3,10 @@ local levels = {{x=-32, y=-32}}
 local activeUI = {}
 
 local pointsRequired = {
-  100,
-  200,
+  80,
+  150,
   300,
-  500,
+  600,
   1000
 }
 

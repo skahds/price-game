@@ -45,6 +45,48 @@ main.defineCard("grassBow", {
   price = 2,
 })
 
+main.defineCard("tail", {
+  name = "Tail",
+  image = "tail",
+  description = "Gives half of {multColor}mult{/multColor} as {pointColor}points",
+  trigger = {"ROUND"},
+  onActivate = function (ent)
+    local mult = system.getStorage("main:mult")
+    main.addPoint(math.floor(mult/2+0.5))
+  end,
+  price = 2,
+})
+
+main.defineCard("greenDice", {
+  name = "Green Dice",
+  image = "greenDice",
+  description = "2/3 chance to give {pointColor}+10 points{/pointColor}\n1/3 chance to give {pointColor}-10 points",
+  trigger = {"ROUND"},
+  onActivate = function (ent)
+    if love.math.random() > 1/3 then
+      main.addPoint(10)
+    else
+      main.addPoint(-10)
+    end
+  end,
+  price = 2,
+})
+
+main.defineCard("redDice", {
+  name = "Red Dice",
+  image = "redDice",
+  description = "2/3 chance to give {pointColor}-10 points{/pointColor}\n1/3 chance to give {pointColor}+10 points",
+  trigger = {"ROUND"},
+  onActivate = function (ent)
+    if love.math.random() > 1/3 then
+      main.addPoint(-10)
+    else
+      main.addPoint(10)
+    end
+  end,
+  price = 2,
+})
+
 main.defineCard("junk", {
   name = "Junk",
   image = "junk",

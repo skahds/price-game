@@ -7,7 +7,7 @@ local pages = {
   {
     image="guideLogo",
     size={316, 200},
-    text={"Welcome, in this game, you", "try to get lots of points!"}
+    text={"Welcome, in this game, you", "try to get lots of {pointColor}points"}
   },  {
     image="guideRound",
     size={459, 150},
@@ -23,7 +23,7 @@ local pages = {
   },  {
     image="triggerGuide",
     size={252, 189},
-    text={"Cards have {triggerColor}TRIGGER", "for how they activate,", "^ this one has 2!"}
+    text={"Cards have {triggerColor}TRIGGER", "for how they activate,", "pay attention to them!"}
   }
 }
 

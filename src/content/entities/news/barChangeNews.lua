@@ -69,21 +69,24 @@ main.defineNews("randomNews", {
   end
 })
 
-system.on("main:endTurn", function ()
+function main.spawnBarChangeNews()
   local chart = system.getStorage("main:chart")
   if chart then
     local pos = chart:getCurrentPricePos()
 
-    local xoffset = pos.width
-    local yoffset
-    if pos.direction == 1 then
-      yoffset = pos.height - love.math.random(0, 60)
-    else
-      yoffset = -love.math.random(0, 60)
+    if pos == nil then
+      return
     end
 
-    local n = main.spawnNews("randomNews", {x=pos.x+xoffset, y=pos.y+yoffset, temporary=1})
+    local xoffset = love.math.random(-40, 40)
+    local yoffset = love.math.random(-40, 40)
+
+    local n = main.spawnNews("randomNews", {x=pos.x+xoffset, y=pos.y+yoffset})
     local min, max = getMinMax()
     n.description = "Gives {pointColor}points{/pointColor} between {pointColor}" .. min .. "{/pointColor} and {pointColor}" .. max
   end
+end
+
+system.on("main:endTurn", function ()
+  main.spawnBarChangeNews()
 end)

@@ -51,6 +51,8 @@ main.defineScene("play", function ()
     system.updateStorage("main:currentBar", bar)
   end
 
+  main.spawnBarChangeNews()
+
   -- local bar = main.spawnBar()
   -- system.updateStorage("main:currentBar", bar)
 

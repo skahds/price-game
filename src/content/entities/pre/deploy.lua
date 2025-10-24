@@ -65,6 +65,19 @@ main.defineCard("vision", {
   rarity = "RARE",
 })
 
+main.defineCard("sacrifice", {
+  name = "Sacrifice",
+  image = "sacrifice",
+  description = "Discard cards in hand",
+  defaultDrawCard = 4,
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity = "RARE",
+  onActivate = function ()
+    main.discardCurrentCardsInHand()
+  end
+})
+
 main.defineCard("unit", {
   name = "Unit",
   image = "unit",

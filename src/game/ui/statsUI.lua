@@ -141,6 +141,29 @@ system.on("main:sceneChanged", function()
   end
 end)
 
+-- hold%
+system.on("@draw", function ()
+  local scene = system.getStorage("main:currentScene")
+  if scene ~= "play" then
+    return
+  end
+
+  if system.getStorage("main:isOnTurn") ~= true then
+    return
+  end
+
+  local owned = system.getStorage("main:ownedPercentage")
+
+  local t = main.printRichText({
+    format=owned/100 .. "X",
+    x=1100,
+    y=200,
+    renderLayer=200,
+    font = biggerFont
+  })
+  t.x = t.x - t.richText:getWidth()/2
+end)
+
 -- cardHeldText
 
 system.on("@update", function ()

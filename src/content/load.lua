@@ -14,9 +14,11 @@ system.on("@load", function ()
     main.addCardToDraw(card)
   end
 
-  local card = main.createCard("amplifier", {}, "hand")
-  main.addCardToDraw(card)
-  
+  for i=1, 2 do
+    local card = main.createCard("amplifier", {}, "hand")
+    main.addCardToDraw(card)
+  end
+
   main.shuffleDraw()
 
   main.playScene("menu")
