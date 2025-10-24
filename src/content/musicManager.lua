@@ -1,4 +1,4 @@
-local musicList = {"EveningHarmony", "PolarLights", "StrangeWorlds", "GentleBreeze"}
+local musicList = {"StrangeWorlds", "GentleBreeze", "SunlightThroughLeaves", "ForgottenBiomes"}
 system.updateStorage("audio:musicVolume", 100)
 
 system.on("@load", function ()
