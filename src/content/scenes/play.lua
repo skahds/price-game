@@ -1,7 +1,8 @@
 local cover
-local ownSlider
+-- local ownSlider
 local scaleYSlider
-local startTurn
+local sell
+local buy
 local chart
 
 local function deleteAll(args)
@@ -34,8 +35,11 @@ main.defineScene("play", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=1500,
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
-  ownSlider = main.ui.spawnUI("ownSlider", {x=dimension.w/2-200, y=30}, true)
-  startTurn = main.ui.spawnUI("startTurn", {x=80, y=350}, true)
+  -- ownSlider = main.ui.spawnUI("ownSlider", {x=dimension.w/2-200, y=30}, true)
+  sell = main.ui.spawnUI("startTurn", {x=640-100-75, y=50, mult=-1, color={0.7, 0.4, 0.4}}, true)
+  main.updateRichTextText(sell.richtext, "DOWN")
+  buy = main.ui.spawnUI("startTurn", {x=640+100-75, y=50, color={0.4, 0.7, 0.4}}, true)
+  main.updateRichTextText(buy.richtext, "UP")
   chart = system.getStorage("main:chart")
   if chart == nil then
     main.spawnChart({bearPower = 0.1, bullPower = 0.1})
@@ -70,7 +74,7 @@ end, function ()
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)
-  deleteAll({cover, ownSlider, scaleYSlider, startTurn})
+  deleteAll({cover, scaleYSlider, sell, buy})
   chart:clear()
 
   local bar = main.spawnBar()
