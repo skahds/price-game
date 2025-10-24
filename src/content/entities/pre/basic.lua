@@ -1,7 +1,7 @@
 main.defineCard("add", {
   name = "Add",
   image = "basicAdd",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   defaultPointGain = 6,
   price = 1,
 })
@@ -9,7 +9,7 @@ main.defineCard("add", {
 main.defineCard("multiply", {
   name = "Multiply",
   image = "basicMultiply",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   defaultMultGain = 2,
   price = 1,
 })
@@ -17,7 +17,7 @@ main.defineCard("multiply", {
 main.defineCard("subtract", {
   name = "Subtract",
   image = "basicSubtract",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   defaultPointGain = -6,
   price = 1,
 })
@@ -25,7 +25,7 @@ main.defineCard("subtract", {
 main.defineCard("goldenHex", {
   name = "Golden Hex",
   image = "goldenHex",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   defaultMoneyGain = 1,
   rarity="RARE",
   price = 4,
@@ -35,7 +35,7 @@ main.defineCard("grassBow", {
   name = "Grass Bow",
   image = "grassBow",
   description = "Card to the right gains {pointColor}+3 points",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   onActivate = function (ent)
     local targetEnt = main.getCardBesides(ent, 1)
     if targetEnt then
@@ -48,6 +48,6 @@ main.defineCard("grassBow", {
 main.defineCard("junk", {
   name = "Junk",
   image = "junk",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   price = -1,
 })

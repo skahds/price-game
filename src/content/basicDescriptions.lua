@@ -64,12 +64,12 @@ end)
 
 main.addDescriptionTag(59, function (ent)
   local text = "{triggerColor}TRIGGER{/triggerColor}"
-  if main.canTrigger(ent, "POST") then
+  if main.canTrigger(ent, "ROUND") then
     text = text .. "\n-on turn start"
   end
   if main.canTrigger(ent, "DEPLOY") then
     if ent.isLocked then
-      text = text .. "\n-(LOCKED)on DEPLOY"
+      text = text .. "\n-(SHOP-LOCKED)on DEPLOY"
     else
       text = text .. "\n-on DEPLOY"
     end

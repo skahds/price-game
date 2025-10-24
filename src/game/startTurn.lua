@@ -41,34 +41,29 @@ system.on("main:startTurn", function ()
 
     local roundsRemaining = system.getStorage("main:roundsRemaining")
     system.updateStorage("main:roundsRemaining", roundsRemaining-1)
-    pipeline:add(0.2, function()
-
-      local bar = system.getStorage("main:currentBar")
-      main.basicBarSpawnChange(bar, chart)
 
     pipeline:add(0.2, function()
 
-      main.triggerAllCardOwned("POST")
+      main.triggerAllCardOwned("ROUND")
 
-    end)
     end)
   end
 end)
 
 system.on("main:repeatingTriggerCardEnd", function (trigger)
-  if trigger ~= "POST" then
+  if trigger ~= "ROUND" then
     return
   end
 
   pipeline:add(0.2, function ()
 
-    main.triggerAllNews("POST")
+    main.triggerAllNews("ROUND")
 
   end)
 end)
 
 system.on("main:repeatingTriggerNewsEnd", function (trigger)
-  if trigger ~= "POST" then
+  if trigger ~= "ROUND" then
     return
   end
 

@@ -4,7 +4,7 @@ main.defineCard("advancer", {
   isHollow = true,
   image = "advancer",
   description = "Card to the right gains {multColor}+2 mult",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   price = 4,
   rarity = "EPIC",
 
@@ -23,7 +23,7 @@ main.defineCard("retribution", {
   isRelic = true,
   isHollow = true,
   description = "Destroys card to the left and\ngain 2x its price as {pointColor}points",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   price = 4,
   rarity = "EPIC",
 

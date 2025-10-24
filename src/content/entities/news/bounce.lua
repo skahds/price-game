@@ -1,7 +1,7 @@
 main.defineNews("bouncer", {
   name = "bouncer",
   image = "upNews",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   temporary = 3,
   onActivate = function (ent)
     local bar = system.getStorage("main:currentBar")

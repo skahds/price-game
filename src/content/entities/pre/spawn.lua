@@ -2,7 +2,7 @@
 --   name = "bounce Card",
 --   image = "bounceCard",
 --   description = "test\nwith \\n",
---   trigger = {"POST"},
+--   trigger = {"ROUND"},
 --   onActivate = function (ent)
 --     local chart = system.getStorage("main:chart")
 --     local pos = chart:getCurrentPricePos()
@@ -27,7 +27,7 @@ main.defineCard("redFan", {
   name = "Red Fan",
   description = "Spawns a temporary card\nwhich gives {pointColor}-5 points",
   image = "redfan",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   price = 2,
   onActivate = function (ent)
     main.basicSpawnCard("subtract", {temporary = 1}, ent, "hand")
@@ -38,7 +38,7 @@ main.defineCard("cell", {
   name = "Cell",
   image = "cell",
   description = "Spawns a news which\ngives {pointColor}+3 points",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   price = 2,
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")
@@ -59,7 +59,7 @@ main.defineCard("factory", {
   description = "Spawns a temporary-2 junk",
   defaultMoneyGain = 1,
   image = "factory",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   price = 2,
   onActivate = function (ent)
     main.basicSpawnCard("junk", {temporary = 2}, ent, "hand")

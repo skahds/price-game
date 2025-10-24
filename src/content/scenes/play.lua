@@ -38,7 +38,7 @@ main.defineScene("play", function ()
   startTurn = main.ui.spawnUI("startTurn", {x=80, y=350}, true)
   chart = system.getStorage("main:chart")
   if chart == nil then
-    main.spawnChart({bearPower = 0.2, bullPower = 0.2})
+    main.spawnChart({bearPower = 0.1, bullPower = 0.1})
     chart = system.getStorage("main:chart")
     local pos = chart:getCurrentPricePos()
     main.spawnNews("randomEvents", {x=pos.x-64, y=pos.y-32})

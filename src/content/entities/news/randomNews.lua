@@ -1,7 +1,7 @@
 main.defineNews("goodNews", {
   name = "Good thing",
   image = "upNews",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   temporary = 3,
   defaultPointGain=3,
 })
@@ -9,7 +9,7 @@ main.defineNews("goodNews", {
 main.defineNews("badNews", {
   name = "Bad thing",
   image = "downNews",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   temporary = 3,
   defaultPointGain=-3,
 })
@@ -18,7 +18,7 @@ main.defineNews("volatileNews", {
   name = "Volatility",
   image = "volatileNews",
   description = "Make round-start price change bigger",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   temporary = 2,
   onActivate = function ()
     local chart = system.getStorage("main:chart")
@@ -32,7 +32,7 @@ main.defineNews("calmNews", {
   name = "Calmness",
   image = "calmNews",
   description = "Make round-start price change smaller",
-  trigger = {"POST"},
+  trigger = {"ROUND"},
   temporary = 2,
   onActivate = function ()
     local chart = system.getStorage("main:chart")
