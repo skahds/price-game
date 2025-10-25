@@ -1,12 +1,15 @@
 local isSettingShown = false
-local cover, sfxSlider, musicSlider, exit, back, restart, guide
-local sfxStorage, musicStorage = "audio:sfxVolume", "audio:musicVolume"
+local cover, gameSpeedSlider, sfxSlider, musicSlider, exit, back, restart, guide
+local sfxStorage, musicStorage, gameSpeedStorage = "audio:sfxVolume", "audio:musicVolume", "main:gameSpeedSlider"
 
 local function deleteAll(arg)
   for k, ent in ipairs(arg) do
     ent:delete()
   end
 end
+
+local speedTable = {0.1, 0.2, 0.5, 0.75, 1, 2, 3, 4, 5, 6}
+speedTable[0] = 0
 
 function main.ui.gameSettings()
   if isSettingShown == false then
@@ -24,10 +27,32 @@ function main.ui.gameSettings()
       outlineColor = {0.2, 0.2, 0.2},
       ignoreUIChecks = false,
       renderLayer = 400}, true)
+
+    gameSpeedSlider = main.ui.spawnUI("basicSlider", {
+      x=dimension.w/2,
+      y=dimension.h/2-100,
+      width = 300,
+      height = 50,
+      onBasicSliderDraw = function (ent)
+        love.graphics.setColor(1, 1, 1)
+        local font = system.getFont("defaultFont50")
+        love.graphics.setFont(font)
+        local format = "Game speed " .. speedTable[ent.slideAmount*10] .. "x"
+        local width = font:getWidth(format)
+        love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
+      end,
+      targetStorage = gameSpeedStorage,
+      slideAmount = system.getStorage(gameSpeedStorage) or 0.5,
+      ballColor = {0.8, 0.4, 0.4},
+      renderLayer = 410,
+      outline = 10,
+      outlineBelow = true,
+      outlineColor = {0.5, 0.5, 0.5},
+    }, true)
     
     sfxSlider = main.ui.spawnUI("basicSlider", {
       x=dimension.w/2,
-      y=dimension.h/2-100,
+      y=dimension.h/2,
       width = 300,
       height = 50,
       onBasicSliderDraw = function (ent)
@@ -93,7 +118,7 @@ function main.ui.gameSettings()
       renderLayer = 412,
     }, true)
   else
-    deleteAll({cover, sfxSlider, musicSlider, exit, back, restart, guide})
+    deleteAll({cover, sfxSlider, musicSlider, exit, back, restart, guide, gameSpeedSlider})
     isSettingShown = false
   end
 end
@@ -152,3 +177,11 @@ main.ui.defineButton("settingGuide", {
     main.ui.gameSettings()
   end
 })
+
+system.on("@update", function ()
+  local speed = system.getStorage(gameSpeedStorage) or 0.5
+
+  local speed = speed * 10
+  local speed = speedTable[speed]
+  system.updateStorage("main:defaultDelayMult", speed)
+end)
