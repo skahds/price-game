@@ -1,23 +1,23 @@
 local biggerFont = system.getFont("defaultFont100")
 local score = system.getStorage("main:score")
 local scoreText = main.newRichText({format="Score: " ..  math.floor(score+0.5) .. "",
-  y=130,
+  y=80,
   x=70,
   renderLayer = 200,})
 
 local money = main.getMoney()
 local moneyText = main.newRichText({format="{moneyColor}$" .. money .. "{/moneyColor}",
-  y=180,
+  y=130,
   x=70,
   renderLayer = 200,})
 
 local energyText = main.newRichText({format="0",
-  y=230,
+  y=180,
   x=70,
   renderLayer = 200,})
 
 local roundsRemainingText = main.newRichText({format="Bars: 0",
-  y=280,
+  y=230,
   x=70,
   renderLayer = 200,})
 

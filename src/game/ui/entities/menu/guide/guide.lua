@@ -14,16 +14,16 @@ local pages = {
     text={"Decide if you think the", "price will go up or down,", "these will give you score"}
   },  {
     image="guideHand",
-    size={300, 187},
-    text={"This is your hand,", "Your cards go here,", "You can move cards around"}
+    size={393, 187},
+    text={"This is your hand,", "Your cards go here,", "You can play cards from here"}
+  },  {
+    image="energyGuide",
+    size={438, 200},
+    text={"Most cards uses {energyColor}energy,", "You replenish {energyColor}energy{/energyColor} at the", "end of turn"}
   },  {
     image="guideShop",
     size={300, 189},
     text={"You can upgrade your", "run in the shop", "by {moneyColor}buying{/moneyColor} cards!"}
-  },  {
-    image="triggerGuide",
-    size={269, 200},
-    text={"Cards have {triggerColor}TRIGGER", "for how they activate,", "pay attention to them!"}
   }
 }
 
