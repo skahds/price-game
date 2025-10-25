@@ -11,8 +11,13 @@ local moneyText = main.newRichText({format="{moneyColor}$" .. money .. "{/moneyC
   x=70,
   renderLayer = 200,})
 
-local roundsRemainingText = main.newRichText({format="Bars: 0",
+local energyText = main.newRichText({format="0",
   y=230,
+  x=70,
+  renderLayer = 200,})
+
+local roundsRemainingText = main.newRichText({format="Bars: 0",
+  y=280,
   x=70,
   renderLayer = 200,})
 
@@ -80,6 +85,22 @@ system.on("main:sceneChanged", function()
     moneyText.x = 70
   else
     moneyText.x = -2000
+  end
+end)
+
+--energy text
+system.on("@update", function ()
+  local energy = system.getStorage("main:energy")
+  local energyPerTurn = system.getStorage("main:energyPerTurn")
+  main.updateRichTextText(energyText, "Energy: {energyColor}"..energy.."/"..energyPerTurn)
+end)
+
+system.on("main:sceneChanged", function()
+  local scene = system.getStorage("main:currentScene")
+  if utils.isEInTable(scene, {"play", "shop"}) then
+    energyText.x = 70
+  else
+    energyText.x = -2000
   end
 end)
 

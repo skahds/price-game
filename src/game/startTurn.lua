@@ -27,6 +27,7 @@ local function updateScore()
   end)
 
   system.updateStorage("main:mult", 1)
+  system.updateStorage("main:energy", system.getStorage("main:energyPerTurn"))
 end
 
 system.on("main:startTurn", function ()
