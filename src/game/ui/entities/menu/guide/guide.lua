@@ -7,11 +7,11 @@ local pages = {
   {
     image="guideLogo",
     size={316, 200},
-    text={"Welcome, in this game, you", "try to get lots of {pointColor}score", "by getting {pointColor}points{/pointColor} and {multColor}mults"}
+    text={"Welcome, in this game, you", "try to get lots of score", "by getting {pointColor}points{/pointColor} and {multColor}mults"}
   },  {
     image="guideRound",
     size={459, 150},
-    text={"Decide if you think the", "price will go up or down,", "these will give you {pointColor}points"}
+    text={"Decide if you think the", "price will go up or down,", "these will give you score"}
   },  {
     image="guideHand",
     size={300, 187},
@@ -22,7 +22,7 @@ local pages = {
     text={"You can upgrade your", "run in the shop", "by {moneyColor}buying{/moneyColor} cards!"}
   },  {
     image="triggerGuide",
-    size={252, 189},
+    size={269, 200},
     text={"Cards have {triggerColor}TRIGGER", "for how they activate,", "pay attention to them!"}
   }
 }

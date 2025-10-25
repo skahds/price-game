@@ -22,7 +22,7 @@ local function drawAllRelics()
     local space = system.ask("main:cardSpaceUsed", combiner.ADD, card)
     if currentSpace + space <= maxCard then
       if card.isRelic == true then
-        pipeline:add(0.15, function ()
+        pipeline:add(0.25, function ()
           main.cardToHand(card)
         end)
       end

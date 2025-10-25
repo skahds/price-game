@@ -15,7 +15,7 @@ system.on("@load", function ()
   end
 
   for i=1, 2 do
-    local card = main.createCard("amplifier", {}, "hand")
+    local card = main.createCard("void", {}, "hand")
     main.addCardToDraw(card)
   end
 

@@ -15,13 +15,13 @@ function main.tryReroll(price)
   main.addMoney(-price)
 
   for i=#main.card.shop, 1, -1 do
-    pipeline:add(0.1, function ()
+    pipeline:add(0.15, function ()
       local card = main.card.shop[i]
       main.deleteCard(card)
     end)
   end
 
-  pipeline:add(0.1, function ()
+  pipeline:add(0.15, function ()
     main.shop.spawnCards()
   end)
 
@@ -33,7 +33,7 @@ function main.shop.spawnCards()
   local shopCardAmount = system.getStorage("shop:maxCardAmount")
   local pipeline = main.getPipeline("main")
   for i=1, shopCardAmount do
-    pipeline:add(0.1, function ()
+    pipeline:add(0.15, function ()
       local card = bag:getRandomCard()
       main.createCard(card, {}, "shop")
       main.card.updateAllCardPositionBackToOriginalPosition("shop", {x=640, y=100})

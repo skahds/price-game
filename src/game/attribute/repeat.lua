@@ -8,7 +8,7 @@ system.on("main:entityTriggered", function (ent)
   ent.repeatActivation = ent.repeatActivation - 1
   
   local pipeline = main.getPipeline("main")
-  pipeline:insert(0.3, 1, function ()
+  pipeline:insert(0.5, 1, function ()
     main.triggerEnt(ent)
   end)
 end)

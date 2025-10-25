@@ -131,7 +131,7 @@ local function repeatingTriggerCard(card, trigger)
   local pipeline = main.getPipeline("main")
 
   if main.canTrigger(card, trigger) then
-    pipeline:add(0.3, function ()
+    pipeline:add(0.5, function ()
       main.triggerEnt(card, trigger)
 
       pipeline:add(0, function ()
@@ -275,7 +275,7 @@ function main.drawCardTillMaxCapacity()
           main.shuffleDiscardToDraw()
         end
         main.drawCard()
-        pipeline:add(0.15, function ()
+        pipeline:add(0.25, function ()
           main.drawCardTillMaxCapacity()
         end)
       end)
@@ -345,7 +345,7 @@ function main.discardCurrentCardsInHand()
   for i=#main.card.hand, 1, -1 do
     local card = main.card.hand[i]
     if not system.ask("main:shouldCardNotBeDiscared", combiner.OR, card) then
-      pipeline:insert(0.15, 1, function ()
+      pipeline:insert(0.25, 1, function ()
         main.discardCard(card)
       end)
     end

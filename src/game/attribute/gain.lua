@@ -17,7 +17,7 @@ system.on("main:entityTriggered", function (ent)
   end
   if ent.defaultDrawCard ~= 0 then
     for i=1, ent.defaultDrawCard do
-      local delay = 0.2
+      local delay = 0.25
       if i == 1 then
         delay = 0
       end

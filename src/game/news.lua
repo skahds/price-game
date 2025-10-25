@@ -40,7 +40,7 @@ local function repeatingTriggerNews(news, trigger)
   local chart = system.getStorage("main:chart")
 
   if main.canTrigger(news, trigger) then
-    pipeline:add(0.3, function ()
+    pipeline:add(0.5, function ()
       main.triggerEnt(news, trigger)
 
       pipeline:add(0, function ()
