@@ -1,31 +1,32 @@
 main.defineCard("add", {
   name = "Add",
   image = "basicAdd",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   defaultPointGain = 6,
-  price = 1,
-})
-
-main.defineCard("multiply", {
-  name = "Multiply",
-  image = "basicMultiply",
-  trigger = {"ROUND"},
-  defaultMultGain = 2,
   price = 1,
 })
 
 main.defineCard("subtract", {
   name = "Subtract",
   image = "basicSubtract",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   defaultPointGain = -6,
+  price = 1,
+})
+
+main.defineCard("multiply", {
+  name = "Multiply",
+  image = "basicMultiply",
+  trigger = {"DEPLOY"},
+  defaultMultGain = 2,
   price = 1,
 })
 
 main.defineCard("goldenHex", {
   name = "Golden Hex",
   image = "goldenHex",
-  trigger = {"ROUND"},
+  energy = 2,
+  trigger = {"DEPLOY"},
   defaultMoneyGain = 1,
   rarity="RARE",
   price = 4,
@@ -35,7 +36,7 @@ main.defineCard("grassBow", {
   name = "Grass Bow",
   image = "grassBow",
   description = "Card to the right gains {pointColor}+3 points",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   onActivate = function (ent)
     local targetEnt = main.getCardBesides(ent, 1)
     if targetEnt then
@@ -49,7 +50,7 @@ main.defineCard("tail", {
   name = "Tail",
   image = "tail",
   description = "Gives half of {multColor}mult{/multColor} as {pointColor}points",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   onActivate = function (ent)
     local mult = system.getStorage("main:mult")
     main.addPoint(math.floor(mult/2+0.5))
@@ -61,7 +62,7 @@ main.defineCard("greenDice", {
   name = "Green Dice",
   image = "greenDice",
   description = "2/3 chance to give {pointColor}+10 points{/pointColor}\n1/3 chance to give {pointColor}-10 points",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
       main.addPoint(10)
@@ -76,7 +77,7 @@ main.defineCard("redDice", {
   name = "Red Dice",
   image = "redDice",
   description = "2/3 chance to give {pointColor}-10 points{/pointColor}\n1/3 chance to give {pointColor}+10 points",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
       main.addPoint(-10)
@@ -90,6 +91,6 @@ main.defineCard("redDice", {
 main.defineCard("junk", {
   name = "Junk",
   image = "junk",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   price = -1,
 })

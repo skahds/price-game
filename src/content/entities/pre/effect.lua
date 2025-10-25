@@ -2,7 +2,7 @@ main.defineCard("amplifier", {
   name = "Amplifier",
   image = "amplifier",
   description = "Next activation {repeatColor}+1 repeat{/repeatColor}",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   price = 3,
   rarity = "RARE",
   
@@ -16,6 +16,7 @@ main.defineCard("amplifier", {
 main.defineCard("magnifyingGlass", {
   name = "Magnifying Glass",
   image = "magnifyingGlass",
+  energy = 2,
   description = "News in area gains {pointColor}+4 points",
   mouseHeldArea = {size=100, fixed=false},
   trigger = {"DEPLOY"},
@@ -37,6 +38,7 @@ main.defineCard("magnifyingGlass", {
 main.defineCard("void", {
   name = "Void",
   image = "void",
+  energy = 0,
   description = "Destroy card to the right",
   trigger = {"DEPLOY"},
   temporary = 1,
@@ -69,6 +71,7 @@ main.defineCard("sacrifice", {
   name = "Sacrifice",
   image = "sacrifice",
   description = "Discard cards in hand",
+  energy = 2,
   defaultDrawCard = 4,
   trigger = {"DEPLOY"},
   price = 3,
@@ -82,6 +85,7 @@ main.defineCard("unit", {
   name = "Unit",
   image = "unit",
   description = "Spawns a relic news\nwhich gives {multColor}+2 mult",
+  energy = 0,
   trigger = {"DEPLOY"},
   temporary = 1,
   price = 2,
@@ -96,5 +100,49 @@ main.defineCard("unit", {
     local xoffset = love.math.random(-40, 40)
     local yoffset = love.math.random(-40, 40)
     main.spawnNews("multNews", {x=pos.x+xoffset, y=pos.y+yoffset, isRelic=true})
+  end
+})
+
+main.defineCard("advancer", {
+  name = "Advancer",
+  isRelic = true,
+  isHollow = true,
+  image = "advancer",
+  energy = 2,
+  description = "Card to the right gains {multColor}+2 mult",
+  trigger = {"DEPLOY"},
+  price = 4,
+  rarity = "EPIC",
+
+  onActivate = function (ent)
+    local target = main.getCardBesides(ent, 1)
+
+    if target then
+      main.changeEntityComponent(target, "defaultMultGain", 2, combiner.ADD)
+    end
+  end
+})
+
+main.defineCard("retribution", {
+  name = "Retribution",
+  image = "retribution",
+  isRelic = true,
+  isHollow = true,
+  description = "Destroys card to the right and\ngain 2x its price as {pointColor}points",
+  energy = 2,
+  trigger = {"DEPLOY"},
+  price = 4,
+  rarity = "EPIC",
+
+  onActivate = function (ent)
+    local leftCard = main.getCardBesides(ent, 1)
+
+    if leftCard then
+      local price = leftCard.price
+      local success = main.tryDestroyEntity(leftCard)
+      if success then
+        main.changeEntityComponent(ent, "defaultPointGain", price*2, combiner.ADD)
+      end
+    end
   end
 })

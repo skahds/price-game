@@ -8,6 +8,14 @@ RichText.addEffect("c", function(self, args, info)
   self.color = {r, g, b, a}
 end)
 
+RichText.addEffect("energyColor", function(self, args, info)
+  local r = args.r or 1
+  local g = args.g or 0.7
+  local b = args.b or 0.3
+  local a = args.a or 1
+  self:setColor(r, g, b, a)
+end)
+
 RichText.addEffect("moneyColor", function(self, args, info)
   local r = args.r or 1
   local g = args.g or 0.8

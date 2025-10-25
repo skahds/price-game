@@ -1,6 +1,6 @@
 main.defineComponent("isLocked", false)
 
-local cancelSize = 200
+local cancelSize = 150
 
 system.on("main:cardUIReleased", function (uiEnt, button)
   local ent = uiEnt.parent

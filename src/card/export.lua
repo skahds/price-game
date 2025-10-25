@@ -115,6 +115,8 @@ function main.defineCard(id, eType)
     
     self.ui = main.ui.spawnUI("card_ui", {image=image, x=self.x, y=self.y}, true)
     self.ui.parent = self
+
+    self.energy = self.energy or 1
   end
 
   function card:draw(args)
