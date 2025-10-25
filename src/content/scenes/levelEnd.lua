@@ -23,7 +23,7 @@ main.defineScene("levelEnd", function ()
   local finalStats = system.getStorage("main:endLevelStats")
   local roundsRemaining = system.getStorage("main:roundsRemaining")
   local t = {}
-  table.insert(t, "Total point: " .. finalStats.finalPoint)
+  table.insert(t, "Total score: " .. finalStats.finalScore)
   table.insert(t, "Turn played: " .. finalStats.barsTaken)
 
   local money = roundsRemaining + 3
@@ -60,7 +60,7 @@ main.defineScene("levelEnd", function ()
       main.addMoney(1)
     end)
   end
-  system.updateStorage("main:point", 0)
+  system.updateStorage("main:score", 0)
 end, function ()
 
   deleteAll({cover, continueToShop})

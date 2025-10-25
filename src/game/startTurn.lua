@@ -1,8 +1,8 @@
 system.updateStorage("main:isOnTurn", false)
 local pipeline = main.getPipeline("main")
 
-local function updatePoint()
-  local point = system.getStorage("main:point")
+local function updateScore()
+  local score = system.getStorage("main:score")
   local percentageHold = system.getStorage("main:ownedPercentage") or 0.5
   local bar = system.getStorage("main:currentBar")
 
@@ -11,9 +11,9 @@ local function updatePoint()
     local mult = system.getStorage("main:mult")
     change = change * percentageHold/100
     change = change * mult
-    point = point + change
-    system.updateStorage("main:point", point)
-    system.call("main:pointChanged", change)
+    score = score + change
+    system.updateStorage("main:score", score)
+    system.call("main:scoreChanged", change)
   end
 
   pipeline:add(0.1, function ()
@@ -69,7 +69,7 @@ system.on("main:repeatingTriggerNewsEnd", function (trigger)
 
   pipeline:add(0.2, function ()
 
-    updatePoint()
+    updateScore()
 
   pipeline:add(0.2, function ()
 

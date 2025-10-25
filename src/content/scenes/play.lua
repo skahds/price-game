@@ -72,7 +72,7 @@ main.defineScene("play", function ()
   main.drawCardTillMaxCapacity()
 end, function ()
   local endStats = {
-    finalPoint = system.getStorage("main:point"),
+    finalScore = system.getStorage("main:score"),
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)

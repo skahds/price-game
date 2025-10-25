@@ -2,7 +2,7 @@
 local levels = {{x=-32, y=-32}}
 local activeUI = {}
 
-local pointsRequired = {
+local scoreRequired = {
   80,
   150,
   300,
@@ -10,8 +10,8 @@ local pointsRequired = {
   1000
 }
 
-local function getPointRequirement(i)
-  return pointsRequired[i] or math.floor(20*(1.5^i)+0.5)
+local function getscoreRequirement(i)
+  return scoreRequired[i] or math.floor(20*(1.5^i)+0.5)
 end
 
 main.defineScene("levelSelect", function ()
@@ -25,12 +25,12 @@ main.defineScene("levelSelect", function ()
     local ui = main.ui.spawnUI("levelSelect", {x=x, y=y, isLastLevel=isLast}, true)
     activeUI[i] = ui
     ui.name = "Level " .. i
-    ui.pointRequirement = getPointRequirement(i)
-    ui.description = "Point Required: {pointColor}" .. ui.pointRequirement .. "{/pointColor}\nGives {moneyColor}$3"
+    ui.scoreRequirement = getscoreRequirement(i)
+    ui.description = "Score Required: {pointColor}" .. ui.scoreRequirement .. "{/pointColor}\nGives {moneyColor}$3"
     main.updateRichTextText(ui.richtext, i)
   end
   local lastUI = activeUI[#activeUI]
-  system.updateStorage("main:pointRequirement", lastUI.pointRequirement)
+  system.updateStorage("main:scoreRequirement", lastUI.scoreRequirement)
   main.tweenCamera(0.2, {
     x=lastUI.x+lastUI.width/2,
     y=lastUI.y+lastUI.height/2})

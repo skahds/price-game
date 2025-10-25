@@ -8,7 +8,7 @@ main.ui.defineUI("levelSelect", {
   width = 64,
   height= 64,
   screenSpace = false,
-  pointRequirement = 0,
+  scoreRequirement = 0,
   onMouseReleased = function (ent, button)
     if ent.isLastLevel == true then
       local pipeline = main.getPipeline("scene")

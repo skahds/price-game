@@ -24,7 +24,7 @@ main.defineScene("gameEnd", function ()
     table.insert(t, "Thanks for playing")
   end
   
-  table.insert(t, "Total point: " .. finalStats.finalPoint)
+  table.insert(t, "Total score: " .. finalStats.finalScore)
 
   main.ui.spawnUI("settingRestart", {x=540, y=350})
 
@@ -44,7 +44,7 @@ main.defineScene("gameEnd", function ()
   while #main.card.draw > 0 do
     main.drawCard()
   end
-  system.updateStorage("main:point", 0)
+  system.updateStorage("main:score", 0)
 end, function ()
 
   deleteAll({cover, restart})

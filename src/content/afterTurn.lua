@@ -2,10 +2,10 @@ system.on("main:endTurn", function ()
   local roundsRemaining = system.getStorage("main:roundsRemaining")
   local pipeline = main.getPipeline("main")
 
-  local pointRequired = system.getStorage("main:pointRequirement")
-  local point = system.getStorage("main:point")
+  local scoreRequired = system.getStorage("main:scoreRequirement")
+  local score = system.getStorage("main:score")
 
-  if pointRequired <= point then
+  if scoreRequired <= score then
     pipeline:add(0.1, function ()
       local currentLevel = system.getStorage("main:currentLevel")
       if currentLevel == 5 then

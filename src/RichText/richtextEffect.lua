@@ -1,5 +1,13 @@
 local RichText = system.getStorage("RichText")
 
+RichText.addEffect("c", function(self, args, info)
+  local r = args.r or 1
+  local g = args.g or 1
+  local b = args.b or 1
+  local a = args.a or 1
+  self.color = {r, g, b, a}
+end)
+
 RichText.addEffect("moneyColor", function(self, args, info)
   local r = args.r or 1
   local g = args.g or 0.8
