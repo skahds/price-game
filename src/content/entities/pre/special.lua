@@ -41,9 +41,8 @@ main.defineCard("greenHammer", {
   price = 3,
   rarity  = "RARE",
   onActivate = function (ent)
-    local chart = system.getStorage("main:chart")
-    local bar = chart:getBar(-1)
-    if bar and bar.endPrice - bar.startPrice < 0 then
+    local points = main.getPoint()
+    if points < 0 then
       main.addPoint(50)
     end
   end
@@ -57,10 +56,22 @@ main.defineCard("redHammer", {
   price = 3,
   rarity  = "RARE",
   onActivate = function (ent)
-    local chart = system.getStorage("main:chart")
-    local bar = chart:getBar(-1)
-    if bar and bar.endPrice - bar.startPrice > 0 then
+    local points = main.getPoint()
+    if points > 0 then
       main.addPoint(-50)
     end
+  end
+})
+
+main.defineCard("inversion", {
+  name = "Inversion",
+  image = "inversion",
+  description = "Multiplies points by -2",
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity  = "RARE",
+  onActivate = function (ent)
+    local points = main.getPoint()
+    main.addPoint(points*-2)
   end
 })
