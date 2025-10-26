@@ -1,7 +1,7 @@
 main.defineCard("amplifier", {
   name = "Amplifier",
   image = "amplifier",
-  description = "Next activation {repeatColor}+1 repeat{/repeatColor}",
+  description = "Next activation {repeatColor}+1 REPEAT{/repeatColor}",
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "RARE",
@@ -17,7 +17,7 @@ main.defineCard("magnifyingGlass", {
   name = "Magnifying Glass",
   image = "magnifyingGlass",
   energy = 2,
-  description = "News in area gains {pointColor}+4 points",
+  description = "News in area gains {pointColor}+4 POINTS",
   mouseHeldArea = {size=100, fixed=false},
   trigger = {"DEPLOY"},
   price = 2,
@@ -67,6 +67,20 @@ main.defineCard("vision", {
   rarity = "RARE",
 })
 
+main.defineCard("quickOrb", {
+  name = "Quick Orb",
+  image = "quickOrb",
+  description = "Gives {energyCOlor}+1 ENERGY",
+  energy = 0,
+  temporary = 3,
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity = "RARE",
+  onActivate = function ()
+    main.addEnergy(1)
+  end
+})
+
 main.defineCard("sacrifice", {
   name = "Sacrifice",
   image = "sacrifice",
@@ -87,7 +101,7 @@ main.defineCard("advancer", {
   isHollow = true,
   image = "advancer",
   energy = 2,
-  description = "Card to the right gains {multColor}+2 mult",
+  description = "Card to the right gains {multColor}+2 MULT",
   trigger = {"DEPLOY"},
   price = 4,
   rarity = "EPIC",
@@ -106,7 +120,7 @@ main.defineCard("retribution", {
   image = "retribution",
   isRelic = true,
   isHollow = true,
-  description = "Destroys card to the right and\ngain 2x its price as {pointColor}points",
+  description = "Destroys card to the right and\ngain 2x its PRICE as {pointColor}POINTS",
   energy = 2,
   trigger = {"DEPLOY"},
   price = 4,

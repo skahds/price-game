@@ -1,7 +1,7 @@
 main.defineCard("scale", {
   name = "Scale",
   image = "scale",
-  description = "If Bar direction is\ndifferent than the last, gain\n{multColor}+1 mult{/multColor}, else {multColor}-1 mult{/multColor}",
+  description = "If Bar direction is\ndifferent than the last, gain\n{multColor}+1 MULT{/multColor}, else {multColor}-1 MULT{/multColor}",
   trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)
@@ -20,7 +20,7 @@ main.defineCard("scale", {
 main.defineCard("flag", {
   name = "Flag",
   image = "flag",
-  description = "Gains {pointColor}-5 points{/pointColor} for\neach green bar",
+  description = "Gains {pointColor}-5 POINTS{/pointColor} for\neach green bar",
   trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)
@@ -36,7 +36,7 @@ main.defineCard("flag", {
 main.defineCard("greenHammer", {
   name = "Green Hammer",
   image = "greenHammer",
-  description = "Give {pointColor}+50 points{/pointColor} if\ncurrent bar is red",
+  description = "Give {pointColor}+50 POINTS{/pointColor} if\ncurrent bar is red",
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",
@@ -51,7 +51,7 @@ main.defineCard("greenHammer", {
 main.defineCard("redHammer", {
   name = "Red Hammer",
   image = "redHammer",
-  description = "Give {pointColor}-50 points{/pointColor} if\ncurrent bar is green",
+  description = "Give {pointColor}-50 POINTS{/pointColor} if\ncurrent bar is green",
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",
@@ -66,7 +66,7 @@ main.defineCard("redHammer", {
 main.defineCard("inversion", {
   name = "Inversion",
   image = "inversion",
-  description = "Multiplies points by -2",
+  description = "Multiplies {pointColor}POINTS{/pointColor} by -2",
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",

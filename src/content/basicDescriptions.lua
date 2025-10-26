@@ -82,13 +82,13 @@ end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultPointGain ~= 0 then
-    return "Gives {pointColor}" .. format(ent.defaultPointGain) .. " points"
+    return "Gives {pointColor}" .. format(ent.defaultPointGain) .. " POINTS"
   end
 end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultMultGain ~= 0 then
-    return "Gives {multColor}" .. format(ent.defaultMultGain) .. " mult"
+    return "Gives {multColor}" .. format(ent.defaultMultGain) .. " MULT"
   end
 end)
 
@@ -100,6 +100,6 @@ end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultDrawCard ~= 0 then
-    return "Draws " .. ent.defaultDrawCard .. " card"
+    return "Draws " .. ent.defaultDrawCard .. " CARD"
   end
 end)

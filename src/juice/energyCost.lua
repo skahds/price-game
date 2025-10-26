@@ -7,7 +7,9 @@ system.on("@draw", function ()
       local x=ui.x
       local y=ui.y
       system.render(299, function ()
-        love.graphics.draw(system.getImage("energy"), x-16, y-16, 0, 2, 2)
+        for i=1, card.energy do
+          love.graphics.draw(system.getImage("energy"), x-16+40*(i-1), y-16, 0, 2, 2)
+        end
       end, true)
     end
   end
@@ -18,7 +20,9 @@ system.on("@draw", function ()
       local x=ui.x
       local y=ui.y
       system.render(299, function ()
-        love.graphics.draw(system.getImage("energy"), x-16, y-16, 0, 2, 2)
+        for i=1, card.energy do
+          love.graphics.draw(system.getImage("energy"), x-16+40*(i-1), y-16, 0, 2, 2)
+        end
       end, true)
     end
   end

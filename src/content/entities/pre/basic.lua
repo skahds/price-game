@@ -35,7 +35,7 @@ main.defineCard("goldenHex", {
 main.defineCard("grassBow", {
   name = "Grass Bow",
   image = "grassBow",
-  description = "Card to the right gains {pointColor}+3 points",
+  description = "Card to the right gains {pointColor}+3 POINTS",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     local targetEnt = main.getCardBesides(ent, 1)
@@ -49,7 +49,7 @@ main.defineCard("grassBow", {
 main.defineCard("tail", {
   name = "Tail",
   image = "tail",
-  description = "Gives half of {multColor}mult{/multColor} as {pointColor}points",
+  description = "Gives half of {multColor}MULT{/multColor} as {pointColor}POINTS",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     local mult = system.getStorage("main:mult")
@@ -61,7 +61,7 @@ main.defineCard("tail", {
 main.defineCard("greenDice", {
   name = "Green Dice",
   image = "greenDice",
-  description = "2/3 chance to give {pointColor}+10 points{/pointColor}\n1/3 chance to give {pointColor}-10 points",
+  description = "2/3 chance to give {pointColor}+10 POINTS{/pointColor}\n1/3 chance to give {pointColor}-10 POINTS",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
@@ -76,7 +76,7 @@ main.defineCard("greenDice", {
 main.defineCard("redDice", {
   name = "Red Dice",
   image = "redDice",
-  description = "2/3 chance to give {pointColor}-10 points{/pointColor}\n1/3 chance to give {pointColor}+10 points",
+  description = "2/3 chance to give {pointColor}-10 POINTS{/pointColor}\n1/3 chance to give {pointColor}+10 POINTS",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
