@@ -83,7 +83,7 @@ function main.spawnBarChangeNews()
 
     local n = main.spawnNews("randomNews", {x=pos.x+xoffset, y=pos.y+yoffset})
     local min, max = getMinMax()
-    n.description = "Gives {pointColor}points{/pointColor} between {pointColor}" .. min .. "{/pointColor} and {pointColor}" .. max
+    n.description = "Gives {pointColor}points{/pointColor} between\n{pointColor}" .. min .. "{/pointColor} and {pointColor}+" .. max
   end
 end
 

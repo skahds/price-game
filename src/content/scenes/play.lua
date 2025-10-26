@@ -13,22 +13,24 @@ local function deleteAll(args)
   end
 end
 
-local function drawAllRelics()
-  local pipeline = main.getPipeline("main")
-  local maxCard = system.getStorage("main:maxCardAmount")
-  for i=#main.card.draw, 1, -1 do
-    local card = main.card.draw[i]
-    local currentSpace = main.getCurrentCardInHandAmount()
-    local space = system.ask("main:cardSpaceUsed", combiner.ADD, card)
-    if currentSpace + space <= maxCard then
-      if card.isRelic == true then
-        pipeline:add(0.25, function ()
-          main.cardToHand(card)
-        end)
-      end
-    end
-  end
-end
+-- card is not relic anymore, only news are relic
+
+-- local function drawAllRelics()
+--   local pipeline = main.getPipeline("main")
+--   local maxCard = system.getStorage("main:maxCardAmount")
+--   for i=#main.card.draw, 1, -1 do
+--     local card = main.card.draw[i]
+--     local currentSpace = main.getCurrentCardInHandAmount()
+--     local space = system.ask("main:cardSpaceUsed", combiner.ADD, card)
+--     if currentSpace + space <= maxCard then
+--       if card.isRelic == true then
+--         pipeline:add(0.25, function ()
+--           main.cardToHand(card)
+--         end)
+--       end
+--     end
+--   end
+-- end
 
 main.defineScene("play", function ()
   local dimension = system.getStorage("screenDimension")
@@ -67,7 +69,7 @@ main.defineScene("play", function ()
   end
 
   -- draw all relics
-  drawAllRelics()
+  -- drawAllRelics()
 
   main.drawCardTillMaxCapacity()
 end, function ()

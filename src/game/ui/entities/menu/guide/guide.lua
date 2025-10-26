@@ -21,6 +21,10 @@ local pages = {
     size={438, 200},
     text={"Most cards uses {energyColor}energy,", "You replenish {energyColor}energy{/energyColor} at the", "end of turn"}
   },  {
+    image="chartGuide",
+    size={503, 200},
+    text={"The chart contains news", "which activates when", "the turn starts"}
+  },  {
     image="guideShop",
     size={300, 189},
     text={"You can upgrade your", "run in the shop", "by {moneyColor}buying{/moneyColor} cards!"}

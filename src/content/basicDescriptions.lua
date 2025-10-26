@@ -62,23 +62,23 @@ main.addDescriptionTag(32, function (ent)
   end
 end)
 
-main.addDescriptionTag(59, function (ent)
-  local text = "{triggerColor}TRIGGER{/triggerColor}"
-  if main.canTrigger(ent, "ROUND") then
-    text = text .. "\n-on turn start"
-  end
-  if main.canTrigger(ent, "DEPLOY") then
-    if ent.isLocked then
-      text = text .. "\n-(SHOP-LOCKED)on DEPLOY"
-    else
-      text = text .. "\n-on DEPLOY"
-    end
-  end
+-- main.addDescriptionTag(59, function (ent)
+--   local text = "{triggerColor}TRIGGER{/triggerColor}"
+--   if main.canTrigger(ent, "ROUND") then
+--     text = text .. "\n-on turn start"
+--   end
+--   if main.canTrigger(ent, "DEPLOY") then
+--     if ent.isLocked then
+--       text = text .. "\n-(SHOP-LOCKED)on DEPLOY"
+--     else
+--       text = text .. "\n-on DEPLOY"
+--     end
+--   end
 
-  if text ~= "{triggerColor}TRIGGER{/triggerColor}" then
-    return text
-  end
-end)
+--   if text ~= "{triggerColor}TRIGGER{/triggerColor}" then
+--     return text
+--   end
+-- end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultPointGain ~= 0 then

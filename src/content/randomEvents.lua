@@ -8,7 +8,7 @@ main.defineNews("randomEvents", {
   image = "randomEventNews",
   width = 64,
   height = 64,
-  description = "Creates a random news in " .. randomNewsCounter .. " activation",
+  description = "Creates a random news\nin " .. randomNewsCounter .. " activation",
   trigger = {"ROUND"},
   isRelic = true,
   onActivate = function (ent)
