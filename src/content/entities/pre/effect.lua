@@ -70,7 +70,7 @@ main.defineCard("vision", {
 main.defineCard("quickOrb", {
   name = "Quick Orb",
   image = "quickOrb",
-  description = "Gives {energyCOlor}+1 ENERGY",
+  description = "Gives {energyColor}+1 ENERGY",
   energy = 0,
   temporary = 3,
   trigger = {"DEPLOY"},

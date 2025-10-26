@@ -3,6 +3,11 @@ main.defineComponent("isLocked", false)
 local cancelSize = 150
 
 system.on("main:cardUIReleased", function (uiEnt, button)
+  local scene = system.getStorage("main:currentScene")
+  if scene ~= "play" then
+    return
+  end
+
   local ent = uiEnt.parent
 
   if ent.ownerShip == "shop" then
@@ -42,6 +47,10 @@ system.on("@draw", function ()
   local card = system.getStorage("main:currentSelectedCard")
   local realMouse = system.getStorage("realMouse")
   local mouse = system.getStorage("mouse")
+  local scene = system.getStorage("main:currentScene")
+  if scene ~= "play" then
+    return
+  end
 
   if card == nil then
     return

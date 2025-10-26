@@ -25,12 +25,12 @@
 
 main.defineCard("redFan", {
   name = "Red Fan",
-  description = "Spawns a temporary card\nwhich gives {pointColor}-5 POINTS",
+  description = "Spawns a temporary card\nwhich gives {pointColor}-6 POINTS",
   image = "redfan",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)
-    main.basicSpawnCard("subtract", {temporary = 1}, ent, "hand")
+    main.basicSpawnCard("subtract", {temporary = 1, energy=0}, ent, "hand")
   end
 })
 
@@ -38,7 +38,7 @@ main.defineCard("cell", {
   name = "Cell",
   image = "cell",
   description = "Spawns a news which\ngives {pointColor}+3 POINTS",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")
@@ -56,13 +56,13 @@ main.defineCard("cell", {
 
 main.defineCard("factory", {
   name = "Factory",
-  description = "Spawns a temporary-2 junk",
+  description = "Spawns a temporary junk",
   defaultMoneyGain = 1,
   image = "factory",
-  trigger = {"ROUND"},
+  trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)
-    main.basicSpawnCard("junk", {temporary = 2}, ent, "hand")
+    main.basicSpawnCard("junk", ent, "hand")
   end,
   rarity = "RARE"
 })
