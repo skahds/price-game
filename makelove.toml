@@ -1,11 +1,16 @@
-name = "chartweaver"
-default_targets = ["win64"]
-build_directory = "D:/code/love2d/pricegamebuild"
+# name = "chartweaver"
+# default_targets = ["win64", "appimage"]
+# build_directory = "/mnt/d/code/love2d/pricegamebuild" 
 
-love_files = [
-    "::git-ls-tree::",
-    "-*/.*",
-]
+# love_files = [
+#     "::git-ls-tree::",
+#     "-*/.*",
+# ]
 
-[win64]
-love_binaries = "D:/code/love2d/love-12.0-win64"
+# [win64]
+# love_binaries = "/mnt/d/code/love2d/love-12.0-win64"
+
+# [appimage]
+# source_appimage = "/mnt/d/code/love2d/love12linux/love.AppImage.FIXED"
+
+# don't use makelove, use love-build
