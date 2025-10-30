@@ -93,7 +93,7 @@ should be assigned to a variable when it is created.
 ```lua
 local tween = flux.to(x, 2, { y = 20 }):delay(1)
 ```
-The tween can then be stopped at any point by calling its `:stop()` method.
+The tween can then be stopped at any price by calling its `:stop()` method.
 ```lua
 tween:stop()
 ```

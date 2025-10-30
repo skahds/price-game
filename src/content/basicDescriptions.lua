@@ -81,8 +81,8 @@ end)
 -- end)
 
 main.addDescriptionType(22, function (ent)
-  if ent.defaultPointGain ~= 0 then
-    return "Gives {pointColor}" .. format(ent.defaultPointGain) .. " POINTS"
+  if ent.defaultPriceGain ~= 0 then
+    return "Gives {priceColor}" .. format(ent.defaultPriceGain) .. " PRICE"
   end
 end)
 

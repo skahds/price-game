@@ -1,4 +1,4 @@
-main.defineComponent("defaultPointGain", 0)
+main.defineComponent("defaultPriceGain", 0)
 main.defineComponent("defaultMultGain", 0)
 main.defineComponent("defaultMoneyGain", 0)
 main.defineComponent("defaultDrawCard", 0)
@@ -6,8 +6,8 @@ main.defineComponent("defaultDrawCard", 0)
 system.on("main:entityTriggered", function (ent)
   local pipeline = main.getPipeline("main")
 
-  if ent.defaultPointGain ~= 0 then
-    main.addPoint(ent.defaultPointGain)
+  if ent.defaultPriceGain ~= 0 then
+    main.addPrice(ent.defaultPriceGain)
   end
   if ent.defaultMultGain ~= 0 then
     main.addMult(ent.defaultMultGain)

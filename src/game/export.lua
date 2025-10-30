@@ -61,14 +61,14 @@ function main.tryDestroyEntity(ent)
   end
 end
 
-function main.getPoint()
+function main.getPrice()
   local bar = system.getStorage("main:currentBar")
   if bar then
     return bar.endPrice-bar.startPrice
   end
 end
 
-function main.addPoint(amount)
+function main.addPrice(amount)
   local bar = system.getStorage("main:currentBar")
   if bar then
     bar:changePrice(amount)

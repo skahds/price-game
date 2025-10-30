@@ -1,5 +1,5 @@
--- system.on("main:pointChanged", function (change)
---   local text = main.newRichText({format="{pointColor}" .. math.floor(change+0.5) .. "{/pointColor}",
+-- system.on("main:priceChanged", function (change)
+--   local text = main.newRichText({format="{priceColor}" .. math.floor(change+0.5) .. "{/priceColor}",
 --   y=250,
 --   x=80,
 --   outline = true,

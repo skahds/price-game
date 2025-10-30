@@ -7,7 +7,7 @@ local pages = {
   {
     image="guideLogo",
     size={316, 200},
-    text={"Welcome, in this game, you", "try to get lots of score", "by getting {pointColor}points{/pointColor} and {multColor}mults"}
+    text={"Welcome, in this game, you", "try to get lots of score", "by changing {priceColor}PRICES{/priceColor} and {multColor}MULTS"}
   },  {
     image="guideRound",
     size={459, 150},

@@ -24,7 +24,7 @@ RichText.addEffect("moneyColor", function(self, args, info)
   self:setColor(r, g, b, a)
 end)
 
-RichText.addEffect("pointColor", function (self, args, info)
+RichText.addEffect("priceColor", function (self, args, info)
   local r = args.r or 0.3
   local g = args.g or 0.7
   local b = args.b or 1

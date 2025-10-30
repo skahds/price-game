@@ -17,7 +17,7 @@ main.defineCard("magnifyingGlass", {
   name = "Magnifying Glass",
   image = "magnifyingGlass",
   energy = 2,
-  description = "News in area gains {pointColor}+4 POINTS",
+  description = "News in area gains {priceColor}+4 PRICE",
   mouseHeldArea = {size=100, fixed=false},
   trigger = {"DEPLOY"},
   price = 2,
@@ -29,7 +29,7 @@ main.defineCard("magnifyingGlass", {
       local size = ent.mouseHeldArea.size
       local area = {x=mouse.x-size/2, y=mouse.y-size/2, width=size, height=size}
       if main.AABB_check(news.ui, area) then
-        main.changeEntityComponent(news, "defaultPointGain", 4, combiner.ADD)
+        main.changeEntityComponent(news, "defaultPriceGain", 4, combiner.ADD)
       end
     end)
   end
@@ -120,7 +120,7 @@ main.defineCard("retribution", {
   image = "retribution",
   isRelic = true,
   isHollow = true,
-  description = "Destroys card to the right and\ngain 2x its PRICE as {pointColor}POINTS",
+  description = "Destroys card to the right and\ngain 2x its PRICE as {priceColor}PRICE",
   energy = 2,
   trigger = {"DEPLOY"},
   price = 4,
@@ -133,7 +133,7 @@ main.defineCard("retribution", {
       local price = leftCard.price
       local success = main.tryDestroyEntity(leftCard)
       if success then
-        main.changeEntityComponent(ent, "defaultPointGain", price*2, combiner.ADD)
+        main.changeEntityComponent(ent, "defaultPriceGain", price*2, combiner.ADD)
       end
     end
   end

@@ -16,7 +16,7 @@ local energyText = main.newRichText({format="0",
   x=70,
   renderLayer = 200,})
 
-local roundsRemainingText = main.newRichText({format="Bars: 0",
+local roundsRemainingText = main.newRichText({format="Turn left: 0",
   y=230,
   x=70,
   renderLayer = 200,})
@@ -33,7 +33,7 @@ local multText = main.newRichText({format="{multColor}X" ..  math.floor(0+0.5) .
   font = biggerFont,
   })
 
-local pointText = main.newRichText({format="{pointColor}" ..  math.floor(0+0.5) .. "{/pointColor}",
+local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) .. "{/priceColor}",
   y=80,
   x=0,
   sx=1,
@@ -92,7 +92,7 @@ end)
 system.on("@update", function ()
   local energy = system.getStorage("main:energy")
   local energyPerTurn = system.getStorage("main:energyPerTurn")
-  main.updateRichTextText(energyText, "Energy: {energyColor}"..energy.."/"..energyPerTurn)
+  main.updateRichTextText(energyText, "Capital: {energyColor}"..energy.."/"..energyPerTurn)
 end)
 
 system.on("main:sceneChanged", function()
@@ -108,7 +108,7 @@ end)
 system.on("@update", function ()
   local roundsRemaining = system.getStorage("main:roundsRemaining")
   if roundsRemaining then
-    main.updateRichTextText(roundsRemainingText, "Bars: " .. roundsRemaining)
+    main.updateRichTextText(roundsRemainingText, "Turn left: " .. roundsRemaining)
   end
 end)
 
@@ -137,28 +137,28 @@ system.on("main:sceneChanged", function()
   end
 end)
 
--- pointtext
--- local currentPoint = 0
+-- pricetext
+-- local currentPrice = 0
 system.on("@update", function ()
   local bar = system.getStorage("main:currentBar")
   if bar then
-    local currentPoint = bar.endPrice - bar.startPrice
-    main.updateRichTextText(pointText, "{pointColor}" ..  math.floor(currentPoint+0.5) .. "{/pointColor}")
+    local currentPrice = bar.endPrice - bar.startPrice
+    main.updateRichTextText(priceText, "{priceColor}" ..  math.floor(currentPrice+0.5) .. "{/priceColor}")
   end
 end)
 
 -- system.on("main:endTurn", function ()
---   pointText = 0
---   main.updateRichTextText(currentscoreText, "{pointColor}0{/pointColor}")
+--   priceText = 0
+--   main.updateRichTextText(currentscoreText, "{priceColor}0{/priceColor}")
 -- end)
 
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
   if scene ~= "play" then
-    pointText.x = -2000
+    priceText.x = -2000
   end
   if scene == "play" then
-    pointText.x = 1100
+    priceText.x = 1100
   end
 end)
 
@@ -224,5 +224,5 @@ local function makeJuice(text, event)
   end)
 end
 
-makeJuice(pointText, "main:currentPriceChanged")
+makeJuice(priceText, "main:currentPriceChanged")
 makeJuice(multText, "main:multChanged")

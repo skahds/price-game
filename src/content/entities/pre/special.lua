@@ -20,14 +20,14 @@ main.defineCard("scale", {
 main.defineCard("flag", {
   name = "Flag",
   image = "flag",
-  description = "Gains {pointColor}-5 POINTS{/pointColor} for\neach green bar",
+  description = "Gains {priceColor}-5 PRICE{/priceColor} for\neach green bar",
   trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)
     local chart = system.getStorage("main:chart")
     chart:forAllBar(function (bar)
       if bar.endPrice - bar.startPrice > 0 then
-        main.changeEntityComponent(ent, "defaultPointGain", -5, combiner.ADD)
+        main.changeEntityComponent(ent, "defaultPriceGain", -5, combiner.ADD)
       end
     end)
   end
@@ -36,14 +36,14 @@ main.defineCard("flag", {
 main.defineCard("greenHammer", {
   name = "Green Hammer",
   image = "greenHammer",
-  description = "Give {pointColor}+50 POINTS{/pointColor} if\ncurrent bar is red",
+  description = "Give {priceColor}+50 PRICE{/priceColor} if\ncurrent bar is red",
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",
   onActivate = function (ent)
-    local points = main.getPoint()
-    if points < 0 then
-      main.addPoint(50)
+    local prices = main.getPrice()
+    if prices < 0 then
+      main.addPrice(50)
     end
   end
 })
@@ -51,14 +51,14 @@ main.defineCard("greenHammer", {
 main.defineCard("redHammer", {
   name = "Red Hammer",
   image = "redHammer",
-  description = "Give {pointColor}-50 POINTS{/pointColor} if\ncurrent bar is green",
+  description = "Give {priceColor}-50 PRICE{/priceColor} if\ncurrent bar is green",
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",
   onActivate = function (ent)
-    local points = main.getPoint()
-    if points > 0 then
-      main.addPoint(-50)
+    local prices = main.getPrice()
+    if prices > 0 then
+      main.addPrice(-50)
     end
   end
 })
@@ -66,12 +66,12 @@ main.defineCard("redHammer", {
 main.defineCard("inversion", {
   name = "Inversion",
   image = "inversion",
-  description = "Multiplies {pointColor}POINTS{/pointColor} by -2",
+  description = "Multiplies {priceColor}PRICE{/priceColor} by -2",
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",
   onActivate = function (ent)
-    local points = main.getPoint()
-    main.addPoint(points*-2)
+    local prices = main.getPrice()
+    main.addPrice(prices*-2)
   end
 })

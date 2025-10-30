@@ -10,7 +10,7 @@ local function getChange()
   (chart.bullPower+chart.trend)*bigNum
   )/bigNum
 
-  local pointChange = changeAmount
+  local priceChange = changeAmount
   
   -- volatility
   local positivity = 1
@@ -25,8 +25,8 @@ local function getChange()
 
   chart.volatility = chart.volatility^(7/8)
 
-  chart.bullPower = chart.bullPower-(pointChange/trendSlowdown)
-  chart.bearPower = chart.bearPower+(pointChange/trendSlowdown)
+  chart.bullPower = chart.bullPower-(priceChange/trendSlowdown)
+  chart.bearPower = chart.bearPower+(priceChange/trendSlowdown)
 
   chart.bullPower = math.max(0, chart.bullPower)
   chart.bearPower = math.max(0, chart.bearPower)
@@ -35,39 +35,6 @@ local function getChange()
 
   return changeAmount
 end
-
-local function getMinMax()
-  local chart = system.getStorage("main:chart")
-  if chart == nil then
-    return
-  end
-  local min = -(chart.bearPower+chart.trend)
-  local max = (chart.bullPower+chart.trend)
-
-  
-  -- volatility
-  min = ((math.abs(min)+1) * (chart.volatility+1)-1) * -1
-  max = ((math.abs(max)+1) * (chart.volatility+1)-1) * 1
-
-  local basicFactor = system.getStorage("main:basicChangeFactor") or 100
-  min, max = min * basicFactor, max * basicFactor
-
-  min, max = math.floor(min+0.5), math.floor(max+0.5)
-
-  return min, max
-end
-
-main.defineNews("randomNews", {
-  name = "Random movement",
-  image = "randomNews",
-  trigger = {"ROUND"},
-  description = ".",
-  temporary = 1,
-  onActivate = function ()
-    local change = getChange()
-    main.addPoint(change)
-  end
-})
 
 function main.spawnBarChangeNews()
   local chart = system.getStorage("main:chart")
@@ -81,9 +48,14 @@ function main.spawnBarChangeNews()
     local xoffset = love.math.random(-40, 40)
     local yoffset = love.math.random(-40, 40)
 
-    local n = main.spawnNews("randomNews", {x=pos.x+xoffset, y=pos.y+yoffset})
-    local min, max = getMinMax()
-    n.description = "Gives {pointColor}points{/pointColor} between\n{pointColor}" .. min .. "{/pointColor} and {pointColor}+" .. max
+    local change = getChange()
+    local name
+    if change > 0 then
+      name = "goodNews"
+    else
+      name = "badNews"
+    end
+    local n = main.spawnNews(name, {x=pos.x+xoffset, y=pos.y+yoffset, defaultPriceGain=change, temporary=2})
   end
 end
 

@@ -2,7 +2,7 @@ main.defineCard("add", {
   name = "Add",
   image = "basicAdd",
   trigger = {"DEPLOY"},
-  defaultPointGain = 6,
+  defaultPriceGain = 6,
   price = 1,
 })
 
@@ -10,7 +10,7 @@ main.defineCard("subtract", {
   name = "Subtract",
   image = "basicSubtract",
   trigger = {"DEPLOY"},
-  defaultPointGain = -6,
+  defaultPriceGain = -6,
   price = 1,
 })
 
@@ -35,12 +35,12 @@ main.defineCard("goldenHex", {
 main.defineCard("grassBow", {
   name = "Grass Bow",
   image = "grassBow",
-  description = "Card to the right gains {pointColor}+3 POINTS",
+  description = "Card to the right gains {priceColor}+3 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     local targetEnt = main.getCardBesides(ent, 1)
     if targetEnt then
-      main.changeEntityComponent(targetEnt, "defaultPointGain", 3, combiner.ADD)
+      main.changeEntityComponent(targetEnt, "defaultPriceGain", 3, combiner.ADD)
     end
   end,
   price = 2,
@@ -49,11 +49,11 @@ main.defineCard("grassBow", {
 main.defineCard("tail", {
   name = "Tail",
   image = "tail",
-  description = "Gives half of {multColor}MULT{/multColor} as {pointColor}POINTS",
+  description = "Gives half of {multColor}MULT{/multColor} as {priceColor}PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     local mult = system.getStorage("main:mult")
-    main.addPoint(math.floor(mult/2+0.5))
+    main.addPrice(math.floor(mult/2+0.5))
   end,
   price = 2,
 })
@@ -61,13 +61,13 @@ main.defineCard("tail", {
 main.defineCard("greenDice", {
   name = "Green Dice",
   image = "greenDice",
-  description = "2/3 chance to give {pointColor}+10 POINTS{/pointColor}\n1/3 chance to give {pointColor}-10 POINTS",
+  description = "2/3 chance to give {priceColor}+10 PRICE{/priceColor}\n1/3 chance to give {priceColor}-10 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
-      main.addPoint(10)
+      main.addPrice(10)
     else
-      main.addPoint(-10)
+      main.addPrice(-10)
     end
   end,
   price = 2,
@@ -76,13 +76,13 @@ main.defineCard("greenDice", {
 main.defineCard("redDice", {
   name = "Red Dice",
   image = "redDice",
-  description = "2/3 chance to give {pointColor}-10 POINTS{/pointColor}\n1/3 chance to give {pointColor}+10 POINTS",
+  description = "2/3 chance to give {priceColor}-10 PRICE{/priceColor}\n1/3 chance to give {priceColor}+10 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
-      main.addPoint(-10)
+      main.addPrice(-10)
     else
-      main.addPoint(10)
+      main.addPrice(10)
     end
   end,
   price = 2,

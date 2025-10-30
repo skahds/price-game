@@ -25,7 +25,7 @@
 
 main.defineCard("redFan", {
   name = "Red Fan",
-  description = "Spawns a temporary card\nwhich gives {pointColor}-6 POINTS",
+  description = "Spawns a temporary card\nwhich gives {priceColor}-6 PRICE",
   image = "redfan",
   trigger = {"DEPLOY"},
   price = 2,
@@ -37,7 +37,7 @@ main.defineCard("redFan", {
 main.defineCard("cell", {
   name = "Cell",
   image = "cell",
-  description = "Spawns a news which\ngives {pointColor}+3 POINTS",
+  description = "Spawns a news which\ngives {priceColor}+3 PRICE",
   trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)

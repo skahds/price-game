@@ -65,7 +65,7 @@ local function format_mixed_string(text_input)
   return formatted_text
 end
 
-local parsed = RichText.parse("Spawns a news which gives {pointColor}+3 points")
+local parsed = RichText.parse("Spawns a news which gives {priceColor}+3 prices")
 for i, v in ipairs(parsed) do
   if type(v) == "string" then
     print(i, "string:", v)

@@ -26,7 +26,7 @@ main.defineScene("levelSelect", function ()
     activeUI[i] = ui
     ui.name = "Level " .. i
     ui.scoreRequirement = getscoreRequirement(i)
-    ui.description = "Score Required: {pointColor}" .. ui.scoreRequirement .. "{/pointColor}\nGives {moneyColor}$3"
+    ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$3"
     main.updateRichTextText(ui.richtext, i)
   end
   local lastUI = activeUI[#activeUI]
