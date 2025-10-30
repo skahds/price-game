@@ -101,3 +101,17 @@ function utils.isEInTable(e, t)
   end
   return false
 end
+
+--angle in degree
+function utils.rotatePoint(x, y, angle, p, q)
+    local radians = math.rad(angle)
+    local cosAngle = math.cos(radians)
+    local sinAngle = math.sin(radians)
+    -- Translate point so center is at origin
+    x, y = x - p, y - q
+    -- Apply rotation matrix
+    local rotatedX = cosAngle * x - sinAngle * y
+    local rotatedY = sinAngle * x + cosAngle * y
+    -- Translate back
+    return rotatedX + p, rotatedY + q
+end

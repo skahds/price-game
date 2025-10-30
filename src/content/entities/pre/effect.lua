@@ -85,7 +85,7 @@ main.defineCard("sacrifice", {
   name = "Sacrifice",
   image = "sacrifice",
   description = "Discard cards in hand",
-  energy = 2,
+  energy = 1,
   defaultDrawCard = 4,
   trigger = {"DEPLOY"},
   price = 3,

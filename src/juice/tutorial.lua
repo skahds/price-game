@@ -5,6 +5,6 @@ system.on("@draw", function ()
   end
   
   system.render(30, function ()
-    love.graphics.draw(system.getImage("wasd"), -59, -200)
+    love.graphics.draw(system.getImage("wasd"), -59, -300)
   end, false)
 end)
