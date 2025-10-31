@@ -1,8 +1,10 @@
+system.updateStorage("main:endLevelReward", {})
+
+local flux = system.getStorage("flux")
 local font = system.getFont("defaultFont60")
 local cover
-local continueToShop
+local levelEndContinue
 local stats = {}
-
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -12,13 +14,38 @@ local function deleteAll(args)
   end
 end
 
-main.defineScene("levelEnd", function ()
-  local pipeline = main.getPipeline("main")
+local function continueAction()
+  if #stats > 0 then
+    for i, text in ipairs(stats) do
+      flux.to(text, 0.3, {y=-100})
+    end
+    main.wait(0.2, function ()
+      deleteAll(stats)
+    end)
+    stats = {}
+  end
 
-  cover = main.ui.spawnUI("cover", {x=50, y=-20, width=400, height=1500,
-    color = {0.5, 0.5, 0.5},
-    outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
-  continueToShop = main.ui.spawnUI("continueToShop", {x=70, y=310}, true)
+  local reward = system.getStorage("main:endLevelReward")
+  if reward ~= nil and #reward > 0 then
+    reward[1].claim()
+    table.remove(reward, 1)
+    return
+  end
+
+  if #main.card.reward > 0 then
+    return
+  end
+
+  local pipeline = main.getPipeline("scene")
+  if #pipeline.pipeline == 0 then
+    main.playScene("shop")
+  end
+end
+
+main.defineScene("levelEnd", function ()
+  local reward = system.getStorage("main:endLevelReward")
+  local pipeline = main.getPipeline("main")
+  levelEndContinue = main.ui.spawnUI("levelEndContinue", {x=640-150, y=400}, true)
 
   local finalStats = system.getStorage("main:endLevelStats")
   local roundsRemaining = system.getStorage("main:roundsRemaining")
@@ -61,8 +88,43 @@ main.defineScene("levelEnd", function ()
     end)
   end
   system.updateStorage("main:score", 0)
+
+  local chart = system.getStorage("main:chart")
+  if chart then
+    chart:forAllNews(function (news)
+      news.ui.isVisible = false
+    end)
+
+    chart:forAllBar(function (bar)
+      bar.isVisible = false
+    end)
+  end
 end, function ()
 
-  deleteAll({cover, continueToShop})
-  deleteAll(stats)
+  deleteAll({cover, levelEndContinue})
+  -- deleteAll(stats)
+
+  local chart = system.getStorage("main:chart")
+  if chart then
+    chart:forAllNews(function (news)
+      news.ui.isVisible = true
+    end)
+
+    chart:forAllBar(function (bar)
+      bar.isVisible = true
+    end)
+  end
 end)
+
+main.ui.defineButton("levelEndContinue", {
+  width = 300,
+  height = 100,
+  color = {0.4, 0.4, 0.7},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "Continue",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    continueAction()
+  end
+})

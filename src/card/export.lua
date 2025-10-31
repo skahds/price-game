@@ -2,12 +2,14 @@
 main.card = {
   -- the cards we own.. the index defines the order
   hand = {},
-  -- to be used in the shop scene
-  shop = {},
   -- the pile to draw
   draw = {},
   -- the pile after a card is used
   discard = {},
+  -- to be used in the shop scene
+  shop = {},
+  -- to be used in the levelEnd
+  reward = {},
 }
 
 local function fixCardOrderOnStack(ownerShip)

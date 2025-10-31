@@ -13,6 +13,7 @@ main.ui.defineUI("levelSelect", {
   height= 64,
   screenSpace = false,
   scoreRequirement = 0,
+  scene = "play",
   onHover = function (ent)
     ent.tween = flux.to(ent, 0.2, {sx=2, sy=2})
     ent.ox = ent.width/2
@@ -26,6 +27,8 @@ main.ui.defineUI("levelSelect", {
   onMouseReleased = function (ent, button)
     local pipeline = main.getPipeline("scene")
     if #pipeline.pipeline == 0 then
+      -- system.updateStorage("main:scoreRequirement", ent.scoreRequirement)
+      system.updateStorage("main:scoreRequirement", 1)
       main.playScene("play")
     end
   end,

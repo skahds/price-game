@@ -16,6 +16,7 @@ function main.AABB_check(t1, t2)
   local sx1, sy1, sx2, sy2 = t1.sx or 1, t1.sy or 1, t2.sx or 1, t2.sy or 1
   w1, h1, w2, h2 = w1 * sx1, h1*sy1, w2*sx2, h2*sy2
   local ox1, oy1, ox2, oy2 = t1.ox or 0, t1.oy or 0, t2.ox or 0, t2.oy or 0
+  ox1, oy1, ox2, oy2 = ox1*sx1, oy1*sy1, ox2*sx2, oy2*sy2
   
   x1, y1 = x1 - ox1, y1 - oy1
   x2, y2 = x2 - ox2, y2 - oy2

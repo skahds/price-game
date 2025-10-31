@@ -32,8 +32,18 @@ local function generateLevelMap(amount)
     xo=xo+love.math.random(-20, 20)
     yo=yo+love.math.random(-20, 20)
   end
+end
 
-  return xo, yo
+local rewardList = {
+  {claim=function ()
+    main.createRewardsOptions({"add", "subtract", "amplifier"})
+  end}
+}
+
+local function generateReward()
+  local t=utils.deepCopy(rewardList[1])
+  local reward = system.getStorage("main:endLevelReward")
+  table.insert(reward, t)
 end
 
 system.on("@draw", function ()
@@ -51,19 +61,21 @@ system.on("@draw", function ()
 
   for i, ui in ipairs(activeUI) do
 
-    local t = main.printRichText({
-      format="{moneyColor}$" .. ui.reward,
-      x=ui:getX()+ui:getWidth()/2,
-      y=ui:getY()+ui:getHeight()-20,
-      screenSpace = false,
-      renderLayer = 6
-    })
-    t.x = t.x - t.richText:getWidth()/2
+    if ui.reward and ui.reward ~= 0 then
+      local t = main.printRichText({
+        format="{moneyColor}$" .. ui.reward,
+        x=ui:getX()+ui:getWidth()/2,
+        y=ui:getY()+ui:getHeight()-20,
+        screenSpace = false,
+        renderLayer = 6
+        })
+      t.x = t.x - t.richText:getWidth()/2
+    end
   end
 end)
 
 main.defineScene("levelSelect", function ()
-  local xo, yo = generateLevelMap(3)
+  generateLevelMap(3)
   for i, level in ipairs(levels) do
     local x = level.x
     local y = level.y
@@ -73,11 +85,8 @@ main.defineScene("levelSelect", function ()
     ui.scoreRequirement = getscoreRequirement(i)
     ui.reward = 3
     ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.reward
-    main.updateRichTextText(ui.richtext, ":(")
+    main.updateRichTextText(ui.richtext, "$")
   end
-  local lastUI = activeUI[#activeUI]
-  system.updateStorage("main:scoreRequirement", lastUI.scoreRequirement)
-  -- main.tweenCamera(0.2, {x=xo, y=yo})
   
   local chart = system.getStorage("main:chart")
   if chart then
@@ -91,6 +100,7 @@ main.defineScene("levelSelect", function ()
   end
 end, function ()
   system.updateStorage("main:currentLevel", #levels)
+  generateReward()
   
   for i, ui in ipairs(activeUI) do
     ui:delete()

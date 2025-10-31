@@ -128,6 +128,7 @@ function main.updateRichTextText(richtext, newformat)
 end
 
 system.on("@update", function ()
+
   for i=#deleteQueue, 1, -1 do
     local text = deleteQueue[i]
     local last = texts[#texts]
