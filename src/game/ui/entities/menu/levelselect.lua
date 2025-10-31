@@ -7,7 +7,8 @@ main.ui.defineUI("levelSelect", {
   image = "levelSelect",
   text = "1",
   renderLayer = 4,
-  reward = 0,
+  moneyReward = 0,
+  reward = nil,
   showDescription = true,
   width = 64,
   height= 64,
@@ -30,6 +31,8 @@ main.ui.defineUI("levelSelect", {
       -- system.updateStorage("main:scoreRequirement", ent.scoreRequirement)
       system.updateStorage("main:scoreRequirement", 1)
       main.playScene("play")
+      local reward = system.getStorage("main:endLevelReward")
+      table.insert(reward, ent.reward)
     end
   end,
 })

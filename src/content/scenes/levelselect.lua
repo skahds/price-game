@@ -37,13 +37,13 @@ end
 local rewardList = {
   {claim=function ()
     main.createRewardsOptions({"add", "subtract", "amplifier"})
-  end}
+  end,
+  description="Gives random cards"}
 }
 
 local function generateReward()
   local t=utils.deepCopy(rewardList[1])
-  local reward = system.getStorage("main:endLevelReward")
-  table.insert(reward, t)
+  return t
 end
 
 system.on("@draw", function ()
@@ -61,9 +61,9 @@ system.on("@draw", function ()
 
   for i, ui in ipairs(activeUI) do
 
-    if ui.reward and ui.reward ~= 0 then
+    if ui.moneyReward and ui.moneyReward ~= 0 then
       local t = main.printRichText({
-        format="{moneyColor}$" .. ui.reward,
+        format="{moneyColor}$" .. ui.moneyReward,
         x=ui:getX()+ui:getWidth()/2,
         y=ui:getY()+ui:getHeight()-20,
         screenSpace = false,
@@ -83,8 +83,9 @@ main.defineScene("levelSelect", function ()
     activeUI[i] = ui
     ui.name = "Level " .. i
     ui.scoreRequirement = getscoreRequirement(i)
-    ui.reward = 3
-    ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.reward
+    ui.moneyReward = 3
+    ui.reward = generateReward()
+    ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
     main.updateRichTextText(ui.richtext, "$")
   end
   
@@ -100,7 +101,6 @@ main.defineScene("levelSelect", function ()
   end
 end, function ()
   system.updateStorage("main:currentLevel", #levels)
-  generateReward()
   
   for i, ui in ipairs(activeUI) do
     ui:delete()
