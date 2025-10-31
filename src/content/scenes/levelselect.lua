@@ -41,23 +41,20 @@ system.on("@draw", function ()
     return
   end
 
-  system.render(5, function ()
-    love.graphics.draw(system.getImage("baseNetwork"), -64, -64, 0, 2, 2)
-
-    if levels then
-      for i, level in ipairs(levels) do
-        love.graphics.setColor(1, 1, 1, 0.2)
-        love.graphics.setLineWidth(4)
-        love.graphics.line(level.x+levelSelectSize/2, level.y+levelSelectSize/2, 0, 0)
-      end
+  system.render(6, function ()
+    for i, ui in ipairs(activeUI) do
+      love.graphics.setColor(1, 1, 1, 0.2)
+      love.graphics.setLineWidth(4)
+      love.graphics.line(ui:getX()+ui:getWidth()/2, ui:getY()+ui:getHeight()/2, 0, 0)
     end
-  end)
+  end, false)
 
   for i, ui in ipairs(activeUI) do
+
     local t = main.printRichText({
       format="{moneyColor}$" .. ui.reward,
-      x=ui.x+levelSelectSize/2,
-      y=ui.y+levelSelectSize-20,
+      x=ui:getX()+ui:getWidth()/2,
+      y=ui:getY()+ui:getHeight()-20,
       screenSpace = false,
       renderLayer = 6
     })

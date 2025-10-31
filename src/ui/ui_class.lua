@@ -52,7 +52,7 @@ function main.ui.defineUI(id, eType)
         local image = system.getImage(self.image)
         love.graphics.draw(image, self.x, self.y, self.r, self.sx, self.sy, self.ox, self.oy)
       elseif self.drawDefaultRectangle then
-        love.graphics.rectangle("fill", self.x, self.y, self.width, self.height, self.rx, self.ry)
+        love.graphics.rectangle("fill", self.x-self.ox*self.sx, self.y-self.oy*self.sy, self.width, self.height, self.rx, self.ry)
       end
 
     end, self.screenSpace)
@@ -60,6 +60,14 @@ function main.ui.defineUI(id, eType)
     if self.onDraw then
       self:onDraw()
     end
+  end
+
+  function ent:getX()
+    return self.x - self.ox * self.sx
+  end
+
+  function ent:getY()
+    return self.y - self.oy * self.sy
   end
 
   function ent:getWidth()
