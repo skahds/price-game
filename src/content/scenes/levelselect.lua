@@ -39,15 +39,32 @@ local rewardList = {
     local t = {}
     local bag = system.getStorage("rarity:bag")
     for i=1, 3 do
+      table.insert(t, bag:getRandomCardWithRarity("RARE"))
+    end
+    main.createRewardsOptions(t)
+  end,
+  description="Gives random RARE cards"},
+
+  {claim=function ()
+    local t = {}
+    local bag = system.getStorage("rarity:bag")
+    for i=1, 3 do
       table.insert(t, bag:getRandomCardWithRarity("EPIC"))
     end
     main.createRewardsOptions(t)
   end,
-  description="Gives random cards"}
+  description="Gives random EPIC cards"}
 }
 
 local function generateReward()
-  local t=utils.deepCopy(rewardList[1])
+  local t
+  local difficulty = love.math.random(1, 2)
+  if difficulty == 1 then
+    t = utils.deepCopy(rewardList[1])
+  elseif difficulty == 2 then
+    t = utils.deepCopy(rewardList[2])
+  end
+  t.difficulty = difficulty
   return t
 end
 
@@ -106,12 +123,12 @@ main.defineScene("levelSelect", function ()
     local y = level.y
     local ui = main.ui.spawnUI("levelSelect", {x=x, y=y, isLastLevel=isLast}, true)
     activeUI[i] = ui
-    ui.name = "Level " .. i
-    ui.scoreRequirement = getscoreRequirement(i)
+    ui.name = "Encounter"
+    ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"))
     ui.moneyReward = 3
     ui.reward = generateReward()
-    ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
-    main.updateRichTextText(ui.richtext, "$")
+    ui.description = "Difficulty: " .. ui.reward.difficulty .. "\nScore Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
+    main.updateRichTextText(ui.richtext, ui.reward.difficulty)
   end
   
   local chart = system.getStorage("main:chart")
