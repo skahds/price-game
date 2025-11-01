@@ -16,6 +16,7 @@ function main.createRewardsOptions(rewards, info)
       local xOffsetLeft = -(#rewards-1)*(space/2)-32
       local orderOffset = space*(i-1)
       local n = main.spawnEntity(option, {x=640+xOffsetLeft+orderOffset, y=250}, true)
+      n.isRelic = true
       n.ui.sx = 2
       n.ui.sy = 2
       table.insert(news, n)
@@ -67,17 +68,23 @@ system.on("main:newsClicked", function (ent, button)
     return
   end
 
+  local cam = main.getCamera()
+
   chart:addNews(ent)
   ent.chartOrder = chart:getNewsAmount()
   ent.ui.screenSpace = false
   ent.screenSpace = false
-  ent.sx = 1
-  ent.sy = 1
+  ent.sx = cam.zoom
+  ent.sy = cam.zoom
+  flux.to(ent, 0.3, {sx=1, sy=1})
   ent.ui.sx = 1
   ent.ui.sy = 1
-  ent.x = love.math.random(-50, 50)
-  ent.y = love.math.random(-50, 50)
+  ent.x, ent.y = main.screenSpaceToWorldPosition(ent.x, ent.y)
   ent.ui.x, ent.ui.y = ent.x, ent.y
+  local targx=love.math.random(-50, 50)
+  local targy=love.math.random(-50, 50)
+  flux.to(ent, 0.3, {x=targx, y=targy})
+  flux.to(ent.ui, 0.3, {x=targx, y=targy})
   table.remove(news, ent.rewardIndex)
   ent.rewardIndex = nil
 
@@ -102,5 +109,13 @@ system.on("@draw", function ()
       format = "Pick a reward!"
     })
     t.x = 640-t.richText:getWidth()/2
+  end
+end)
+
+system.on("@update", function ()
+  if #news > 0 then
+    system.updateStorage("main:isThereNewsReward", true)
+  else
+    system.updateStorage("main:isThereNewsReward", false)
   end
 end)

@@ -36,6 +36,10 @@ local function continueAction()
     return
   end
 
+  if system.getStorage("main:isThereNewsReward") then
+    return
+  end
+
   local pipeline = main.getPipeline("scene")
   if #pipeline.pipeline == 0 then
     main.playScene("levelSelect")
@@ -69,11 +73,13 @@ main.defineScene("levelEnd", function ()
 
   for i, format in ipairs(t) do
     pipeline:add(0.2, function ()
-      table.insert(stats, main.newRichText({
+      local t = main.newRichText({
         format = format,
-        x=500,
+        x=640,
         y=200+height*(i-1),
-      }))
+      })
+      table.insert(stats, t)
+      t.x = t.x - t.richText:getWidth()/2
     end)
   end
 

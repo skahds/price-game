@@ -24,7 +24,6 @@ system.on("@update", function ()
   if s then
     playerCam.y = playerCam.y + speed
   end
-  
 end)
 
 function main.tweenCamera(time, pos)
@@ -73,3 +72,20 @@ system.on("@update", function ()
     main.tweenCamera(0.2, {x=0, y=0})
   end
 end)
+
+function main.screenSpaceToWorldPosition(screenX, screenY)
+  local screenW = 1280
+  local screenH = 720
+  local camX = playerCam.x
+  local camY = playerCam.y
+  local camZ = playerCam.zoom
+  
+  local worldX = camX + (screenX - screenW / 2) / camZ
+  local worldY = camY + (screenY - screenH / 2) / camZ
+  
+  return worldX, worldY
+end
+
+function main.getCamera()
+  return playerCam
+end
