@@ -22,6 +22,9 @@ system.on("@load", function ()
   main.shuffleDraw()
 
   main.playScene("menu")
+
+  -- local bag = system.getStorage("rarity:bag")
+  -- print(bag:getRandomNewsWithRarity("RARE"))
 end)
 
 -- system.on("@draw", function ()

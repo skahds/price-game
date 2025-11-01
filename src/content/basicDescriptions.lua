@@ -12,6 +12,22 @@ main.addDescriptionType(10, function (ent)
   end
 end)
 
+main.addDescriptionType(19, function (ent)
+  if ent.isNews ~= true then
+    return
+  end
+
+  if main.canTrigger(ent, "TURNEND") then
+    return "Turn ends:"
+  end
+  if main.canTrigger(ent, "PRICECHANGE") then
+    return "Price changes:"
+  end
+  if main.canTrigger(ent, "PRICECHANGE") then
+    return "Each turn:"
+  end
+end)
+
 main.addDescriptionType(20, function (ent)
   if ent.description then
     return ent.description
@@ -61,24 +77,6 @@ main.addDescriptionTag(32, function (ent)
     return "Hollow\nDoesn't take up space"
   end
 end)
-
--- main.addDescriptionTag(59, function (ent)
---   local text = "{triggerColor}TRIGGER{/triggerColor}"
---   if main.canTrigger(ent, "ROUND") then
---     text = text .. "\n-on turn start"
---   end
---   if main.canTrigger(ent, "DEPLOY") then
---     if ent.isLocked then
---       text = text .. "\n-(SHOP-LOCKED)on DEPLOY"
---     else
---       text = text .. "\n-on DEPLOY"
---     end
---   end
-
---   if text ~= "{triggerColor}TRIGGER{/triggerColor}" then
---     return text
---   end
--- end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultPriceGain ~= 0 then

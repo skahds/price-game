@@ -60,7 +60,9 @@ function main.ui.guidebook()
       height = height,
       color = {0.6, 0.6, 0.6},
       outline = 20,
-      outlineColor = {0.2, 0.2, 0.2},
+      rx=20,
+      ry=20,
+      outlineColor = {0.4, 0.4, 0.4},
       ignoreUIChecks = false,
       renderLayer = 390}, true)
 

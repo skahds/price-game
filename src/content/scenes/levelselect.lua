@@ -32,9 +32,9 @@ end
 
 local function clamp(n)
   if n > 0 then
-    return math.max(90, n)
+    return math.max(110, n)
   else
-    return math.min(-90, n)
+    return math.min(-110, n)
   end
 end
 
@@ -84,7 +84,7 @@ local rewardList = {
     local t = {}
     local bag = system.getStorage("rarity:bag")
     for i=1, 3 do
-      table.insert(t, "multNews")
+      table.insert(t, "discount")
     end
     main.createRewardsOptions(t, {rewardType="news"})
   end,
@@ -119,7 +119,7 @@ main.defineScene("levelSelect", function ()
       ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"), difficulty)
       ui.moneyReward = 2+difficulty
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
-      main.updateRichTextText(ui.richtext, string.rep("i", ui.reward.difficulty))
+      main.updateRichTextText(ui.richtext, string.rep("I", ui.reward.difficulty))
     elseif route[currentRoute].id == "SHOP" then
       activeUI[i] = ui
       ui.name = "Shop"

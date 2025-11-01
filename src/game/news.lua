@@ -4,6 +4,7 @@ local basicEnt = main.entities.basicEnt
 --IMPORTANT: this doesn't have an image/sprite themself but has a UI that do
 --if image is nil then it just displays nothing (for if it wants to draw its own stuff)
 function main.defineNews(id, eType)
+  eType.id = id
   eType.isNews = true
   
   main.entities[id] = class(main.entities.basicEnt)
@@ -33,6 +34,11 @@ function main.defineNews(id, eType)
 
     basicEnt.init(self, args)
   end
+
+  local rarityClass = system.getStorage("rarity:rarityClass")
+  if rarityClass then
+    rarityClass:new(eType)
+  end
 end
 
 local function repeatingTriggerNews(news, trigger)
@@ -40,7 +46,7 @@ local function repeatingTriggerNews(news, trigger)
   local chart = system.getStorage("main:chart")
 
   if main.canTrigger(news, trigger) then
-    pipeline:add(0.5, function ()
+    pipeline:add(0.8, function ()
       main.triggerEnt(news, trigger)
 
       pipeline:add(0, function ()
@@ -69,6 +75,7 @@ local function repeatingTriggerNews(news, trigger)
 end
 
 function main.triggerAllNews(trigger)
+  local pipeline = main.getPipeline("main")
   local chart = system.getStorage("main:chart")
   if chart == nil then
     return
@@ -77,7 +84,11 @@ function main.triggerAllNews(trigger)
     system.call("main:repeatingTriggerNewsEnd", trigger)
     return
   end
-  repeatingTriggerNews(chart:getNews(1), trigger)
+
+  pipeline:add(0.6, function ()
+    main.triggerEnt(chart:getNews(1), trigger)
+    repeatingTriggerNews(chart:getNews(2), trigger)
+  end)
 end
 
 function main.deleteNews(news)
@@ -113,4 +124,8 @@ end
 
 system.on("main:currentPriceChanged", function ()
   main.triggerAllNews("PRICECHANGE")
+end)
+
+system.on("main:endTurn", function ()
+  main.triggerAllNews("TURNEND")
 end)

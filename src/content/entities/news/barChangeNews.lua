@@ -1,3 +1,11 @@
+local function clamp(x)
+  if x > 0 then
+    x = math.max(x, 3)
+  else
+    x = math.min(-3, x)
+  end
+end
+
 local function getChange()
   local chart = system.getStorage("main:chart")
   if chart == nil then
@@ -20,7 +28,7 @@ local function getChange()
   changeAmount = ((math.abs(changeAmount)+1) * (chart.volatility+1)-1) * positivity
   print(chart.bullPower, chart.bearPower, chart.volatility, changeAmount)
 
-  local basicFactor = system.getStorage("main:basicChangeFactor") or 100
+  local basicFactor = system.getStorage("main:basicChangeFactor") or 60
   changeAmount = changeAmount * basicFactor
 
   chart.volatility = chart.volatility^(7/8)
@@ -55,7 +63,7 @@ function main.spawnBarChangeNews()
     else
       name = "badNews"
     end
-    local n = main.spawnNews(name, {x=pos.x+xoffset, y=pos.y+yoffset, defaultPriceGain=change, temporary=2})
+    local n = main.spawnNews(name, {x=pos.x+xoffset, y=pos.y+yoffset, defaultPriceGain=clamp(change), temporary=2})
   end
 end
 

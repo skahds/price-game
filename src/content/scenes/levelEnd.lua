@@ -15,6 +15,11 @@ local function deleteAll(args)
 end
 
 local function continueAction()
+  local pipeline = main.getPipeline("main")
+  if #pipeline.pipeline > 0 then
+    return
+  end
+  
   if #stats > 0 then
     for i, text in ipairs(stats) do
       flux.to(text, 0.3, {y=-100})

@@ -101,6 +101,7 @@ function main.defineCard(id, eType)
   -- card ent isn't shown, it will create its own UI ent
   -- card ent
   eType.id = id
+  eType.isCard = true
   main.entities[id] = class(main.entities.basicEnt)
   local card = main.entities[id]
   local basicEnt = main.entities.basicEnt
@@ -111,14 +112,13 @@ function main.defineCard(id, eType)
       self[k] = utils.deepCopy(v)
     end
 
-    self.isCard = true
-
     local image = self.image or "blank_card"
     
     self.ui = main.ui.spawnUI("card_ui", {image=image, x=self.x, y=self.y}, true)
     self.ui.parent = self
 
     self.energy = self.energy or 1
+    self.overrideEnergy = self.overrideEnergy or self.energy
   end
 
   function card:draw(args)
@@ -283,6 +283,8 @@ function main.drawCardTillMaxCapacity()
           main.drawCardTillMaxCapacity()
         end)
       end)
+    else
+      main.triggerAllNews("EACHTURN")
     end
   end
 end

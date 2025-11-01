@@ -226,7 +226,7 @@ system.on("@draw", function ()
 
   system.render(199, function ()
     love.graphics.setColor(0.4, 0.4, 0.4, 1)
-    love.graphics.rectangle("fill", 60, 250, 330, 100)
+    love.graphics.rectangle("fill", 55, 250, 340, 90)
     -- love.graphics.setColor(0.45, 0.45, 0.45, 1)
     -- love.graphics.rectangle("fill", 60, 350, 330/2-10, 100)
     -- love.graphics.setColor(0.45, 0.45, 0.45, 1)
