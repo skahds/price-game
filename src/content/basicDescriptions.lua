@@ -23,8 +23,11 @@ main.addDescriptionType(19, function (ent)
   if main.canTrigger(ent, "PRICECHANGE") then
     return "Price changes:"
   end
-  if main.canTrigger(ent, "PRICECHANGE") then
+  if main.canTrigger(ent, "EACHTURN") then
     return "Each turn:"
+  end
+  if main.canTrigger(ent, "CARDTRIGGER") then
+    return "Card activates:"
   end
 end)
 

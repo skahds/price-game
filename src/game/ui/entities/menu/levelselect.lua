@@ -34,6 +34,7 @@ main.ui.defineUI("levelSelect", {
     local pipeline = main.getPipeline("scene")
     if #pipeline.pipeline == 0 then
       system.updateStorage("main:scoreRequirement", ent.scoreRequirement)
+      system.updateStorage("main:scoreRequirement", 1)
       main.playScene(ent.targetScene)
       if ent.reward then
         local reward = system.getStorage("main:endLevelReward")

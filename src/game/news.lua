@@ -129,3 +129,9 @@ end)
 system.on("main:endTurn", function ()
   main.triggerAllNews("TURNEND")
 end)
+
+system.on("main:entityTriggered", function (ent)
+  if ent.isCard then
+    main.triggerAllNews("CARDTRIGGER")
+  end
+end)

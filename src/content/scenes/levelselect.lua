@@ -4,7 +4,7 @@ local levels = {}
 local activeUI = {}
 -- routes: "PLAY", "SHOP"
 local route = {
-  {id="PLAY", node=1},
+  {id="PLAY", node=1, reward={4}},
   {id="PLAY", node=2},
   {id="SHOP", node=1},
   {id="PLAY", node=3},
@@ -84,11 +84,11 @@ local rewardList = {
     local t = {}
     local bag = system.getStorage("rarity:bag")
     for i=1, 3 do
-      table.insert(t, "discount")
+      table.insert(t, bag:getRandomNews())
     end
     main.createRewardsOptions(t, {rewardType="news"})
   end,
-  description="Choose a relic"},
+  description="Choose a relic!"},
 }
 
 local function generateReward(difficulty)
@@ -114,7 +114,12 @@ main.defineScene("levelSelect", function ()
     if route[currentRoute].id == "PLAY" then
       local difficulty = i
       activeUI[i] = ui
-      ui.reward = generateReward(difficulty)
+      if route[currentRoute].reward and route[currentRoute].reward[i] then
+        ui.reward=utils.deepCopy(rewardList[route[currentRoute].reward[i]])
+        ui.reward.difficulty=i
+      else
+        ui.reward = generateReward(difficulty)
+      end
       ui.name = "Difficulty: " .. ui.reward.difficulty
       ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"), difficulty)
       ui.moneyReward = 2+difficulty

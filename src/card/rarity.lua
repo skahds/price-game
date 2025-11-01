@@ -118,7 +118,7 @@ end
 defineRarity("COMMON", {chanceWeight=10, format="{commonColor}COMMON"})
 defineRarity("RARE", {chanceWeight=6, format="{rareColor}RARE"})
 defineRarity("EPIC", {chanceWeight=2, format="{epicColor}EPIC"})
-defineRarity("UNIQUE", {chanceWeight=2, format="UNIQUE"})
+defineRarity("UNIQUE", {chanceWeight=0, format="UNIQUE"})
 
 local rarity = class()
 function rarity:init(ent)
