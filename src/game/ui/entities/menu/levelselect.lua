@@ -16,7 +16,7 @@ main.ui.defineUI("levelSelect", {
   oy=32,
   screenSpace = false,
   scoreRequirement = 0,
-  scene = "play",
+  targetScene = "play",
   isTweening=false,
   onHover = function (ent)
     if ent.isTweening == false then
@@ -35,9 +35,11 @@ main.ui.defineUI("levelSelect", {
     if #pipeline.pipeline == 0 then
       -- system.updateStorage("main:scoreRequirement", ent.scoreRequirement)
       system.updateStorage("main:scoreRequirement", 1)
-      main.playScene("play")
-      local reward = system.getStorage("main:endLevelReward")
-      table.insert(reward, ent.reward)
+      main.playScene(ent.targetScene)
+      if ent.reward then
+        local reward = system.getStorage("main:endLevelReward")
+        table.insert(reward, ent.reward)
+      end
     end
   end,
 })

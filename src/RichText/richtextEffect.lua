@@ -56,6 +56,30 @@ RichText.addEffect("repeatColor", function(self, args, info)
   self:setColor(r, g, b, a)
 end)
 
+RichText.addEffect("commonColor", function(self, args, info)
+  local r = args.r or 0.8
+  local g = args.g or 0.8
+  local b = args.b or 0.8
+  local a = args.a or 1
+  self:setColor(r, g, b, a)
+end)
+
+RichText.addEffect("rareColor", function(self, args, info)
+  local r = args.r or 0.6
+  local g = args.g or 0.9
+  local b = args.b or 1
+  local a = args.a or 1
+  self:setColor(r, g, b, a)
+end)
+
+RichText.addEffect("epicColor", function(self, args, info)
+  local r = args.r or 0.8
+  local g = args.g or 0.4
+  local b = args.b or 0.8
+  local a = args.a or 1
+  self:setColor(r, g, b, a)
+end)
+
 RichText.addEffect("greenColor", function(self, args, info)
   local r = args.r or 0.3
   local g = args.g or 0.9

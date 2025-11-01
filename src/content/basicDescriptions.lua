@@ -45,7 +45,7 @@ end)
 main.addDescriptionTag(30, function (ent)
   if ent.temporary ~= math.huge then
     local n = ent.temporary
-    return "Temporary " .. n .."\nDeleted after " .. n .. " turn"
+    return "Temporary " .. n .."\nDeleted after " .. n .. " use"
   end
 end)
 

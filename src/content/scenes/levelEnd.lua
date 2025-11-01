@@ -38,7 +38,7 @@ local function continueAction()
 
   local pipeline = main.getPipeline("scene")
   if #pipeline.pipeline == 0 then
-    main.playScene("shop")
+    main.playScene("levelSelect")
   end
 end
 
@@ -113,6 +113,11 @@ end, function ()
     chart:forAllBar(function (bar)
       bar.isVisible = true
     end)
+  end
+
+  for i=#main.card.hand, 1, -1 do
+    local card = main.card.hand[i]
+    main.addCardToDraw(card)
   end
 end)
 

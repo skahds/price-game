@@ -70,9 +70,9 @@ local function defineRarity(name, arg)
   bag.rarities[name] = arg
 end
 
-defineRarity("COMMON", {chanceWeight=10, format="{c r=0.8 g=0.8 b=0.8}COMMON"})
-defineRarity("RARE", {chanceWeight=6, format="{c r=0.6 g=0.9 b=1}RARE"})
-defineRarity("EPIC", {chanceWeight=2, format="{c r=0.7 g=0.3 b=0.7}EPIC"})
+defineRarity("COMMON", {chanceWeight=10, format="{commonColor}COMMON"})
+defineRarity("RARE", {chanceWeight=6, format="{rareColor}RARE"})
+defineRarity("EPIC", {chanceWeight=2, format="{epicColor}EPIC"})
 
 local rarity = class()
 function rarity:init(card)
