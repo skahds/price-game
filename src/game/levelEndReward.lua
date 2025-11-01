@@ -6,8 +6,7 @@ function main.createRewardsOptions(rewards, info)
   if info.rewardType == "card" then
     for i, option in ipairs(rewards) do
 
-      main.createCard(option, {}, "reward")
-
+      local c = main.createCard(option, {}, "reward")
       main.card.updateAllCardPositionBackToOriginalPosition("reward", {x=640, y=280})
     end
   elseif info.rewardType == "news" then

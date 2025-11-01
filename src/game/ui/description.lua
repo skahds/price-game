@@ -228,6 +228,31 @@ system.on("@update", function ()
   else
     removeCompleteDescription("selected")
   end
+
+  for i=1, #main.world+2 do
+    removeCompleteDescription("A" .. i .. "A")
+  end
+  for i=1, #main.ui.world+2 do
+    removeCompleteDescription("B" .. i .. "B")
+  end
+
+  for i, entity in ipairs(main.world) do
+    if entity.showingDescription then
+      local pos
+      if entity.ui then
+        pos = {x=entity.ui.x, y=entity.ui.y+entity.ui.height+20}
+      else
+        pos = {x=entity.ui.x, y=entity.ui.y+entity.ui.height+20}
+      end
+      drawCompleteDescription(entity, pos, "A" .. entity.index .. "A")
+    end
+  end
+
+  for i, entity in ipairs(main.ui.world) do
+    if entity.showingDescription then
+      drawCompleteDescription(entity, {x=entity.x, y=entity.y+entity.height+20}, "B" .. entity.index .. "B")
+    end
+  end
 end)
 
 system.on("ui:UIHovered", function (ui)

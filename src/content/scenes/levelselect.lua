@@ -3,7 +3,16 @@ local flux = system.getStorage("flux")
 local levels = {}
 local activeUI = {}
 -- routes: "PLAY", "SHOP"
-local route = "PLAY"
+local route = {
+  {id="PLAY", node=1},
+  {id="PLAY", node=2},
+  {id="SHOP", node=1},
+  {id="PLAY", node=3},
+  {id="PLAY", node=3},
+  {id="SHOP", node=1},
+  {id="PLAY", node=3},
+}
+local currentRoute = 1
 
 local levelSelectSize = 64
 
@@ -96,17 +105,13 @@ local function generateReward(difficulty)
 end
 
 main.defineScene("levelSelect", function ()
-  if route == "PLAY" then
-    generateLevelMap(3)
-  elseif route == "SHOP" then
-    generateLevelMap(1)
-  end
+  generateLevelMap(route[currentRoute].node)
 
   for i, level in ipairs(levels) do
     local x = level.x
     local y = level.y
     local ui = main.ui.spawnUI("levelSelect", {x=x, y=y, isLastLevel=isLast}, true)
-    if route == "PLAY" then
+    if route[currentRoute].id == "PLAY" then
       local difficulty = i
       activeUI[i] = ui
       ui.reward = generateReward(difficulty)
@@ -115,9 +120,10 @@ main.defineScene("levelSelect", function ()
       ui.moneyReward = 2+difficulty
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
       main.updateRichTextText(ui.richtext, string.rep("i", ui.reward.difficulty))
-    elseif route == "SHOP" then
+    elseif route[currentRoute].id == "SHOP" then
       activeUI[i] = ui
       ui.name = "Shop"
+      ui.description = "Buy items!"
       ui.targetScene = "shop"
       main.updateRichTextText(ui.richtext, "{moneyColor}$")
     end
@@ -136,11 +142,7 @@ main.defineScene("levelSelect", function ()
     end)
   end
 end, function ()
-  if route == "PLAY" then
-    route = "SHOP"
-  elseif route == "SHOP" then
-    route = "PLAY"
-  end
+  currentRoute = currentRoute + 1
   
   for i, ui in ipairs(activeUI) do
     ui:delete()
