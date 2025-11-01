@@ -36,9 +36,9 @@ main.defineNews("refine", {
   rarity = "RARE"
 })
 
-main.defineNews("refine", {
-  name = "Refine",
-  image = "refineNews",
+main.defineNews("nuclear", {
+  name = "Nuclear",
+  image = "nuclearNews",
   trigger = {"EACHTURN"},
   description = "Your rightmost cards\ngains +2 {repeatColor}REPEAT\nand cost {energyColor}+1 ENERGY",
   isRelic = true,
