@@ -25,15 +25,26 @@ function bag:getRarity(rarity)
   return self.rarities[rarity]
 end
 
-function bag:getRandomCard()
+function bag:getRandomCard(filter)
+  filter = filter or function() return true end
+
+  local range = {}
   local totalWeight = 0
   for k, t in pairs(self.bag) do
-    totalWeight = totalWeight + t.rarity.chanceWeight
+    if filter(t) == true then
+      totalWeight = totalWeight + t.rarity.chanceWeight
+      table.insert(range, t)
+    end
   end
+
+  if totalWeight == 0 then
+    error("rarity total weight can't be 0")
+  end
+
   local rand = love.math.random(1, totalWeight)
   local num = 0
 
-  for k, t in pairs(self.bag) do
+  for k, t in ipairs(range) do
     num = num + t.rarity.chanceWeight
     if num >= rand then
       return t.card
@@ -41,11 +52,21 @@ function bag:getRandomCard()
   end
 end
 
+function bag:getRandomCardWithRarity(rarity)
+  local c = self:getRandomCard(function (t)
+    if t.rarity.chanceWeight == self:getRarity(rarity).chanceWeight then
+      return true
+    end
+  end)
+  return c
+end
+
 bag:new()
 
 -- arg has format (for richtext), and chanceWeight
 local function defineRarity(name, arg)
   local bag = system.getStorage("rarity:bag")
+  arg.id = name
   bag.rarities[name] = arg
 end
 

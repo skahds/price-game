@@ -6,23 +6,35 @@ local scoreText = main.newRichText({format="Score: " ..  math.floor(score+0.5) .
   renderLayer = 200,})
 
 local money = main.getMoney()
-local moneyText = main.newRichText({format="{moneyColor}$" .. money .. "{/moneyColor}",
+
+local energyText = main.newRichText({format="0",
   y=130,
   x=70,
   renderLayer = 200,})
 
-local energyText = main.newRichText({format="0",
+local roundsRemainingText = main.newRichText({format="Turn left: 0",
   y=180,
   x=70,
   renderLayer = 200,})
 
-local roundsRemainingText = main.newRichText({format="Turn left: 0",
+local moneyText = main.newRichText({format="{moneyColor}$" .. money .. "{/moneyColor}",
   y=230,
   x=70,
   renderLayer = 200,})
 
+local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) .. "{/priceColor}",
+  y=350,
+  x=0,
+  sx=1,
+  sy=1,
+  ox=1,
+  oy=1,
+  r=0,
+  renderLayer = 200,
+  font = biggerFont})
+
 local multText = main.newRichText({format="{multColor}X" ..  math.floor(0+0.5) .. "{/multColor}",
-  y=160,
+  y=350,
   x=0,
   sx=1,
   sy=1,
@@ -32,17 +44,6 @@ local multText = main.newRichText({format="{multColor}X" ..  math.floor(0+0.5) .
   renderLayer = 200,
   font = biggerFont,
   })
-
-local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) .. "{/priceColor}",
-  y=80,
-  x=0,
-  sx=1,
-  sy=1,
-  ox=1,
-  oy=1,
-  r=0,
-  renderLayer = 200,
-  font = biggerFont})
 
 local cardHeldText = main.newRichText({format=0 .. "/" .. system.getStorage("main:maxCardAmount"),
   y=525,
@@ -86,6 +87,14 @@ system.on("main:sceneChanged", function()
   else
     moneyText.x = -2000
   end
+
+  if scene == "play" then
+    moneyText.y = 230
+    moneyText.sx = 1
+    moneyText.sy = 1
+  elseif scene == "shop" then
+    moneyText.y = 160
+  end
 end)
 
 --energy text
@@ -97,7 +106,7 @@ end)
 
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
-  if utils.isEInTable(scene, {"play", "shop"}) then
+  if utils.isEInTable(scene, {"play"}) then
     energyText.x = 70
   else
     energyText.x = -2000
@@ -114,31 +123,14 @@ end)
 
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
-  if utils.isEInTable(scene, {"play", "shop"}) then
+  if utils.isEInTable(scene, {"play"}) then
     roundsRemainingText.x = 70
   else
     roundsRemainingText.x = -2000
   end
 end)
 
--- mult text
-system.on("@update", function ()
-  local mult = system.getStorage("main:mult")
-  main.updateRichTextText(multText, "{multColor}X" ..  math.floor(mult+0.5) .. "{/multColor}")
-end)
-
-system.on("main:sceneChanged", function()
-  local scene = system.getStorage("main:currentScene")
-  if scene ~= "play" then
-    multText.x = -2000
-  end
-  if scene == "play" then
-    multText.x = 1100
-  end
-end)
-
 -- pricetext
--- local currentPrice = 0
 system.on("@update", function ()
   local bar = system.getStorage("main:currentBar")
   if bar then
@@ -147,43 +139,70 @@ system.on("@update", function ()
   end
 end)
 
--- system.on("main:endTurn", function ()
---   priceText = 0
---   main.updateRichTextText(currentscoreText, "{priceColor}0{/priceColor}")
--- end)
-
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
   if scene ~= "play" then
     priceText.x = -2000
   end
   if scene == "play" then
-    priceText.x = 1100
+    priceText.x = 50+350/4
   end
 end)
 
--- hold%
+-- mult text
+system.on("@update", function ()
+  local mult = system.getStorage("main:mult")
+  main.updateRichTextText(multText, "{multColor}" ..  math.floor(mult+0.5) .. "{/multColor}")
+end)
+
+system.on("main:sceneChanged", function()
+  local scene = system.getStorage("main:currentScene")
+  if scene ~= "play" then
+    multText.x = -2000
+  end
+  if scene == "play" then
+    multText.x = 50+350*3/4
+  end
+end)
+
 system.on("@draw", function ()
   local scene = system.getStorage("main:currentScene")
   if scene ~= "play" then
     return
   end
 
-  if system.getStorage("main:isOnTurn") ~= true then
-    return
-  end
-
-  local owned = system.getStorage("main:ownedPercentage")
-
-  local t = main.printRichText({
-    format=owned/100 .. "X",
-    x=1100,
-    y=200,
-    renderLayer=200,
-    font = biggerFont
-  })
-  t.x = t.x - t.richText:getWidth()/2
+  system.render(199, function ()
+    love.graphics.setColor(0.4, 0.4, 0.4, 1)
+    love.graphics.rectangle("fill", 60, 300, 330, 100)
+    -- love.graphics.setColor(0.45, 0.45, 0.45, 1)
+    -- love.graphics.rectangle("fill", 60, 350, 330/2-10, 100)
+    -- love.graphics.setColor(0.45, 0.45, 0.45, 1)
+    -- love.graphics.rectangle("fill", 60+330/2+10, 350, 330/2-10, 100)
+  end, true)
 end)
+
+-- hold%
+-- system.on("@draw", function ()
+--   local scene = system.getStorage("main:currentScene")
+--   if scene ~= "play" then
+--     return
+--   end
+
+--   if system.getStorage("main:isOnTurn") ~= true then
+--     return
+--   end
+
+--   local owned = system.getStorage("main:ownedPercentage")
+
+--   local t = main.printRichText({
+--     format=owned/100 .. "X",
+--     x=640,
+--     y=150,
+--     renderLayer=200,
+--     font = biggerFont
+--   })
+--   t.x = t.x - t.richText:getWidth()/2
+-- end)
 
 -- cardHeldText
 

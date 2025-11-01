@@ -33,6 +33,7 @@ end
 -- end
 
 main.defineScene("play", function ()
+
   local dimension = system.getStorage("screenDimension")
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=1500,
     color = {0.5, 0.5, 0.5},
@@ -73,6 +74,7 @@ main.defineScene("play", function ()
 
   main.drawCardTillMaxCapacity()
 end, function ()
+  system.updateStorage("main:currentDay", system.getStorage("main:currentDay")+1)
   local endStats = {
     finalScore = system.getStorage("main:score"),
     barsTaken = #chart.bars

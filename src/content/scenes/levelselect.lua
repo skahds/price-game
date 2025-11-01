@@ -36,7 +36,12 @@ end
 
 local rewardList = {
   {claim=function ()
-    main.createRewardsOptions({"add", "subtract", "amplifier"})
+    local t = {}
+    local bag = system.getStorage("rarity:bag")
+    for i=1, 3 do
+      table.insert(t, bag:getRandomCardWithRarity("EPIC"))
+    end
+    main.createRewardsOptions(t)
   end,
   description="Gives random cards"}
 }
@@ -51,7 +56,7 @@ system.on("@draw", function ()
     return
   end
 
-  system.render(6, function ()
+  system.render(5, function ()
     for i, ui in ipairs(activeUI) do
       love.graphics.setColor(1, 1, 1, 0.2)
       love.graphics.setLineWidth(4)
@@ -67,11 +72,31 @@ system.on("@draw", function ()
         x=ui:getX()+ui:getWidth()/2,
         y=ui:getY()+ui:getHeight()-20,
         screenSpace = false,
-        renderLayer = 6
+        renderLayer = 5
         })
       t.x = t.x - t.richText:getWidth()/2
     end
   end
+
+  local t = main.printRichText({
+    format="DAY: " .. system.getStorage("main:currentDay") .. "/5",
+    x=640,
+    y=20,
+    screenSpace = true,
+    renderLayer = 6,
+    font=system.getFont("defaultFont80")
+    })
+  t.x = t.x - t.richText:getWidth()/2
+
+  local t = main.printRichText({
+    format="Pick an encounter!",
+    x=640,
+    y=80,
+    screenSpace = true,
+    renderLayer = 6,
+    font=system.getFont("defaultFont80")
+    })
+  t.x = t.x - t.richText:getWidth()/2
 end)
 
 main.defineScene("levelSelect", function ()
@@ -100,7 +125,6 @@ main.defineScene("levelSelect", function ()
     end)
   end
 end, function ()
-  system.updateStorage("main:currentLevel", #levels)
   
   for i, ui in ipairs(activeUI) do
     ui:delete()

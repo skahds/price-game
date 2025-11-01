@@ -16,8 +16,8 @@ main.defineScene("shop", function ()
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
   -- buyButton = main.ui.spawnUI("buyButton", {x=1000, y= 400}, true)
-  reroll = main.ui.spawnUI("rerollButton", {x=70, y=300}, true)
-  continue = main.ui.spawnUI("continueButton", {x=70, y=450}, true)
+  reroll = main.ui.spawnUI("rerollButton", {x=70, y=250}, true)
+  continue = main.ui.spawnUI("continueButton", {x=70, y=400}, true)
   main.shop.spawnCards()
 
   -- while #main.card.draw + #main.card.discard > 0 do

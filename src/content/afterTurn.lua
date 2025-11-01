@@ -7,8 +7,8 @@ system.on("main:endTurn", function ()
 
   if scoreRequired <= score then
     pipeline:add(0.1, function ()
-      local currentLevel = system.getStorage("main:currentLevel")
-      if currentLevel == 5 then
+      local currentDay = system.getStorage("main:currentDay")
+      if currentDay == 5 then
         system.updateStorage("main:gameResult", "WIN")
         main.playScene("gameEnd")
       else

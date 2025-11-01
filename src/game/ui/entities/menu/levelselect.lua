@@ -12,18 +12,23 @@ main.ui.defineUI("levelSelect", {
   showDescription = true,
   width = 64,
   height= 64,
+  ox=32,
+  oy=32,
   screenSpace = false,
   scoreRequirement = 0,
   scene = "play",
+  isTweening=false,
   onHover = function (ent)
-    ent.tween = flux.to(ent, 0.2, {sx=2, sy=2})
-    ent.ox = ent.width/2
-    ent.oy = ent.height/2
+    if ent.isTweening == false then
+      ent.tween = flux.to(ent, 0.3, {sx=2, sy=2}):ease("backinout")
+      ent.isTweening=true
+    end
   end,
   notHovered = function (ent)
-    ent.tween = flux.to(ent, 0.2, {sx=1, sy=1})
-    ent.ox = ent.width/2
-    ent.oy = ent.height/2
+    if ent.isTweening == true then
+      ent.tween = flux.to(ent, 0.3, {sx=1, sy=1}):ease("backinout")
+      ent.isTweening=false
+    end
   end,
   onMouseReleased = function (ent, button)
     local pipeline = main.getPipeline("scene")
