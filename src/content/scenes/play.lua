@@ -35,9 +35,9 @@ end
 main.defineScene("play", function ()
 
   local dimension = system.getStorage("screenDimension")
-  cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=1500,
+  cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=360,
     color = {0.5, 0.5, 0.5},
-    outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
+    outlineColor = {0.4, 0.4, 0.4}, outline=20, rx=20, ry=20}, true)
   -- ownSlider = main.ui.spawnUI("ownSlider", {x=dimension.w/2-200, y=30}, true)
   sell = main.ui.spawnUI("startTurn", {x=640-100-75, y=50, mult=-1, color={0.7, 0.4, 0.4}}, true)
   main.updateRichTextText(sell.richtext, "DOWN")

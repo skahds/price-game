@@ -364,7 +364,7 @@ function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, pos)
   local dimension = system.getStorage("screenDimension")
   local screenW, screenH = dimension.w, dimension.h
   local pos = pos or {}
-  local middleY = pos.y or screenH - 80
+  local middleY = pos.y or screenH - 60
   local middleX = pos.x or screenW/2
 
   orderBasedOnPosition(ownerShip)

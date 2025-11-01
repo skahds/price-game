@@ -14,7 +14,7 @@ system.on("ui:entityDrawn", function (ent)
   system.render(renderLayer, function ()
     love.graphics.setLineWidth(ent.outline)
     love.graphics.setColor(outlineColor)
-    love.graphics.rectangle("line", ent.x, ent.y, ent:getWidth(), ent:getHeight())
+    love.graphics.rectangle("line", ent.x, ent.y, ent:getWidth(), ent:getHeight(), ent.rx, ent.ry)
   end, ent.screenSpace)
 
   if ent.onSlide then

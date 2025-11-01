@@ -1,5 +1,5 @@
 -- hard coded
-local originalScale = 2
+local originalScale = 1.7
 
 system.on("main:entityTriggered", function (ent)
   if ent.ui and ent.isCard then
@@ -9,8 +9,8 @@ system.on("main:entityTriggered", function (ent)
     local scaleFactor = 1.5
     local sx = originalScale * scaleFactor
     local sy = originalScale * scaleFactor
-    local ox = cardUI:getWidth()/8
-    local oy = cardUI:getHeight()/8
+    local ox = cardUI.width/2
+    local oy = cardUI.height/2
     flux.to(cardUI, 0.15, {sx = sx, sy=sy, ox=ox, oy=oy})
     :after(cardUI, 0.15, {sx = originalScale, sy=originalScale, ox=0, oy=0})
     

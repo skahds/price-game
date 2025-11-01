@@ -1,4 +1,5 @@
 local biggerFont = system.getFont("defaultFont100")
+local flux = system.getStorage("flux")
 local score = system.getStorage("main:score")
 local scoreText = main.newRichText({format="Score: " ..  math.floor(score+0.5) .. "",
   y=80,
@@ -7,23 +8,23 @@ local scoreText = main.newRichText({format="Score: " ..  math.floor(score+0.5) .
 
 local money = main.getMoney()
 
-local energyText = main.newRichText({format="0",
+-- local energyText = main.newRichText({format="0",
+--   y=130,
+--   x=70,
+--   renderLayer = 200,})
+
+local roundsRemainingText = main.newRichText({format="Turn left: 0",
   y=130,
   x=70,
   renderLayer = 200,})
 
-local roundsRemainingText = main.newRichText({format="Turn left: 0",
+local moneyText = main.newRichText({format="{moneyColor}$" .. money .. "{/moneyColor}",
   y=180,
   x=70,
   renderLayer = 200,})
 
-local moneyText = main.newRichText({format="{moneyColor}$" .. money .. "{/moneyColor}",
-  y=230,
-  x=70,
-  renderLayer = 200,})
-
 local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) .. "{/priceColor}",
-  y=350,
+  y=300,
   x=0,
   sx=1,
   sy=1,
@@ -34,7 +35,7 @@ local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) 
   font = biggerFont})
 
 local multText = main.newRichText({format="{multColor}X" ..  math.floor(0+0.5) .. "{/multColor}",
-  y=350,
+  y=300,
   x=0,
   sx=1,
   sy=1,
@@ -89,7 +90,7 @@ system.on("main:sceneChanged", function()
   end
 
   if scene == "play" then
-    moneyText.y = 230
+    moneyText.y = 180
     moneyText.sx = 1
     moneyText.sy = 1
   elseif scene == "shop" then
@@ -97,19 +98,71 @@ system.on("main:sceneChanged", function()
   end
 end)
 
---energy text
+-- --energy text
+-- system.on("@update", function ()
+--   local energy = system.getStorage("main:energy")
+--   local energyPerTurn = system.getStorage("main:energyPerTurn")
+--   main.updateRichTextText(energyText, "Capital: {energyColor}"..energy.."/"..energyPerTurn)
+-- end)
+
+-- system.on("main:sceneChanged", function()
+--   local scene = system.getStorage("main:currentScene")
+--   if utils.isEInTable(scene, {"play"}) then
+--     energyText.x = 70
+--   else
+--     energyText.x = -2000
+--   end
+-- end)
+
+--energy
+local energyInfos = {w=0}
 system.on("@update", function ()
   local energy = system.getStorage("main:energy")
   local energyPerTurn = system.getStorage("main:energyPerTurn")
-  main.updateRichTextText(energyText, "Capital: {energyColor}"..energy.."/"..energyPerTurn)
+  local widthPerBar = 330/energyPerTurn
+  flux.to(energyInfos, 0.2, {w=math.max(0, widthPerBar*math.min(energyPerTurn, energy)-20)})
 end)
 
-system.on("main:sceneChanged", function()
+system.on("@draw", function ()
   local scene = system.getStorage("main:currentScene")
-  if utils.isEInTable(scene, {"play"}) then
-    energyText.x = 70
-  else
-    energyText.x = -2000
+  if scene ~= "play" then
+    return
+  end
+
+  local energy = system.getStorage("main:energy")
+  local energyPerTurn = system.getStorage("main:energyPerTurn")
+  system.render(200, function ()
+    local widthPerBar = 330/energyPerTurn
+
+    love.graphics.setColor(0.3, 0.3, 0.3, 1)
+    love.graphics.rectangle("fill", 60, 370, 330, 100, 20, 20)
+
+    local r = math.min(20, math.max(0, energyInfos.w))
+    love.graphics.setColor(0.4, 0.4, 0.4, 1)
+    love.graphics.rectangle("fill", 70, 380, 310, 80, 20, 20)
+    
+    love.graphics.setColor(1, 0.7, 0.3, 1)
+    love.graphics.rectangle("fill", 70, 380, energyInfos.w, 80, r, r)
+
+    love.graphics.setColor(0.3, 0.3, 0.3, 1)
+    love.graphics.setLineWidth(10)
+    for i=1, (energyPerTurn-1) do
+      local x = 60+i*widthPerBar
+      love.graphics.line(x, 370, x, 470)
+    end
+  end, true)
+
+  if energy > energyPerTurn then
+    local t=main.printRichText({
+      x=330,
+      y=420,
+      format="{energyColor g=0.9 b=0.5}+" .. energy-energyPerTurn,
+      renderLayer=201,
+      font=biggerFont,
+      screenSpace = true
+    })
+    t.x = t.x - t.richText:getWidth()/2
+    t.y = t.y - t.richText:getHeight()/2
   end
 end)
 
@@ -173,7 +226,7 @@ system.on("@draw", function ()
 
   system.render(199, function ()
     love.graphics.setColor(0.4, 0.4, 0.4, 1)
-    love.graphics.rectangle("fill", 60, 300, 330, 100)
+    love.graphics.rectangle("fill", 60, 250, 330, 100)
     -- love.graphics.setColor(0.45, 0.45, 0.45, 1)
     -- love.graphics.rectangle("fill", 60, 350, 330/2-10, 100)
     -- love.graphics.setColor(0.45, 0.45, 0.45, 1)
@@ -222,7 +275,6 @@ end)
 -- juice
 local function makeJuice(text, event)
   system.on(event, function ()
-    local flux = system.getStorage("flux")
     local originalRotation = 0
     local rotation = text.r + (love.math.random()-0.5)*3
     local scaleFactor = 1.5
