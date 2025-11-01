@@ -1,3 +1,5 @@
+local flux = system.getStorage("flux")
+
 local levels = {}
 local activeUI = {}
 -- routes: "PLAY", "SHOP"
@@ -45,7 +47,7 @@ local rewardList = {
     for i=1, 3 do
       table.insert(t, bag:getRandomCardWithRarity("COMMON"))
     end
-    main.createRewardsOptions(t)
+    main.createRewardsOptions(t, {rewardType="card"})
   end,
   description="Choose a {commonColor}COMMON{/commonColor} card!"},
 
@@ -55,7 +57,7 @@ local rewardList = {
     for i=1, 3 do
       table.insert(t, bag:getRandomCardWithRarity("RARE"))
     end
-    main.createRewardsOptions(t)
+    main.createRewardsOptions(t, {rewardType="card"})
   end,
   description="Choose a {rareColor}RARE{/rareColor} card!"},
 
@@ -65,9 +67,19 @@ local rewardList = {
     for i=1, 3 do
       table.insert(t, bag:getRandomCardWithRarity("EPIC"))
     end
-    main.createRewardsOptions(t)
+    main.createRewardsOptions(t, {rewardType="card"})
   end,
   description="Choose a {epicColor}EPIC{/epicColor} card!"},
+
+  {claim=function ()
+    local t = {}
+    local bag = system.getStorage("rarity:bag")
+    for i=1, 3 do
+      table.insert(t, "multNews")
+    end
+    main.createRewardsOptions(t, {rewardType="news"})
+  end,
+  description="Choose a relic"},
 }
 
 local function generateReward(difficulty)
@@ -77,7 +89,7 @@ local function generateReward(difficulty)
   elseif difficulty == 2 then
     t = utils.deepCopy(rewardList[2])
   elseif difficulty == 3 then
-    t = utils.deepCopy(rewardList[3])
+    t = utils.deepCopy(rewardList[4])
   end
   t.difficulty = difficulty
   return t
@@ -110,6 +122,8 @@ main.defineScene("levelSelect", function ()
       main.updateRichTextText(ui.richtext, "{moneyColor}$")
     end
   end
+
+  main.tweenCamera(0.2, {x=0, y=0})
   
   local chart = system.getStorage("main:chart")
   if chart then
@@ -147,6 +161,20 @@ end, function ()
 end)
 
 --juice
+local scale={s=1}
+
+local function scaleChange()
+  flux.to(scale, 5, {s=1.1}):ease("linear")
+  main.wait(5, function ()
+    flux.to(scale, 5, {s=0.9}):ease("linear")
+    main.wait(5, function ()
+      scaleChange()
+    end)
+  end)
+end
+
+scaleChange()
+
 system.on("@draw", function ()
   if system.getStorage("main:currentScene") ~= "levelSelect" then
     return
@@ -160,7 +188,7 @@ system.on("@draw", function ()
     end
 
     love.graphics.setColor(1, 1, 1)
-    love.graphics.draw(system.getImage("baseNetwork"), -48, -48)
+    love.graphics.draw(system.getImage("baseNetwork"), 0, 0, 0, scale.s, scale.s, 48, 48)
   end, false)
 
   for i, ui in ipairs(activeUI) do

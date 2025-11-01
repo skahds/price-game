@@ -10,6 +10,6 @@ main.ui.defineUI("news_ui", {
   end,
 
   onMouseClicked = function (ent, button)
-    system.call("main:newsClicked", ent.parent)
+    system.call("main:newsClicked", ent.parent, button)
   end
 })

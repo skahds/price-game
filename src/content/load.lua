@@ -5,7 +5,7 @@ system.on("@load", function ()
   end
 
   for i=1, 3 do
-    local card = main.createCard("quickOrb", {}, "hand")
+    local card = main.createCard("add", {}, "hand")
     main.addCardToDraw(card)
   end
 

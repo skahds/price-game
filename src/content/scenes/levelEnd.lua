@@ -45,7 +45,7 @@ end
 main.defineScene("levelEnd", function ()
   local reward = system.getStorage("main:endLevelReward")
   local pipeline = main.getPipeline("main")
-  levelEndContinue = main.ui.spawnUI("levelEndContinue", {x=640-150, y=400}, true)
+  levelEndContinue = main.ui.spawnUI("levelEndContinue", {x=640-150, y=430}, true)
 
   local finalStats = system.getStorage("main:endLevelStats")
   local roundsRemaining = system.getStorage("main:roundsRemaining")
@@ -90,30 +90,30 @@ main.defineScene("levelEnd", function ()
   system.updateStorage("main:score", 0)
 
   local chart = system.getStorage("main:chart")
-  if chart then
-    chart:forAllNews(function (news)
-      news.ui.isVisible = false
-    end)
+  -- if chart then
+  --   chart:forAllNews(function (news)
+  --     news.ui.isVisible = false
+  --   end)
 
-    chart:forAllBar(function (bar)
-      bar.isVisible = false
-    end)
-  end
+  --   chart:forAllBar(function (bar)
+  --     bar.isVisible = false
+  --   end)
+  -- end
 end, function ()
 
   deleteAll({cover, levelEndContinue})
   -- deleteAll(stats)
 
   local chart = system.getStorage("main:chart")
-  if chart then
-    chart:forAllNews(function (news)
-      news.ui.isVisible = true
-    end)
+  -- if chart then
+  --   chart:forAllNews(function (news)
+  --     news.ui.isVisible = true
+  --   end)
 
-    chart:forAllBar(function (bar)
-      bar.isVisible = true
-    end)
-  end
+  --   chart:forAllBar(function (bar)
+  --     bar.isVisible = true
+  --   end)
+  -- end
 
   for i=#main.card.hand, 1, -1 do
     local card = main.card.hand[i]
