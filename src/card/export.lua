@@ -87,6 +87,9 @@ function main.deleteCard(card)
 end
 
 function main.getCardInOrder(order)
+  if order < 0 then
+    order = #main.card.hand+order+1
+  end
   local card = main.card.hand[order]
   if card then
     return card

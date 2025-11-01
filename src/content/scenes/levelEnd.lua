@@ -94,9 +94,7 @@ main.defineScene("levelEnd", function ()
   end
 
   for i=1, money do
-    pipeline:add(0.1, function ()
-      main.addMoney(1)
-    end)
+    main.addMoney(1)
   end
   system.updateStorage("main:score", 0)
 

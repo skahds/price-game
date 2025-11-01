@@ -85,10 +85,8 @@ function main.triggerAllNews(trigger)
     return
   end
 
-  pipeline:add(0.6, function ()
-    main.triggerEnt(chart:getNews(1), trigger)
-    repeatingTriggerNews(chart:getNews(2), trigger)
-  end)
+  main.triggerEnt(chart:getNews(1), trigger)
+  repeatingTriggerNews(chart:getNews(2), trigger)
 end
 
 function main.deleteNews(news)

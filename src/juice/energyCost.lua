@@ -7,8 +7,8 @@ system.on("@draw", function ()
       local ui = card.ui
       local realAmount = card.overrideEnergy
       local oldAmount = card.energy
-      local x=ui.x
-      local y=ui.y
+      local x=ui:getX()
+      local y=ui:getY()
       system.render(299, function ()
         for i=1, realAmount do
           love.graphics.draw(system.getImage("energy"), x-16+40*(i-1), y-16, 0, 2, 2)

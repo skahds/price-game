@@ -31,7 +31,7 @@ main.defineNews("refine", {
   isRelic = true,
   onActivate = function (ent)
     local card = main.getCardInOrder(1)
-    main.changeEntityComponent(card, "REPEAT", 1, combiner.ADD)
+    main.changeEntityComponent(card, "repeatActivation", 1, combiner.ADD)
   end,
   rarity = "RARE"
 })
@@ -44,7 +44,7 @@ main.defineNews("nuclear", {
   isRelic = true,
   onActivate = function (ent)
     local card = main.getCardInOrder(-1)
-    main.changeEntityComponent(card, "REPEAT", 2, combiner.ADD)
+    main.changeEntityComponent(card, "repeatActivation", 2, combiner.ADD)
     card.overrideEnergy = card.overrideEnergy + 1
   end,
   rarity = "RARE"

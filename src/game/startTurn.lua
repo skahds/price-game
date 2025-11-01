@@ -16,7 +16,7 @@ local function updateScore()
     system.call("main:scoreChanged", change)
   end
 
-  pipeline:add(0.1, function ()
+  pipeline:add(0, function ()
     local scene = system.getStorage("main:currentScene")
     if scene == "play" then
       main.discardCurrentCardsInHand()
@@ -43,7 +43,7 @@ system.on("main:startTurn", function ()
     local roundsRemaining = system.getStorage("main:roundsRemaining")
     system.updateStorage("main:roundsRemaining", roundsRemaining-1)
 
-    pipeline:add(0.2, function()
+    pipeline:add(0, function()
 
       main.triggerAllCardOwned("ROUND")
 
@@ -56,7 +56,7 @@ system.on("main:repeatingTriggerCardEnd", function (trigger)
     return
   end
 
-  pipeline:add(0, function ()
+  pipeline:add(0.4, function ()
 
     main.triggerAllNews("ROUND")
 
