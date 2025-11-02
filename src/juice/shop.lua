@@ -45,7 +45,6 @@ system.on("@draw", function ()
     local ui = card.ui
     local width, height = ui:getWidth(), ui:getHeight()
     if card.price then
-      print("y")
       local richText = main.printRichText({format="{moneyColor}$" .. card.price,
       x=ui.x+width/2,
       y=ui.y+height-10,

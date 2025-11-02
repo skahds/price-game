@@ -40,11 +40,14 @@ main.defineCard("greenHammer", {
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",
-  onActivate = function (ent)
+  filter = function ()
     local prices = main.getPrice()
     if prices < 0 then
       main.addPrice(50)
     end
+  end,
+  onActivate = function (ent)
+    main.addPrice(50)
   end
 })
 
@@ -55,11 +58,14 @@ main.defineCard("redHammer", {
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",
-  onActivate = function (ent)
+  filter = function ()
     local prices = main.getPrice()
     if prices > 0 then
       main.addPrice(-50)
     end
+  end,
+  onActivate = function (ent)
+    main.addPrice(-50)
   end
 })
 

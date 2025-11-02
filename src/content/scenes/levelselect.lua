@@ -10,7 +10,7 @@ local route = {
   {id="PLAY", node=3},
   {id="PLAY", node=3},
   {id="SHOP", node=1},
-  {id="PLAY", node=3},
+  {id="PLAY", node=1},
 }
 local currentRoute = 1
 
@@ -20,7 +20,7 @@ local scoreRequired = {
   80,
   150,
   300,
-  600,
+  500,
   1000
 }
 

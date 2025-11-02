@@ -26,7 +26,7 @@ local function getChange()
     positivity = -1
   end
   changeAmount = ((math.abs(changeAmount)+1) * (chart.volatility+1)-1) * positivity
-  print(chart.bullPower, chart.bearPower, chart.volatility, changeAmount)
+  -- print(chart.bullPower, chart.bearPower, chart.volatility, changeAmount)
 
   local basicFactor = system.getStorage("main:basicChangeFactor") or 60
   changeAmount = changeAmount * basicFactor
