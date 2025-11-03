@@ -24,10 +24,10 @@ end, function (t)
       local c = main.createCard(card.id, card, "hand")
       if pileName == "draw" then
         main.addCardToDraw(c)
-        c.isVisible = false
+        c.ui.isVisible = false
       elseif pileName == "discard" then
         main.discardCard(c)
-        c.isVisible = false
+        c.ui.isVisible = false
       end
     end
   end

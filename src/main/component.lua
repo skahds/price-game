@@ -15,8 +15,14 @@ end
 function main.getAllComponentsFromEntity(ent)
   local t = {}
   for id, defaultValue in pairs(componentList) do
-    if ent[id] ~= defaultValue then
-      t[id] = ent[id]
+    if main.entities[ent.id].definition then
+      if ent[id] ~= defaultValue or ent[id] ~= main.entities[ent.id].definition[id] then
+        t[id] = ent[id]
+      end
+    else
+      if ent[id] ~= defaultValue then
+        t[id] = ent[id]
+      end
     end
   end
   t.id = ent.id

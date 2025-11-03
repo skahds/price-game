@@ -297,10 +297,10 @@ end, function (t)
     if chart then
       chart:addBar(bar)
     end
-    print("added")
   end
 
   for k, v in ipairs(t.news) do
     local news = main.spawnNews(v.id, v)
+    news.ui.isVisible = false
   end
 end)

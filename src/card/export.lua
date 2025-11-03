@@ -132,6 +132,8 @@ function main.defineCard(id, eType)
   if rarityClass then
     rarityClass:new(eType)
   end
+
+  card.definition = eType
 end
 
 local function repeatingTriggerCard(card, trigger)
