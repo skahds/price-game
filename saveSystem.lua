@@ -1,35 +1,41 @@
-local binser = require "binser"
-local objects = {}
+local json = require "json"
+local saves = {}
+local loads = {}
 
-function system.saveTable(id, t)
-  objects[id] = t
+function system.onSave(id, func)
+  saves[id] = func
+end
+
+function system.onLoad(id, func)
+  loads[id] = func
 end
 
 function system.saveGame()
-  local file = binser.serialize(objects)
-  love.filesystem.write("save", file)
+  local t = {}
+  for id, func in pairs(saves) do
+    t[id] = func()
+  end
+  local obj = json.encode(t)
+  love.filesystem.write("save", obj)
 end
 
 function system.loadGame()
-  if not love.filesystem.getInfo("save") then return false end
-  
-  local fileData = love.filesystem.read("save")
-  local success, file = pcall(binser.deserialize, fileData)
-  
-  if not success then 
-    print("Deserialize error:", file)
+  if not love.filesystem.getInfo("save") then
     return false
   end
 
-  local loadedObjects = file[1]
-  
-  for id, data in pairs(loadedObjects) do
-    if objects[id] then
-      for k, v in pairs(data) do
-        objects[id][k] = v
-      end
-    end
+  local save = love.filesystem.read("save")
+  if not save then
+    return false
   end
-  
-  return true
+
+  local success, obj = pcall(json.decode, save)
+  if not success then
+    print("Corrupted save file")
+    return false
+  end
+
+  for id, loadFunc in pairs(loads) do
+    loadFunc(obj[id])
+  end
 end

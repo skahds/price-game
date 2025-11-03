@@ -11,6 +11,16 @@ function main.isComponent(name)
   return false
 end
 
+function main.getAllComponentsFromEntity(ent)
+  local t = {}
+  for id, defaultValue in pairs(componentList) do
+    if ent[id] ~= defaultValue then
+      t[id] = ent[id]
+    end
+  end
+  return t
+end
+
 system.on("main:entitySpawned", function (ent)
   for k, v in pairs(componentList) do
     if ent[k] == nil then
