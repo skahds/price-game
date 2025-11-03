@@ -1,28 +1,28 @@
--- example use: upgrade next card activated with +1 repeat
-local enhances = {}
+-- -- example use: upgrade next card activated with +1 repeat
+-- local enhances = {}
 
-local pipeline = main.getPipeline("main")
+-- local pipeline = main.getPipeline("main")
 
-function main.upgradeNextActivation(func, turns)
-  pipeline:add(0, function ()
-    turns = turns or 1
-    table.insert(enhances, {func=func, turns=turns})
-  end)
-end
+-- function main.upgradeNextActivation(func, turns)
+--   pipeline:add(0, function ()
+--     turns = turns or 1
+--     table.insert(enhances, {func=func, turns=turns})
+--   end)
+-- end
 
-system.on("main:entityAboutToTrigger", function (ent)
-  for _, enhance in ipairs(enhances) do
-    enhance.func(ent)
-  end
+-- system.on("main:entityAboutToTrigger", function (ent)
+--   for _, enhance in ipairs(enhances) do
+--     enhance.func(ent)
+--   end
 
-  for i=#enhances, 1, -1 do
-    local enhance = enhances[i]
-    if enhance.turns > 1 then
-      enhance.turns = enhance.turns - 1
-    else
-      table.remove(enhance, i)
-    end
-  end
+--   for i=#enhances, 1, -1 do
+--     local enhance = enhances[i]
+--     if enhance.turns > 1 then
+--       enhance.turns = enhance.turns - 1
+--     else
+--       table.remove(enhance, i)
+--     end
+--   end
 
-  enhances = {}
-end)
+--   enhances = {}
+-- end)

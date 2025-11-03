@@ -1,19 +1,16 @@
 local piles = {"discard", "draw", "hand"}
 
-system.onSave("card", function ()
+system.register("cards", 20, function ()
   local t = {}
   for _, pile in ipairs(piles) do
     t[pile] = {}
     for _, card in ipairs(main.card[pile]) do
       local cardComps = main.getAllComponentsFromEntity(card)
-      cardComps.id = card.id
       table.insert(t[pile], cardComps)
     end
   end
   return t
-end)
-
-system.onLoad("card", function (t)
+end, function (t)
   for _, pile in ipairs(piles) do
     for i=#main.card[pile], 1, -1 do
       local card = main.card[pile][i]
@@ -23,7 +20,15 @@ system.onLoad("card", function (t)
 
   for pileName, pile in pairs(t) do
     for _, card in ipairs(pile) do
-      main.createCard(card.id, card, pileName)
+      
+      local c = main.createCard(card.id, card, "hand")
+      if pileName == "draw" then
+        main.addCardToDraw(c)
+        c.isVisible = false
+      elseif pileName == "discard" then
+        main.discardCard(c)
+        c.isVisible = false
+      end
     end
   end
   main.card.updateAllCardPositionBackToOriginalPosition()

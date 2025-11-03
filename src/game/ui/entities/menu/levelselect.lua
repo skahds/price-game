@@ -40,6 +40,8 @@ main.ui.defineUI("levelSelect", {
         local reward = system.getStorage("main:endLevelReward")
         table.insert(reward, ent.reward)
       end
+
+      system.updateStorage("main:currentRoute", system.getStorage("main:currentRoute") + 1)
     end
   end,
 })

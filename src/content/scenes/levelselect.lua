@@ -13,6 +13,7 @@ local route = {
   {id="PLAY", node=1},
 }
 local currentRoute = 1
+system.updateStorage("main:currentRoute", 1)
 
 local levelSelectSize = 64
 
@@ -104,7 +105,15 @@ local function generateReward(difficulty)
   return t
 end
 
+system.on("@update", function ()
+  currentRoute = system.getStorage("main:currentRoute")
+end)
+
 main.defineScene("levelSelect", function ()
+  main.wait(0.1, function ()
+    system.saveGame()
+  end)
+  
   generateLevelMap(route[currentRoute].node)
 
   for i, level in ipairs(levels) do
@@ -135,36 +144,24 @@ main.defineScene("levelSelect", function ()
   end
 
   main.tweenCamera(0.2, {x=0, y=0})
-  
-  local chart = system.getStorage("main:chart")
-  if chart then
-    chart:forAllNews(function (news)
-      news.ui.isVisible = false
-    end)
 
-    chart:forAllBar(function (bar)
-      bar.isVisible = false
-    end)
+  local chart = system.getStorage("main:chart")
+  if chart == nil then
+    main.spawnChart({bearPower = 0.1, bullPower = 0.1})
+    chart = system.getStorage("main:chart")
+    local pos = chart:getCurrentPricePos()
+    main.spawnNews("randomEvents", {x=pos.x-64, y=pos.y-32})
+
+    local bar = main.spawnBar()
   end
-end, function ()
-  currentRoute = currentRoute + 1
   
+  main.hideCharts()
+end, function ()
   for i, ui in ipairs(activeUI) do
     ui:delete()
   end
   activeUI = {}
   levels = {}
-
-  local chart = system.getStorage("main:chart")
-  if chart then
-    chart:forAllNews(function (news)
-      news.ui.isVisible = true
-    end)
-
-    chart:forAllBar(function (bar)
-      bar.isVisible = true
-    end)
-  end
 end)
 
 --juice

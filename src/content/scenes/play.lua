@@ -3,7 +3,6 @@ local cover
 local scaleYSlider
 local sell
 local buy
-local chart
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -39,29 +38,13 @@ main.defineScene("play", function ()
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20}, true)
   
-  -- cover = main.ui.spawnUI("cover", {x=1280-300, y=-20, width=250, height=360,
-  --   color = {0.5, 0.5, 0.5},
-  --   outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20}, true)
-  -- ownSlider = main.ui.spawnUI("ownSlider", {x=dimension.w/2-200, y=30}, true)
   sell = main.ui.spawnUI("startTurn", {x=640-100-75, y=50, mult=-1, color={0.7, 0.4, 0.4}}, true)
   main.updateRichTextText(sell.richtext, "DOWN")
   buy = main.ui.spawnUI("startTurn", {x=640+100-75, y=50, color={0.4, 0.7, 0.4}}, true)
   main.updateRichTextText(buy.richtext, "UP")
-  chart = system.getStorage("main:chart")
-  if chart == nil then
-    main.spawnChart({bearPower = 0.1, bullPower = 0.1})
-    chart = system.getStorage("main:chart")
-    local pos = chart:getCurrentPricePos()
-    main.spawnNews("randomEvents", {x=pos.x-64, y=pos.y-32})
 
-    local bar = main.spawnBar()
-    system.updateStorage("main:currentBar", bar)
-  end
-
+  main.drawCardTillMaxCapacity()
   main.spawnBarChangeNews()
-
-  -- local bar = main.spawnBar()
-  -- system.updateStorage("main:currentBar", bar)
 
   for i, card in ipairs(main.card.hand) do
     card.isLocked = false
@@ -72,12 +55,9 @@ main.defineScene("play", function ()
   for i, card in ipairs(main.card.discard) do
     card.isLocked = false
   end
-
-  -- draw all relics
-  -- drawAllRelics()
-
-  main.drawCardTillMaxCapacity()
+  main.showCharts()
 end, function ()
+  local chart = system.getStorage("main:chart")
   system.updateStorage("main:currentDay", system.getStorage("main:currentDay")+1)
   local endStats = {
     finalScore = system.getStorage("main:score"),
@@ -88,7 +68,6 @@ end, function ()
   chart:clear()
 
   local bar = main.spawnBar()
-  system.updateStorage("main:currentBar", bar)
   system.updateStorage("main:ownedPercentage", 0)
 
   for i, card in ipairs(main.card.hand) do

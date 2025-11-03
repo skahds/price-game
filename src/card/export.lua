@@ -223,6 +223,7 @@ function main.drawCard()
     return
   end
 
+
   main.transferOwnership(card, "hand")
   local ui = card.ui
   ui.isVisible = true

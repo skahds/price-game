@@ -11,6 +11,7 @@ function main.isComponent(name)
   return false
 end
 
+-- for json
 function main.getAllComponentsFromEntity(ent)
   local t = {}
   for id, defaultValue in pairs(componentList) do
@@ -18,6 +19,7 @@ function main.getAllComponentsFromEntity(ent)
       t[id] = ent[id]
     end
   end
+  t.id = ent.id
   return t
 end
 

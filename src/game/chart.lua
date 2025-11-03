@@ -168,6 +168,7 @@ function bar:init(args)
   self.startPrice = price
   self.endPrice = price
 
+  system.updateStorage("main:currentBar", self)
   basicEnt.init(self, args)
 end
 
@@ -176,6 +177,12 @@ function bar:update()
   local flux = system.getStorage("flux")
   self.tweenHeight = flux.to(self, 0.2, {height = height})
   self.y = chart:priceToYPos(-self.startPrice)
+
+  if self.startPrice < self.endPrice then
+    self.color = {0.2, 0.7, 0.2}
+  else
+    self.color = {0.7, 0.2, 0.2}
+  end
 end
 
 function bar:draw()
@@ -197,12 +204,6 @@ function bar:changePricePIP(pip)
 
     system.call("main:currentPriceChanged", change)
   end
-
-  if self.startPrice < self.endPrice then
-    self.color = {0.2, 0.7, 0.2}
-  else
-    self.color = {0.7, 0.2, 0.2}
-  end
 end
 
 function bar:changePrice(amount)
@@ -218,12 +219,6 @@ function bar:changePrice(amount)
 
     system.call("main:currentPriceChanged", change)
   end
-
-  if self.startPrice < self.endPrice then
-    self.color = {0.2, 0.7, 0.2}
-  else
-    self.color = {0.7, 0.2, 0.2}
-  end
 end
 
 function bar:checkCollide(area)
@@ -238,3 +233,74 @@ function bar:checkCollide(area)
     return false
   end
 end
+
+
+system.register("chart", 6, function ()
+  local t = {}
+  local chartTable = {}
+  local chart = system.getStorage("main:chart")
+  if chart == nil then
+    return
+  end
+
+  for k, v in pairs(chart) do
+    if type(v) ~= "function" and type(v) ~= "userdata" and type(v) ~= "table" then
+      chartTable[k] = v
+    end
+  end
+  t.chart = chartTable
+
+  local bars = {}
+  for i, bar in ipairs(chart.bars) do
+    bars[i] = {}
+    for k, v in pairs(bar) do
+      if type(v) ~= "function" and type(v) ~= "userdata" and type(v) ~= "table" then
+        bars[i][k] = v
+      end
+    end
+  end
+  t.bars = bars
+
+  local newsTable = {}
+  for i, news in ipairs(chart.news) do
+    local v = main.getAllComponentsFromEntity(news)
+    v.x, v.y = news.x, news.y
+    table.insert(newsTable, v)
+  end
+  t.news = newsTable
+
+  return t
+end, function (t)
+  local chart = system.getStorage("main:chart")
+  
+  if t == nil then
+    return
+  end
+  
+  if chart == nil then
+    main.spawnChart({bearPower = 0.1, bullPower = 0.1})
+  end
+
+  local chart = system.getStorage("main:chart")
+
+  chart:clear()
+  chart:forAllNews(function (news)
+    news:delete()
+  end)
+
+  for k, v in pairs(t.chart) do
+    chart[k] = v
+  end
+
+  for i, t in ipairs(t.bars) do
+    local bar = main.spawnEntity("bar", t, true)
+    if chart then
+      chart:addBar(bar)
+    end
+    print("added")
+  end
+
+  for k, v in ipairs(t.news) do
+    local news = main.spawnNews(v.id, v)
+  end
+end)

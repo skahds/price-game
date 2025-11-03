@@ -19,10 +19,7 @@ main.defineScene("shop", function ()
   reroll = main.ui.spawnUI("rerollButton", {x=70, y=250}, true)
   continue = main.ui.spawnUI("continueButton", {x=70, y=400}, true)
   main.shop.spawnCards()
-
-  -- while #main.card.draw + #main.card.discard > 0 do
-  --   main.drawCard()
-  -- end
+  main.drawCardTillMaxCapacity()
 
   local roundsPerDay = system.getStorage("main:roundsPerDay")
   system.updateStorage("main:roundsRemaining", roundsPerDay)
@@ -31,7 +28,7 @@ main.defineScene("shop", function ()
   while #main.card.draw > 0 do
     main.drawCard()
   end
-  
+  main.showCharts()
   main.card.updateAllCardPositionBackToOriginalPosition()
 end, function ()
 

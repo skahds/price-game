@@ -44,3 +44,10 @@ system.on("@draw", function ()
     love.graphics.rectangle("fill", bigScreenCoverPosition.x, bigScreenCoverPosition.y, dimension.w, dimension.h)
   end, true)
 end)
+
+system.register("scene", 30, function ()
+  local scene = system.getStorage("main:currentScene")
+  return scene
+end, function (scene)
+  main.playScene(scene)
+end)

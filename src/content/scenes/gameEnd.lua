@@ -45,6 +45,7 @@ main.defineScene("gameEnd", function ()
     main.drawCard()
   end
   system.updateStorage("main:score", 0)
+  main.showCharts()
 end, function ()
 
   deleteAll({cover, restart})

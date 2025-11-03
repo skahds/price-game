@@ -104,10 +104,18 @@ end
 
 
 local function encode_number(val)
-  -- Check for NaN, -inf and inf
-  if val ~= val or val <= -math.huge or val >= math.huge then
-    error("unexpected number value '" .. tostring(val) .. "'")
+  -- Handle infinity and negative infinity
+  if val == math.huge then
+    return '"Infinity"'
+  elseif val == -math.huge then
+    return '"-Infinity"'
   end
+  
+  -- Check for NaN
+  if val ~= val then
+    return '"NaN"'
+  end
+  
   return string.format("%.14g", val)
 end
 
@@ -246,6 +254,16 @@ local function parse_string(str, i)
 
     elseif x == 34 then -- `"`: End of string
       res = res .. str:sub(k, j - 1)
+
+      -- Check if this string represents a special numeric value
+      if res == "Infinity" then
+        return math.huge, j + 1
+      elseif res == "-Infinity" then
+        return -math.huge, j + 1
+      elseif res == "NaN" then
+        return 0/0, j + 1
+      end
+
       return res, j + 1
     end
 

@@ -1,15 +1,21 @@
 main.defineCard("amplifier", {
   name = "Amplifier",
   image = "amplifier",
-  description = "Next activation {repeatColor}+1 REPEAT{/repeatColor}",
+  description = "Card to the right gains {repeatColor}+1 REPEAT{/repeatColor}",
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "RARE",
+
+  filter = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      return true
+    end
+  end,
   
-  onActivate = function ()
-    main.upgradeNextActivation(function (targetEnt)
-      targetEnt.repeatActivation = targetEnt.repeatActivation + 1
-    end)
+  onActivate = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    main.changeEntityComponent(target, "repeatActivation", 1, combiner.ADD)
   end
 })
 

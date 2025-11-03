@@ -42,6 +42,10 @@ function main.defineNews(id, eType)
 end
 
 local function repeatingTriggerNews(news, trigger)
+  if news == nil then
+    error("news is nil")
+  end
+
   local pipeline = main.getPipeline("main")
   local chart = system.getStorage("main:chart")
 
@@ -110,7 +114,7 @@ end
 function main.spawnNews(id, args)
   local chart = system.getStorage("main:chart")
   if chart == nil then
-    return
+    error("tried to spawn news while chart doesn't exist")
   end
 
   local news = main.spawnEntity(id, args, true)

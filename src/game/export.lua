@@ -88,3 +88,29 @@ function main.addEnergy(amount)
   system.updateStorage("main:energy", energy)
   system.call("main:energyChanged", amount)
 end
+
+function main.showCharts()
+  local chart = system.getStorage("main:chart")
+  if chart then
+    chart:forAllNews(function (news)
+      news.ui.isVisible = true
+    end)
+
+    chart:forAllBar(function (bar)
+      bar.isVisible = true
+    end)
+  end
+end
+
+function main.hideCharts()
+  local chart = system.getStorage("main:chart")
+  if chart then
+    chart:forAllNews(function (news)
+      news.ui.isVisible = false
+    end)
+
+    chart:forAllBar(function (bar)
+      bar.isVisible = false
+    end)
+  end
+end

@@ -97,32 +97,10 @@ main.defineScene("levelEnd", function ()
     main.addMoney(1)
   end
   system.updateStorage("main:score", 0)
-
-  local chart = system.getStorage("main:chart")
-  -- if chart then
-  --   chart:forAllNews(function (news)
-  --     news.ui.isVisible = false
-  --   end)
-
-  --   chart:forAllBar(function (bar)
-  --     bar.isVisible = false
-  --   end)
-  -- end
+  main.showCharts()
 end, function ()
 
   deleteAll({cover, levelEndContinue})
-  -- deleteAll(stats)
-
-  local chart = system.getStorage("main:chart")
-  -- if chart then
-  --   chart:forAllNews(function (news)
-  --     news.ui.isVisible = true
-  --   end)
-
-  --   chart:forAllBar(function (bar)
-  --     bar.isVisible = true
-  --   end)
-  -- end
 
   for i=#main.card.hand, 1, -1 do
     local card = main.card.hand[i]
