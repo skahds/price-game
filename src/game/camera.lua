@@ -1,7 +1,8 @@
 local cam = system.getStorage("camera")
 local flux = system.getStorage("flux")
-local playerCam = {x=0, y=0, speed=500, zoom=1}
+local playerCam = {x=0, y=0, speed=500, zoom=1.2}
 
+cam:setZoom(playerCam.zoom)
 cam:followPos(playerCam)
 
 system.on("@update", function ()

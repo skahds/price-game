@@ -27,6 +27,8 @@ function main.defineNews(id, eType)
     ui.y = self.y
     ui.width = self.width or ui.width
     ui.height = self.height or ui.height
+    self.width = self.width or ui.width
+    self.height = self.height or ui.height
     if self.image then
       ui.image = self.image
       self.image = nil
@@ -39,6 +41,8 @@ function main.defineNews(id, eType)
   if rarityClass then
     rarityClass:new(eType)
   end
+
+  news.definition = eType
 end
 
 local function repeatingTriggerNews(news, trigger)
