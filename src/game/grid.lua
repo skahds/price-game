@@ -50,7 +50,7 @@ end
 function main.grid.getClosestAvailableGrid(targetX, targetY, width, height, maxRadius)
   width = width or 1
   height = height or 1
-  maxRadius = maxRadius or 2
+  maxRadius = maxRadius or 10
   
   local startX, startY = main.grid.toGrid(targetX, targetY)
   

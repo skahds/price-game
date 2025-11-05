@@ -1,16 +1,19 @@
-main.defineCard("add", {
+main.definePlaceableNewsCard("add", {
   name = "Add",
   image = "basicAdd",
   trigger = {"DEPLOY"},
-  defaultPriceGain = 6,
   price = 1,
+}, {
+  image = "upNews",
+  trigger = {"ROUND"},
+  defaultPriceGain = 6,
 })
 
 main.defineCard("subtract", {
   name = "Subtract",
   image = "basicSubtract",
   trigger = {"DEPLOY"},
-  defaultPriceGain = -6,
+  spawnNews="badNews",
   price = 1,
 })
 

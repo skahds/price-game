@@ -37,6 +37,23 @@ main.addDescriptionType(20, function (ent)
   end
 end)
 
+main.addDescriptionType(21, function (ent)
+  if ent.spawnNews then
+    local t = main.parseDescriptionList(main.getEntityDefinitionWithComponents(main.entities[ent.spawnNews].definition))
+    local s = ""
+    for i, text in ipairs(t) do
+      if i ~= 1 and i ~= #t then
+        if i ~= 2 then
+          s = s .. "\n".. text
+        else
+          s = s .. text
+        end
+      end
+    end
+    return s
+  end
+end)
+
 main.addDescriptionType(60, function (ent)
   local text = ""
   if ent.price then

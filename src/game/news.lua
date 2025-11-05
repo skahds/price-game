@@ -94,7 +94,9 @@ function main.triggerAllNews(trigger)
   end
 
   main.triggerEnt(chart:getNews(1), trigger)
-  repeatingTriggerNews(chart:getNews(2), trigger)
+  if chart:getNews(2) then
+    repeatingTriggerNews(chart:getNews(2), trigger)
+  end
 end
 
 function main.deleteNews(news)
@@ -122,6 +124,15 @@ function main.spawnNews(id, args)
   end
 
   local news = main.spawnEntity(id, args, true)
+
+  local x, y, w, h = main.grid.entityToGrid(news)
+  local gridX, gridY = main.grid.getClosestAvailableGrid(news.x, news.y, w, h)
+  if gridX then
+    news.x, news.y = main.grid.gridToPos(gridX, gridY)
+    news.ui.x = news.x
+    news.ui.y = news.y
+  end
+
   chart:addNews(news)
   news.chartOrder = chart:getNewsAmount()
   return news

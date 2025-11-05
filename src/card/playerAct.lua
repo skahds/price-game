@@ -13,7 +13,8 @@ system.on("@update", function ()
     local flux = system.getStorage("flux")
     uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = mouse.y-uiEnt:getHeight()/2})
     uiEnt.renderLayer = 300
-    uiEnt.color = {1, 1, 1, 0.8}
+    local alpha = math.max(0, (mouse.y-360))/360+0.3
+    uiEnt.color = {1, 1, 1, alpha}
   else
     system.updateStorage("main:currentSelectedCard", nil)
   end

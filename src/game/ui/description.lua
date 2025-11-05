@@ -25,7 +25,7 @@ function main.addDescriptionTag(order, func)
   end)
 end
 
-local function parseDescriptionList(ent)
+function main.parseDescriptionList(ent)
   local t = {}
   for i, descriptionType in ipairs(descriptionList) do
     local text = descriptionType.func(ent)
@@ -183,7 +183,7 @@ end
 local function drawCompleteDescription(ent, location, activeDescriptionIndex)
   removeCompleteDescription(activeDescriptionIndex)
 
-  local descriptionTable = parseDescriptionList(ent)
+  local descriptionTable = main.parseDescriptionList(ent)
   drawDescription(descriptionTable, location, activeDescriptionIndex)
 
   local originalXPosition = math.huge

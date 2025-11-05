@@ -29,6 +29,16 @@ function main.getAllComponentsFromEntity(ent)
   return t
 end
 
+function main.getEntityDefinitionWithComponents(ent)
+  local t = utils.deepCopy(ent)
+  for k, v in pairs(componentList) do
+    if t[k] == nil then
+      t[k] = utils.deepCopy(v)
+    end
+  end
+  return t
+end
+
 system.on("main:entitySpawned", function (ent)
   for k, v in pairs(componentList) do
     if ent[k] == nil then
