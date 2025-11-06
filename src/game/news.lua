@@ -45,6 +45,43 @@ function main.defineNews(id, eType)
   news.definition = eType
 end
 
+local function getFirstNews()
+  local chart = system.getStorage("main:chart")
+  local result = chart:getNews(1)
+  chart:forAllNews(function(newNews)
+    local oldPosX, oldPosY = main.grid.entityToGrid(result)
+    local posX, posY = main.grid.entityToGrid(newNews)
+    if posX < oldPosX or (posX == oldPosX and posY < oldPosY) then
+      result = newNews
+    end
+  end)
+  return result
+end
+
+local function getNextNews(gridX, gridY)
+  local chart = system.getStorage("main:chart")
+  local nextNews
+  
+  chart:forAllNews(function(newNews)
+    local posX, posY = main.grid.entityToGrid(newNews)
+
+    if posX < gridX or (posX == gridX and posY <= gridY) then
+      return
+    end
+    
+    if nextNews == nil then
+      nextNews = newNews
+    else
+      local oldPosX, oldPosY = main.grid.entityToGrid(nextNews)
+      if posX < oldPosX or (posX == oldPosX and posY < oldPosY) then
+        nextNews = newNews
+      end
+    end
+  end)
+  
+  return nextNews
+end
+
 local function repeatingTriggerNews(news, trigger)
   if news == nil then
     error("news is nil")
@@ -56,14 +93,10 @@ local function repeatingTriggerNews(news, trigger)
   if main.canTrigger(news, trigger) then
     pipeline:add(0.8, function ()
       main.triggerEnt(news, trigger)
+      local gridX, gridY = main.grid.entityToGrid(news)
 
       pipeline:add(0, function ()
-        local nextNews
-        if news.isAboutToBeDeleted ~= true then
-          nextNews = chart:getNews(news.chartOrder + 1)
-        else
-          nextNews = chart:getNews(news.chartOrder)
-        end
+        local nextNews = getNextNews(gridX, gridY)
         
         if nextNews then
           repeatingTriggerNews(nextNews, trigger)
@@ -73,7 +106,9 @@ local function repeatingTriggerNews(news, trigger)
       end)
     end)
   else
-    local nextNews = chart:getNews(news.chartOrder + 1)
+    local gridX, gridY = main.grid.entityToGrid(news)
+    local nextNews = getNextNews(gridX, gridY)
+    
     if nextNews then
       repeatingTriggerNews(nextNews, trigger)
     else
@@ -93,9 +128,11 @@ function main.triggerAllNews(trigger)
     return
   end
 
-  main.triggerEnt(chart:getNews(1), trigger)
+  local firstNews = getFirstNews()
   if chart:getNews(2) then
-    repeatingTriggerNews(chart:getNews(2), trigger)
+    repeatingTriggerNews(firstNews, trigger)
+  elseif main.triggerEnt(firstNews, trigger) then
+    main.triggerEnt(firstNews, trigger)
   end
 end
 

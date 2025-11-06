@@ -6,23 +6,29 @@ main.definePlaceableNewsCard("add", {
 }, {
   image = "upNews",
   trigger = {"ROUND"},
-  defaultPriceGain = 6,
+  defaultPriceGain = 10,
 })
 
-main.defineCard("subtract", {
+main.definePlaceableNewsCard("subtract", {
   name = "Subtract",
   image = "basicSubtract",
   trigger = {"DEPLOY"},
-  spawnNews="badNews",
   price = 1,
+}, {
+  image = "downNews",
+  trigger = {"ROUND"},
+  defaultPriceGain = -10,
 })
 
-main.defineCard("multiply", {
+main.definePlaceableNewsCard("multiply", {
   name = "Multiply",
   image = "basicMultiply",
   trigger = {"DEPLOY"},
-  defaultMultGain = 2,
   price = 1,
+}, {
+  image = "multNews",
+  trigger = {"ROUND"},
+  defaultMultGain = 4,
 })
 
 main.defineCard("goldenHex", {
