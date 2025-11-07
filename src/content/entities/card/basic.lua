@@ -6,7 +6,7 @@ main.definePlaceableNewsCard("add", {
 }, {
   image = "upNews",
   trigger = {"ROUND"},
-  -- defaultPriceGain = 10,
+  defaultPriceGain = 10,
   description = "News in area gains {priceColor}+5 PRICE",
   target = {
     shape = {w=3, h=3},

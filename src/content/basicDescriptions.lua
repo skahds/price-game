@@ -8,6 +8,9 @@ end
 
 main.addDescriptionType(10, function (ent)
   if ent.name then
+    if ent.spawnNews then
+      return ent.name .. " - News"
+    end
     return ent.name
   end
 end)

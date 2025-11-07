@@ -86,7 +86,7 @@ system.on("main:newsClicked", function (ent, button)
   local gridX, gridY = main.grid.toGrid(targx, targy)
   local _, _, width, height = main.grid.entityToGrid(ent)
   local targGridx, targGridy = main.grid.getClosestAvailableGrid(gridX, gridY, width, height, 10)
-  main.grid.gridToPos(targGridx, targGridy)
+  targx, targy = main.grid.gridToPos(targGridx, targGridy)
 
   flux.to(ent, 0.3, {x=targx, y=targy})
   flux.to(ent.ui, 0.3, {x=targx, y=targy})
