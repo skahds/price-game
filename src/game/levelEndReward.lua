@@ -80,8 +80,14 @@ system.on("main:newsClicked", function (ent, button)
   ent.ui.sy = 1
   ent.x, ent.y = main.screenSpaceToWorldPosition(ent.x, ent.y)
   ent.ui.x, ent.ui.y = ent.x, ent.y
+
   local targx=love.math.random(-50, 50)
   local targy=love.math.random(-50, 50)
+  local gridX, gridY = main.grid.toGrid(targx, targy)
+  local _, _, width, height = main.grid.entityToGrid(ent)
+  local targGridx, targGridy = main.grid.getClosestAvailableGrid(gridX, gridY, width, height, 10)
+  main.grid.gridToPos(targGridx, targGridy)
+
   flux.to(ent, 0.3, {x=targx, y=targy})
   flux.to(ent.ui, 0.3, {x=targx, y=targy})
   table.remove(news, ent.rewardIndex)
