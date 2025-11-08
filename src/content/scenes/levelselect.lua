@@ -18,10 +18,10 @@ system.updateStorage("main:currentRoute", 1)
 local levelSelectSize = 64
 
 local scoreRequired = {
-  80,
-  150,
+  200,
   300,
   500,
+  800,
   1000
 }
 

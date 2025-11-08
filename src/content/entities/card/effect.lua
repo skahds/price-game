@@ -24,21 +24,14 @@ main.defineCard("magnifyingGlass", {
   image = "magnifyingGlass",
   energy = 2,
   description = "News in area gains {priceColor}+4 PRICE",
-  mouseHeldArea = {size=100, fixed=false},
   trigger = {"DEPLOY"},
   price = 2,
-  onActivate = function (ent)
-    local chart = system.getStorage("main:chart")
-    local mouse = system.getStorage("mouse")
-
-    chart:forAllNews(function (news)
-      local size = ent.mouseHeldArea.size
-      local area = {x=mouse.x-size/2, y=mouse.y-size/2, width=size, height=size}
-      if main.AABB_check(news.ui, area) then
-        main.changeEntityComponent(news, "defaultPriceGain", 4, combiner.ADD)
-      end
-    end)
-  end
+  target = {
+    shape = {w=3, h=3},
+    onActivate = function (ent, targetEnt)
+      main.changeEntityComponent(targetEnt, "defaultPriceGain", 5, combiner.ADD)
+    end
+  }
 })
 
 main.defineCard("void", {

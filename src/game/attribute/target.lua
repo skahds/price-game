@@ -1,10 +1,6 @@
 local pipeline = main.getPipeline("main")
 
 system.on("main:entityTriggered", function (ent)
-  if ent.isNews ~= true then
-    return
-  end
-
   if ent.target then
     local t = ent.target
     local shape = t.shape
