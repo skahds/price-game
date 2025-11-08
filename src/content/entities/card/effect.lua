@@ -96,7 +96,6 @@ main.defineCard("sacrifice", {
 
 main.defineCard("advancer", {
   name = "Advancer",
-  isRelic = true,
   isHollow = true,
   image = "advancer",
   energy = 2,
@@ -117,7 +116,6 @@ main.defineCard("advancer", {
 main.defineCard("retribution", {
   name = "Retribution",
   image = "retribution",
-  isRelic = true,
   isHollow = true,
   description = "Destroys card to the right and\ngain 2x its PRICE as {priceColor}PRICE",
   energy = 2,

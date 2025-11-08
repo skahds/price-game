@@ -38,9 +38,9 @@ main.defineScene("play", function ()
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20}, true)
   
-  sell = main.ui.spawnUI("startTurn", {x=640-100-75, y=50, mult=-1, color={0.7, 0.4, 0.4}}, true)
+  sell = main.ui.spawnUI("startTurn", {x=640-85-75, y=50, mult=-1, color={0.7, 0.4, 0.4}}, true)
   main.updateRichTextText(sell.richtext, "DOWN")
-  buy = main.ui.spawnUI("startTurn", {x=640+100-75, y=50, color={0.4, 0.7, 0.4}}, true)
+  buy = main.ui.spawnUI("startTurn", {x=640+85-75, y=50, color={0.4, 0.7, 0.4}}, true)
   main.updateRichTextText(buy.richtext, "UP")
 
   main.drawCardTillMaxCapacity()

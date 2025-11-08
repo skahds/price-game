@@ -1,48 +1,26 @@
-main.definePlaceableNewsCard("add", {
+main.defineCard("add", {
   name = "Add",
   image = "basicAdd",
   trigger = {"DEPLOY"},
-  price = 1,
-}, {
-  image = "upNews",
-  trigger = {"ROUND"},
   defaultPriceGain = 10,
-  description = "News in area gains {priceColor}+5 PRICE",
-  target = {
-    shape = {w=3, h=3},
-    onActivate = function (ent, targetEnt)
-      main.changeEntityComponent(targetEnt, "defaultPriceGain", 5, combiner.ADD)
-    end
-  }
+  price = 1,
 })
 
-main.definePlaceableNewsCard("subtract", {
+main.defineCard("subtract", {
   name = "Subtract",
   image = "basicSubtract",
   trigger = {"DEPLOY"},
+  defaultPriceGain = -10,
   price = 1,
-}, {
-  image = "downNews",
-  trigger = {"ROUND"},
-  description = "News in area gains {priceColor}-5 PRICE",
-  target = {
-    shape = {w=3, h=3},
-    onActivate = function (ent, targetEnt)
-      main.changeEntityComponent(targetEnt, "defaultPriceGain", -5, combiner.ADD)
-    end
-  }
 })
 
 
-main.definePlaceableNewsCard("multiply", {
+main.defineCard("multiply", {
   name = "Multiply",
   image = "basicMultiply",
   trigger = {"DEPLOY"},
+  defaultMultGain = 1 ,
   price = 1,
-}, {
-  image = "multNews",
-  trigger = {"ROUND"},
-  defaultMultGain = 4,
 })
 
 main.defineCard("goldenHex", {
@@ -84,13 +62,13 @@ main.defineCard("tail", {
 main.defineCard("greenDice", {
   name = "Green Dice",
   image = "greenDice",
-  description = "2/3 chance to give {priceColor}+10 PRICE{/priceColor}\n1/3 chance to give {priceColor}-10 PRICE",
+  description = "2/3 chance to give {priceColor}+20 PRICE{/priceColor}\n1/3 chance to give {priceColor}-20 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
-      main.addPrice(10)
+      main.addPrice(20)
     else
-      main.addPrice(-10)
+      main.addPrice(-20)
     end
   end,
   price = 2,
@@ -99,13 +77,13 @@ main.defineCard("greenDice", {
 main.defineCard("redDice", {
   name = "Red Dice",
   image = "redDice",
-  description = "2/3 chance to give {priceColor}-10 PRICE{/priceColor}\n1/3 chance to give {priceColor}+10 PRICE",
+  description = "2/3 chance to give {priceColor}-20 PRICE{/priceColor}\n1/3 chance to give {priceColor}+20 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
-      main.addPrice(-10)
+      main.addPrice(-20)
     else
-      main.addPrice(10)
+      main.addPrice(20)
     end
   end,
   price = 2,

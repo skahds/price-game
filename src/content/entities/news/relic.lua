@@ -27,7 +27,7 @@ main.defineNews("refine", {
   name = "Refine",
   image = "refineNews",
   trigger = {"EACHTURN"},
-  description = "Your leftmost cards\ngains +1 {repeatColor}REPEAT",
+  description = "Your leftmost cards\ngains {repeatColor}+1 REPEAT",
   isRelic = true,
   onActivate = function (ent)
     local card = main.getCardInOrder(1)

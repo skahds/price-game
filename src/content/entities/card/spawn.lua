@@ -23,6 +23,7 @@
 --   price = 1,
 -- })
 
+--todo: change/remove?
 main.defineCard("redFan", {
   name = "Red Fan",
   description = "Spawns a temporary card\nwhich gives {priceColor}-6 PRICE",

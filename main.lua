@@ -3,7 +3,9 @@ jit.off()
 love.graphics.setDefaultFilter("nearest", "nearest")
 system = {}
 main = {}
+defaultCanvas = love.graphics.newCanvas(1280, 720)
 
+require("errorHandler")
 require('broadcast')
 require('class')
 require('utils')

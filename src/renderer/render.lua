@@ -4,7 +4,6 @@ local cam = system.getStorage("camera")
 
 local virtualWidth = 1280
 local virtualHeight = 720
-local defaultCanvas = love.graphics.newCanvas(virtualWidth, virtualHeight)
 local scale = love.graphics.getDPIScale()
 system.updateStorage("screenDimension", {w=virtualWidth, h=virtualHeight})
 
