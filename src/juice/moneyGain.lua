@@ -43,10 +43,10 @@ system.on("main:currentPriceChanged", function (change)
     local flux = system.getStorage("flux")
     local randomSpin = (love.math.random()-0.5)*3
     local randomSizeIncrease = love.math.random()
-    flux.to(text, 0.3, {r=text.r+randomSpin})
-    flux.to(text, 0.5, {sx=size+randomSizeIncrease, sy=size+randomSizeIncrease})
+    flux.to(text, 0.7, {r=text.r+randomSpin})
+    flux.to(text, 0.6, {sx=size+randomSizeIncrease, sy=size+randomSizeIncrease})
 
-    main.waitWithMult(0.2, function ()
+    main.waitWithMult(0.35, function ()
       text:delete()
     end)
   end
@@ -72,10 +72,10 @@ system.on("main:multChanged", function (change)
     local flux = system.getStorage("flux")
     local randomSpin = (love.math.random()-0.5)*3
     local randomSizeIncrease = love.math.random()
-    flux.to(text, 0.3, {r=text.r+randomSpin})
-    flux.to(text, 0.5, {sx=size+randomSizeIncrease, sy=size+randomSizeIncrease})
+    flux.to(text, 0.7, {r=text.r+randomSpin})
+    flux.to(text, 0.6, {sx=size+randomSizeIncrease, sy=size+randomSizeIncrease})
 
-    main.waitWithMult(0.2, function ()
+    main.waitWithMult(0.35, function ()
       text:delete()
     end)
   end

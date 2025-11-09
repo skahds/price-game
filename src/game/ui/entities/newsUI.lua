@@ -1,6 +1,6 @@
 main.ui.defineUI("news_ui", {
   image = "blankNews",
-  color = {1, 1, 1, 0.7},
+  color = {1, 1, 1, 0.9},
   defaultWidth = 32,
   defaultHeight = 32,
   screenSpace = false,
