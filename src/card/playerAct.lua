@@ -12,7 +12,7 @@ system.on("@update", function ()
     
     local flux = system.getStorage("flux")
     uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = mouse.y-uiEnt:getHeight()/2})
-    uiEnt.renderLayer = 300
+    uiEnt.renderLayer = math.max(300, uiEnt.renderLayer)
     local alpha = math.max(0, (mouse.y-360))/360+0.15
     uiEnt.color = {1, 1, 1, alpha}
   else

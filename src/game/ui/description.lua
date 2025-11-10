@@ -2,7 +2,7 @@ local descriptionList = {}
 local tagList = {}
 local activeDescriptions = {}
 local maxWidth = {}
-local defaultRenderLayer = 400
+local defaultRenderLayer = 1060
 local spacing = 10
 local font = system.getFont("defaultFont30")
 

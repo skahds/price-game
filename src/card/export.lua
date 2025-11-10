@@ -291,6 +291,7 @@ function main.drawCardTillMaxCapacity()
       end)
     else
       main.triggerAllNews("EACHTURN")
+      main.addEntityToTutorial(main.card.hand[#main.card.hand], "play this")
     end
   end
 end
