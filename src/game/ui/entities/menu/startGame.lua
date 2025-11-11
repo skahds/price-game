@@ -9,7 +9,7 @@ main.ui.defineButton("menuPlay", {
   onButtonClicked = function (ent)
     local pipeline = main.getPipeline("scene")
     if #pipeline.pipeline == 0 then
-      main.playScene("levelSelect")
+      main.playScene("runSelect")
     end
   end
 })

@@ -1,26 +1,4 @@
 system.on("@load", function ()
-  for i=1, 3 do
-    local card = main.createCard("multiply", {}, "hand")
-    main.addCardToDraw(card)
-  end
-
-  for i=1, 3 do
-    local card = main.createCard("add", {}, "hand")
-    main.addCardToDraw(card)
-  end
-
-  for i=1, 3 do
-    local card = main.createCard("subtract", {}, "hand")
-    main.addCardToDraw(card)
-  end
-
-  for i=1, 2 do
-    local card = main.createCard("amplifier", {}, "hand")
-    main.addCardToDraw(card)
-  end
-
-  main.shuffleDraw()
-
   main.playScene("menu")
 
   -- local bag = system.getStorage("rarity:bag")

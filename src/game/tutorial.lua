@@ -50,7 +50,7 @@ end)
 system.on("@draw", function ()
   if #targettedEnt > 0 then
     system.render(1008, function ()
-      love.graphics.setColor(0.2, 0.2, 0.2, infos.coverOpacity)
+      love.graphics.setColor(0.1, 0.1, 0.1, infos.coverOpacity)
       love.graphics.rectangle("fill", 0, 0, 1280, 720)
     end, true)
   end

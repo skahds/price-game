@@ -287,6 +287,7 @@ function main.drawCardTillMaxCapacity()
         main.drawCard()
         pipeline:add(0.25, function ()
           main.drawCardTillMaxCapacity()
+          print("draw")
         end)
       end)
     else

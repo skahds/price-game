@@ -19,7 +19,7 @@ main.defineCard("multiply", {
   name = "Multiply",
   image = "basicMultiply",
   trigger = {"DEPLOY"},
-  defaultMultGain = 1 ,
+  defaultMultGain = 4,
   price = 1,
 })
 
