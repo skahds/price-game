@@ -117,7 +117,7 @@ function main.defineCard(id, eType)
 
     local image = self.image or "blank_card"
     
-    self.ui = main.ui.spawnUI("card_ui", {image=image, x=self.x, y=self.y}, true)
+    self.ui = main.ui.spawnUI("card_ui", {image=image, x=self.x, y=self.y})
     self.ui.parent = self
 
     self.energy = self.energy or 1
@@ -230,6 +230,7 @@ function main.drawCard()
   local ui = card.ui
   ui.isVisible = true
   main.card.updateAllCardPositionBackToOriginalPosition("hand")
+  return card
 end
 
 function main.getCurrentCardInHandAmount()
@@ -287,12 +288,10 @@ function main.drawCardTillMaxCapacity()
         main.drawCard()
         pipeline:add(0.25, function ()
           main.drawCardTillMaxCapacity()
-          print("draw")
         end)
       end)
     else
       main.triggerAllNews("EACHTURN")
-      main.addEntityToTutorial(main.card.hand[#main.card.hand], "play this")
     end
   end
 end

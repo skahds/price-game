@@ -28,7 +28,7 @@ function main.ui.gameSettings()
       ry=20,
       outlineColor = {0.4, 0.4, 0.4},
       ignoreUIChecks = false,
-      renderLayer = 400}, true)
+      renderLayer = 400})
 
     gameSpeedSlider = main.ui.spawnUI("basicSlider", {
       x=dimension.w/2,
@@ -50,7 +50,7 @@ function main.ui.gameSettings()
       outline = 10,
       outlineBelow = true,
       outlineColor = {0.5, 0.5, 0.5},
-    }, true)
+    })
     
     sfxSlider = main.ui.spawnUI("basicSlider", {
       x=dimension.w/2,
@@ -72,7 +72,7 @@ function main.ui.gameSettings()
       outline = 10,
       outlineBelow = true,
       outlineColor = {0.5, 0.5, 0.5},
-    }, true)
+    })
 
     musicSlider = main.ui.spawnUI("basicSlider", {
       x=dimension.w/2,
@@ -94,31 +94,31 @@ function main.ui.gameSettings()
       outline = 10,
       outlineBelow = true,
       outlineColor = {0.5, 0.5, 0.5},
-    }, true)
+    })
 
     exit = main.ui.spawnUI("settingExit", {
       x=dimension.w/2-width/4-75,
       y=dimension.h/2+80,
       renderLayer = 412,
-    }, true)
+    })
 
     back = main.ui.spawnUI("settingBack", {
       x=dimension.w/2-width/4-75,
       y=dimension.h/2-30,
       renderLayer = 412,
-    }, true)
+    })
 
     restart = main.ui.spawnUI("settingRestart", {
       x=dimension.w/2-width/4-75,
       y=dimension.h/2-140,
       renderLayer = 412,
-    }, true)
+    })
 
     guide = main.ui.spawnUI("settingGuide", {
       x=dimension.w/2-width/4-75-80,
       y=dimension.h/2-140,
       renderLayer = 412,
-    }, true)
+    })
   else
     deleteAll({cover, sfxSlider, musicSlider, exit, back, restart, guide, gameSpeedSlider})
     isSettingShown = false

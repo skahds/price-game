@@ -18,6 +18,7 @@ function main.ui.defineUI(id, eType)
       end
     end
 
+    self.isUI = true
     self.x = self.x or 0
     self.y = self.y or 0
     self.width = self.width or self.defaultWidth or 0

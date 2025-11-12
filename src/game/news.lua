@@ -21,7 +21,7 @@ function main.defineNews(id, eType)
     if self.x == nil or self.y == nil then
       error("news needs XY position")
     end
-    self.ui = main.ui.spawnUI("news_ui", {parent=self}, true)
+    self.ui = main.ui.spawnUI("news_ui", {parent=self})
     local ui = self.ui
     ui.x = self.x
     ui.y = self.y
@@ -133,6 +133,9 @@ function main.triggerAllNews(trigger)
     repeatingTriggerNews(firstNews, trigger)
   elseif main.triggerEnt(firstNews, trigger) then
     main.triggerEnt(firstNews, trigger)
+    pipeline:add(0, function ()
+      system.call("main:repeatingTriggerNewsEnd", trigger)
+    end)
   end
 end
 

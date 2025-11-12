@@ -13,7 +13,8 @@ end
 
 function main.createCardToDraw(id, amount)
   for i=1, amount do
-    local card = main.createCard(id, {}, "discard")
+    local card = main.createCard(id, {}, "hand")
+    card.ui.isVisible = false
     main.addCardToDraw(card)
   end
 end

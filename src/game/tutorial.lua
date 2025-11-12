@@ -28,32 +28,21 @@ system.on("@update", function ()
     t.entity.renderLayer = 1010
   end
 
-  if #targettedEnt then
-    flux.to(infos, 0.2, {coverOpacity=0.7})
+  if #targettedEnt > 0 then
+    flux.to(infos, 0.3, {coverOpacity=0.7})
   else
-    flux.to(infos, 0.2, {coverOpacity=0})
+    flux.to(infos, 0.3, {coverOpacity=0})
     if infos.coverOpacity < 0.02 then
       infos.coverOpacity = 0
     end
   end
 end)
 
-system.on("main:entityDeleted", function (ent)
-  for i, t in ipairs(targettedEnt) do
-    if t.entity.index == ent.index then
-      table.remove(targettedEnt, i)
-      break
-    end
-  end
-end)
-
 system.on("@draw", function ()
-  if #targettedEnt > 0 then
-    system.render(1008, function ()
-      love.graphics.setColor(0.1, 0.1, 0.1, infos.coverOpacity)
-      love.graphics.rectangle("fill", 0, 0, 1280, 720)
-    end, true)
-  end
+  system.render(1008, function ()
+    love.graphics.setColor(0.1, 0.1, 0.1, infos.coverOpacity)
+    love.graphics.rectangle("fill", 0, 0, 1280, 720)
+  end, true)
 
   for i, t in ipairs(targettedEnt) do
     local text = main.printRichText({
@@ -73,7 +62,19 @@ end
 
 function main.removeEntityFromTutorial(ent)
   for i, t in ipairs(targettedEnt) do
-    if t.entity.index == ent.index then
+    local s = false
+    local e = t.entity
+    if e.isUI then
+      if ent.isUI and e.index == ent.index then
+        s = true
+      elseif ent.ui and e.index == ent.ui.index then
+        s = true
+      end
+    elseif ent.isUI ~= true and e.index == ent.index then
+      s = true
+    end
+
+    if s then
       ent.renderLayer = t.originalRenderLayer
       table.remove(targettedEnt, i)
       break
@@ -84,3 +85,7 @@ end
 function main.clearTutorial()
   targettedEnt = {}
 end
+
+system.on("main:entityDeleted", function (ent)
+  main.removeEntityFromTutorial(ent)
+end)

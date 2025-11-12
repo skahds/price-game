@@ -6,7 +6,7 @@ main.defineScene("runSelect", function ()
   for i, starter in ipairs(main.starters) do
     local t = utils.deepCopy(starter)
     t.x, t.y = 100+(width+100)*(i-1), 720/2-height/2
-    t.ui = main.ui.spawnUI("toPlay", {x=t.x+width/2-100, y=t.y+height-100-50}, true)
+    t.ui = main.ui.spawnUI("toPlay", {x=t.x+width/2-100, y=t.y+height-100-50, order=i})
     table.insert(starters, t)
   end
 
@@ -31,7 +31,12 @@ main.ui.defineButton("toPlay", {
     local selection = starters[order]
     selection.onActivate()
 
-    main.playScene("levelSelect")
+    if ent.order == 1 then
+      main.playScene("levelSelect")
+      system.updateStorage("main:isDoingTutorial", true)
+    else
+      main.playScene("levelSelect")
+    end
   end
 })
 

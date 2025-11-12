@@ -54,7 +54,7 @@ end
 main.defineScene("levelEnd", function ()
   local reward = system.getStorage("main:endLevelReward")
   local pipeline = main.getPipeline("main")
-  levelEndContinue = main.ui.spawnUI("levelEndContinue", {x=640-150, y=430}, true)
+  levelEndContinue = main.ui.spawnUI("levelEndContinue", {x=640-150, y=430})
 
   local finalStats = system.getStorage("main:endLevelStats")
   local roundsRemaining = system.getStorage("main:roundsRemaining")

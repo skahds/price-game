@@ -14,10 +14,9 @@ end
 main.defineScene("shop", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=400, height=1500,
     color = {0.5, 0.5, 0.5},
-    outlineColor = {0.4, 0.4, 0.4}, outline=20}, true)
-  -- buyButton = main.ui.spawnUI("buyButton", {x=1000, y= 400}, true)
-  reroll = main.ui.spawnUI("rerollButton", {x=70, y=250}, true)
-  continue = main.ui.spawnUI("continueButton", {x=70, y=400}, true)
+    outlineColor = {0.4, 0.4, 0.4}, outline=20})
+  reroll = main.ui.spawnUI("rerollButton", {x=70, y=250})
+  continue = main.ui.spawnUI("continueButton", {x=70, y=400})
   main.shop.spawnCards()
   main.drawCardTillMaxCapacity()
 

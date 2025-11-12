@@ -64,13 +64,13 @@ function main.ui.guidebook()
       ry=20,
       outlineColor = {0.4, 0.4, 0.4},
       ignoreUIChecks = false,
-      renderLayer = 390}, true)
+      renderLayer = 390})
 
     back = main.ui.spawnUI("guideBack", {
       x=dimension.w/2+width/2-40-40,
       y=dimension.h/2-height/2+20,
       renderLayer = 392,
-    }, true)
+    })
 
     guideSelectLeft = main.ui.spawnUI("guideSelect", {
       x=dimension.w/2-width/4-40,
@@ -80,7 +80,7 @@ function main.ui.guidebook()
       onButtonClicked = function ()
         buttonClick(-1)
       end
-    }, true)
+    })
 
     guideSelectRight = main.ui.spawnUI("guideSelect", {
       x=dimension.w/2+width/4-40,
@@ -90,7 +90,7 @@ function main.ui.guidebook()
       onButtonClicked = function ()
         buttonClick(1)
       end
-    }, true)
+    })
     
     number = main.newRichText({format="0",
       x=0,

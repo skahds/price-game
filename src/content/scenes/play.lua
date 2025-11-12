@@ -1,8 +1,12 @@
+local pipeline = main.getPipeline("main")
 local cover
 -- local ownSlider
 local scaleYSlider
 local sell
 local buy
+
+--tutorial
+local tutorialCardChoice = nil
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -12,39 +16,27 @@ local function deleteAll(args)
   end
 end
 
--- card is not relic anymore, only news are relic
-
--- local function drawAllRelics()
---   local pipeline = main.getPipeline("main")
---   local maxCard = system.getStorage("main:maxCardAmount")
---   for i=#main.card.draw, 1, -1 do
---     local card = main.card.draw[i]
---     local currentSpace = main.getCurrentCardInHandAmount()
---     local space = system.ask("main:cardSpaceUsed", combiner.ADD, card)
---     if currentSpace + space <= maxCard then
---       if card.isRelic == true then
---         pipeline:add(0.25, function ()
---           main.cardToHand(card)
---         end)
---       end
---     end
---   end
--- end
-
 main.defineScene("play", function ()
 
   local dimension = system.getStorage("screenDimension")
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=360,
     color = {0.5, 0.5, 0.5},
-    outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20}, true)
+    outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
   
-  sell = main.ui.spawnUI("startTurn", {x=640-85-75, y=50, mult=-1, color={0.7, 0.4, 0.4}}, true)
+  sell = main.ui.spawnUI("startTurn", {x=640-85-75, y=50, mult=-1, color={0.7, 0.4, 0.4}})
   main.updateRichTextText(sell.richtext, "DOWN")
-  buy = main.ui.spawnUI("startTurn", {x=640+85-75, y=50, color={0.4, 0.7, 0.4}}, true)
+  buy = main.ui.spawnUI("startTurn", {x=640+85-75, y=50, color={0.4, 0.7, 0.4}})
   main.updateRichTextText(buy.richtext, "UP")
 
-  main.drawCardTillMaxCapacity()
-  main.spawnBarChangeNews()
+
+  if system.getStorage("main:isDoingTutorial") then
+    main.drawCard()
+    main.addEntityToTutorial(main.card.hand[1], "play this")
+    tutorialCardChoice = main.card.hand[1]
+  else
+    main.drawCardTillMaxCapacity()
+    main.spawnBarChangeNews()
+  end
 
   for i, card in ipairs(main.card.hand) do
     card.isLocked = false
@@ -78,5 +70,18 @@ end, function ()
   end
   for i, card in ipairs(main.card.discard) do
     card.isLocked = true
+  end
+end)
+
+--tutorial
+system.on("main:entityTriggered", function (ent)
+  if system.getStorage("main:isDoingTutorial") and tutorialCardChoice and tutorialCardChoice.index == ent.index then
+    main.removeEntityFromTutorial(tutorialCardChoice)
+    tutorialCardChoice = nil
+    for i=1, 4 do
+      pipeline:add(0.25, function ()
+        main.drawCard()
+      end)
+    end
   end
 end)
