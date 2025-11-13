@@ -23,6 +23,30 @@ local function clampPosition(x, y, width, height)
   return finalX, finalY
 end
 
+local function setPositionAroundEntity(ent, x, y, width, height)
+  local distance = 100
+  local centerX, centerY = 640, 360
+  
+  local entCenterX = ent.x + (ent.width or 0) / 2
+  local entCenterY = ent.y + (ent.height or 0) / 2
+  
+  local dx = centerX - entCenterX
+  local dy = centerY - entCenterY
+  local len = math.sqrt(dx * dx + dy * dy)
+  
+  if len > 0 then
+    dx = dx / len
+    dy = dy / len
+  else
+    dx, dy = 1, 0 -- Default direction if at center
+  end
+  
+  local posX = entCenterX + dx * distance - width / 2
+  local posY = entCenterY + dy * distance - height / 2
+  
+  return clampPosition(posX, posY, width, height)
+end
+
 system.on("@update", function ()
   for i, t in ipairs(targettedEnt) do
     t.entity.renderLayer = 1010
@@ -52,7 +76,7 @@ system.on("@draw", function ()
       y=t.entity:getY(),
     })
     local w, h = text.richText:getWidth(), text.richText:getHeight()
-    text.x, text.y = clampPosition(text.x-w/2+t.entity:getWidth()/2, text.y-h*1.5, w, h)
+    text.x, text.y = setPositionAroundEntity(t.entity, text.x-w/2+t.entity:getWidth()/2, text.y-h*1.5, w, h)
   end
 end)
 

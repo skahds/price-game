@@ -5,8 +5,8 @@ local scaleYSlider
 local sell
 local buy
 
---tutorial
-local tutorialCardChoice = nil
+--tutorial, stage kinda like a rocketship :)
+local tutorialInfos = {stage=1}
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -32,7 +32,9 @@ main.defineScene("play", function ()
   if system.getStorage("main:isDoingTutorial") then
     main.drawCard()
     main.addEntityToTutorial(main.card.hand[1], "play this")
-    tutorialCardChoice = main.card.hand[1]
+    tutorialInfos.cardChoice = main.card.hand[1]
+    sell.isVisible = false
+    buy.isVisible = false
   else
     main.drawCardTillMaxCapacity()
     main.spawnBarChangeNews()
@@ -75,13 +77,34 @@ end)
 
 --tutorial
 system.on("main:entityTriggered", function (ent)
-  if system.getStorage("main:isDoingTutorial") and tutorialCardChoice and tutorialCardChoice.index == ent.index then
-    main.removeEntityFromTutorial(tutorialCardChoice)
-    tutorialCardChoice = nil
-    for i=1, 4 do
-      pipeline:add(0.25, function ()
-        main.drawCard()
-      end)
+  if system.getStorage("main:isDoingTutorial") ~= true then
+    return
+  end
+
+  if tutorialInfos.stage == 1 then
+    if tutorialInfos.cardChoice and tutorialInfos.cardChoice.index == ent.index then
+      main.removeEntityFromTutorial(tutorialInfos.cardChoice)
+      tutorialInfos.cardChoice = nil
+      for i=1, 4 do
+        pipeline:add(0.25, function ()
+          main.drawCard()
+        end)
+      end
+      tutorialInfos.stage = 2
     end
+  elseif tutorialInfos.stage == 2 then
+    if system.getStorage("main:energy") == 1 then
+      buy.isVisible = true
+      sell.isVisible = true
+      main.addEntityToTutorial(buy, "Click here!")
+    end
+  end
+    
+end)
+
+system.on("main:startTurn", function ()
+  if tutorialInfos.stage == 2 then
+    main.clearTutorial()
+    tutorialInfos.stage = 3
   end
 end)
