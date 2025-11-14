@@ -57,10 +57,41 @@ local cardHeldText = main.newRichText({format=0 .. "/" .. system.getStorage("mai
   renderLayer = 200,})
 
 --score text
-system.on("main:scoreChanged", function ()
+local scoreInfos = {currentScore=0, score=0, scoreToClaim=0}
+system.on("main:scoreChanged", function (change)
+  local score = system.getStorage("main:score")
+  scoreInfos.currentScore = score
+  scoreInfos.scoreToClaim = change
+  main.wait(1, function ()
+    flux.to(scoreInfos, 1, {score=scoreInfos.currentScore, scoreToClaim=0})
+  end)
+
+  priceText.isVisible = false
+  multText.isVisible = false
+  main.wait(2, function ()
+    priceText.isVisible = true
+    multText.isVisible = true
+  end)
+end)
+
+system.on("@update", function ()
   local score = system.getStorage("main:score")
   local scoreRequired = system.getStorage("main:scoreRequirement")
-  main.updateRichTextText(scoreText, "Score: " .. math.floor(score+0.5) .. "/" .. scoreRequired)
+  main.updateRichTextText(scoreText, "Score: " .. math.floor(scoreInfos.score+0.5) .. "/" .. scoreRequired)
+  if scoreInfos.scoreToClaim > 0 then
+    local t = main.printRichText({
+      format=math.floor(scoreInfos.scoreToClaim+0.5),
+      y=300,
+      x=50+350*2/4,
+      sx=1,
+      sy=1,
+      ox=1,
+      oy=1,
+      r=0,
+      renderLayer = 200,
+      font = biggerFont})
+    t.x, t.y = t.x - t.richText:getWidth()/2, t.y - t.richText:getHeight()/2
+  end
 end)
 
 system.on("main:sceneChanged", function()
@@ -97,22 +128,6 @@ system.on("main:sceneChanged", function()
     moneyText.y = 160
   end
 end)
-
--- --energy text
--- system.on("@update", function ()
---   local energy = system.getStorage("main:energy")
---   local energyPerTurn = system.getStorage("main:energyPerTurn")
---   main.updateRichTextText(energyText, "Capital: {energyColor}"..energy.."/"..energyPerTurn)
--- end)
-
--- system.on("main:sceneChanged", function()
---   local scene = system.getStorage("main:currentScene")
---   if utils.isEInTable(scene, {"play"}) then
---     energyText.x = 70
---   else
---     energyText.x = -2000
---   end
--- end)
 
 --energy
 local energyInfos = {w=0}

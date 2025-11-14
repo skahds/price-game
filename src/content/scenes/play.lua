@@ -124,10 +124,12 @@ end)
 
 system.on("main:endTurn", function ()
   if tutorialInfos.stage == 3 then
-    local chart = system.getStorage("main:chart")
-    local n = chart:getNews(1)
-    main.addEntityToTutorial(n, "This is a news, it activates\nwhen the turn starts.")
-    tutorialInfos.stage = 4
+    main.wait(2, function ()
+      local chart = system.getStorage("main:chart")
+      local n = chart:getNews(1)
+      main.addEntityToTutorial(n, "This is a news, it activates\nwhen the turn starts.")
+      tutorialInfos.stage = 4
+    end)
   end
 end)
 
