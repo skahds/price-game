@@ -115,3 +115,22 @@ function utils.rotatePoint(x, y, angle, p, q)
     -- Translate back
     return rotatedX + p, rotatedY + q
 end
+
+---@return table
+function utils.seperateSlashN(text)
+  local t = {}
+
+  while true do
+    local ss, se = string.find(text, "\n")
+    if ss then
+      local firstPart = string.sub(text, 1, ss)
+      table.insert(t, firstPart)
+      text = string.sub(text, se+1, #text)
+    else
+      table.insert(t, text)
+      break
+    end
+  end
+
+  return t
+end

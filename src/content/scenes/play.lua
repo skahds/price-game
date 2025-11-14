@@ -31,13 +31,25 @@ main.defineScene("play", function ()
 
   if system.getStorage("main:isDoingTutorial") then
     main.drawCard()
-    main.addEntityToTutorial(main.card.hand[1], "play this")
+    main.addEntityToTutorial(main.card.hand[1], "Play a card\nfrom your hand")
     tutorialInfos.cardChoice = main.card.hand[1]
     sell.isVisible = false
     buy.isVisible = false
   else
     main.drawCardTillMaxCapacity()
     main.spawnBarChangeNews()
+
+    local chart = system.getStorage("main:chart")
+    local pos = chart:getCurrentPricePos()
+    local exist = false
+    chart:forAllNews(function (news)
+      if news.id == "randomEvents" then
+        exist = true
+      end
+    end)
+    if exist == false then
+      main.spawnNews("randomEvents", {x=pos.x-64, y=pos.y-32})
+    end
   end
 
   for i, card in ipairs(main.card.hand) do
@@ -96,7 +108,7 @@ system.on("main:entityTriggered", function (ent)
     if system.getStorage("main:energy") == 1 then
       buy.isVisible = true
       sell.isVisible = true
-      main.addEntityToTutorial(buy, "Click here!")
+      main.addEntityToTutorial(buy, "When you think the price\nwill go up, click here!")
     end
   end
     
@@ -106,5 +118,22 @@ system.on("main:startTurn", function ()
   if tutorialInfos.stage == 2 then
     main.clearTutorial()
     tutorialInfos.stage = 3
+    print(buy.renderLayer)
+  end
+end)
+
+system.on("main:endTurn", function ()
+  if tutorialInfos.stage == 3 then
+    local chart = system.getStorage("main:chart")
+    local n = chart:getNews(1)
+    main.addEntityToTutorial(n, "This is a news, it activates\nwhen the turn starts.")
+    tutorialInfos.stage = 4
+  end
+end)
+
+system.on("@mouse:released", function ()
+  if tutorialInfos.stage == 4 then
+    main.clearTutorial()
+    tutorialInfos.stage = 5
   end
 end)

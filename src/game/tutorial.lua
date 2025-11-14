@@ -23,30 +23,6 @@ local function clampPosition(x, y, width, height)
   return finalX, finalY
 end
 
-local function setPositionAroundEntity(ent, x, y, width, height)
-  local distance = 100
-  local centerX, centerY = 640, 360
-  
-  local entCenterX = ent.x + (ent.width or 0) / 2
-  local entCenterY = ent.y + (ent.height or 0) / 2
-  
-  local dx = centerX - entCenterX
-  local dy = centerY - entCenterY
-  local len = math.sqrt(dx * dx + dy * dy)
-  
-  if len > 0 then
-    dx = dx / len
-    dy = dy / len
-  else
-    dx, dy = 1, 0 -- Default direction if at center
-  end
-  
-  local posX = entCenterX + dx * distance - width / 2
-  local posY = entCenterY + dy * distance - height / 2
-  
-  return clampPosition(posX, posY, width, height)
-end
-
 system.on("@update", function ()
   for i, t in ipairs(targettedEnt) do
     t.entity.renderLayer = 1010
@@ -68,20 +44,39 @@ system.on("@draw", function ()
     love.graphics.rectangle("fill", 0, 0, 1280, 720)
   end, true)
 
-  for i, t in ipairs(targettedEnt) do
-    local text = main.printRichText({
-      format = t.text,
-      renderLayer = 1010,
-      x=t.entity:getX(),
-      y=t.entity:getY(),
-    })
-    local w, h = text.richText:getWidth(), text.richText:getHeight()
-    text.x, text.y = setPositionAroundEntity(t.entity, text.x-w/2+t.entity:getWidth()/2, text.y-h*1.5, w, h)
+  for _, t in ipairs(targettedEnt) do
+    local textTable = utils.seperateSlashN(t.text)
+    for i, str in ipairs(textTable) do
+      local x = t.entity:getX()
+      local y = t.entity:getY()
+      if t.entity.screenSpace == false or (t.entity.ui and t.entity.ui.screenSpace == false) then
+        x, y = main.worldPositionToScreenSpace(x, y)
+      end
+
+      local text = main.printRichText({
+        format = str,
+        renderLayer = 1010,
+        x=x,
+        y=y,
+      })
+      local w, h = text.richText:getWidth(), text.richText:getHeight()
+      local extraHeight = text.richText:getHeight()*(i-1)
+      local yPos
+      if t.entity.y+t.entity:getHeight()/2 > 360 then
+        yPos = text.y-h*(0.5+#textTable) + extraHeight
+      else
+        yPos = text.y+t.entity:getHeight()+h*0.5 + extraHeight
+      end
+
+      text.x, text.y = clampPosition(text.x-w/2+t.entity:getWidth()/2, yPos, w, h)
+    end
   end
 end)
 
 function main.addEntityToTutorial(ent, text)
-  table.insert(targettedEnt, {originalRenderLayer=ent.renderLayer, entity=(ent.ui or ent), text=text})
+  table.insert(targettedEnt, {entity=(ent.ui or ent), text=text, originalPosition={x=ent.x, y=ent.y}})
+  local e = targettedEnt[#targettedEnt]
+  e.originalRenderLayer = e.entity.renderLayer
 end
 
 function main.removeEntityFromTutorial(ent)
@@ -107,6 +102,9 @@ function main.removeEntityFromTutorial(ent)
 end
 
 function main.clearTutorial()
+  for i, t in ipairs(targettedEnt) do
+    t.entity.renderLayer = t.originalRenderLayer
+  end
   targettedEnt = {}
 end
 

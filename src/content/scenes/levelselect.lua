@@ -150,7 +150,6 @@ main.defineScene("levelSelect", function ()
     main.spawnChart({bearPower = 0.1, bullPower = 0.1})
     chart = system.getStorage("main:chart")
     local pos = chart:getCurrentPricePos()
-    main.spawnNews("randomEvents", {x=pos.x-64, y=pos.y-32})
 
     local bar = main.spawnBar()
   end

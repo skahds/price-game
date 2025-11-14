@@ -87,6 +87,19 @@ function main.screenSpaceToWorldPosition(screenX, screenY)
   return worldX, worldY
 end
 
+function main.worldPositionToScreenSpace(worldX, worldY)
+  local screenW = 1280
+  local screenH = 720
+  local camX = playerCam.x
+  local camY = playerCam.y
+  local camZ = playerCam.zoom
+
+  local screenX = camZ * (worldX - camX) + screenW / 2
+  local screenY = camZ * (worldY - camY) + screenH / 2
+
+  return screenX, screenY
+end
+
 function main.getCamera()
   return playerCam
 end
