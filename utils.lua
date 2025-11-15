@@ -116,6 +116,14 @@ function utils.rotatePoint(x, y, angle, p, q)
     return rotatedX + p, rotatedY + q
 end
 
+function utils.lerpColor(c1, c2, t)
+  return {
+    c1[1] + (c2[1] - c1[1]) * t,
+    c1[2] + (c2[2] - c1[2]) * t,
+    c1[3] + (c2[3] - c1[3]) * t
+  }
+end
+
 ---@return table
 function utils.seperateSlashN(text)
   local t = {}

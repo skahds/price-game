@@ -76,3 +76,38 @@ function system.loadGame()
   
   return true
 end
+
+function system.writeFileTable(id, t)
+  local success, obj = pcall(json.encode, t)
+  if not success then
+    print("Error encoding save data: " .. obj)
+    return false
+  end
+  
+  local success, err = love.filesystem.write(id, obj)
+  if not success then
+    print("Error writing save file: " .. err)
+    return false
+  end
+  
+  return true
+end
+
+function system.readFileTable(id)
+  if not love.filesystem.getInfo(id) then
+    return false
+  end
+
+  local file = love.filesystem.read(id)
+  if not file then
+    return false
+  end
+
+  local success, obj = pcall(json.decode, file)
+  if not success then
+    print("Corrupted file " .. id)
+    return false
+  end
+
+  return obj
+end

@@ -28,7 +28,7 @@ main.ui.defineButton("toPlay", {
   text = "PLAY",
   audio = "breaker",
   onButtonClicked = function (ent)
-    local selection = starters[order]
+    local selection = starters[ent.order]
     selection.onActivate()
 
     if ent.order == 1 then

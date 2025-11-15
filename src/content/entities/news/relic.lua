@@ -54,10 +54,10 @@ main.defineNews("cultivate", {
   name = "Cultivate",
   image = "cultivateNews",
   trigger = {"CARDTRIGGER"},
-  description = "Gains {priceColor}+2 PRICE",
+  description = "Gains {priceColor}+1 PRICE",
   isRelic = true,
   onActivate = function (ent)
-    main.changeEntityComponent(ent, "defaultPriceGain", 2, combiner.ADD)
+    main.changeEntityComponent(ent, "defaultPriceGain", 1, combiner.ADD)
   end,
   rarity = "RARE"
 })

@@ -11,6 +11,14 @@ end
 local speedTable = {0.1, 0.2, 0.5, 0.75, 1, 2, 3, 4, 5, 6}
 speedTable[0] = 0
 
+local function saveSettings()
+  local a = system.getStorage(sfxStorage)
+  local b = system.getStorage(musicStorage)
+  local c = system.getStorage(gameSpeedStorage)
+  local t = {[sfxStorage]=a, [musicStorage]=b, [gameSpeedStorage]=c}
+  system.writeFileTable("settings", t)
+end
+
 function main.ui.gameSettings()
   if isSettingShown == false then
     isSettingShown = true
@@ -122,6 +130,7 @@ function main.ui.gameSettings()
   else
     deleteAll({cover, sfxSlider, musicSlider, exit, back, restart, guide, gameSpeedSlider})
     isSettingShown = false
+    saveSettings()
   end
 end
 
@@ -186,4 +195,13 @@ system.on("@update", function ()
   local speed = speed * 10
   local speed = speedTable[speed]
   system.updateStorage("main:defaultDelayMult", speed)
+end)
+
+system.on("@load", function ()
+  local s = system.readFileTable("settings")
+  if s then
+    for k, v in pairs(s) do
+      system.updateStorage(k, v)
+    end
+  end
 end)

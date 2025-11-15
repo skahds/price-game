@@ -1,5 +1,5 @@
 local musicList = {"StrangeWorlds", "GentleBreeze", "SunlightThroughLeaves", "ForgottenBiomes"}
-system.updateStorage("audio:musicVolume", 1)
+system.updateStorage("audio:musicVolume", system.getStorage("audio:musicVolume") or 1)
 
 system.on("@load", function ()
   local rnd = love.math.random(1, #musicList)
@@ -15,9 +15,9 @@ system.on("audio:audioFinished", function (id)
   end
 end)
 
--- system.on("@update", function ()
---   main.audio.forAllCurrentAudio(musicList, function (audio)
---     local volume = system.getStorage("audio:musicVolume")
---     audio:setVolume(volume)
---   end)
--- end)
+system.on("@update", function ()
+  main.audio.forAllCurrentAudio(musicList, function (audio)
+    local volume = system.getStorage("audio:musicVolume")
+    audio:setVolume(volume)
+  end)
+end)

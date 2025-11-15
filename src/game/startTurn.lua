@@ -77,7 +77,7 @@ system.on("main:repeatingTriggerNewsEnd", function (trigger)
     system.call("main:endTurn")
     system.updateStorage("main:isOnTurn", false)
 
-  pipeline:add(0.2, function ()
+  pipeline:add(0, function ()
 
     local bar = main.spawnBar()
     system.updateStorage("main:currentBar", bar)

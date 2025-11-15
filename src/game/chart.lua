@@ -178,6 +178,7 @@ function bar:update()
   self.tweenHeight = flux.to(self, 0.2, {height = height})
   self.y = chart:priceToYPos(-self.startPrice)
 
+
   if self.startPrice < self.endPrice then
     self.color = {0.2, 0.7, 0.2}
   else

@@ -97,6 +97,7 @@ main.defineScene("levelEnd", function ()
     main.addMoney(1)
   end
   system.updateStorage("main:score", 0)
+  system.call("main:scoreChanged", 0)
   main.showCharts()
 end, function ()
 

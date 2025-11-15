@@ -63,12 +63,12 @@ system.on("main:scoreChanged", function (change)
   scoreInfos.currentScore = score
   scoreInfos.scoreToClaim = change
   main.wait(1, function ()
-    flux.to(scoreInfos, 1, {score=scoreInfos.currentScore, scoreToClaim=0})
+    flux.to(scoreInfos, 0.7, {score=scoreInfos.currentScore, scoreToClaim=0})
   end)
 
   priceText.isVisible = false
   multText.isVisible = false
-  main.wait(2, function ()
+  main.wait(2.2, function ()
     priceText.isVisible = true
     multText.isVisible = true
   end)
