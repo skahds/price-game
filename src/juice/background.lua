@@ -1,6 +1,7 @@
 --background
 local objects = {}
 local distance = 200
+local currentColorMult = {1, 1, 1, 1}
 
 for x=0, 50 do
   for y=0, 50 do
@@ -37,10 +38,15 @@ system.on("@draw", function ()
   local camOffsetX, camOffsetY = -camera.x/4, -camera.y/4
 
   system.render(1, function ()
+    -- love.graphics.setColor(0.38, 0.86, 0.96)
+    love.graphics.setColor(0.1, 0.1, 0.1)
+    love.graphics.rectangle("fill", 0, 0, 1280, 720)
+    
     for i, object in ipairs(objects) do
       local x, y = object.x, object.y
+      local c1, c2, c3, a = unpack(object.color)
 
-      love.graphics.setColor(unpack(object.color))
+      love.graphics.setColor(c1*currentColorMult[1], c2*currentColorMult[2], c3*currentColorMult[3], a*currentColorMult[4])
       love.graphics.rectangle("fill", x + camOffsetX, y + camOffsetY, object.size, object.size)
     end
   end, true)

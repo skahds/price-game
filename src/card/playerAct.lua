@@ -5,6 +5,7 @@ system.on("@update", function ()
   local uiEnt = player.cardUIselected
   if uiEnt then
     system.updateStorage("main:currentSelectedCard", uiEnt.parent)
+    main.card.updateAllCardPositionBackToOriginalPosition("hand", {ignoreCard=uiEnt.parent})
 
     if uiEnt.parent.ownerShip == "shop" then
       return

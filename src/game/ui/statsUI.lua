@@ -163,7 +163,7 @@ system.on("@draw", function ()
     love.graphics.setLineWidth(10)
     for i=1, (energyPerTurn-1) do
       local x = 60+i*widthPerBar
-      love.graphics.line(x, 370, x, 470)
+      love.graphics.line(x, 372, x, 468)
     end
   end, true)
 

@@ -36,7 +36,7 @@ function main.shop.spawnCards()
     pipeline:add(0.15, function ()
       local card = bag:getRandomCard()
       main.createCard(card, {}, "shop")
-      main.card.updateAllCardPositionBackToOriginalPosition("shop", {x=640, y=100})
+      main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=100}})
     end)
   end
 end
@@ -65,5 +65,5 @@ system.on("main:cardClicked", function (ent, button)
     end
   end
   
-  main.card.updateAllCardPositionBackToOriginalPosition("shop", {x=640, y=100})
+  main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=100}})
 end)

@@ -7,7 +7,7 @@ function main.createRewardsOptions(rewards, info)
     for i, option in ipairs(rewards) do
 
       local c = main.createCard(option, {}, "reward")
-      main.card.updateAllCardPositionBackToOriginalPosition("reward", {x=640, y=280})
+      main.card.updateAllCardPositionBackToOriginalPosition("reward", {pos={x=640, y=280}})
     end
   elseif info.rewardType == "news" then
     local space = 600/#rewards

@@ -72,7 +72,7 @@ system.on("main:repeatingTriggerNewsEnd", function (trigger)
 
     updateScore()
 
-  pipeline:add(0.2, function ()
+  pipeline:add(1.5, function ()
 
     system.call("main:endTurn")
     system.updateStorage("main:isOnTurn", false)

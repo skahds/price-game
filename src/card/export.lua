@@ -368,17 +368,22 @@ end
 --card-in folder functions
 
 --cards are put in the middle of the screen, then extend per card
-function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, pos)
+function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, info)
   ownerShip = ownerShip or "hand"
+  local info = info or {}
   local dimension = system.getStorage("screenDimension")
   local screenW, screenH = dimension.w, dimension.h
-  local pos = pos or {}
+  local pos = info.pos or {}
   local middleY = pos.y or screenH - 60
   local middleX = pos.x or screenW/2
 
   orderBasedOnPosition(ownerShip)
   
   for i, card in pairs(main.card[ownerShip]) do
+    if info.ignoreCard and info.ignoreCard.index == card.index then
+      goto continue
+    end
+
     local uiEnt = card.ui
     local flux = system.getStorage("flux")
 
@@ -396,5 +401,7 @@ function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, pos)
       uiEnt.tween:stop()
     end
     uiEnt.tween = flux.to(uiEnt, 0.3, { x = finalX, y = finalY })
+    
+    ::continue::
   end
 end

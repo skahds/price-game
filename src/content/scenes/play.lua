@@ -52,6 +52,9 @@ main.defineScene("play", function ()
     end
   end
 
+  system.updateStorage("main:roundsRemaining", system.getStorage("main:roundsPerDay"))
+
+
   for i, card in ipairs(main.card.hand) do
     card.isLocked = false
   end
