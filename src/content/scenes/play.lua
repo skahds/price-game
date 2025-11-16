@@ -121,7 +121,6 @@ system.on("main:startTurn", function ()
   if tutorialInfos.stage == 2 then
     main.clearTutorial()
     tutorialInfos.stage = 3
-    print(buy.renderLayer)
   end
 end)
 

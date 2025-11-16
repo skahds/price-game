@@ -67,7 +67,8 @@ system.on("@draw", function ()
       love.graphics.setColor(0.4, 0.4, 0.4)
       love.graphics.rectangle("line", starter.x, starter.y, width, height, 10, 10)
 
-      love.graphics.draw(system.getImage("placeholder"), starter.x+width/2-64, starter.y+100-64, 0, 2, 2)
+      love.graphics.setColor(1, 1, 1)
+      love.graphics.draw(system.getImage((starter.image or "placeholder")), starter.x+width/2-64, starter.y+100-64, 0, 2, 2)
     end, true)
 
     local texts = {}
