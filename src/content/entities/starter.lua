@@ -15,7 +15,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "VENTURE",
   image="basicMultiply",
-  description="Wind",
+  description="for the demo!",
   onActivate = function ()
     main.createCardToDraw("multiply", 3)
     main.createCardToDraw("add", 3)

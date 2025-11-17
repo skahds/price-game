@@ -21,7 +21,8 @@ system.on("main:cardUIReleased", function (uiEnt, button)
   if main.canTrigger(ent, "DEPLOY") and button == 1 then
     local dimension = system.getStorage("screenDimension")
     local y = dimension.h-cancelSize
-    if uiEnt:getWidth() + uiEnt.y > y then
+    local mouse = system.getStorage("realMouse")
+    if mouse.y > y or main.AABB_check(mouse, ent.ui) then
       return
     end
 
@@ -71,10 +72,10 @@ system.on("@draw", function ()
       local dimension = system.getStorage("screenDimension")
       local y = dimension.h-cancelSize
 
-      love.graphics.setColor(0.8, 0.5, 0.5, 0.4)
+      love.graphics.setColor(0.8, 0.5, 0.5, 0.2)
       love.graphics.rectangle("fill", 0, y, dimension.w, 500)
 
-      love.graphics.setColor(0.9, 0.6, 0.6, 1)
+      love.graphics.setColor(0.9, 0.6, 0.6, 0.5)
       love.graphics.setLineWidth(10)
       love.graphics.line(0, y, 2000, y)
 

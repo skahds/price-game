@@ -31,7 +31,7 @@ main.defineScene("play", function ()
 
   if system.getStorage("main:isDoingTutorial") then
     main.drawCard()
-    main.addEntityToTutorial(main.card.hand[1], "Play a card\nfrom your hand")
+    main.addEntityToTutorial(main.card.hand[1], "Click this card\nto select it")
     tutorialInfos.cardChoice = main.card.hand[1]
     sell.isVisible = false
     buy.isVisible = false
@@ -91,6 +91,17 @@ end, function ()
 end)
 
 --tutorial
+system.on("main:cardClicked", function (ent)
+  if system.getStorage("main:isDoingTutorial") ~= true then
+    return
+  end
+
+  if tutorialInfos.stage == 1 then
+    main.clearTutorial()
+    main.addEntityToTutorial(main.card.hand[1], "Drag it up and press\nto activate!\n(consumes energy)")
+  end
+end)
+
 system.on("main:entityTriggered", function (ent)
   if system.getStorage("main:isDoingTutorial") ~= true then
     return

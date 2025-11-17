@@ -143,7 +143,13 @@ main.defineScene("levelSelect", function ()
     end
   end
 
-  main.tweenCamera(0.2, {x=0, y=0})
+  main.tweenCamera(0.2, {x=0, y=0, zoom=1.2})
+
+  if system.getStorage("main:isDoingTutorial") then
+    if currentRoute == 1 then
+      main.addEntityToTutorial(activeUI[1], "Click here to begin\nyour encounter!")
+    end
+  end
 
   local chart = system.getStorage("main:chart")
   if chart == nil then
@@ -156,6 +162,10 @@ main.defineScene("levelSelect", function ()
   
   main.hideCharts()
 end, function ()
+  if system.getStorage("main:isDoingTutorial") then
+    main.clearTutorial()
+  end
+
   for i, ui in ipairs(activeUI) do
     ui:delete()
   end
@@ -202,7 +212,7 @@ system.on("@draw", function ()
         x=ui:getX()+ui:getWidth()/2,
         y=ui:getY()+ui:getHeight()-20,
         screenSpace = false,
-        renderLayer = 5
+        renderLayer = ui.renderLayer+1
         })
       t.x = t.x - t.richText:getWidth()/2
     end
@@ -217,14 +227,4 @@ system.on("@draw", function ()
     font=system.getFont("defaultFont80")
     })
   t.x = t.x - t.richText:getWidth()/2
-
-  -- local t = main.printRichText({
-  --   format="Pick an encounter!",
-  --   x=640,
-  --   y=80,
-  --   screenSpace = true,
-  --   renderLayer = 6,
-  --   font=system.getFont("defaultFont80")
-  --   })
-  -- t.x = t.x - t.richText:getWidth()/2
 end)

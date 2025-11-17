@@ -40,11 +40,21 @@ system.on("main:newsHovered", function (news)
   end)
 end)
 
+local info={oppacity=1}
+
 system.on("@draw", function ()
   local cardHeld = system.getStorage("main:currentSelectedCard")
   if cardHeld == nil then
+    info.oppacity=1
     return
   end
+
+  if info.oppacity >= 0.99 then
+    flux.to(info, 1, {oppacity=0.5})
+  elseif info.oppacity <= 0.51 then
+    flux.to(info, 1, {oppacity=1})
+  end
+  
 
   local entWithTarget
   if cardHeld.spawnNews then
@@ -70,4 +80,11 @@ system.on("@draw", function ()
       love.graphics.draw(system.getImage(news.image), pos.x, pos.y)
     end
   end)
+
+  system.render(cardHeld.ui.renderLayer-1, function ()
+    local ui = cardHeld.ui
+    local size=6
+    love.graphics.setColor(0.9, 0.9, 0.9, info.oppacity)
+    love.graphics.rectangle("fill", ui:getX()-size, ui:getY()-size, ui:getWidth()+size*2, ui:getHeight()+size*2, 5, 5)
+  end, true)
 end)

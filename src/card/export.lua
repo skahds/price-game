@@ -178,7 +178,7 @@ function main.triggerAllCardOwned(trigger)
   repeatingTriggerCard(card, trigger)
 end
 
-local function orderBasedOnPosition(ownerShip)
+local function orderBasedOnPosition(ownerShip, infos)
   local stack = main.card[ownerShip]
 
   --reorder them based on their x position
@@ -188,7 +188,11 @@ local function orderBasedOnPosition(ownerShip)
   end)
   for i, card in ipairs(stack) do
     card.cardOrder = i
-    card.ui.renderLayer = 140+i
+    if infos.ignoreCard and infos.ignoreCard.index then
+      
+    else
+      card.ui.renderLayer = 140+i
+    end
   end
 end
 
@@ -377,7 +381,7 @@ function main.card.updateAllCardPositionBackToOriginalPosition(ownerShip, info)
   local middleY = pos.y or screenH - 60
   local middleX = pos.x or screenW/2
 
-  orderBasedOnPosition(ownerShip)
+  orderBasedOnPosition(ownerShip, info)
   
   for i, card in pairs(main.card[ownerShip]) do
     if info.ignoreCard and info.ignoreCard.index == card.index then

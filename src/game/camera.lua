@@ -25,6 +25,8 @@ system.on("@update", function ()
   if s then
     playerCam.y = playerCam.y + speed
   end
+
+  cam:setZoom(playerCam.zoom)
 end)
 
 function main.tweenCamera(time, pos)
@@ -49,7 +51,6 @@ function love.wheelmoved(x, y)
   elseif y < 0 and playerCam.zoom > 0.7 then
     playerCam.zoom = playerCam.zoom/1.2
   end
-  cam:setZoom(playerCam.zoom)
 end
 
 local hasPressed = false
