@@ -3,7 +3,7 @@ function main.ui.defineUI(id, eType)
 
   function ent:init(args)
     for k, v in pairs(eType) do
-      if type(k) == "table" then
+      if type(v) == "table" then
         self[k] = utils.deepCopy(v)
       else
         self[k] = v
@@ -11,11 +11,12 @@ function main.ui.defineUI(id, eType)
     end
 
     for k, v in pairs(args) do
-      if type(k) == "table" then
-        self[k] = utils.deepCopy(v)
-      else
+      -- if type(v) == "table" then
+        -- self[k] = utils.deepCopy(v)
+      -- else
+        --something to do with parents n stuff
         self[k] = v
-      end
+      -- end
     end
 
     self.isUI = true

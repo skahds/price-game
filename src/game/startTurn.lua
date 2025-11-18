@@ -56,7 +56,9 @@ system.on("main:repeatingTriggerCardEnd", function (trigger)
     return
   end
 
-  pipeline:add(0.4, function ()
+  print("thisTO")
+
+  pipeline:add(0, function ()
 
     main.triggerAllNews("ROUND")
 
@@ -72,17 +74,18 @@ system.on("main:repeatingTriggerNewsEnd", function (trigger)
 
     updateScore()
 
-  pipeline:add(1.5, function ()
-
-    system.call("main:endTurn")
-    system.updateStorage("main:isOnTurn", false)
-
   pipeline:add(0, function ()
 
     local bar = main.spawnBar()
     system.updateStorage("main:currentBar", bar)
 
   end)
+
+  pipeline:add(1.5, function ()
+
+    system.call("main:endTurn")
+    system.updateStorage("main:isOnTurn", false)
+
   end)
   end)
 end)

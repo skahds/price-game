@@ -32,6 +32,7 @@ local function clickTop(button, uiFun)
       if ent[uiFun] then
         ent[uiFun](ent, button)
       end
+      system.call("ui:uiClicked", ent, button)
     end
   end
 

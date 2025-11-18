@@ -154,7 +154,9 @@ local function repeatingTriggerCard(card, trigger)
         if nextCard then
           repeatingTriggerCard(nextCard, trigger)
         else
-          system.call("main:repeatingTriggerCardEnd", trigger)
+          pipeline:add(0, function ()
+            system.call("main:repeatingTriggerCardEnd", trigger)
+          end)
         end
       end)
       
@@ -164,14 +166,19 @@ local function repeatingTriggerCard(card, trigger)
     if nextCard then
       repeatingTriggerCard(nextCard, trigger)
     else
-      system.call("main:repeatingTriggerCardEnd", trigger)
+      pipeline:add(0, function ()
+        system.call("main:repeatingTriggerCardEnd", trigger)
+      end)
     end
   end
 end
 
 function main.triggerAllCardOwned(trigger)
+  local pipeline = main.getPipeline("main")
   if #main.card.hand < 1 then
-    system.call("main:repeatingTriggerCardEnd", trigger)
+    pipeline:add(0, function ()
+      system.call("main:repeatingTriggerCardEnd", trigger)
+    end)
     return
   end
   local card = main.card.hand[1]

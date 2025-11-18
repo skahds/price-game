@@ -1,4 +1,5 @@
 local flux = system.getStorage("flux")
+local font = system.getFont("defaultFont50")
 
 local targettedEnt = {
   --{originalRenderLayer = 10, entity = ent, text=richText}
@@ -55,14 +56,15 @@ system.on("@draw", function ()
 
       local text = main.printRichText({
         format = str,
-        renderLayer = 1010,
+        renderLayer = 1030,
         x=x,
         y=y,
+        font=font,
       })
       local w, h = text.richText:getWidth(), text.richText:getHeight()
       local extraHeight = text.richText:getHeight()*(i-1)
       local yPos
-      if t.entity.y+t.entity:getHeight()/2 > 360 then
+      if y+t.entity:getHeight()/2 > 360 then
         yPos = text.y-h*(0.5+#textTable) + extraHeight
       else
         yPos = text.y+t.entity:getHeight()+h*0.5 + extraHeight

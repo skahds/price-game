@@ -29,7 +29,7 @@ main.defineScene("play", function ()
   main.updateRichTextText(buy.richtext, "UP")
 
 
-  if system.getStorage("main:isDoingTutorial") then
+  if system.getStorage("main:isDoingTutorial") and tutorialInfos.stage == 1 then
     main.drawCard()
     main.addEntityToTutorial(main.card.hand[1], "Click this card\nto select it")
     tutorialInfos.cardChoice = main.card.hand[1]

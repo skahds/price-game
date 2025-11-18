@@ -101,7 +101,7 @@ local function repeatingTriggerNews(news, trigger)
         if nextNews then
           repeatingTriggerNews(nextNews, trigger)
         else
-          pipeline:add(0.5, function ()
+          pipeline:add(0, function ()
             system.call("main:repeatingTriggerNewsEnd", trigger)
           end)
         end
@@ -114,7 +114,7 @@ local function repeatingTriggerNews(news, trigger)
     if nextNews then
       repeatingTriggerNews(nextNews, trigger)
     else
-      pipeline:add(0.5, function ()
+      pipeline:add(0, function ()
         system.call("main:repeatingTriggerNewsEnd", trigger)
       end)
     end
@@ -128,7 +128,9 @@ function main.triggerAllNews(trigger)
     return
   end
   if chart:getNews(1) == nil then
-    system.call("main:repeatingTriggerNewsEnd", trigger)
+    pipeline:add(0, function ()
+      system.call("main:repeatingTriggerNewsEnd", trigger)
+    end)
     return
   end
 
@@ -137,7 +139,7 @@ function main.triggerAllNews(trigger)
     repeatingTriggerNews(firstNews, trigger)
   else
     main.triggerEnt(firstNews, trigger)
-    pipeline:add(0.5, function ()
+    pipeline:add(0, function ()
       system.call("main:repeatingTriggerNewsEnd", trigger)
     end)
   end

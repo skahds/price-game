@@ -204,19 +204,19 @@ system.on("@draw", function ()
     love.graphics.draw(system.getImage("baseNetwork"), 0, 0, 0, scale.s, scale.s, 48, 48)
   end, false)
 
-  for i, ui in ipairs(activeUI) do
+  -- for i, ui in ipairs(activeUI) do
 
-    if ui.moneyReward and ui.moneyReward ~= 0 then
-      local t = main.printRichText({
-        format="{moneyColor}$" .. ui.moneyReward,
-        x=ui:getX()+ui:getWidth()/2,
-        y=ui:getY()+ui:getHeight()-20,
-        screenSpace = false,
-        renderLayer = ui.renderLayer+1
-        })
-      t.x = t.x - t.richText:getWidth()/2
-    end
-  end
+  --   if ui.moneyReward and ui.moneyReward ~= 0 then
+  --     local t = main.printRichText({
+  --       format="{moneyColor}$" .. ui.moneyReward,
+  --       x=ui:getX()+ui:getWidth()/2,
+  --       y=ui:getY()+ui:getHeight()-20,
+  --       screenSpace = false,
+  --       renderLayer = ui.renderLayer+1
+  --       })
+  --     t.x = t.x - t.richText:getWidth()/2
+  --   end
+  -- end
 
   local t = main.printRichText({
     format="DAY: " .. system.getStorage("main:currentDay") .. "/5",

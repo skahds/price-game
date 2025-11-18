@@ -12,7 +12,7 @@ system.on("@update", function ()
     end
     
     local flux = system.getStorage("flux")
-    uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = math.max(mouse.y-uiEnt:getHeight()/2, 500)})
+    uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = math.max(mouse.y-uiEnt:getHeight()/2, 550)})
     uiEnt.renderLayer = math.max(300, uiEnt.renderLayer)
   else
     system.updateStorage("main:currentSelectedCard", nil)
@@ -64,6 +64,15 @@ end)
 system.on("ui:noUIClicked", function (button)
   local currentCard = player.cardUIselected
   if currentCard then
+
+    player.cardUIselected = nil
+    releaseUICard(currentCard, button)
+  end
+end)
+
+system.on("ui:uiClicked", function (ui, button)
+  local currentCard = player.cardUIselected
+  if currentCard and currentCard.index ~= ui.index then
 
     player.cardUIselected = nil
     releaseUICard(currentCard, button)

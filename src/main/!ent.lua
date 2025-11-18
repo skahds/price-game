@@ -5,7 +5,7 @@ local basicEnt = main.entities.basicEnt
 
 function basicEnt:init(args)
   for k, v in pairs(args) do
-    if type(k) == "table" then
+    if type(v) == "table" then
       self[k] = utils.deepCopy(v)
     else
       self[k] = v
