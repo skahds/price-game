@@ -1,4 +1,4 @@
-main.defineParticle("t", {
+main.defineParticle("orb", {
   width=16,
   height=16,
   image="particleOrb",
@@ -16,7 +16,7 @@ local function createJuice(amount, color, targetState)
     local time = love.math.random(50, 70)/100
     local scale = love.math.random(15, 25)/10
     
-    main.spawnParticle("t", {
+    main.spawnParticle("orb", {
       color=color,
       x=posX+love.math.random(100, -100)+pricePos.width/2*cam.zoom,
       y=posY+love.math.random(100, -100),
@@ -36,10 +36,10 @@ system.on("main:currentPriceChanged", function (change)
   else
     color={0.9, 0.5, 0.5}
   end
-  createJuice(10, color, {x=50+350/4, y=300})
+  createJuice(math.floor(math.log(change*2)+0.5), color, {x=50+350/4, y=300})
 end)
 
 local multChangeColor = {1, 0.8, 1}
 system.on("main:multChanged", function (change)
-  createJuice(10, multChangeColor, {x=50+350*3/4, y=300})
+  createJuice(math.floor(math.log(change*2)+0.5), multChangeColor, {x=50+350*3/4, y=300})
 end)

@@ -56,8 +56,6 @@ system.on("main:repeatingTriggerCardEnd", function (trigger)
     return
   end
 
-  print("thisTO")
-
   pipeline:add(0, function ()
 
     main.triggerAllNews("ROUND")
@@ -70,7 +68,7 @@ system.on("main:repeatingTriggerNewsEnd", function (trigger)
     return
   end
 
-  pipeline:add(0.4, function ()
+  pipeline:add(1, function ()
 
     updateScore()
 

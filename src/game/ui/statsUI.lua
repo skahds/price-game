@@ -239,6 +239,23 @@ system.on("@draw", function ()
     return
   end
 
+  if multText.isVisible ~= false then
+    local t = main.printRichText({
+      format="{multColor}X",
+      y=300,
+      x=50+350*2/4,
+      sx=1,
+      sy=1,
+      ox=1,
+      oy=1,
+      r=0,
+      renderLayer = 200,
+      font = biggerFont})
+    t.x = t.x - t.richText:getWidth()/2
+    t.y = t.y - t.richText:getHeight()/2
+  end
+
+
   system.render(199, function ()
     love.graphics.setColor(0.4, 0.4, 0.4, 1)
     love.graphics.rectangle("fill", 55, 250, 340, 90)
