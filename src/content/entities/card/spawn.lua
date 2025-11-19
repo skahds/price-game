@@ -26,7 +26,7 @@
 --todo: change/remove?
 main.defineCard("redFan", {
   name = "Red Fan",
-  description = "Spawns a temporary card\nwhich gives {priceColor}-6 PRICE",
+  description = "Spawns a free card\nwhich gives {priceColor}-6 PRICE",
   image = "redfan",
   trigger = {"DEPLOY"},
   price = 2,
@@ -57,7 +57,7 @@ main.defineCard("cell", {
 
 main.defineCard("factory", {
   name = "Factory",
-  description = "Spawns a temporary junk",
+  description = "Spawns a USE-1 junk",
   defaultMoneyGain = 1,
   image = "factory",
   trigger = {"DEPLOY"},

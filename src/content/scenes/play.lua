@@ -4,6 +4,7 @@ local cover
 local scaleYSlider
 local sell
 local buy
+local setting
 
 --tutorial, stage kinda like a rocketship :)
 local tutorialInfos = {stage=1}
@@ -73,7 +74,7 @@ end, function ()
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)
-  deleteAll({cover, scaleYSlider, sell, buy})
+  deleteAll({cover, scaleYSlider, sell, buy, setting})
   chart:clear()
 
   local bar = main.spawnBar()

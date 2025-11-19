@@ -84,14 +84,14 @@ end)
 main.addDescriptionTag(30, function (ent)
   if ent.temporary ~= math.huge then
     local n = ent.temporary
-    return "Temporary " .. n .."\nDeleted after " .. n .. " use"
+    return "USE-" .. n .."\nDeleted after " .. n .. " use"
   end
 end)
 
 main.addDescriptionTag(31, function (ent)
   if ent.repeatActivation > 0 then
     local n = ent.repeatActivation
-    return "Repeat " .. n .."\nRetrigger " .. n .. " times"
+    return "Repeat-" .. n .."\nRetrigger " .. n .. " times"
   end
 end)
 

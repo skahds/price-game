@@ -117,7 +117,7 @@ main.defineCard("retribution", {
   name = "Retribution",
   image = "retribution",
   isHollow = true,
-  description = "Destroys card to the right and\ngain 2x its PRICE as {priceColor}PRICE",
+  description = "Destroys card to the right and\ngain its {priceColor}PRICE",
   energy = 2,
   trigger = {"DEPLOY"},
   price = 4,
@@ -127,7 +127,7 @@ main.defineCard("retribution", {
     local leftCard = main.getCardBesides(ent, 1)
 
     if leftCard then
-      local price = leftCard.price
+      local price = leftCard.defaultPriceGain
       local success = main.tryDestroyEntity(leftCard)
       if success then
         main.changeEntityComponent(ent, "defaultPriceGain", price*2, combiner.ADD)

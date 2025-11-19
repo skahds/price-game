@@ -16,8 +16,13 @@ local function createJuice(amount, color, targetState)
     local time = love.math.random(50, 70)/100
     local scale = love.math.random(15, 25)/10
     
+    local c = utils.deepCopy(color)
+    c[1] = c[1] + love.math.random(90, 110)/100 -1
+    c[2] = c[2] + love.math.random(90, 110)/100 -1
+    c[3] = c[3] + love.math.random(90, 110)/100 -1
+
     main.spawnParticle("orb", {
-      color=color,
+      color=c,
       x=posX+love.math.random(100, -100)+pricePos.width/2*cam.zoom,
       y=posY+love.math.random(100, -100),
       targetState=targetState,
@@ -36,10 +41,18 @@ system.on("main:currentPriceChanged", function (change)
   else
     color={0.9, 0.5, 0.5}
   end
-  createJuice(math.floor(math.log(change*2)+0.5), color, {x=50+350/4, y=300})
+  local amount = math.floor(math.log(math.abs(change)*2)+0.5)
+  createJuice(amount, color, {x=50+350/4, y=300})
 end)
 
-local multChangeColor = {1, 0.8, 1}
 system.on("main:multChanged", function (change)
-  createJuice(math.floor(math.log(change*2)+0.5), multChangeColor, {x=50+350*3/4, y=300})
+  local color
+  if change > 0 then
+    color = {1, 0.8, 1}
+  else
+    color = {1, 0.6, 0.7}
+  end
+
+  local amount = math.floor(math.log(math.abs(change)*2)+0.5)
+  createJuice(amount, color, {x=50+350*3/4, y=300})
 end)

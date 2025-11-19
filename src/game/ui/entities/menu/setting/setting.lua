@@ -156,7 +156,6 @@ main.ui.defineButton("settingExit", {
   text = "EXIT",
   audio = "breaker",
   onButtonClicked = function (ent)
-    -- save game later
     love.event.quit()
   end
 })
@@ -203,5 +202,14 @@ system.on("@load", function ()
     for k, v in pairs(s) do
       system.updateStorage(k, v)
     end
+  end
+end)
+
+system.on("@draw", function ()
+  if isSettingShown then
+    system.render(399, function ()
+      love.graphics.setColor(0.05, 0.05, 0.05, 0.5)
+      love.graphics.rectangle("fill", 0, 0, 1280, 720)
+    end, true)
   end
 end)

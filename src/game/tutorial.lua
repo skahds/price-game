@@ -26,7 +26,7 @@ end
 
 system.on("@update", function ()
   for i, t in ipairs(targettedEnt) do
-    t.entity.renderLayer = 1010
+    t.entity.renderLayer = math.max(310, t.entity.renderLayer)
   end
 
   if #targettedEnt > 0 then
@@ -40,7 +40,7 @@ system.on("@update", function ()
 end)
 
 system.on("@draw", function ()
-  system.render(1008, function ()
+  system.render(309, function ()
     love.graphics.setColor(0.1, 0.1, 0.1, infos.coverOpacity)
     love.graphics.rectangle("fill", 0, 0, 1280, 720)
   end, true)
@@ -56,7 +56,7 @@ system.on("@draw", function ()
 
       local text = main.printRichText({
         format = str,
-        renderLayer = 1030,
+        renderLayer = 330,
         x=x,
         y=y,
         font=font,

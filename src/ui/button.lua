@@ -36,7 +36,7 @@ local function buttonDown(ent)
   if ent.tween then
     ent.tween:stop()
   end
-  ent.tween = flux.to(ent, 0.1, {y=ent.originalY+ent.height/5})
+  ent.tween = flux.to(ent, 0.1, {y=ent.originalY+ent.height/6})
 
   ent.isButtonDown = true
 end
@@ -87,7 +87,7 @@ function main.ui.defineButton(id, eType)
     local rl = ent.renderLayer
     system.render(rl-1, function ()
       love.graphics.setColor(ent.buttonDownColor)
-      love.graphics.rectangle("fill", ent.x, ent.originalY+ent.height/5, ent.width, ent.height, ent.rx, ent.ry)
+      love.graphics.rectangle("fill", ent.x, ent.originalY+ent.height/6, ent.width, ent.height, ent.rx, ent.ry)
     end, ent.screenSpace)
   end
 
