@@ -1,3 +1,5 @@
+local flux = system.getStorage("flux")
+
 --background
 local objects = {}
 local distance = 200
@@ -39,7 +41,7 @@ system.on("@draw", function ()
 
   system.render(1, function ()
     -- love.graphics.setColor(0.38, 0.86, 0.96)
-    love.graphics.setColor(0.1, 0.1, 0.1)
+    love.graphics.setColor(0.1*currentColorMult[1], 0.1*currentColorMult[2], 0.1*currentColorMult[3])
     love.graphics.rectangle("fill", 0, 0, 1280, 720)
     
     for i, object in ipairs(objects) do
@@ -50,4 +52,17 @@ system.on("@draw", function ()
       love.graphics.rectangle("fill", x + camOffsetX, y + camOffsetY, object.size, object.size)
     end
   end, true)
+end)
+
+system.on("main:sceneChanged", function ()
+  local scene = system.getStorage("main:currentScene")
+  local time = 4
+
+  if scene == "levelSelect" then
+    flux.to(currentColorMult, time, {1.2, 1.8, 1.5})
+  elseif scene == "play" then
+    flux.to(currentColorMult, time, {1.2, 1.3, 1.8})
+  else
+    flux.to(currentColorMult, time, {1, 1, 1})
+  end
 end)
