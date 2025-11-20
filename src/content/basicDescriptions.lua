@@ -24,7 +24,7 @@ main.addDescriptionType(19, function (ent)
     return "Turn ends:"
   end
   if main.canTrigger(ent, "PRICECHANGE") then
-    return "Price changes:"
+    return "{priceColor}Price{/priceColor} changes:"
   end
   if main.canTrigger(ent, "EACHTURN") then
     return "Each turn:"
@@ -91,7 +91,7 @@ end)
 main.addDescriptionTag(31, function (ent)
   if ent.repeatActivation > 0 then
     local n = ent.repeatActivation
-    return "Repeat-" .. n .."\nRetrigger " .. n .. " times"
+    return "REPEAT-" .. n .."\nRetrigger " .. n .. " times"
   end
 end)
 

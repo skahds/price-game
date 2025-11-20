@@ -12,7 +12,7 @@ system.on("@update", function ()
     end
     
     local flux = system.getStorage("flux")
-    uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = math.max(mouse.y-uiEnt:getHeight()/2, 550)})
+    uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = math.max(mouse.y-uiEnt:getHeight()/2, 570)})
     uiEnt.renderLayer = math.max(300, uiEnt.renderLayer)
   else
     system.updateStorage("main:currentSelectedCard", nil)

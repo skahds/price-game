@@ -1,6 +1,7 @@
 local cam = system.getStorage("camera")
 local flux = system.getStorage("flux")
 local playerCam = {x=0, y=0, speed=500, zoom=1.2}
+local infos = {zoom=1.2}
 
 cam:setZoom(playerCam.zoom)
 cam:followPos(playerCam)
@@ -26,7 +27,8 @@ system.on("@update", function ()
     playerCam.y = playerCam.y + speed
   end
 
-  cam:setZoom(playerCam.zoom)
+  flux.to(infos, 0.2, {zoom=playerCam.zoom})
+  cam:setZoom(infos.zoom)
 end)
 
 function main.tweenCamera(time, pos)

@@ -62,6 +62,8 @@ system.on("main:sceneChanged", function ()
     flux.to(currentColorMult, time, {1.2, 1.8, 1.5})
   elseif scene == "play" then
     flux.to(currentColorMult, time, {1.2, 1.3, 1.8})
+  elseif scene == "shop" then
+    flux.to(currentColorMult, time, {1.8, 1.7, 1.1})
   else
     flux.to(currentColorMult, time, {1, 1, 1})
   end
