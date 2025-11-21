@@ -1,7 +1,7 @@
 main.defineCard("scale", {
   name = "Scale",
   image = "scale",
-  description = "If bar direction is\ndifferent than the last, gain\n{multColor}+2 MULT{/multColor}",
+  description = "If bar direction is\ndifferent than the\nlast, gain{multColor}+4 MULT{/multColor}",
   trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)
@@ -10,7 +10,7 @@ main.defineCard("scale", {
     local last = chart:getBar(-1)
     if secondToLast == nil or
     (last.endPrice - last.startPrice) * (last.endPrice-last.startPrice) < 0 then
-      main.changeEntityComponent(ent, "defaultMultGain", 2, combiner.ADD)
+      main.changeEntityComponent(ent, "defaultMultGain", 4, combiner.ADD)
     end
   end
 })

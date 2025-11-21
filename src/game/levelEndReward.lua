@@ -16,6 +16,7 @@ function main.createRewardsOptions(rewards, info)
       local orderOffset = space*(i-1)
       local n = main.spawnEntity(option, {x=640+xOffsetLeft+orderOffset, y=250}, true)
       n.isRelic = true
+      n.ui.renderLayer = 140
       n.ui.sx = 2
       n.ui.sy = 2
       table.insert(news, n)
@@ -71,8 +72,9 @@ system.on("main:newsClicked", function (ent, button)
 
   chart:addNews(ent)
   ent.chartOrder = chart:getNewsAmount()
-  ent.ui.screenSpace = false
   ent.screenSpace = false
+  ent.ui.screenSpace = false
+  ent.ui.renderLayer = 10
   ent.sx = cam.zoom
   ent.sy = cam.zoom
   flux.to(ent, 0.3, {sx=1, sy=1})

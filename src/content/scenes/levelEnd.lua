@@ -82,6 +82,7 @@ main.defineScene("levelEnd", function ()
         format = format,
         x=640,
         y=200+height*(i-1),
+        renderLayer=102,
       })
       table.insert(stats, t)
       t.x = t.x - t.richText:getWidth()/2
@@ -113,7 +114,7 @@ main.ui.defineButton("levelEndContinue", {
   width = 300,
   height = 100,
   color = {0.4, 0.4, 0.7},
-  renderLayer = 101,
+  renderLayer = 102,
   screenSpace = true,
   text = "Continue",
   audio = "breaker",
@@ -121,3 +122,14 @@ main.ui.defineButton("levelEndContinue", {
     continueAction()
   end
 })
+
+system.on("@draw", function ()
+  if system.getStorage("main:currentScene") ~= "levelEnd" then
+    return
+  end
+
+  system.render(101, function ()
+    love.graphics.setColor(0.08, 0.08, 0.08, 0.6)
+    love.graphics.rectangle("fill", 0, 0, 1280, 720)
+  end, true)
+end)
