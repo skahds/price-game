@@ -14,7 +14,7 @@ system.on("@draw", function ()
           outlineColor = {0.1, 0.1, 0.1},
           x=x+ui:getWidth(),
           y=y,
-          renderLayer = 299,
+          renderLayer = ui.renderLayer+1,
         })
         t.x = t.x - t.richText:getWidth()/2
         t.y = t.y - t.richText:getHeight()/2

@@ -1,9 +1,11 @@
 local function clamp(x)
+  print(x)
   if x > 0 then
-    x = math.max(x, 3)
+    x = math.max(x, 5)
   else
-    x = math.min(-3, x)
+    x = math.min(-5, x)
   end
+  return x
 end
 
 local function getChange()
@@ -28,7 +30,7 @@ local function getChange()
   changeAmount = ((math.abs(changeAmount)+1) * (chart.volatility+1)-1) * positivity
   -- print(chart.bullPower, chart.bearPower, chart.volatility, changeAmount)
 
-  local basicFactor = system.getStorage("main:basicChangeFactor") or 60
+  local basicFactor = system.getStorage("main:basicChangeFactor") or 100
   changeAmount = changeAmount * basicFactor
 
   chart.volatility = chart.volatility^(7/8)

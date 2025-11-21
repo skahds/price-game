@@ -38,21 +38,9 @@ main.defineCard("redFan", {
 main.defineCard("cell", {
   name = "Cell",
   image = "cell",
-  description = "Spawns a news which\ngives {priceColor}+3 PRICE",
   trigger = {"DEPLOY"},
   price = 2,
-  onActivate = function (ent)
-    local chart = system.getStorage("main:chart")
-    local pos = chart:getCurrentPricePos()
-
-    if pos == nil then
-      return
-    end
-
-    local xoffset = love.math.random(-40, 40)
-    local yoffset = love.math.random(-40, 40)
-    main.spawnNews("goodNews", {x=pos.x+xoffset, y=pos.y+yoffset})
-  end
+  spawnNews = "goodNews"
 })
 
 main.defineCard("factory", {

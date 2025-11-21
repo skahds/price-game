@@ -1,7 +1,7 @@
 main.defineCard("amplifier", {
   name = "Amplifier",
   image = "amplifier",
-  description = "Card to the right gains {repeatColor}+1 REPEAT{/repeatColor}",
+  description = "Card to the right\ngains {repeatColor}+1 REPEAT{/repeatColor}",
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "RARE",
@@ -29,7 +29,7 @@ main.defineCard("magnifyingGlass", {
   target = {
     shape = {w=3, h=3},
     onActivate = function (ent, targetEnt)
-      main.changeEntityComponent(targetEnt, "defaultPriceGain", 5, combiner.ADD)
+      main.changeEntityComponent(targetEnt, "defaultPriceGain", 4, combiner.ADD)
     end
   }
 })
@@ -42,7 +42,6 @@ main.defineCard("void", {
   trigger = {"DEPLOY"},
   temporary = 1,
   price = 2,
-  rarity = "RARE",
   
   filter = function (ent)
     local target = main.getCardBesides(ent, 1)
@@ -71,7 +70,6 @@ main.defineCard("quickOrb", {
   image = "quickOrb",
   description = "Gives {energyColor}+1 ENERGY",
   energy = 0,
-  temporary = 3,
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "RARE",
@@ -99,7 +97,7 @@ main.defineCard("advancer", {
   isHollow = true,
   image = "advancer",
   energy = 2,
-  description = "Card to the right gains {multColor}+2 MULT",
+  description = "Card to the right gains {multColor}+3 MULT",
   trigger = {"DEPLOY"},
   price = 4,
   rarity = "EPIC",
@@ -108,7 +106,7 @@ main.defineCard("advancer", {
     local target = main.getCardBesides(ent, 1)
 
     if target then
-      main.changeEntityComponent(target, "defaultMultGain", 2, combiner.ADD)
+      main.changeEntityComponent(target, "defaultMultGain", 3, combiner.ADD)
     end
   end
 })
@@ -130,7 +128,7 @@ main.defineCard("retribution", {
       local price = leftCard.defaultPriceGain
       local success = main.tryDestroyEntity(leftCard)
       if success then
-        main.changeEntityComponent(ent, "defaultPriceGain", price*2, combiner.ADD)
+        main.changeEntityComponent(ent, "defaultPriceGain", price, combiner.ADD)
       end
     end
   end

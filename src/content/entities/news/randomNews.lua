@@ -3,7 +3,7 @@ main.defineNews("goodNews", {
   image = "upNews",
   trigger = {"ROUND"},
   temporary = 3,
-  defaultPriceGain=3,
+  defaultPriceGain=5,
 })
 
 main.defineNews("badNews", {
@@ -11,7 +11,7 @@ main.defineNews("badNews", {
   image = "downNews",
   trigger = {"ROUND"},
   temporary = 3,
-  defaultPriceGain=-3,
+  defaultPriceGain=-5,
 })
 
 main.defineNews("volatileNews", {

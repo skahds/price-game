@@ -76,7 +76,7 @@ main.addDescriptionTag(29, function (ent)
       return "Relic\nStays in hand"
     end
     if ent.isNews then
-      return "Relic\nStays in chart"
+      return "Relic\nStays between encounters"
     end
   end
 end)
