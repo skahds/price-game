@@ -42,6 +42,7 @@ main.defineCard("void", {
   trigger = {"DEPLOY"},
   temporary = 1,
   price = 2,
+  rarity="UNIQUE",
   
   filter = function (ent)
     local target = main.getCardBesides(ent, 1)

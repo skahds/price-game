@@ -113,7 +113,9 @@ system.on("@draw", function ()
     local t = main.printRichText({
       x=0,
       y=100,
-      format = "Pick a reward!"
+      format = "Pick a reward!",
+      renderLayer=102,
+      screenSpace=true,
     })
     t.x = 640-t.richText:getWidth()/2
   end

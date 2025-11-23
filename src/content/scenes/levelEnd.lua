@@ -83,9 +83,15 @@ main.defineScene("levelEnd", function ()
         x=640,
         y=200+height*(i-1),
         renderLayer=102,
+        font=font,
+        sx=0.8,
+        sy=0.8,
       })
+      local ox = t.richText:getWidth()/2
+      t.ox = ox
       table.insert(stats, t)
-      t.x = t.x - t.richText:getWidth()/2
+      -- t.x = t.x - t.richText:getWidth()/2
+      flux.to(t, 0.4, {sx=1, sy=1}):ease("backinout")
     end)
   end
 

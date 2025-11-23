@@ -22,6 +22,8 @@ main.defineScene("shop", function ()
 
   local roundsPerDay = system.getStorage("main:roundsPerDay")
   system.updateStorage("main:roundsRemaining", roundsPerDay)
+  
+  system.updateStorage("shop:currentRerollPrice", 3)
 
   main.shuffleDiscardToDraw()
   while #main.card.draw > 0 do

@@ -7,6 +7,6 @@ main.ui.defineButton("rerollButton", {
   text = "Reroll {moneyColor}$4{/moneyColor}",
   audio = "breaker",
   onButtonClicked = function (ent)
-    main.tryReroll(4)
+    main.tryReroll(system.getStorage("shop:currentRerollPrice"), ent)
   end
 })

@@ -1,6 +1,6 @@
 main.shop = {}
 
-function main.tryReroll(price)
+function main.tryReroll(price, rerollButton)
   price = price or 0
   
   if main.getMoney() < price then
@@ -13,6 +13,8 @@ function main.tryReroll(price)
   end
 
   main.addMoney(-price)
+  system.updateStorage("shop:currentRerollPrice", system.getStorage("shop:currentRerollPrice") + 1)
+  main.updateRichTextText(rerollButton.richtext, "Reroll {moneyColor}$" .. system.getStorage("shop:currentRerollPrice")+1 .. "{/moneyColor}")
 
   for i=#main.card.shop, 1, -1 do
     pipeline:add(0.15, function ()
@@ -32,6 +34,10 @@ function main.shop.spawnCards()
   local bag = system.getStorage("rarity:bag")
   local shopCardAmount = system.getStorage("shop:maxCardAmount")
   local pipeline = main.getPipeline("main")
+  pipeline:add(0.15, function ()
+    main.createCard("void", {}, "shop")
+    main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=100}})
+  end)
   for i=1, shopCardAmount do
     pipeline:add(0.15, function ()
       local card = bag:getRandomCard()

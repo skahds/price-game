@@ -40,6 +40,9 @@ function pipeline:update()
   -- print(self.timer)
   local dt = system.getStorage("dt")
   local speed = system.getStorage("main:defaultDelayMult")
+  if self.ignoreGameSpeed == true then
+    speed = 1
+  end
   self.timer = self.timer + dt * speed
   if self.pipeline[1].time < self.timer then
     self:finishCurrentAction()
