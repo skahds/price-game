@@ -18,7 +18,33 @@ for x=0, 50 do
   end
 end
 
+local originalMult = {1, 1, 1}
+local fluxuationMult = {1, 1, 1}
+system.on("main:sceneChanged", function ()
+  local scene = system.getStorage("main:currentScene")
+  local time = 4
+
+  if scene == "levelSelect" then
+    flux.to(originalMult, time, {1.2, 1.8, 1.5})
+  elseif scene == "play" then
+    flux.to(originalMult, time, {1.2, 1.3, 1.8})
+  elseif scene == "shop" then
+    flux.to(originalMult, time, {1.8, 1.7, 1.1})
+  else
+    flux.to(originalMult, time, {1, 1, 1})
+  end
+end)
+
+local function fluxuateColor()
+  flux.to(fluxuationMult, 8, {love.math.random(92, 108)/100, love.math.random(92, 108)/100, love.math.random(92, 108)/100}):oncomplete(fluxuateColor)
+end
+fluxuateColor()
+
 system.on("@update", function ()
+  for i=1, 3 do
+    currentColorMult[i] = originalMult[i] * fluxuationMult[i]
+  end
+
   local speed = 5
   local dt = system.getStorage("dt")
   for i, object in ipairs(objects) do
@@ -52,19 +78,4 @@ system.on("@draw", function ()
       love.graphics.rectangle("fill", x + camOffsetX, y + camOffsetY, object.size, object.size)
     end
   end, true)
-end)
-
-system.on("main:sceneChanged", function ()
-  local scene = system.getStorage("main:currentScene")
-  local time = 4
-
-  if scene == "levelSelect" then
-    flux.to(currentColorMult, time, {1.2, 1.8, 1.5})
-  elseif scene == "play" then
-    flux.to(currentColorMult, time, {1.2, 1.3, 1.8})
-  elseif scene == "shop" then
-    flux.to(currentColorMult, time, {1.8, 1.7, 1.1})
-  else
-    flux.to(currentColorMult, time, {1, 1, 1})
-  end
 end)
