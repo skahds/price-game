@@ -14,7 +14,7 @@ function main.tryReroll(price, rerollButton)
 
   main.addMoney(-price)
   system.updateStorage("shop:currentRerollPrice", system.getStorage("shop:currentRerollPrice") + 1)
-  main.updateRichTextText(rerollButton.richtext, "Reroll {moneyColor}$" .. system.getStorage("shop:currentRerollPrice")+1 .. "{/moneyColor}")
+  main.updateRichTextText(rerollButton.richtext, "Reroll {moneyColor}$" .. system.getStorage("shop:currentRerollPrice") .. "{/moneyColor}")
 
   for i=#main.card.shop, 1, -1 do
     pipeline:add(0.15, function ()

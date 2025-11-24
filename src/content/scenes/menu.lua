@@ -17,8 +17,8 @@ main.defineScene("menu", function ()
   logo = main.ui.spawnUI("logo", {x=640-220, y=-300})
   flux.to(logo, 2, {y=100})
   if love.filesystem.getInfo("save") then
-    play = main.ui.spawnUI("menuPlay", {x=640-100-150, y=390})
-    continue = main.ui.spawnUI("loadGame", {x=640-100+150, y=390})
+    play = main.ui.spawnUI("menuPlay", {x=640-110-150, y=390})
+    continue = main.ui.spawnUI("loadGame", {x=640-110+150, y=390})
   else
     play = main.ui.spawnUI("menuPlay", {x=640-100, y=390})
   end

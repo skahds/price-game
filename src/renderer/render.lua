@@ -33,11 +33,10 @@ system.on("renderer:render", function ()
         t.func()
       end
       love.graphics.setColor(1, 1, 1)
+      love.graphics.setShader()
     end
   end
   
-
-
   love.graphics.setCanvas()
 
   local screenWidth = love.graphics.getWidth()

@@ -50,6 +50,17 @@ function main.ui.defineUI(id, eType)
         love.graphics.setColor(1, 1, 1)
       end
 
+      if self.shader then
+        local shader = system.getShader(self.shader.shader)
+        for k, v in pairs(self.shader) do
+          if k ~= "shader" then
+            shader:send(k, v)
+          end
+        end
+        love.graphics.setShader()
+      end
+      
+
       if self.image then
         local image = system.getImage(self.image)
         love.graphics.draw(image, self.x, self.y, self.r, self.sx, self.sy, self.ox, self.oy)

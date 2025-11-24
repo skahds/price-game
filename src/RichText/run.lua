@@ -53,11 +53,26 @@ system.on("@draw", function ()
 
       -- smoothens up so no double-draw
       if t.insideDeleteQueue ~= true then
-        if t.outline then
-          drawOutline(t)
-        end
 
         system.render(t.renderLayer or 50, function ()
+          if t.outline then
+            -- drawOutline(t)
+            local shader = system.getShader("outline")
+            local color
+            if t.outlineColor then
+              color = t.outlineColor
+            elseif t.color then
+              color = {t.color[1]/1.5, t.color[2]/1.5, t.color[3]/1.5}
+            else
+              color = {0.7, 0.7, 0.7}
+            end
+            color[4] = 1
+            shader:send("outlineColor", color)
+            shader:send("outlineSize", t.outline)
+            print(color, t.outline)
+            love.graphics.setShader(shader)
+          end
+          
           local text = t.richText
           local x = t.x or 0
           local y = t.y or 0
@@ -74,3 +89,14 @@ system.on("@draw", function ()
   end
 
 end)
+
+-- system.on("@draw", function ()
+  main.newRichText({
+    format="abcdefg",
+    x=240,
+    y=100,
+    renderLayer=1000,
+    screenSpace=true,
+    outline=8,
+  })
+-- end)

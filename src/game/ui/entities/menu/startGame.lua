@@ -1,5 +1,5 @@
 main.ui.defineButton("menuPlay", {
-  width = 200,
+  width = 220,
   height = 120,
   color = {0.5, 0.5, 0.8},
   renderLayer = 101,

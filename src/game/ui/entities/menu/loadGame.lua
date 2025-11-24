@@ -1,5 +1,5 @@
 main.ui.defineButton("loadGame", {
-  width = 200,
+  width = 220,
   height = 120,
   color = {0.6, 0.6, 0.9},
   renderLayer = 101,

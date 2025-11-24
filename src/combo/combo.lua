@@ -1,10 +1,22 @@
 local combo = 0
 
+local lastActivated
 system.on("main:entityTriggered", function (ent)
   if ent.isCard then
-    return
+    if lastActivated == "card" then
+      combo = combo + 1
+    end
+
+    lastActivated = "card"
+  elseif ent.isNews then
+    if lastActivated == "news" then
+      combo = combo + 1
+    else
+      combo = 1
+    end
+
+    lastActivated = "news"
   end
-  combo = combo + 1
 end)
 
 system.on("main:endTurn", function ()
@@ -17,6 +29,7 @@ system.on("@update", function ()
   if pipeline then
     if #pipeline.pipeline == 0 then
       combo = 0
+      lastActivated = nil
     end
   end
 

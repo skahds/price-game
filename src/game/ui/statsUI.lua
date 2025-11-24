@@ -107,7 +107,7 @@ system.on("main:sceneChanged", function()
 end)
 
 --money text
-system.on("main:moneyChanged", function ()
+system.on("@update", function ()
   local money = main.getMoney()
   main.updateRichTextText(moneyText, "{moneyColor}$" .. math.floor(money) .. "{/moneyColor}")
 end)

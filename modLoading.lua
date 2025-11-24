@@ -1,6 +1,7 @@
 system.sprites = {}
 system.audio = {}
 system.fonts = {}
+system.shader = {}
 
 -- this is made by chatgipity, im not smart enough to use love.filesystem
 
@@ -34,6 +35,10 @@ local function requireFolder(folder)
       local fileName = item:gsub("%.mp3$", "")
       system.audio[fileName] = love.audio.newSource(fullPath, "static")
       print("[" .. os.date() .."]: Loaded mp3 " .. fileName)
+    elseif info.type == "file" and item:match("%.glsl$") then
+      local fileName = item:gsub("%.glsl$", "")
+      system.shader[fileName] = love.graphics.newShader(fullPath)
+      print("[" .. os.date() .."]: Loaded shader " .. fileName)
     elseif info.type == "file" and item:match("%.ttf$") then
       local fileName = item:gsub("%.ttf$", "")
       for i=10, 100 do

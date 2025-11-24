@@ -32,6 +32,13 @@ function system.getStorage(name)
   return system.storage[name]
 end
 
+---gets from system.storage; however where i get stuff i like
+---@param name string
+---@return shader
+function system.getShader(name)
+  return system.shader[name]
+end
+
 ---updates system.storage; however where i store stuff i like
 ---@param name string
 ---@param newVar any
