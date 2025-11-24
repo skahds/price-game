@@ -14,7 +14,7 @@ local function drawOutline(t)
   end
 
   local renderLayer = t.renderLayer or 50
-  system.render(renderLayer, function ()
+  system.render(renderLayer-1, function ()
     local text = t.richText
     local x = t.x or 0
     local y = t.y or 0
@@ -34,11 +34,24 @@ local function drawOutline(t)
     
     love.graphics.setColor(color)
     --offset
-    local o = 2*math.max(sx, sy)
-    text:draw(x-o, y-o, r, sx, sy, ox, oy)
-    text:draw(x-o, y+o, r, sx, sy, ox, oy)
-    text:draw(x+o, y+o, r, sx, sy, ox, oy)
-    text:draw(x+o, y-o, r, sx, sy, ox, oy)
+    local defaultFont = system.getStorage("defaultFont")
+    local fontFactor = t.richText:getWidth()/defaultFont:getWidth(t.format)
+    local o = 8*math.max(sx, sy)*fontFactor
+    for xi=1, o do
+      if xi%2 ~= 1 then
+        goto continue
+      end
+      for yi=1, o do
+        if yi%2 ~= 1 then
+          goto continue
+        end
+        
+        text:draw(x+(xi-o/2), y+(yi-o/2), r, sx, sy, ox, oy)
+        
+        ::continue::
+      end
+      ::continue::
+    end
   end, fixed)
 end
 
@@ -50,28 +63,15 @@ system.on("@draw", function ()
       if t.screenSpace == false then
         fixed = false
       end
+    
+      if t.outline then
+        drawOutline(t)
+      end
 
       -- smoothens up so no double-draw
       if t.insideDeleteQueue ~= true then
-
+        
         system.render(t.renderLayer or 50, function ()
-          if t.outline then
-            -- drawOutline(t)
-            local shader = system.getShader("outline")
-            local color
-            if t.outlineColor then
-              color = t.outlineColor
-            elseif t.color then
-              color = {t.color[1]/1.5, t.color[2]/1.5, t.color[3]/1.5}
-            else
-              color = {0.7, 0.7, 0.7}
-            end
-            color[4] = 1
-            shader:send("outlineColor", color)
-            shader:send("outlineSize", t.outline)
-            print(color, t.outline)
-            love.graphics.setShader(shader)
-          end
           
           local text = t.richText
           local x = t.x or 0
@@ -89,14 +89,3 @@ system.on("@draw", function ()
   end
 
 end)
-
--- system.on("@draw", function ()
-  main.newRichText({
-    format="abcdefg",
-    x=240,
-    y=100,
-    renderLayer=1000,
-    screenSpace=true,
-    outline=8,
-  })
--- end)
