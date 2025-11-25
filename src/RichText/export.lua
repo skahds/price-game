@@ -65,15 +65,6 @@ local function format_mixed_string(text_input)
   return formatted_text
 end
 
-local parsed = RichText.parse("Spawns a news which gives {priceColor}+3 prices")
-for i, v in ipairs(parsed) do
-  if type(v) == "string" then
-    print(i, "string:", v)
-  else
-    print(i, "table:", v[1])
-  end
-end
-
 function main.newRichText(args)
   local font = args.font or system.getStorage("defaultFont")
   args.format = format_mixed_string(args.format)

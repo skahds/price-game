@@ -5,6 +5,7 @@ local scaleYSlider
 local sell
 local buy
 local setting
+local drawPile, discardPile
 
 --tutorial, stage kinda like a rocketship :)
 local tutorialInfos = {stage=1}
@@ -28,6 +29,8 @@ main.defineScene("play", function ()
   main.updateRichTextText(sell.richtext, "DOWN")
   buy = main.ui.spawnUI("startTurn", {x=640+85-75, y=50, color={0.4, 0.7, 0.4}})
   main.updateRichTextText(buy.richtext, "UP")
+  drawPile = main.ui.spawnUI("drawPile", {x=1280-60, y=720-60})
+  discardPile = main.ui.spawnUI("discardPile", {x=60, y=720-60})
 
 
   if system.getStorage("main:isDoingTutorial") and tutorialInfos.stage == 1 then
@@ -74,7 +77,7 @@ end, function ()
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)
-  deleteAll({cover, scaleYSlider, sell, buy, setting})
+  deleteAll({cover, scaleYSlider, sell, buy, setting, drawPile, discardPile})
   chart:clear()
 
   local bar = main.spawnBar()

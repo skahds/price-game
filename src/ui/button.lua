@@ -91,7 +91,7 @@ function main.ui.defineButton(id, eType)
     end, ent.screenSpace)
 
     system.render(rl, function ()
-      love.graphics.setColor(ent.color[1]*1.05, ent.color[2]*1.05, ent.color[3]*1.05)
+      love.graphics.setColor(ent.color[1]*0.95, ent.color[2]*0.95, ent.color[3]*0.95)
       love.graphics.setLineWidth(10)
       love.graphics.rectangle("line", ent.x+4, ent.y+4, ent.width-8, ent.height-8, ent.rx, ent.ry)
     end, ent.screenSpace)

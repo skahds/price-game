@@ -7,6 +7,10 @@ system.on("@update", function ()
   end
 end)
 
+local function angleToVec2(angle)
+  return math.cos(angle), math.sin(angle)
+end
+
 local function drawOutline(t)
   local fixed = true
   if t.screenSpace == false then
@@ -14,7 +18,7 @@ local function drawOutline(t)
   end
 
   local renderLayer = t.renderLayer or 50
-  system.render(renderLayer-1, function ()
+  system.render(renderLayer, function ()
     local text = t.richText
     local x = t.x or 0
     local y = t.y or 0
@@ -35,8 +39,12 @@ local function drawOutline(t)
     love.graphics.setColor(color)
     --offset
     local defaultFont = system.getStorage("defaultFont")
-    local fontFactor = t.richText:getWidth()/defaultFont:getWidth(t.format)
+    local fontFactor = 0.5+t.richText.font:getWidth(t.format)/defaultFont:getWidth(t.format)/2
     local o = 8*math.max(sx, sy)*fontFactor
+
+    local cosR = math.cos(r)
+    local sinR = math.sin(r)
+
     for xi=1, o do
       if xi%2 ~= 1 then
         goto continue
@@ -45,8 +53,14 @@ local function drawOutline(t)
         if yi%2 ~= 1 then
           goto continue
         end
+
+        local offsetX = xi - o/2
+        local offsetY = yi - o/2
         
-        text:draw(x+(xi-o/2), y+(yi-o/2), r, sx, sy, ox, oy)
+        local rotatedX = offsetX * cosR - offsetY * sinR
+        local rotatedY = offsetX * sinR + offsetY * cosR
+        
+        text:draw(x+rotatedX, y+rotatedY, r, sx, sy, ox, oy)
         
         ::continue::
       end

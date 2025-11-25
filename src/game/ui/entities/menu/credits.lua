@@ -1,8 +1,8 @@
 main.ui.defineUI("credits", {
   name = "Credits",
   image = "creditBox",
-  width = 192,
-  height = 128,
+  width = 160,
+  height = 84,
   showDescription = true,
   text = "Credits",
   screenSpace = true,

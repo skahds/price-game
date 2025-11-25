@@ -31,6 +31,7 @@ local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) 
   ox=1,
   oy=1,
   r=0,
+  outline=true,
   renderLayer = 200,
   font = biggerFont})
 
@@ -42,6 +43,7 @@ local multText = main.newRichText({format="{multColor}X" ..  math.floor(0+0.5) .
   ox=1,
   oy=1,
   r=0,
+  outline=true,
   renderLayer = 200,
   font = biggerFont,
   })
@@ -78,7 +80,7 @@ system.on("@update", function ()
   local score = system.getStorage("main:score")
   local scoreRequired = system.getStorage("main:scoreRequirement")
   main.updateRichTextText(scoreText, "Score: " .. math.floor(scoreInfos.score+0.5) .. "/" .. scoreRequired)
-  if scoreInfos.scoreToClaim > 0 then
+  if scoreInfos.scoreToClaim ~= 0 then
     local t = main.printRichText({
       format=math.floor(scoreInfos.scoreToClaim+0.5),
       y=300,
@@ -249,6 +251,7 @@ system.on("@draw", function ()
       ox=1,
       oy=1,
       r=0,
+      outline=true,
       renderLayer = 200,
       font = biggerFont})
     t.x = t.x - t.richText:getWidth()/2

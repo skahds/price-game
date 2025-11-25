@@ -1,5 +1,4 @@
 local function clamp(x)
-  print(x)
   if x > 0 then
     x = math.max(x, 5)
   else
