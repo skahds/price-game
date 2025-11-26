@@ -366,14 +366,18 @@ end
 
 function main.discardCurrentCardsInHand()
   local pipeline = main.getPipeline("main")
+  local count = 0
   for i=#main.card.hand, 1, -1 do
     local card = main.card.hand[i]
     if not system.ask("main:shouldCardNotBeDiscared", combiner.OR, card) then
       pipeline:insert(0.25, 1, function ()
         main.discardCard(card)
       end)
+      count = count + 1
     end
   end
+
+  return count
 end
 
 --card-in folder functions

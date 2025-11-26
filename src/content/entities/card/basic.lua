@@ -50,11 +50,11 @@ main.defineCard("grassBow", {
 main.defineCard("tail", {
   name = "Tail",
   image = "tail",
-  description = "Gives half of {multColor}MULT{/multColor} as {priceColor}PRICE",
+  description = "Gives {priceColor}PRICE{/priceColor} equivalent to {multColor}MULT{/multColor}",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     local mult = system.getStorage("main:mult")
-    main.addPrice(math.floor(mult/2+0.5))
+    main.addPrice(mult)
   end,
   price = 2,
 })
@@ -62,13 +62,13 @@ main.defineCard("tail", {
 main.defineCard("greenDice", {
   name = "Green Dice",
   image = "greenDice",
-  description = "2/3 chance to give {priceColor}+20 PRICE{/priceColor}\n1/3 chance to give {priceColor}-20 PRICE",
+  description = "2/3 chance to give {priceColor}+25 PRICE{/priceColor}\n1/3 chance to give {priceColor}-15 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
-      main.addPrice(20)
+      main.addPrice(25)
     else
-      main.addPrice(-20)
+      main.addPrice(-15)
     end
   end,
   price = 2,
@@ -77,13 +77,13 @@ main.defineCard("greenDice", {
 main.defineCard("redDice", {
   name = "Red Dice",
   image = "redDice",
-  description = "2/3 chance to give {priceColor}-20 PRICE{/priceColor}\n1/3 chance to give {priceColor}+20 PRICE",
+  description = "2/3 chance to give {priceColor}-25 PRICE{/priceColor}\n1/3 chance to give {priceColor}+15 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
-      main.addPrice(-20)
+      main.addPrice(-25)
     else
-      main.addPrice(20)
+      main.addPrice(15)
     end
   end,
   price = 2,

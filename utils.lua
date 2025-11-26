@@ -142,3 +142,19 @@ function utils.seperateSlashN(text)
 
   return t
 end
+
+---@param t table
+---@return string
+function utils.combineSlashN(t)
+  local s = ""
+  for i, text in ipairs(t) do
+    if i ~= 1 and i ~= #t then
+      if i ~= 2 then
+        s = s .. "\n".. text
+      else
+        s = s .. text
+      end
+    end
+  end
+  return s
+end

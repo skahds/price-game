@@ -26,7 +26,7 @@
 --todo: change/remove?
 main.defineCard("redFan", {
   name = "Red Fan",
-  description = "Spawns a free card\nwhich gives {priceColor}-6 PRICE",
+  description = "Spawns a {energyColor}FREE{/energyColor} card\nwhich gives {priceColor}-6 PRICE",
   image = "redfan",
   trigger = {"DEPLOY"},
   price = 2,
@@ -43,15 +43,44 @@ main.defineCard("cell", {
   spawnNews = "goodNews"
 })
 
-main.defineCard("factory", {
-  name = "Factory",
-  description = "Spawns a USE-1 junk",
-  defaultMoneyGain = 1,
-  image = "factory",
+-- main.defineCard("factory", {
+--   name = "Factory",
+--   description = "Spawns a USE-1 junk",
+--   defaultMoneyGain = 1,
+--   image = "factory",
+--   trigger = {"DEPLOY"},
+--   price = 2,
+--   onActivate = function (ent)
+--     main.basicSpawnCard("junk", {}, ent, "hand")
+--   end,
+--   rarity = "RARE"
+-- })
+
+main.defineCard("dagger", {
+  name = "Dagger",
+  image = "dagger",
   trigger = {"DEPLOY"},
-  price = 2,
+  defaultPriceGain = 3,
+  temporary=1,
+  energy=0,
+  rarity = "UNIQUE"
+})
+
+main.defineCard("volley", {
+  name = "Volley",
+  description = "Discard cards in hand,\ncreate a Dagger for each",
+  descriptionTagEntity = "dagger",
+  image = "volley",
+  trigger = {"DEPLOY"},
+  price = 3,
   onActivate = function (ent)
-    main.basicSpawnCard("junk", ent, "hand")
+    local amount = main.discardCurrentCardsInHand()
+    local pipeline  = main.getPipeline("main")
+    for i=1, amount do
+      pipeline:add(0.2, function ()
+        main.basicSpawnCard("dagger", {}, ent, "hand")
+      end)
+    end
   end,
   rarity = "RARE"
 })
