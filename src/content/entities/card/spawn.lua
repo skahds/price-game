@@ -24,10 +24,10 @@
 -- })
 
 --todo: change/remove?
-main.defineCard("redFan", {
-  name = "Red Fan",
+main.defineCard("cargo", {
+  name = "Cargo",
   description = "Spawns a {energyColor}FREE{/energyColor} card\nwhich gives {priceColor}-6 PRICE",
-  image = "redfan",
+  image = "cargo",
   trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)
@@ -56,21 +56,21 @@ main.defineCard("cell", {
 --   rarity = "RARE"
 -- })
 
-main.defineCard("dagger", {
-  name = "Dagger",
-  image = "dagger",
+main.defineCard("liquidate", {
+  name = "Liquidate",
+  image = "liquidate",
   trigger = {"DEPLOY"},
-  defaultPriceGain = 3,
+  defaultPriceGain = -3,
   temporary=1,
   energy=0,
   rarity = "UNIQUE"
 })
 
-main.defineCard("volley", {
-  name = "Volley",
+main.defineCard("chainReaction", {
+  name = "Chain Reaction",
   description = "Discard cards in hand,\ncreate a Dagger for each",
-  descriptionTagEntity = "dagger",
-  image = "volley",
+  descriptionTagEntity = "liquidate",
+  image = "chainReaction",
   trigger = {"DEPLOY"},
   price = 3,
   onActivate = function (ent)

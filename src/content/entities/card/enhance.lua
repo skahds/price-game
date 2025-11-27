@@ -1,7 +1,7 @@
 --spawns news that last only for the current encounter blabla
-main.definePlaceableNewsCard("cultivate", {
-  name = "Cultivate",
-  image = "cultivate",
+main.definePlaceableNewsCard("tracker", {
+  name = "Tracker",
+  image = "tracker",
   trigger= {"DEPLOY"},
   price=3,
   rarity = "RARE"
@@ -14,26 +14,26 @@ main.definePlaceableNewsCard("cultivate", {
   end,
 })
 
-main.definePlaceableNewsCard("lullaby", {
-  name = "Lullaby",
-  image = "lullaby",
+main.definePlaceableNewsCard("radar", {
+  name = "Radar",
+  image = "radar",
   trigger= {"DEPLOY"},
   price=3,
   rarity = "RARE"
 }, {
-  image = "lullabyNews",
+  image = "radarNews",
   trigger = {"CARDTRIGGER"},
   defaultDrawCard = 1,
 })
 
-main.definePlaceableNewsCard("dread", {
-  name = "Dread",
-  image = "dread",
+main.definePlaceableNewsCard("drag", {
+  name = "Drag",
+  image = "drag",
   trigger= {"DEPLOY"},
   price=3,
   rarity = "RARE"
 }, {
-  image = "dreadNews",
+  image = "dragNews",
   trigger = {"CARDTRIGGER"},
   defaultPriceGain = -6,
 })

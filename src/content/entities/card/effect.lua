@@ -19,9 +19,9 @@ main.defineCard("amplifier", {
   end
 })
 
-main.defineCard("magnifyingGlass", {
-  name = "Magnifying Glass",
-  image = "magnifyingGlass",
+main.defineCard("whitewash", {
+  name = "Whitewash",
+  image = "whitewash",
   energy = 2,
   description = "News in area gains {priceColor}+4 PRICE",
   trigger = {"DEPLOY"},
@@ -66,9 +66,9 @@ main.defineCard("vision", {
   rarity = "RARE",
 })
 
-main.defineCard("quickOrb", {
-  name = "Quick Orb",
-  image = "quickOrb",
+main.defineCard("reserve", {
+  name = "Reserve",
+  image = "reserve",
   description = "Gives {energyColor}+1 ENERGY",
   energy = 0,
   trigger = {"DEPLOY"},
@@ -79,9 +79,9 @@ main.defineCard("quickOrb", {
   end
 })
 
-main.defineCard("sacrifice", {
-  name = "Sacrifice",
-  image = "sacrifice",
+main.defineCard("secondPlan", {
+  name = "Second Plan",
+  image = "secondPlan",
   description = "Discard cards in hand",
   energy = 1,
   defaultDrawCard = 4,
@@ -93,10 +93,10 @@ main.defineCard("sacrifice", {
   end
 })
 
-main.defineCard("advancer", {
-  name = "Advancer",
+main.defineCard("grant", {
+  name = "Grant",
   isHollow = true,
-  image = "advancer",
+  image = "grant",
   energy = 2,
   description = "Card to the right gains {multColor}+3 MULT",
   trigger = {"DEPLOY"},
@@ -112,9 +112,9 @@ main.defineCard("advancer", {
   end
 })
 
-main.defineCard("retribution", {
-  name = "Retribution",
-  image = "retribution",
+main.defineCard("reap", {
+  name = "Reap",
+  image = "reap",
   isHollow = true,
   description = "Destroys card to the right and\ngain its {priceColor}PRICE",
   energy = 2,

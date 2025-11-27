@@ -19,7 +19,7 @@ main.defineRunStarter({
   onActivate = function ()
     main.createCardToDraw("cultivate", 3)
     main.createCardToDraw("dread", 3)
-    main.createCardToDraw("greenHammer", 3)
+    main.createCardToDraw("secondPlan", 3)
     main.createCardToDraw("redHammer", 2)
 
     main.shuffleDraw()
