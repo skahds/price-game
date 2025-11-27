@@ -28,7 +28,7 @@ local scoreRequired = {
 local function getscoreRequirement(i, difficulty)
   local s = scoreRequired[i] or math.floor(20*(1.5^i)+0.5)
   s = math.floor(s * (1+difficulty)/20)*10
-  return s
+  return s/100
 end
 
 local function clamp(n)
@@ -52,41 +52,29 @@ end
 
 local rewardList = {
   {claim=function ()
-    local t = {}
     local bag = system.getStorage("rarity:bag")
-    for i=1, 3 do
-      table.insert(t, bag:getRandomCardWithRarity("COMMON"))
-    end
+    local t = bag:getRandomCardWithInfo({rarity="COMMON", amount=3})
     main.createRewardsOptions(t, {rewardType="card"})
   end,
   description="Choose a {commonColor}COMMON{/commonColor} card!"},
 
   {claim=function ()
-    local t = {}
     local bag = system.getStorage("rarity:bag")
-    for i=1, 3 do
-      table.insert(t, bag:getRandomCardWithRarity("RARE"))
-    end
+    local t = bag:getRandomCardWithInfo({rarity="RARE", amount=3})
     main.createRewardsOptions(t, {rewardType="card"})
   end,
   description="Choose a {rareColor}RARE{/rareColor} card!"},
 
   {claim=function ()
-    local t = {}
     local bag = system.getStorage("rarity:bag")
-    for i=1, 3 do
-      table.insert(t, bag:getRandomCardWithRarity("EPIC"))
-    end
+    local t = bag:getRandomCardWithInfo({rarity="EPIC", amount=3})
     main.createRewardsOptions(t, {rewardType="card"})
   end,
   description="Choose a {epicColor}EPIC{/epicColor} card!"},
 
   {claim=function ()
-    local t = {}
     local bag = system.getStorage("rarity:bag")
-    for i=1, 3 do
-      table.insert(t, bag:getRandomNews())
-    end
+    local t = bag:getRandomNewsWithInfo({amount=3})
     main.createRewardsOptions(t, {rewardType="news"})
   end,
   description="Choose a relic!"},

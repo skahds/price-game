@@ -61,13 +61,33 @@ function bag:getRandomCard(filter)
   end
 end
 
-function bag:getRandomCardWithRarity(rarity)
-  local c = self:getRandomCard(function (t)
-    if t.rarity.chanceWeight == self:getRarity(rarity).chanceWeight then
+function bag:getRandomCardWithInfo(info)
+  local amount = info.amount or 1
+  local result = {}
+
+  for i=1, amount do
+    local c = self:getRandomCard(function (t)
+      if info.rarity then
+        if t.rarity.chanceWeight == self:getRarity(info.rarity).chanceWeight then
+          
+        else
+          return false
+        end
+      end
+
+      for _, already in ipairs(result) do
+        if already == t.card then
+          return false
+        end
+      end
+
       return true
-    end
-  end)
-  return c
+    end)
+
+    table.insert(result, c)
+  end
+
+  return result
 end
 
 function bag:getRandomNews(filter)
@@ -97,13 +117,33 @@ function bag:getRandomNews(filter)
   end
 end
 
-function bag:getRandomNewsWithRarity(rarity)
-  local c = self:getRandomNews(function (t)
-    if t.rarity.chanceWeight == self:getRarity(rarity).chanceWeight then
+function bag:getRandomNewsWithInfo(info)
+  local amount = info.amount or 1
+  local result = {}
+
+  for i=1, amount do
+    local c = self:getRandomNews(function (t)
+      if info.rarity then
+        if t.rarity.chanceWeight == self:getRarity(info.rarity).chanceWeight then
+          
+        else
+          return false
+        end
+      end
+
+      for _, already in ipairs(result) do
+        if already == t.news then
+          return false
+        end
+      end
+
       return true
-    end
-  end)
-  return c
+    end)
+
+    table.insert(result, c)
+  end
+
+  return result
 end
 
 bag:new()
