@@ -38,11 +38,11 @@ local function continueAction()
   end
 
   if #main.card.reward > 0 then
-    return
+    main.clearReward()
   end
 
   if system.getStorage("main:isThereNewsReward") then
-    return
+    main.clearReward()
   end
 
   local pipeline = main.getPipeline("scene")

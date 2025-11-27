@@ -310,14 +310,13 @@ end)
 -- juice
 local function makeJuice(text, event)
   system.on(event, function ()
-    local originalRotation = 0
     local rotation = text.r + (love.math.random()-0.5)*3
     local scaleFactor = 1.5
     local sx = text.sx * scaleFactor
     local sy = text.sy * scaleFactor
     flux.to(text, 0.1, {sx = sx, sy=sy, r=rotation})
     main.wait(0.1, function ()
-      flux.to(text, 0.1, {sx = 1, sy=1,r=originalRotation})
+      flux.to(text, 0.1, {sx = 1, sy=1,r=0})
     end)
   end)
 

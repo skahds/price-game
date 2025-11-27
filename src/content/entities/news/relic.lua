@@ -16,7 +16,7 @@ main.defineNews("discount", {
 
 main.defineNews("dream", {
   name = "Dream",
-  image = "discountNews",
+  image = "dreamNews",
   trigger = {"EACHTURN"},
   isRelic = true,
   defaultDrawCard = 1,
@@ -27,7 +27,7 @@ main.defineNews("refine", {
   name = "Refine",
   image = "refineNews",
   trigger = {"EACHTURN"},
-  description = "Your leftmost cards\ngains {repeatColor}+1 REPEAT",
+  description = "Your leftmost card\ngains {repeatColor}+1 REPEAT",
   isRelic = true,
   onActivate = function (ent)
     local card = main.getCardInOrder(1)
@@ -40,7 +40,7 @@ main.defineNews("nuclear", {
   name = "Nuclear",
   image = "nuclearNews",
   trigger = {"EACHTURN"},
-  description = "Your rightmost cards\ngains {repeatColor}+2 REPEAT\nand cost {energyColor}+1 ENERGY",
+  description = "Your rightmost card\ngains {repeatColor}+2 REPEAT\nand cost {energyColor}+1 ENERGY",
   isRelic = true,
   onActivate = function (ent)
     local card = main.getCardInOrder(-1)

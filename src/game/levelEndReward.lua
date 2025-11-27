@@ -27,6 +27,33 @@ function main.createRewardsOptions(rewards, info)
   end
 end
 
+function main.clearReward()
+  if #main.card.reward > 0 then
+    print("c")
+    for i=#main.card.reward, 1, -1 do
+      pipeline:add(0.15, function ()
+        local card = main.card.reward[i]
+        main.deleteCard(card)
+      end)
+    end
+  end
+  
+  if #news > 0 then
+    print("tried")
+    for i=#news, 1, -1 do
+      local e = news[i]
+      e.disabledToChose = true
+      flux.to(e.ui, 1, {y=-100}):ease("backin")
+      main.wait(1.2, function ()
+        e.ui:delete()
+        e:delete()
+      end)
+    end
+  end
+
+  news = {}
+end
+
 system.on("main:cardClicked", function (ent, button)
   if button ~= 1 then
     return
@@ -41,13 +68,8 @@ system.on("main:cardClicked", function (ent, button)
   else
     return
   end
-  
-  for i=#main.card.reward, 1, -1 do
-    pipeline:add(0.15, function ()
-      local card = main.card.reward[i]
-      main.deleteCard(card)
-    end)
-  end
+
+  main.clearReward()
 end)
 
 system.on("main:newsClicked", function (ent, button)
@@ -95,17 +117,7 @@ system.on("main:newsClicked", function (ent, button)
   table.remove(news, ent.rewardIndex)
   ent.rewardIndex = nil
 
-  for i=#news, 1, -1 do
-    local e = news[i]
-    e.disabledToChose = true
-    flux.to(e.ui, 1, {y=-100}):ease("backin")
-    main.wait(1.2, function ()
-      e.ui:delete()
-      e:delete()
-    end)
-  end
-
-  news = {}
+  main.clearReward()
 end)
 
 system.on("@draw", function ()

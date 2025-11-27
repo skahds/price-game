@@ -58,16 +58,13 @@ main.defineScene("play", function ()
 
   system.updateStorage("main:roundsRemaining", system.getStorage("main:roundsPerDay"))
 
+  local piles = {main.card.hand, main.card.draw, main.card.discard}
+  for _, pile in ipairs(piles) do
+    for i, card in ipairs(pile) do
+      card.isLocked = false
+    end
+  end
 
-  for i, card in ipairs(main.card.hand) do
-    card.isLocked = false
-  end
-  for i, card in ipairs(main.card.draw) do
-    card.isLocked = false
-  end
-  for i, card in ipairs(main.card.discard) do
-    card.isLocked = false
-  end
   main.showCharts()
 end, function ()
   local chart = system.getStorage("main:chart")
@@ -83,14 +80,13 @@ end, function ()
   local bar = main.spawnBar()
   system.updateStorage("main:ownedPercentage", 0)
 
-  for i, card in ipairs(main.card.hand) do
-    card.isLocked = true
-  end
-  for i, card in ipairs(main.card.draw) do
-    card.isLocked = true
-  end
-  for i, card in ipairs(main.card.discard) do
-    card.isLocked = true
+  local piles = {main.card.hand, main.card.draw, main.card.discard}
+  for _, pile in ipairs(piles) do
+    for i, card in ipairs(pile) do
+      card.isLocked = true
+      card.overrideEnergy=card.energy
+      card.repeatActivation=0
+    end
   end
 end)
 

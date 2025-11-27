@@ -26,7 +26,7 @@
 --todo: change/remove?
 main.defineCard("cargo", {
   name = "Cargo",
-  description = "Spawns a {energyColor}FREE{/energyColor} card\nwhich gives {priceColor}-6 PRICE",
+  description = "Spawns a {energyColor}FREE{/energyColor} card\nwhich gives {priceColor}-10 PRICE",
   image = "cargo",
   trigger = {"DEPLOY"},
   price = 2,
@@ -68,7 +68,7 @@ main.defineCard("liquidate", {
 
 main.defineCard("chainReaction", {
   name = "Chain Reaction",
-  description = "Discard cards in hand,\ncreate a Dagger for each",
+  description = "Discard cards in hand,\ncreate a Liquidate for each",
   descriptionTagEntity = "liquidate",
   image = "chainReaction",
   trigger = {"DEPLOY"},

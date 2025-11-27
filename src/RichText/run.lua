@@ -45,6 +45,8 @@ local function drawOutline(t)
     local cosR = math.cos(r)
     local sinR = math.sin(r)
 
+    o = math.min(o, 30)
+
     for xi=1, o do
       if xi%2 ~= 1 then
         goto continue

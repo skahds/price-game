@@ -2,7 +2,7 @@ return {
   -- basic settings:
   name = 'ChartWeaver', -- name of the game for your executable
   developer = 'Skahd', -- dev name used in metadata of the file
-  output = 'D:/code/love2d/pricegamebuild', -- output location for your game, defaults to $SAVE_DIRECTORY
+  output = './pricegamebuild', -- output location for your game, defaults to $SAVE_DIRECTORY
   icon = 'icon.png',
   version = '0.1', -- 'version' of your game, used to name the folder in output
   love = '12.0', -- version of LÖVE to use, must match github releases
