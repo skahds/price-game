@@ -50,7 +50,7 @@ main.defineCard("grassBow", {
 main.defineCard("rebalance", {
   name = "Rebalance",
   image = "rebalance",
-  description = "Gives {priceColor}PRICE{/priceColor} equivalent to {multColor}MULT{/multColor}",
+  description = "Gives {priceColor}PRICE{/priceColor} equal to {multColor}MULT{/multColor}",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     local mult = system.getStorage("main:mult")

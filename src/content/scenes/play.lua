@@ -41,7 +41,6 @@ main.defineScene("play", function ()
     buy.isVisible = false
   else
     main.drawCardTillMaxCapacity()
-    main.spawnBarChangeNews()
 
     local chart = system.getStorage("main:chart")
     local pos = chart:getCurrentPricePos()
@@ -139,6 +138,7 @@ system.on("main:endTurn", function ()
   if tutorialInfos.stage == 3 then
     main.wait(2, function ()
       local chart = system.getStorage("main:chart")
+      main.spawnBarChangeNews()
       local n = chart:getNews(1)
       main.addEntityToTutorial(n, "This is a news, it activates\nwhen the turn starts.")
       tutorialInfos.stage = 4

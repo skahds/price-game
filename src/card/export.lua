@@ -301,7 +301,7 @@ function main.drawCardTillMaxCapacity()
           main.drawCardTillMaxCapacity()
         end)
       end)
-    else
+    elseif system.getStorage("main:score") < system.getStorage("main:scoreRequirement") then
       main.triggerAllNews("EACHTURN")
     end
   end

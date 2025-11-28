@@ -82,7 +82,7 @@ main.defineCard("reserve", {
 main.defineCard("secondPlan", {
   name = "Second Plan",
   image = "secondPlan",
-  description = "Discard cards in hand",
+  description = "Discard all cards in hand",
   energy = 1,
   defaultDrawCard = 4,
   trigger = {"DEPLOY"},
@@ -116,7 +116,7 @@ main.defineCard("reap", {
   name = "Reap",
   image = "reap",
   isHollow = true,
-  description = "Destroys card to the right and\ngain its {priceColor}PRICE",
+  description = "Destroys card to the right and\ngains its {priceColor}PRICE",
   energy = 2,
   trigger = {"DEPLOY"},
   price = 4,

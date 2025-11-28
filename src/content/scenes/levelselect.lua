@@ -28,7 +28,7 @@ local scoreRequired = {
 local function getscoreRequirement(i, difficulty)
   local s = scoreRequired[i] or math.floor(20*(1.5^i)+0.5)
   s = math.floor(s * (1+difficulty)/20)*10
-  return s/100
+  return s
 end
 
 local function clamp(n)

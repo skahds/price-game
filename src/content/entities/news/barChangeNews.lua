@@ -68,6 +68,6 @@ function main.spawnBarChangeNews()
   end
 end
 
-system.on("main:endTurn", function ()
-  main.spawnBarChangeNews()
-end)
+-- system.on("main:endTurn", function ()
+--   main.spawnBarChangeNews()
+-- end)

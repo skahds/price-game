@@ -1,6 +1,7 @@
 main.defineComponent("defaultPriceGain", 0)
 main.defineComponent("defaultMultGain", 0)
 main.defineComponent("defaultMoneyGain", 0)
+main.defineComponent("defaultEnergyGain", 0)
 main.defineComponent("defaultDrawCard", 0)
 
 system.on("main:entityTriggered", function (ent)
@@ -14,6 +15,9 @@ system.on("main:entityTriggered", function (ent)
   end
   if ent.defaultMoneyGain ~= 0 then
     main.addMoney(ent.defaultMoneyGain)
+  end
+  if ent.defaultEnergyGain ~= 0 then
+    main.addEnergy(ent.defaultEnergyGain)
   end
   if ent.defaultDrawCard ~= 0 then
     for i=1, ent.defaultDrawCard do

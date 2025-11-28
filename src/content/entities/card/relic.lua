@@ -2,7 +2,7 @@
 main.defineCard("unit", {
   name = "Unit",
   image = "unit",
-  description = "Spawns a relic news\nwhich gives {multColor}+2 MULT",
+  description = "Spawns a relic news\nthat gives {multColor}+2 MULT",
   energy = 0,
   trigger = {"DEPLOY"},
   temporary = 1,

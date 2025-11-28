@@ -68,7 +68,7 @@ main.defineCard("liquidate", {
 
 main.defineCard("chainReaction", {
   name = "Chain Reaction",
-  description = "Discard cards in hand,\ncreate a Liquidate for each",
+  description = "Discard all cards in hand,\ncreate a Liquidate for each",
   descriptionTagEntity = "liquidate",
   image = "chainReaction",
   trigger = {"DEPLOY"},
