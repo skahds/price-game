@@ -20,6 +20,10 @@ main.addDescriptionType(19, function (ent)
     return
   end
 
+  if main.canTrigger(ent, "ROUND") then
+    return "Round starts:"
+  end
+
   if main.canTrigger(ent, "TURNEND") then
     return "Turn ends:"
   end
