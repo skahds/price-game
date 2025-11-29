@@ -101,7 +101,6 @@ main.defineCard("secondPlan", {
 
 main.defineCard("grant", {
   name = "Grant",
-  isHollow = true,
   image = "grant",
   energy = 2,
   description = "Card to the right gains {multColor}+3 MULT",
@@ -121,7 +120,6 @@ main.defineCard("grant", {
 main.defineCard("reap", {
   name = "Reap",
   image = "reap",
-  isHollow = true,
   description = "Destroys card to the right and\ngains its {priceColor}PRICE",
   energy = 2,
   trigger = {"DEPLOY"},

@@ -83,7 +83,7 @@ main.addDescriptionType(22, function (ent)
 end)
 
 main.addDescriptionType(22, function (ent)
-  if ent.defaultMoneyGain ~= 0 then
+  if ent.defaultEnergyGain ~= 0 then
     return "Gives {energyColor}" .. format(ent.defaultEnergyGain) .. " ENERGY"
   end
 end)

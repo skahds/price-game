@@ -2,11 +2,11 @@ return {
   -- basic settings:
   name = 'ChartWeaver', -- name of the game for your executable
   developer = 'Skahd', -- dev name used in metadata of the file
-  output = './pricegamebuild', -- output location for your game, defaults to $SAVE_DIRECTORY
+  output = 'build', -- output location for your game, defaults to $SAVE_DIRECTORY
   icon = 'icon.png',
   version = '0.1', -- 'version' of your game, used to name the folder in output
   love = '12.0', -- version of LÖVE to use, must match github releases
-  ignore = {'dist', 'ignoreme.txt'}, -- folders/files to ignore in your project
+  ignore = {'build', 'ignoreme.txt'}, -- folders/files to ignore in your project
   -- icon = 'resources/icon.png', -- 256x256px PNG icon for game, will be converted for you
   
   -- optional settings:

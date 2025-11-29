@@ -36,13 +36,13 @@ function main.shop.spawnCards()
   local pipeline = main.getPipeline("main")
   pipeline:add(0.15, function ()
     main.createCard("void", {}, "shop")
-    main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=100}})
+    main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=120}})
   end)
   for i=1, shopCardAmount do
     pipeline:add(0.15, function ()
       local card = bag:getRandomCard()
       main.createCard(card, {}, "shop")
-      main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=100}})
+      main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=120}})
     end)
   end
 end
@@ -71,5 +71,18 @@ system.on("main:cardClicked", function (ent, button)
     end
   end
   
-  main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=100}})
+  main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=120}})
+end)
+
+system.on("@draw", function ()
+  if system.getStorage("main:currentScene") == "shop" then
+    local t = main.printRichText({
+      x=640,
+      y=10,
+      renderLayer=200,
+      format = "Left click: buy    Right click: select",
+      font=system.getFont("defaultFont50"),
+    })
+    t.x = t.x - t.richText:getWidth()/2
+  end
 end)

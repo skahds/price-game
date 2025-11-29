@@ -29,14 +29,12 @@ system.on("main:cardTransferedOwnership", function (card, oldOwnerShip, newOwner
   local flux = system.getStorage("flux")
   local randomSpin = (love.math.random()-0.5)*3
   local randomSizeIncrease = love.math.random()
-  flux.to(text, 0.3, {r=text.r+randomSpin})
+  flux.to(text, 0.3, {r=text.r+randomSpin}):oncomplete(function ()
+    text:delete()
+  end)
   flux.to(text, 0.5, {sx=size+randomSizeIncrease, sy=size+randomSizeIncrease})
   
   system.playAudio("boop")
-
-  main.waitWithMult(0.2, function ()
-    text:delete()
-  end)
 end)
 
 -- card prices juice
@@ -49,6 +47,7 @@ system.on("@draw", function ()
       x=ui.x+width/2,
       y=ui.y+height-10,
       renderLayer = 300,
+      outline=true,
       })
       local richTextWidth = richText.richText:getWidth()
       richText.x = richText.x - richTextWidth/2
