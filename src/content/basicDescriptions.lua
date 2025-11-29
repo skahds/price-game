@@ -36,6 +36,9 @@ main.addDescriptionType(19, function (ent)
   if main.canTrigger(ent, "CARDTRIGGER") then
     return "Card activates:"
   end
+  if main.canTrigger(ent, "ENCOUNTER") then
+    return "Encounter begins:"
+  end
 end)
 
 main.addDescriptionType(20, function (ent)

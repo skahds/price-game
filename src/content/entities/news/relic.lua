@@ -79,3 +79,13 @@ main.defineNews("focus", {
   end,
   rarity = "RARE"
 })
+
+main.defineNews("allout", {
+  name = "All Out",
+  image = "alloutNews",
+  trigger = {"ENCOUNTER"},
+  defaultDrawCard = 3,
+  defaultEnergyGain = 3,
+  isRelic = true,
+  rarity = "RARE"
+})

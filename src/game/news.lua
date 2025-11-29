@@ -138,9 +138,11 @@ function main.triggerAllNews(trigger)
   if chart:getNews(2) then
     repeatingTriggerNews(firstNews, trigger)
   else
-    pipeline:add(0.8, function ()
-    main.triggerEnt(firstNews, trigger)
-    end)
+    if main.canTrigger(firstNews, trigger) then
+      pipeline:add(0.8, function ()
+        main.triggerEnt(firstNews, trigger)
+      end)
+    end
     pipeline:add(0, function ()
       system.call("main:repeatingTriggerNewsEnd", trigger)
     end)

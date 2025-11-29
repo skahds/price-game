@@ -79,7 +79,8 @@ local rewardList = {
 
   {claim=function ()
     local bag = system.getStorage("rarity:bag")
-    local t = bag:getRandomNewsWithInfo({amount=3})
+    local t = bag:getRandomNewsWithInfo({amount=2})
+    table.insert(t, "allout")
     main.createRewardsOptions(t, {rewardType="news"})
   end,
   description="Choose a relic!"},
@@ -100,8 +101,8 @@ local function generateReward(difficulty)
   return t
 end
 
-local firstName = {"XYZ", "Hyper", "Prime", "Quantum", "Zenith", "Clockwork", "Statis", "Solar", "Lunar", "Elysian", "Aether"}
-local lastName = {"network", "market", "exchange", "grid", "nexus", "artery", "chain", "protocol", "platform", "route", "link"}
+local firstName = {"XYZ", "Hyper", "Prime", "Quantum", "Zenith", "Clockwork", "Stasis", "Solar", "Lunar", "Elysian", "Aether", "Sigma", "Alpha"}
+local lastName = {"network", "market", "exchange", "grid", "nexus", "artery", "chain", "protocol", "platform", "route", "link", "comunity"}
 local function generateNodeName()
   local front = firstName[love.math.random(1, #firstName)]
   local last = lastName[love.math.random(1, #lastName)]

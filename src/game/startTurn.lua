@@ -64,6 +64,10 @@ system.on("main:repeatingTriggerCardEnd", function (trigger)
 end)
 
 system.on("main:repeatingTriggerNewsEnd", function (trigger)
+  if trigger == "EACHTURN" and #system.getStorage("main:chart").bars == 1 then
+    main.triggerAllNews("ENCOUNTER")
+  end
+
   if trigger ~= "ROUND" then
     return
   end

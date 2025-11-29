@@ -30,7 +30,6 @@ main.defineScene("play", function ()
   drawPile = main.ui.spawnUI("drawPile", {x=1280-60, y=720-60})
   discardPile = main.ui.spawnUI("discardPile", {x=60, y=720-60})
 
-
   if system.getStorage("main:isDoingTutorial") and tutorialInfos.stage == 1 then
     main.drawCard()
     main.addEntityToTutorial(main.card.hand[1], "Click this card\nto select it")

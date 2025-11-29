@@ -130,8 +130,15 @@ main.ui.defineButton("levelEndContinue", {
 })
 
 system.on("@draw", function ()
+
   if system.getStorage("main:currentScene") ~= "levelEnd" then
     return
+  end
+
+  if levelEndContinue and (#main.card.reward > 0 or system.getStorage("main:isThereNewsReward")) then
+    main.updateRichTextText(levelEndContinue.richtext, "Skip")
+  else
+    main.updateRichTextText(levelEndContinue.richtext, "Continue")
   end
 
   system.render(101, function ()
