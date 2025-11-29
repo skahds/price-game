@@ -78,7 +78,7 @@ main.defineCard("chainReaction", {
     local pipeline  = main.getPipeline("main")
     for i=1, amount do
       pipeline:add(0.2, function ()
-        main.basicSpawnCard("dagger", {}, ent, "hand")
+        main.basicSpawnCard("liquidate", {}, ent, "hand")
       end)
     end
   end,

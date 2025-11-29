@@ -102,7 +102,7 @@ main.defineCard("secondPlan", {
 main.defineCard("grant", {
   name = "Grant",
   image = "grant",
-  energy = 2,
+  energy = 1,
   description = "Card to the right gains {multColor}+3 MULT",
   trigger = {"DEPLOY"},
   price = 4,
@@ -121,7 +121,7 @@ main.defineCard("reap", {
   name = "Reap",
   image = "reap",
   description = "Destroys card to the right and\ngains its {priceColor}PRICE",
-  energy = 2,
+  energy = 1,
   trigger = {"DEPLOY"},
   price = 4,
   rarity = "EPIC",

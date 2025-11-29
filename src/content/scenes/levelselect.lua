@@ -10,6 +10,9 @@ local route = {
   {id="PLAY", node=3},
   {id="PLAY", node=3},
   {id="SHOP", node=1},
+  {id="PLAY", node=3},
+  {id="PLAY", node=3},
+  {id="SHOP", node=1},
   {id="PLAY", node=1},
 }
 local currentRoute = 1
@@ -20,9 +23,11 @@ local levelSelectSize = 64
 local scoreRequired = {
   200,
   300,
-  500,
-  800,
-  1000
+  400,
+  550,
+  700,
+  1000,
+  2000
 }
 
 local function getscoreRequirement(i, difficulty)
@@ -70,7 +75,7 @@ local rewardList = {
     local t = bag:getRandomCardWithInfo({rarity="EPIC", amount=3})
     main.createRewardsOptions(t, {rewardType="card"})
   end,
-  description="Choose a {epicColor}EPIC{/epicColor} card!"},
+  description="Choose an {epicColor}EPIC{/epicColor} card!"},
 
   {claim=function ()
     local bag = system.getStorage("rarity:bag")
@@ -88,9 +93,19 @@ local function generateReward(difficulty)
     t = utils.deepCopy(rewardList[2])
   elseif difficulty == 3 then
     t = utils.deepCopy(rewardList[4])
+  else
+    t = t.utils.deepCopy(rewardList[1])
   end
   t.difficulty = difficulty
   return t
+end
+
+local firstName = {"XYZ", "Hyper", "Prime", "Quantum", "Zenith", "Clockwork", "Statis", "Solar", "Lunar", "Elysian", "Aether"}
+local lastName = {"network", "market", "exchange", "grid", "nexus", "artery", "chain", "protocol", "platform", "route", "link"}
+local function generateNodeName()
+  local front = firstName[love.math.random(1, #firstName)]
+  local last = lastName[love.math.random(1, #lastName)]
+  return front .. " " .. last
 end
 
 system.on("@update", function ()
@@ -103,6 +118,10 @@ main.defineScene("levelSelect", function ()
   end)
   
   generateLevelMap(route[currentRoute].node)
+  if system.getStorage("main:isDoingTutorial") and currentRoute == 1 then
+    levels[1].x = 150
+    levels[1].y = -100
+  end
 
   for i, level in ipairs(levels) do
     local x = level.x
@@ -117,11 +136,17 @@ main.defineScene("levelSelect", function ()
       else
         ui.reward = generateReward(difficulty)
       end
-      ui.name = "Difficulty: " .. ui.reward.difficulty
+      ui.name = generateNodeName()
       ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"), difficulty)
       ui.moneyReward = 2+difficulty
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
-      main.updateRichTextText(ui.richtext, string.rep("I", ui.reward.difficulty))
+      local color = ""
+      if ui.reward.difficulty == 2 then
+        color = "{rareColor}"
+      elseif ui.reward.difficulty == 3 then
+        color = "{epicColor}"
+      end
+      main.updateRichTextText(ui.richtext, color .. string.rep("!", ui.reward.difficulty))
     elseif route[currentRoute].id == "SHOP" then
       activeUI[i] = ui
       ui.name = "Shop"
@@ -192,22 +217,24 @@ system.on("@draw", function ()
     love.graphics.draw(system.getImage("baseNetwork"), 0, 0, 0, scale.s, scale.s, 48, 48)
   end, false)
 
-  -- for i, ui in ipairs(activeUI) do
+  for i, ui in ipairs(activeUI) do
 
-  --   if ui.moneyReward and ui.moneyReward ~= 0 then
-  --     local t = main.printRichText({
-  --       format="{moneyColor}$" .. ui.moneyReward,
-  --       x=ui:getX()+ui:getWidth()/2,
-  --       y=ui:getY()+ui:getHeight()-20,
-  --       screenSpace = false,
-  --       renderLayer = ui.renderLayer+1
-  --       })
-  --     t.x = t.x - t.richText:getWidth()/2
-  --   end
-  -- end
+    if ui and ui.name then
+      local t = main.printRichText({
+        format=ui.name,
+        x=ui:getX()+ui:getWidth()/2,
+        y=ui:getY(),
+        screenSpace = false,
+        renderLayer = ui.renderLayer+1,
+        font=system.getFont("defaultFont30")
+        })
+      t.x = t.x - t.richText:getWidth()/2
+      t.y = t.y - t.richText:getHeight()
+    end
+  end
 
   local t = main.printRichText({
-    format="DAY: " .. system.getStorage("main:currentDay") .. "/5",
+    format="DAY: " .. system.getStorage("main:currentDay") .. "/7",
     x=640,
     y=20,
     screenSpace = true,

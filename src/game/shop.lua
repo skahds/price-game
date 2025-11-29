@@ -38,9 +38,9 @@ function main.shop.spawnCards()
     main.createCard("void", {}, "shop")
     main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=120}})
   end)
-  for i=1, shopCardAmount do
+  local cards = bag:getRandomCardWithInfo({amount=shopCardAmount})
+  for i, card in ipairs(cards) do
     pipeline:add(0.15, function ()
-      local card = bag:getRandomCard()
       main.createCard(card, {}, "shop")
       main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=120}})
     end)

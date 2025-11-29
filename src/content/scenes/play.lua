@@ -19,8 +19,6 @@ local function deleteAll(args)
 end
 
 main.defineScene("play", function ()
-
-  local dimension = system.getStorage("screenDimension")
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=360,
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
@@ -97,7 +95,7 @@ system.on("main:cardClicked", function (ent)
 
   if tutorialInfos.stage == 1 then
     main.clearTutorial()
-    main.addEntityToTutorial(main.card.hand[1], "Drag it up and press\nto activate!\n(consumes energy)")
+    main.addEntityToTutorial(main.card.hand[1], "Move your mouse up\nand press to activate!\n(consumes energy)")
   end
 end)
 
@@ -138,7 +136,7 @@ system.on("main:endTurn", function ()
   if tutorialInfos.stage == 3 then
     main.wait(2, function ()
       local chart = system.getStorage("main:chart")
-      main.spawnBarChangeNews()
+      main.spawnNews("badNews", {x=0,y=0})
       local n = chart:getNews(1)
       main.addEntityToTutorial(n, "This is a news, it activates\nwhen the turn starts.")
       tutorialInfos.stage = 4

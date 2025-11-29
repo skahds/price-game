@@ -3,9 +3,7 @@ local combo = 0
 local lastActivated
 system.on("main:entityTriggered", function (ent)
   if ent.isCard then
-    if lastActivated == "card" then
-      combo = combo + 1
-    end
+    combo = combo + 1
 
     lastActivated = "card"
   elseif ent.isNews then

@@ -70,7 +70,7 @@ main.defineCard("redHammer", {
 main.defineCard("inversion", {
   name = "Inversion",
   image = "inversion",
-  description = "Multiplies {priceColor}PRICE{/priceColor} by -2",
+  description = "Multiplies current {priceColor}PRICE{/priceColor} by -2",
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",

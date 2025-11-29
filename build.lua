@@ -20,6 +20,6 @@ return {
     before_build = 'resources/preprocess.sh',
     after_build = 'resources/postprocess.sh'
   },
-  platforms = {'windows', "linux"} -- set if you only want to build for a specific platform
+  platforms = {'windows', "linux", "macos"} -- set if you only want to build for a specific platform
   
 }

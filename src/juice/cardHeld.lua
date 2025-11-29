@@ -40,13 +40,56 @@ system.on("main:newsHovered", function (news)
   end)
 end)
 
-local info={oppacity=1}
+local function drawDottedCurve(x1, y1, x2, y2, n, curveAmount, offset)
+  -- curveAmount controls how much the line curves (0 = straight line)
+  -- Positive values curve upward, negative values curve downward
+  curveAmount = curveAmount or 50
+  
+  -- offset shifts the dots along the curve (0-1)
+  -- 0 = no offset, 1 = shift by one dot spacing
+  offset = offset or 0
+  
+  -- Calculate midpoint for the curve control point
+  local mx = (x1 + x2) / 2
+  local my = (y1 + y2) / 2
+  
+  -- Calculate perpendicular offset for curve
+  local dx = x2 - x1
+  local dy = y2 - y1
+  local len = math.sqrt(dx * dx + dy * dy)
+  
+  -- Control point perpendicular to the line
+  local cx = mx - (dy / len) * curveAmount
+  local cy = my + (dx / len) * curveAmount
+  
+  -- Draw dots along the quadratic bezier curve
+  for i = 0, n - 1 do
+    -- Apply offset to the parameter t
+    local t = (i + offset-1) / (n - 1)
+    local invT = 1 - t
+    
+    -- Quadratic bezier formula
+    local x = invT * invT * x1 + 2 * invT * t * cx + t * t * x2
+    local y = invT * invT * y1 + 2 * invT * t * cy + t * t * y2
+    
+    love.graphics.points(x, y)
+  end
+end
+
+
+local info={oppacity=1, dottedLineOffset=0}
 
 system.on("@draw", function ()
   local cardHeld = system.getStorage("main:currentSelectedCard")
   if cardHeld == nil then
     info.oppacity=1
     return
+  end
+
+  print(info.dottedLineOffset)
+  info.dottedLineOffset = info.dottedLineOffset + system.getStorage("dt")
+  if info.dottedLineOffset > 1 then
+    info.dottedLineOffset = 0
   end
 
   if info.oppacity >= 0.99 then
@@ -86,5 +129,19 @@ system.on("@draw", function ()
     local size=6
     love.graphics.setColor(0.9, 0.9, 0.9, info.oppacity)
     love.graphics.rectangle("fill", ui:getX()-size, ui:getY()-size, ui:getWidth()+size*2, ui:getHeight()+size*2, 5, 5)
+  end, true)
+
+  system.render(cardHeld.ui.renderLayer-1, function ()
+    love.graphics.setColor(1, 0.7, 0.3)
+    love.graphics.setPointSize(6)
+    local x1 = cardHeld.ui:getX()+cardHeld.ui:getWidth()/2
+    local y1 = cardHeld.ui:getY()+cardHeld.ui:getHeight()/2
+    local x2 = system.getStorage("realMouse").x
+    local y2 = system.getStorage("realMouse").y
+    local distance = utils.distanceBetween(x1, x2, y1, y2)
+    local amount = math.floor(distance/20+0.5)
+    print(amount)
+    local curveAmount = (system.getStorage("realMouse").x-640)/10
+    drawDottedCurve(x1, y1, x2, y2, amount, curveAmount, info.dottedLineOffset)
   end, true)
 end)

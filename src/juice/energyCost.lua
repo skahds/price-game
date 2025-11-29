@@ -11,8 +11,8 @@ system.on("@draw", function ()
       local ui = card.ui
       local realAmount = card.overrideEnergy
       local oldAmount = card.energy
-      local x=ui:getX()
-      local y=ui:getY()
+      local x=ui:getX()+5
+      local y=ui:getY()+5
       system.render(ui.renderLayer+1, function ()
         local gap = 40
         for i=1, math.min(realAmount, oldAmount) do
