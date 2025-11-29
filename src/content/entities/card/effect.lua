@@ -69,14 +69,20 @@ main.defineCard("vision", {
 main.defineCard("reserve", {
   name = "Reserve",
   image = "reserve",
-  description = "Gives {energyColor}+1 ENERGY",
+  defaultEnergyGain=1,
   energy = 0,
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "RARE",
-  onActivate = function ()
-    main.addEnergy(1)
-  end
+})
+
+main.defineCard("sigil", {
+  name = "Sigil",
+  image = "sigil",
+  description = "Doubles current {energyColor}ENERGY",
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity = "RARE",
 })
 
 main.defineCard("secondPlan", {
