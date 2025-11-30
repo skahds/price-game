@@ -1,7 +1,7 @@
 main.defineCard("amplifier", {
   name = "Amplifier",
   image = "amplifier",
-  description = "Card to the right\ngains {repeatColor}+1 REPEAT{/repeatColor}",
+  description = "Card to the right gains {repeatColor}+1 REPEAT{/repeatColor}",
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "RARE",
@@ -80,8 +80,13 @@ main.defineCard("sigil", {
   name = "Sigil",
   image = "sigil",
   description = "Doubles current {energyColor}ENERGY",
+  energy=2,
   trigger = {"DEPLOY"},
   price = 3,
+  onActivate = function ()
+    local energy = system.getStorage("main:energy")
+    main.addEnergy(energy)
+  end,
   rarity = "RARE",
 })
 

@@ -71,7 +71,7 @@ main.addDescriptionType(60, function (ent)
     text = combine(text, ent.rarity.format)
   end
   if ent.energy then
-    text = combine(text, "{energyColor}" .. ent.energy .. "{/energyColor}{energy}")
+    text = combine(text, "{energyColor}" .. ent.energy .. "{/energyColor}{energyIcon}")
   end
   if text ~= "" then
     return text
@@ -80,29 +80,29 @@ end)
 
 main.addDescriptionType(22, function (ent)
   if ent.defaultPriceGain ~= 0 then
-    return "Gives {priceColor}" .. format(ent.defaultPriceGain) .. " PRICE"
+    return "{priceColor}" .. format(ent.defaultPriceGain) .. " PRICE"
   end
 end)
 
-main.addDescriptionType(22, function (ent)
+main.addDescriptionType(23, function (ent)
   if ent.defaultMultGain ~= 0 then
-    return "Gives {multColor}" .. format(ent.defaultMultGain) .. " MULT"
+    return "{multColor}" .. format(ent.defaultMultGain) .. " MULT"
   end
 end)
 
-main.addDescriptionType(22, function (ent)
+main.addDescriptionType(24, function (ent)
   if ent.defaultMoneyGain ~= 0 then
-    return "Gives {moneyColor}$" .. ent.defaultMoneyGain
+    return "+{moneyColor}$" .. ent.defaultMoneyGain
   end
 end)
 
-main.addDescriptionType(22, function (ent)
+main.addDescriptionType(25, function (ent)
   if ent.defaultEnergyGain ~= 0 then
-    return "Gives {energyColor}" .. format(ent.defaultEnergyGain) .. " ENERGY"
+    return "{energyColor}" .. format(ent.defaultEnergyGain) .. " ENERGY"
   end
 end)
 
-main.addDescriptionType(22, function (ent)
+main.addDescriptionType(26, function (ent)
   if ent.defaultDrawCard ~= 0 then
     return "Draws " .. ent.defaultDrawCard .. " CARD"
   end
@@ -111,10 +111,10 @@ end)
 main.addDescriptionType(29, function (ent)
   if ent.isRelic == true then
     if ent.isCard then
-      return "Relic: Stays in hand"
+      return "RELIC: Stays in hand"
     end
     if ent.isNews then
-      return "Relic: Stays between encounters"
+      return "RELIC: Stays between encounters"
     end
   end
 end)

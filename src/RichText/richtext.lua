@@ -251,7 +251,7 @@ function RichText:update()
           height = finalHeight
         })
         
-        x = x + finalWidth
+        x = x + finalWidth * 1.1
         self.width = x
         maxHeight = math.max(maxHeight, finalHeight)
       elseif effectName:sub(1, 1) == "/" then

@@ -1,9 +1,9 @@
 local images = {}
 local RichText = system.getStorage("RichText")
 
-function main.defineRichTextImage(str, image)
-  images[str] = image
-  RichText.defineImage(image, image)
+function main.defineRichTextImage(str, imageInStorage, imageName)
+  images[str] = imageName
+  RichText.defineImage(imageName, imageInStorage)
 end
 
 function main.richTextFormatImage(str)
@@ -14,12 +14,14 @@ function main.richTextFormatImage(str)
   for pattern, value in pairs(images) do
     local escaped = pattern:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
     
-    str = str:gsub(escaped, "{" .. value .. "} " .. pattern)
+    str = str:gsub(escaped, "{" .. value .. "}" .. pattern)
   end
   
   return str
 end
 
-main.defineRichTextImage("PRICE", "basicAdd")
-main.defineRichTextImage("MULT", "basicMultiply")
-main.defineRichTextImage("ENERGY", "energy")
+main.defineRichTextImage("PRICE", "priceIcon", "priceIcon")
+main.defineRichTextImage("MULT", "multIcon", "multIcon")
+main.defineRichTextImage("ENERGY", "energy", "energyIcon")
+main.defineRichTextImage("CARD", "cardIcon", "cardIcon")
+-- RichText.defineImage("energyIcon", "energy")

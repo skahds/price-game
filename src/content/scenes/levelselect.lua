@@ -101,7 +101,7 @@ local function generateReward(difficulty)
 end
 
 local firstName = {"XYZ", "Hyper", "Prime", "Quantum", "Zenith", "Clockwork", "Stasis", "Solar", "Lunar", "Elysian", "Aether", "Sigma", "Alpha"}
-local lastName = {"network", "market", "exchange", "grid", "nexus", "artery", "chain", "protocol", "platform", "route", "link", "comunity"}
+local lastName = {"network", "market", "exchange", "grid", "nexus", "artery", "chain", "protocol", "platform", "route", "link", "community"}
 local function generateNodeName()
   local front = firstName[love.math.random(1, #firstName)]
   local last = lastName[love.math.random(1, #lastName)]

@@ -30,7 +30,7 @@ local function requireFolder(folder)
       local fileName = item:gsub("%.wav$", "")
       -- not sure if it should *always* be static
       system.audio[fileName] = love.audio.newSource(fullPath, "static")
-      print("oaded wav " .. fileName)
+      print("Loaded wav " .. fileName)
     elseif info.type == "file" and item:match("%.mp3$") then
       local fileName = item:gsub("%.mp3$", "")
       system.audio[fileName] = love.audio.newSource(fullPath, "static")

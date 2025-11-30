@@ -93,7 +93,7 @@ main.defineNews("allout", {
 main.defineNews("recycle", {
   name = "Recycle",
   image = "recycleNews",
-  description = "Shuffle a random card from\nthe discard pile to the\ndraw pile",
+  description = "Shuffle a random card from the\n discard pile to the draw pile",
   trigger = {"CARDTRIGGER"},
   isRelic = true,
   rarity = "RARE",
