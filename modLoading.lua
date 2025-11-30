@@ -19,32 +19,32 @@ local function requireFolder(folder)
       -- Strip ".lua" and replace "/" with "." for proper require syntax
       local requirePath = fullPath:gsub("%.lua$", ""):gsub("/", ".")
       require(requirePath)
-      print("[" .. os.date() .."]: Loaded file " .. requirePath)
+      print("Loaded file " .. requirePath)
     elseif info.type == "file" and item:match("%.png$") then
       -- Extract the file name without the extension
       local fileName = item:gsub("%.png$", "")
       -- Store the sprite with the file name as the key
       system.sprites[fileName] = love.graphics.newImage(fullPath)
-      print("[" .. os.date() .."]: Loaded image " .. fileName)
+      print("Loaded image " .. fileName)
     elseif info.type == "file" and item:match("%.wav$") then
       local fileName = item:gsub("%.wav$", "")
       -- not sure if it should *always* be static
       system.audio[fileName] = love.audio.newSource(fullPath, "static")
-      print("[" .. os.date() .."]: Loaded wav " .. fileName)
+      print("oaded wav " .. fileName)
     elseif info.type == "file" and item:match("%.mp3$") then
       local fileName = item:gsub("%.mp3$", "")
       system.audio[fileName] = love.audio.newSource(fullPath, "static")
-      print("[" .. os.date() .."]: Loaded mp3 " .. fileName)
+      print("Loaded mp3 " .. fileName)
     elseif info.type == "file" and item:match("%.glsl$") then
       local fileName = item:gsub("%.glsl$", "")
       system.shader[fileName] = love.graphics.newShader(fullPath)
-      print("[" .. os.date() .."]: Loaded shader " .. fileName)
+      print("Loaded shader " .. fileName)
     elseif info.type == "file" and item:match("%.ttf$") then
       local fileName = item:gsub("%.ttf$", "")
       for i=10, 100 do
         system.fonts[fileName .. i] = love.graphics.newFont(fullPath, i)
       end
-      print("[" .. os.date() .."]: Loaded font " .. fileName)
+      print("Loaded font " .. fileName)
     elseif info.type == "directory" then
       -- Recursively require files in subfolders
       requireFolder(fullPath)

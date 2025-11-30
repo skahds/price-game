@@ -11,5 +11,6 @@
 --   y=170,
 --   screenSpace=true,
 --   renderLayer=300,
---   format = "this {img i=energy}a{/img} and that {img i=basicAdd}a"
+--   font=system.getFont("defaultFont40"),
+--   format = "this {points} and that {mult}"
 -- })

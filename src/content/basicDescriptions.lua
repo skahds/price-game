@@ -28,7 +28,7 @@ main.addDescriptionType(19, function (ent)
     return "Turn ends:"
   end
   if main.canTrigger(ent, "PRICECHANGE") then
-    return "{priceColor}Price{/priceColor} changes:"
+    return "{priceColor}PRICE{/priceColor} changes:"
   end
   if main.canTrigger(ent, "EACHTURN") then
     return "Each turn:"
@@ -54,13 +54,24 @@ main.addDescriptionType(21, function (ent)
   end
 end)
 
+local function combine(str, str2)
+  if str == "" then
+    return str2
+  else
+    return str .. " " .. str2
+  end
+end
+
 main.addDescriptionType(60, function (ent)
   local text = ""
   -- if ent.price then
   --   text = text .. "{moneyColor}$" .. ent.price .. "{/moneyColor} "
   -- end
   if ent.rarity then
-    text =  text .. ent.rarity.format
+    text = combine(text, ent.rarity.format)
+  end
+  if ent.energy then
+    text = combine(text, "{energyColor}" .. ent.energy .. "{/energyColor}{energy}")
   end
   if text ~= "" then
     return text

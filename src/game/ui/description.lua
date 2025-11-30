@@ -31,6 +31,7 @@ function main.parseDescriptionList(ent)
     local text = descriptionType.func(ent)
 
     if text then
+    text = main.richTextFormatImage(text)
 
     while true do
       local ss, se = string.find(text, "\n")

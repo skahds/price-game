@@ -1,29 +1,29 @@
 local RichText = system.getStorage("RichText")
 
-RichText.addEffect("img", function(self, args, info)
-  if self.richTextTable == nil then
-    return
-  end
+-- RichText.addEffect("img", function(self, args, info)
+--   if self.richTextTable == nil then
+--     return
+--   end
 
-  local image = system.getImage(args.i)
-  local t = self.richTextTable
-  local defaultFont = system.getStorage("defaultFont")
-  local fontFactor = 0.5+t.richText.font:getWidth(t.format)/defaultFont:getWidth(t.format)/2
+--   local image = system.getImage(args.i)
+--   local t = self.richTextTable
+--   local defaultFont = system.getStorage("defaultFont")
+--   local fontFactor = (t.richText.font:getWidth("a")/defaultFont:getWidth("a"))
+--   -- make it scale :)
+--   local scale = 27*fontFactor/math.min(image:getHeight(), image:getHeight())
 
-  -- make it scale :)
-  local scale = 27/math.min(image:getHeight(), image:getHeight())
-  system.render(t.renderLayer+1, function ()
-    love.graphics.draw(image,
-    t.x+info.x*fontFactor*(t.sx or 1),
-    t.y+self:getHeight()*7/9, 0,
-    (t.sx or 1)*scale,
-    (t.sy or 1)*scale,
-    0,
-    image:getHeight())
-  end, t.screenSpace)
+--   system.render(t.renderLayer+1, function ()
+--     love.graphics.draw(image,
+--     t.x+info.x*(t.sx or 1),
+--     t.y+self:getHeight()*7/9, 0,
+--     (t.sx or 1)*scale,
+--     (t.sy or 1)*scale,
+--     0,
+--     image:getHeight())
+--   end, t.screenSpace)
 
-  self:setColor(1, 1, 1, 0)
-end)
+--   self:setColor(1, 1, 1, 0)
+-- end)
 
 RichText.addEffect("c", function(self, args, info)
   local r = args.r or 1

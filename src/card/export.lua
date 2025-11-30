@@ -109,6 +109,10 @@ function main.defineCard(id, eType)
   local card = main.entities[id]
   local basicEnt = main.entities.basicEnt
 
+  if eType.description then
+    eType.description = main.richTextFormatImage(eType.description)
+  end
+
   function card:init(args)
     basicEnt.init(self, args)
     for k, v in pairs(eType) do

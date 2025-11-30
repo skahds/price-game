@@ -6,6 +6,10 @@ local basicEnt = main.entities.basicEnt
 function main.defineNews(id, eType)
   eType.id = id
   eType.isNews = true
+
+  if eType.description then
+    eType.description = main.richTextFormatImage(eType.description)
+  end
   
   main.entities[id] = class(main.entities.basicEnt)
   local news = main.entities[id]

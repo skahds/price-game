@@ -1,4 +1,5 @@
 -- this is made by iamcheeseman https://github.com/IAmCheeseman/love-rich-text/blob/main/richtext.lua
+-- (but modified)
 
 --[[
   The MIT License (MIT)
@@ -28,6 +29,7 @@ local RichText = {}
 RichText.__index = RichText
 
 local effects = {}
+local images = {}
 
 function RichText.addEffect(name, fn)
   if effects[name] then
@@ -35,6 +37,14 @@ function RichText.addEffect(name, fn)
   end
 
   effects[name] = fn
+end
+
+function RichText.defineImage(name, image)
+  if images[name] then
+    error("Image '" .. name .. "' already exists.")
+  end
+
+  images[name] = image
 end
 
 function RichText.parse(format)
@@ -101,6 +111,7 @@ function RichText.new(font, format)
     instance.format = RichText.parse(format)
   end
   instance.text = love.graphics.newTextBatch(font)
+  instance.drawables = {} -- Store images and their positions
   instance:update()
 
   return instance
@@ -165,10 +176,12 @@ end
 
 function RichText:update()
   self.text:clear()
+  self.drawables = {}
 
   local currentEffects = {}
 
   local x = 0
+  local maxHeight = self.font:getHeight()
 
   self.rawText = ""
 
@@ -205,11 +218,43 @@ function RichText:update()
           0, 0, self.skewx, self.skewy)
         x = x + self.font:getWidth(char) * self.scalex
         self.width = x
-        self.height = self.font:getHeight(char)
+        maxHeight = math.max(maxHeight, self.font:getHeight(char))
       end
     elseif type(effectOrStr) == "table" then
       local effectName = effectOrStr[1]
-      if effectName:sub(1, 1) == "/" then
+      
+      -- Check if this is an image reference
+      if images[effectName] then
+        local imgData = system.getImage(images[effectName])
+        
+        -- Default size scales with font height
+        local defaultSize = self.font:getHeight() * 0.8
+        local imgSize = effectOrStr.size or defaultSize
+        
+        -- Scale image to fit within square while maintaining aspect ratio
+        local imgWidth = imgData:getWidth()
+        local imgHeight = imgData:getHeight()
+        local scale = imgSize / math.max(imgWidth, imgHeight)
+        
+        local finalWidth = imgWidth * scale
+        local finalHeight = imgHeight * scale
+        
+        -- Calculate vertical alignment (center with text baseline)
+        local yOffset = (self.font:getHeight() - finalHeight) / 2
+        
+        table.insert(self.drawables, {
+          type = "image",
+          image = imgData,
+          x = x,
+          y = yOffset,
+          width = finalWidth,
+          height = finalHeight
+        })
+        
+        x = x + finalWidth
+        self.width = x
+        maxHeight = math.max(maxHeight, finalHeight)
+      elseif effectName:sub(1, 1) == "/" then
         effectName = effectName:sub(2, -1)
 
         if not currentEffects[effectName] then
@@ -229,10 +274,25 @@ function RichText:update()
       end
     end
   end
+  
+  self.height = maxHeight
 end
 
-function RichText:draw(...)
-  love.graphics.draw(self.text, ...)
+function RichText:draw(x, y, ...)
+  x = x or 0
+  y = y or 0
+  
+  -- Draw text batch
+  love.graphics.draw(self.text, x, y, ...)
+  
+  -- Draw images
+  for _, drawable in ipairs(self.drawables) do
+    if drawable.type == "image" then
+      local scaleX = drawable.width / drawable.image:getWidth()
+      local scaleY = drawable.height / drawable.image:getHeight()
+      love.graphics.draw(drawable.image, x + drawable.x, y + drawable.y, 0, scaleX, scaleY)
+    end
+  end
 end
 
 return RichText
