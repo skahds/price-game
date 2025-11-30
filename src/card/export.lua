@@ -302,6 +302,9 @@ function main.drawCardTillMaxCapacity()
         end)
       end)
     elseif system.getStorage("main:score") < system.getStorage("main:scoreRequirement") then
+      if #system.getStorage("main:chart").bars == 1 then
+        main.triggerAllNews("ENCOUNTER")
+      end
       main.triggerAllNews("EACHTURN")
     end
   end

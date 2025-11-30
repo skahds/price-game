@@ -1,0 +1,15 @@
+-- local t = main.newRichText({
+--   x=30,
+--   y=120,
+--   screenSpace=true,
+--   renderLayer=300,
+--   format = "inline images {img i=particleOrb}aaa"
+-- })
+
+-- local t = main.newRichText({
+--   x=30,
+--   y=170,
+--   screenSpace=true,
+--   renderLayer=300,
+--   format = "this {img i=energy}a{/img} and that {img i=basicAdd}a"
+-- })

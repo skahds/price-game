@@ -66,11 +66,15 @@ function RichText.parse(format)
       end
 
       args[1] = name
-      for k, v in tag_content:gmatch("(%w+)=([%w%.%-]+)") do
-        if not v:match("^-?%d*%.?%d+$") and not v:match("^-?%d+%.?%d*$") then
-          error("Invalid effect arg '" .. k .. "' (value: '" .. v .. "') in tag {" .. tag_content .. "}. Only numbers (integers or decimals, positive/negative) are supported for values.")
+      -- Updated pattern to capture any non-space, non-brace characters as value
+      for k, v in tag_content:gmatch("(%w+)=([^%s}]+)") do
+        -- Try to convert to number, otherwise keep as string
+        local num = tonumber(v)
+        if num then
+          args[k] = num
+        else
+          args[k] = v
         end
-        args[k] = tonumber(v)
       end
       table.insert(parsed, args)
 
@@ -185,7 +189,9 @@ function RichText:update()
         local info = {
           char = char,
           index = i,
-          length = #effectOrStr
+          length = #effectOrStr,
+          x = x,
+          h = self.font:getHeight(),
         }
         for _, effect in pairs(currentEffects) do
           effect.fn(self, effect.args, info)

@@ -67,8 +67,8 @@ end
 
 function main.newRichText(args)
   local font = args.font or system.getStorage("defaultFont")
-  args.format = format_mixed_string(args.format)
-  local text = RichText.new(font, args.format)
+  local format = format_mixed_string(args.format)
+  local text = RichText.new(font, format)
   
   table.insert(texts, {richText=text})
   local textTable = texts[#texts]
@@ -78,6 +78,8 @@ function main.newRichText(args)
       textTable[k] = utils.deepCopy(v)
     end
   end
+
+  text.richTextTable = textTable
 
   function textTable.delete(t)
     for k, text in pairs(deleteQueue) do
