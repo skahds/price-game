@@ -1,7 +1,7 @@
 main.defineCard("scale", {
   name = "Scale",
   image = "scale",
-  description = "If bar direction is\ndifferent from the\nlast, gain {multColor}+4 MULT{/multColor}",
+  description = "If current bar direction\nis different from the\nlast, gain {multColor}+4 MULT{/multColor}",
   trigger = {"DEPLOY"},
   price = 2,
   onActivate = function (ent)

@@ -29,7 +29,6 @@ end
 
 function main.clearReward()
   if #main.card.reward > 0 then
-    print("c")
     for i=#main.card.reward, 1, -1 do
       pipeline:add(0.15, function ()
         local card = main.card.reward[i]
@@ -39,7 +38,6 @@ function main.clearReward()
   end
   
   if #news > 0 then
-    print("tried")
     for i=#news, 1, -1 do
       local e = news[i]
       e.disabledToChose = true

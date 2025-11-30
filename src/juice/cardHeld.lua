@@ -86,7 +86,6 @@ system.on("@draw", function ()
     return
   end
 
-  print(info.dottedLineOffset)
   info.dottedLineOffset = info.dottedLineOffset + system.getStorage("dt")
   if info.dottedLineOffset > 1 then
     info.dottedLineOffset = 0
@@ -140,7 +139,6 @@ system.on("@draw", function ()
     local y2 = system.getStorage("realMouse").y
     local distance = utils.distanceBetween(x1, x2, y1, y2)
     local amount = math.floor(distance/20+0.5)
-    print(amount)
     local curveAmount = (system.getStorage("realMouse").x-640)/10
     drawDottedCurve(x1, y1, x2, y2, amount, curveAmount, info.dottedLineOffset)
   end, true)

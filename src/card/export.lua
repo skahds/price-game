@@ -349,7 +349,7 @@ function main.shuffleDraw()
     if card.ui.tween then
       card.ui.tween:stop()
     end
-    local targetX, targetY = dimension.w+20, dimension.h
+    local targetX, targetY = dimension.w+20+i, dimension.h
     card.ui.x, card.ui.y = targetX, targetY
   end
 end

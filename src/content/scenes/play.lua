@@ -37,6 +37,8 @@ main.defineScene("play", function ()
     sell.isVisible = false
     buy.isVisible = false
   else
+    main.shuffleDiscardToDraw()
+    main.shuffleDraw()
     main.drawCardTillMaxCapacity()
 
     local chart = system.getStorage("main:chart")

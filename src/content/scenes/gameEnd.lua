@@ -27,7 +27,7 @@ main.defineScene("gameEnd", function ()
   
   table.insert(t, "Total score: " .. finalStats.finalScore)
 
-  main.ui.spawnUI("settingRestart", {x=540, y=350})
+  main.ui.spawnUI("settingRestart", {x=540, y=400})
 
   local height = font:getHeight()
 
@@ -35,7 +35,7 @@ main.defineScene("gameEnd", function ()
     pipeline:add(0.2, function ()
       local t = main.newRichText({
         format = format,
-        x=400,
+        x=640,
         y=200+height*(i-1),
         renderLayer=102,
         font=font,

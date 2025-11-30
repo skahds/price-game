@@ -84,8 +84,27 @@ main.defineNews("allout", {
   name = "All Out",
   image = "alloutNews",
   trigger = {"ENCOUNTER"},
-  defaultDrawCard = 3,
-  defaultEnergyGain = 3,
+  defaultDrawCard = 2,
+  defaultEnergyGain = 1,
   isRelic = true,
   rarity = "RARE"
+})
+
+main.defineNews("recycle", {
+  name = "Recycle",
+  image = "recycleNews",
+  description = "Shuffle a random card from\nthe discard pile to the\ndraw pile",
+  trigger = {"CARDTRIGGER"},
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function ()
+    if #main.card.discard == 0 then
+      return
+    end
+    local card = main.card.discard[love.math.random(1, #main.card.discard)]
+    if card then
+      main.transferOwnership(card, "draw")
+      main.shuffleDraw()
+    end
+  end
 })

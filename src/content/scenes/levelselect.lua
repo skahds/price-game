@@ -79,8 +79,7 @@ local rewardList = {
 
   {claim=function ()
     local bag = system.getStorage("rarity:bag")
-    local t = bag:getRandomNewsWithInfo({amount=2})
-    table.insert(t, "allout")
+    local t = bag:getRandomNewsWithInfo({amount=3})
     main.createRewardsOptions(t, {rewardType="news"})
   end,
   description="Choose a relic!"},

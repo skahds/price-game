@@ -18,6 +18,7 @@ main.definePlaceableNewsCard("radar", {
   name = "Radar",
   image = "radar",
   trigger= {"DEPLOY"},
+  energy=2,
   price=4,
   rarity = "EPIC"
 }, {
