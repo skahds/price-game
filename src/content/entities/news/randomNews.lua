@@ -1,5 +1,5 @@
 main.defineNews("goodNews", {
-  name = "Good thing",
+  name = "Up",
   image = "upNews",
   trigger = {"ROUND"},
   temporary = 3,
@@ -7,7 +7,7 @@ main.defineNews("goodNews", {
 })
 
 main.defineNews("badNews", {
-  name = "Bad thing",
+  name = "Down",
   image = "downNews",
   trigger = {"ROUND"},
   temporary = 3,

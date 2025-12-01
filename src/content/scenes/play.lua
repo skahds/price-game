@@ -120,7 +120,7 @@ system.on("main:entityTriggered", function (ent)
     if system.getStorage("main:energy") == 0 then
       buy.isVisible = true
       sell.isVisible = true
-      main.addEntityToTutorial(buy, "If you predict the {priceColor}{priceIcon}PRICE{/priceColor}\nmultiplied by the {multColor}{multIcon}MULT{/multColor}\nwill be positive, click here!")
+      main.addEntityToTutorial(buy, "If you predict the {priceColor}{priceIcon}PRICE{/priceColor}\nmultiplied by the {multColor}{multIcon}MULT{/multColor}\nwill be {greenColor}positive{/greenColor}, click here!")
     end
   end
     
@@ -151,7 +151,7 @@ system.on("@mouse:released", function ()
     tutorialInfos.stage = 5
     local c = main.getCardInOrder(3)
     main.wait(1, function ()
-      main.addEntityToTutorial(c, "Remember that {c= r=1 g=0.3 b=0.3}negative{/c} {priceColor}PRICE{/priceColor}\nis just another way to win!")
+      main.addEntityToTutorial(c, "Remember that {redColor}negative{/redColor} {priceColor}PRICE{/priceColor}\nis just another way to win!")
     end)
   elseif tutorialInfos.stage == 5 then
     main.clearTutorial()

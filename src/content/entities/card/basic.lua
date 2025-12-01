@@ -36,13 +36,24 @@ main.defineCard("multiply", {
 main.defineCard("grassBow", {
   name = "Grass Bow",
   image = "grassBow",
-  description = "Card to the right gains {priceColor}+5 PRICE",
+  description = "Card to the right gains {priceColor}+6 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     local targetEnt = main.getCardBesides(ent, 1)
     if targetEnt then
-      main.changeEntityComponent(targetEnt, "defaultPriceGain", 5, combiner.ADD)
+      main.changeEntityComponent(targetEnt, "defaultPriceGain", 6, combiner.ADD)
     end
+  end,
+  price = 2,
+})
+
+main.defineCard("wake", {
+  name = "Wake",
+  image = "wake",
+  description = "Gains {priceColor}+5 PRICE",
+  trigger = {"DEPLOY"},
+  onActivate = function (ent)
+    main.changeEntityComponent(ent, "defaultPriceGain", 5, combiner.ADD)
   end,
   price = 2,
 })

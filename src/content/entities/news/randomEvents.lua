@@ -23,7 +23,15 @@ main.defineNews("randomEvents", {
         yoffset = -love.math.random(0, 40)
       end
 
-      main.spawnNews(news, {x=pos.x+xoffset, y=pos.y+yoffset})
+      local day = system.getStorage("main:currentDay")-1 or 0
+      local change
+      if news == "goodNews" then
+        change = 5+day*2
+      elseif news == "badNews" then
+        change = -5-day*2
+      end
+      
+      main.spawnNews(news, {x=pos.x+xoffset, y=pos.y+yoffset, defaultPriceGain=change})
     end
   end,
 })

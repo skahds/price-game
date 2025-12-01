@@ -64,29 +64,3 @@ main.defineCard("redHammer", {
     main.addPrice(-50)
   end
 })
-
-main.defineCard("doubleDown", {
-  name = "Double down",
-  image = "doubleDown",
-  description = "Multiplies current {priceColor}PRICE{/priceColor} by 2",
-  trigger = {"DEPLOY"},
-  price = 3,
-  rarity  = "RARE",
-  onActivate = function (ent)
-    local prices = main.getPrice()
-    main.addPrice(prices)
-  end
-})
-
-main.defineCard("fortune", {
-  name = "Fortune",
-  image = "fortune",
-  description = "Multiplies current {priceColor}MULT{/priceColor} by 2",
-  trigger = {"DEPLOY"},
-  price = 3,
-  rarity  = "RARE",
-  onActivate = function (ent)
-    local mult = system.getStorage("main:mult")
-    main.addMult(mult)
-  end
-})

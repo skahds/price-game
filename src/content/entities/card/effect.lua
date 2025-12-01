@@ -23,13 +23,13 @@ main.defineCard("whitewash", {
   name = "Whitewash",
   image = "whitewash",
   energy = 2,
-  description = "News in area gains {priceColor}+4 PRICE",
+  description = "News in area gains {priceColor}+10 PRICE",
   trigger = {"DEPLOY"},
   price = 2,
   target = {
     shape = {w=3, h=3},
     onActivate = function (ent, targetEnt)
-      main.changeEntityComponent(targetEnt, "defaultPriceGain", 4, combiner.ADD)
+      main.changeEntityComponent(targetEnt, "defaultPriceGain", 10, combiner.ADD)
     end
   }
 })
@@ -80,12 +80,34 @@ main.defineCard("sigil", {
   name = "Sigil",
   image = "sigil",
   description = "Doubles current {energyColor}ENERGY",
-  energy=1,
   trigger = {"DEPLOY"},
   price = 3,
   onActivate = function ()
     local energy = system.getStorage("main:energy")
     main.addEnergy(energy)
+  end,
+  rarity = "RARE",
+})
+
+main.defineCard("augment", {
+  name = "Augment",
+  image = "augment",
+  description = "Spend all energy, Card to\nthe right gains that many {repeatColor}REPEAT{/repeatColor}",
+  energy=0,
+  trigger = {"DEPLOY"},
+  price = 3,
+  filter = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      return true
+    end
+  end,
+  
+  onActivate = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    local energy = system.getStorage("main:energy")
+    main.addEnergy(-energy)
+    main.changeEntityComponent(target, "repeatActivation", energy, combiner.ADD)
   end,
   rarity = "RARE",
 })
@@ -141,5 +163,31 @@ main.defineCard("reap", {
         main.changeEntityComponent(ent, "defaultPriceGain", price, combiner.ADD)
       end
     end
+  end
+})
+
+main.defineCard("doubleDown", {
+  name = "Double down",
+  image = "doubleDown",
+  description = "Multiplies current {priceColor}PRICE{/priceColor} by 2",
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity  = "RARE",
+  onActivate = function (ent)
+    local prices = main.getPrice()
+    main.addPrice(prices)
+  end
+})
+
+main.defineCard("fortune", {
+  name = "Fortune",
+  image = "fortune",
+  description = "Multiplies current {priceColor}MULT{/priceColor} by 2",
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity  = "RARE",
+  onActivate = function (ent)
+    local mult = system.getStorage("main:mult")
+    main.addMult(mult)
   end
 })

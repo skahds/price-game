@@ -14,6 +14,30 @@ main.definePlaceableNewsCard("tracker", {
   end,
 })
 
+main.definePlaceableNewsCard("drag", {
+  name = "Drag",
+  image = "drag",
+  trigger= {"DEPLOY"},
+  price=3,
+  rarity = "RARE"
+}, {
+  image = "dragNews",
+  trigger = {"CARDTRIGGER"},
+  defaultPriceGain = -6,
+})
+
+main.definePlaceableNewsCard("veil", {
+  name = "Veil",
+  image = "veil",
+  trigger= {"DEPLOY"},
+  price=3,
+  rarity = "RARE"
+}, {
+  image = "veilNews",
+  trigger = {"CARDTRIGGER"},
+  defaultMultGain = 2,
+})
+
 main.definePlaceableNewsCard("radar", {
   name = "Radar",
   image = "radar",
@@ -25,16 +49,4 @@ main.definePlaceableNewsCard("radar", {
   image = "radarNews",
   trigger = {"CARDTRIGGER"},
   defaultDrawCard = 1,
-})
-
-main.definePlaceableNewsCard("drag", {
-  name = "Drag",
-  image = "drag",
-  trigger= {"DEPLOY"},
-  price=3,
-  rarity = "RARE"
-}, {
-  image = "dragNews",
-  trigger = {"CARDTRIGGER"},
-  defaultPriceGain = -6,
 })
