@@ -4,15 +4,15 @@ local levels = {}
 local activeUI = {}
 -- routes: "PLAY", "SHOP"
 local route = {
-  {id="PLAY", node=3, reward={4}},
+  {id="PLAY", node=1, reward={4}, enemy="oracle"},
   {id="PLAY", node=3},
-  {id="SHOP", node=1},
-  {id="PLAY", node=3},
-  {id="PLAY", node=3},
-  {id="SHOP", node=1},
+  {id="SHOP", node=2},
   {id="PLAY", node=3},
   {id="PLAY", node=3},
-  {id="SHOP", node=1},
+  {id="SHOP", node=2},
+  {id="PLAY", node=3},
+  {id="PLAY", node=3},
+  {id="SHOP", node=2},
   {id="PLAY", node=1},
 }
 local currentRoute = 1
@@ -140,8 +140,10 @@ main.defineScene("levelSelect", function ()
       ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"), difficulty)
       ui.moneyReward = 2+difficulty
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
-      if difficulty >= 3 then
-        ui.enemy = main.enemies.getRandomEnemy()
+      if difficulty >= 3 or route[currentRoute].enemy then
+        local e
+        if route[currentRoute].enemy then e = route[currentRoute].enemy end
+        ui.enemy = main.enemies.entities[e] or main.enemies.getRandomEnemy()
         ui.description = ui.description .. "\nhas Enemy: " .. ui.enemy.name
         ui.descriptionTagEntity = ui.enemy.id
       end
@@ -154,10 +156,17 @@ main.defineScene("levelSelect", function ()
       main.updateRichTextText(ui.richtext, color .. string.rep("!", ui.reward.difficulty))
     elseif route[currentRoute].id == "SHOP" then
       activeUI[i] = ui
-      ui.name = "Shop"
-      ui.description = "Buy items!"
-      ui.targetScene = "shop"
-      main.updateRichTextText(ui.richtext, "{moneyColor}$")
+      if i == 1 then
+        ui.name = "Shop"
+        ui.description = "Buy items!"
+        ui.targetScene = "shop"
+        main.updateRichTextText(ui.richtext, "{moneyColor}$")
+      elseif i == 2 then
+        ui.name = "Treasure"
+        ui.description = "Get a relic!"
+        ui.targetScene = "treasureRoom"
+        main.updateRichTextText(ui.richtext, "{redColor}$")
+      end
     end
   end
 
