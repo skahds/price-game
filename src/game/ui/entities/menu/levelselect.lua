@@ -41,6 +41,11 @@ main.ui.defineUI("levelSelect", {
         table.insert(reward, ent.reward)
       end
 
+      if ent.enemy then
+        local e = main.spawnNews(ent.enemy.id, {x=0,y=0})
+        e.ui.isVisible = false
+      end
+
       system.updateStorage("main:currentRoute", system.getStorage("main:currentRoute") + 1)
     end
   end,

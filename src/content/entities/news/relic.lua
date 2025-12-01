@@ -5,9 +5,8 @@ main.defineNews("discount", {
   description = "A random card becomes {energyColor}FREE{/energyColor}",
   isRelic = true,
   onActivate = function (ent)
-    local r = love.math.random(1, #main.card.hand)
-    local card = main.getCardInOrder(r)
-    if card.overrideEnergy > 0 then
+    local card = main.getRandomCard()
+    if card and card.overrideEnergy > 0 then
       card.overrideEnergy = 0
     end
   end,
@@ -58,9 +57,10 @@ main.defineNews("burnoff", {
   defaultEnergyGain = 1,
   isRelic = true,
   onActivate = function (ent)
-    local r = love.math.random(1, #main.card.hand)
-    local card = main.getCardInOrder(r)
-    card.overrideEnergy = card.overrideEnergy + 1
+    local card = main.getRandomCard()
+    if card then
+      card.overrideEnergy = card.overrideEnergy + 1
+    end
   end,
   rarity = "RARE"
 })
@@ -73,9 +73,10 @@ main.defineNews("focus", {
   defaultEnergyGain = 1,
   isRelic = true,
   onActivate = function (ent)
-    local r = love.math.random(1, #main.card.hand)
-    local card = main.getCardInOrder(r)
-    main.discardCard(card)
+    local card = main.getRandomCard()
+    if card then
+      main.discardCard(card)
+    end
   end,
   rarity = "RARE"
 })
@@ -98,10 +99,7 @@ main.defineNews("recycle", {
   isRelic = true,
   rarity = "RARE",
   onActivate = function ()
-    if #main.card.discard == 0 then
-      return
-    end
-    local card = main.card.discard[love.math.random(1, #main.card.discard)]
+    local card = main.getRandomCard("discard")
     if card then
       main.transferOwnership(card, "draw")
       main.shuffleDraw()

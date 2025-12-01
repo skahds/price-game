@@ -194,7 +194,7 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
 
   -- spawn tag
   local tags = parseTagsList(ent)
-  for i, text in ipairs(tags) do tags[i] = main.richTextFormatImage(text) end
+  for i, tag in ipairs(tags) do for i, text in ipairs(tag) do tag[i] = main.richTextFormatImage(text) end end
   local totalHeightAdded = 0
   for i, tag in ipairs(tags) do
     -- draw the tags

@@ -1,14 +1,39 @@
 --?
-function main.defineEnemy(t)
-  
+main.enemies = {
+  entities={}
+}
+
+function main.enemies.getRandomEnemy()
+  return main.enemies.entities[love.math.random(1, #main.enemies.entities)]
 end
 
-main.defineEnemy({
-  name = "Oracle",
+function main.defineEnemy(id, t)
+  t.rarity = "UNIQUE"
+  t.id = id
+  table.insert(main.enemies.entities, t)
+  main.defineNews(id, t)
+end
+
+main.defineEnemy("oracle", {
+  name = "The Oracle",
   image = "oracleEnemy",
+  description = "Discard a random card",
   trigger = {"EACHTURN"},
-  
-  rarity = "RARE"
+  onActivate = function (ent)
+    local card = main.getRandomCard()
+    main.discardCard(card)
+  end,
+})
+
+main.defineEnemy("regulator", {
+  name = "The Regulator",
+  image = "regulatorEnemy",
+  description = "make a random card cost {energyColor}+1 ENERGY",
+  trigger = {"EACHTURN"},
+  onActivate = function (ent)
+    local card = main.getRandomCard()
+    card.overrideEnergy = card.overrideEnergy + 1
+  end,
 })
 
 --[[

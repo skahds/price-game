@@ -4,8 +4,8 @@ local levels = {}
 local activeUI = {}
 -- routes: "PLAY", "SHOP"
 local route = {
-  {id="PLAY", node=1, reward={4}},
-  {id="PLAY", node=2},
+  {id="PLAY", node=3, reward={4}},
+  {id="PLAY", node=3},
   {id="SHOP", node=1},
   {id="PLAY", node=3},
   {id="PLAY", node=3},
@@ -140,6 +140,11 @@ main.defineScene("levelSelect", function ()
       ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"), difficulty)
       ui.moneyReward = 2+difficulty
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
+      if difficulty >= 3 then
+        ui.enemy = main.enemies.getRandomEnemy()
+        ui.description = ui.description .. "\nhas Enemy: " .. ui.enemy.name
+        ui.descriptionTagEntity = ui.enemy.id
+      end
       local color = ""
       if ui.reward.difficulty == 2 then
         color = "{rareColor}"

@@ -96,6 +96,12 @@ function main.getCardInOrder(order)
   end
 end
 
+function main.getRandomCard(pile)
+  pile = pile or "hand"
+  local r = love.math.random(1, #main.card[pile])
+  return main.card[pile][r]
+end
+
 function main.getCardBesides(ent, cardOrder)
   return main.getCardInOrder(ent.cardOrder+cardOrder)
 end
