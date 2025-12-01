@@ -80,7 +80,7 @@ main.defineCard("sigil", {
   name = "Sigil",
   image = "sigil",
   description = "Doubles current {energyColor}ENERGY",
-  energy=2,
+  energy=1,
   trigger = {"DEPLOY"},
   price = 3,
   onActivate = function ()

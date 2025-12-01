@@ -9,6 +9,15 @@ function main.canTrigger(ent, trigger)
   return false
 end
 
+function main.canTriggerFullCheck(ent, trigger)
+  if main.canTrigger(ent, trigger) then
+    if ent.filter and ent:filter() ~= true then
+      return false
+    end
+    return true
+  end
+end
+
 function main.triggerEnt(ent, trigger)
   local bypass = false
   if trigger == nil then

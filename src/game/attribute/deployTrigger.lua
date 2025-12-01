@@ -31,15 +31,16 @@ system.on("main:cardUIReleased", function (uiEnt, button)
     local energy = (ent.overrideEnergy or ent.energy)
     pipline:add(0, function ()
       if system.getStorage("main:energy") >= energy then
+        if main.canTriggerFullCheck(ent, "DEPLOY") then
+          main.addEnergy(-energy)
+        end
+
         success = main.triggerEnt(ent, "DEPLOY")
       end
     end)
     pipline:add(0, function ()
       if success then
         main.discardCard(ent)
-        if energy ~= 0 then
-          main.addEnergy(-energy)
-        end
         ent.overrideEnergy = ent.energy
       end
     end)
