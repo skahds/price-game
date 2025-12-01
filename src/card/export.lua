@@ -109,10 +109,6 @@ function main.defineCard(id, eType)
   local card = main.entities[id]
   local basicEnt = main.entities.basicEnt
 
-  if eType.description then
-    eType.description = main.richTextFormatImage(eType.description)
-  end
-
   function card:init(args)
     basicEnt.init(self, args)
     for k, v in pairs(eType) do
@@ -126,6 +122,12 @@ function main.defineCard(id, eType)
 
     self.energy = self.energy or 1
     self.overrideEnergy = self.overrideEnergy or self.energy
+  end
+
+  function card:update()
+    if self.onUpdate then
+      self:onUpdate()
+    end
   end
 
   function card:draw(args)

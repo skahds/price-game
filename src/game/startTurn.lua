@@ -73,7 +73,6 @@ system.on("main:repeatingTriggerNewsEnd", function (trigger)
     updateScore()
 
   pipeline:add(0, function ()
-
     local bar = main.spawnBar()
     system.updateStorage("main:currentBar", bar)
 

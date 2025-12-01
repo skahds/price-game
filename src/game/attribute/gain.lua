@@ -20,13 +20,13 @@ system.on("main:entityTriggered", function (ent)
     main.addEnergy(ent.defaultEnergyGain)
   end
   if ent.defaultDrawCard ~= 0 then
-    for i=1, ent.defaultDrawCard do
-      local delay = 0.25
-      if i == 1 then
-        delay = 0
-      end
-      pipeline:add(delay, function ()
-        main.drawCard()
+    for i=1, ent.defaultDrawCard do      
+      pipeline:add(0, function ()
+        if main.drawCard() then
+          pipeline:insert(0.25, 1, function ()
+            
+          end)
+        end
       end)
     end
   end

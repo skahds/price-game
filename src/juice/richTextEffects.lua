@@ -14,5 +14,4 @@ local RichText = system.getStorage("RichText")
 --   scaley = scaley + dt * speed
 --   self:setScale(scalex, scaley)
 --   self.pulseScale = {scalex, scaley}
---   print(scalex, scaley)
 -- end)

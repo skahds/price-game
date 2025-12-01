@@ -2,7 +2,6 @@
 --   local mouse = system.getStorage("mouse")
 --   local x, y = main.grid.toGrid(mouse.x, mouse.y)
 --   if main.grid.getNewsInGrid(x, y, 1, 1) then
---     print("CAUGHT")
 --   end
 -- end)
 

@@ -31,7 +31,6 @@ function main.parseDescriptionList(ent)
     local text = descriptionType.func(ent)
 
     if text then
-    text = main.richTextFormatImage(text)
 
     while true do
       local ss, se = string.find(text, "\n")
@@ -185,6 +184,7 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
   removeCompleteDescription(activeDescriptionIndex)
 
   local descriptionTable = main.parseDescriptionList(ent)
+  for i, text in ipairs(descriptionTable) do descriptionTable[i] = main.richTextFormatImage(text) end
   drawDescription(descriptionTable, location, activeDescriptionIndex)
 
   local originalXPosition = math.huge
@@ -194,6 +194,7 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
 
   -- spawn tag
   local tags = parseTagsList(ent)
+  for i, text in ipairs(tags) do tags[i] = main.richTextFormatImage(text) end
   local totalHeightAdded = 0
   for i, tag in ipairs(tags) do
     -- draw the tags

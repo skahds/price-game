@@ -1,8 +1,8 @@
 local flux = system.getStorage("flux")
 local obj = {}
 
-system.on("main:targetEntityTriggered", function (ent, targetEnt)
-  local t = {x=ent.x+ent.width/2, y=ent.y+ent.height/2}
+system.on("main:targetEntityTriggered", function (pos, targetEnt)
+  local t = {x=pos.x+pos.width/2, y=pos.y+pos.height/2}
   t.index = #obj
   table.insert(obj, t)
   flux.to(t, 0.4, {x=targetEnt.x+targetEnt.width/2, y=targetEnt.y+targetEnt.height/2})

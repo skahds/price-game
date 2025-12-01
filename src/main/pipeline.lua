@@ -37,7 +37,6 @@ function pipeline:update()
   if #self.pipeline < 1 then
     return
   end
-  -- print(self.timer)
   local dt = system.getStorage("dt")
   local speed = system.getStorage("main:defaultDelayMult")
   if self.ignoreGameSpeed == true then

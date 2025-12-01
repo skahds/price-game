@@ -15,21 +15,23 @@ main.defineCard("amplifier", {
   
   onActivate = function (ent)
     local target = main.getCardBesides(ent, 1)
-    main.changeEntityComponent(target, "repeatActivation", 1, combiner.ADD)
+    if target then
+      main.changeEntityComponent(target, "repeatActivation", 1, combiner.ADD)
+    end
   end
 })
 
 main.defineCard("whitewash", {
   name = "Whitewash",
   image = "whitewash",
-  energy = 2,
-  description = "News in area gains {priceColor}+10 PRICE",
+  energy = 0,
+  description = "News in area gains {priceColor}+5 PRICE",
   trigger = {"DEPLOY"},
   price = 2,
   target = {
     shape = {w=3, h=3},
     onActivate = function (ent, targetEnt)
-      main.changeEntityComponent(targetEnt, "defaultPriceGain", 10, combiner.ADD)
+      main.changeEntityComponent(targetEnt, "defaultPriceGain", 5, combiner.ADD)
     end
   }
 })
@@ -53,7 +55,9 @@ main.defineCard("void", {
 
   onActivate = function (ent)
     local target = main.getCardBesides(ent, 1)
-    main.tryDestroyEntity(target)
+    if target then
+      main.tryDestroyEntity(target)
+    end
   end
 })
 
@@ -105,9 +109,11 @@ main.defineCard("augment", {
   
   onActivate = function (ent)
     local target = main.getCardBesides(ent, 1)
-    local energy = system.getStorage("main:energy")
-    main.addEnergy(-energy)
-    main.changeEntityComponent(target, "repeatActivation", energy, combiner.ADD)
+    if target then
+      local energy = system.getStorage("main:energy")
+      main.addEnergy(-energy)
+      main.changeEntityComponent(target, "repeatActivation", energy, combiner.ADD)
+    end
   end,
   rarity = "RARE",
 })
@@ -189,5 +195,52 @@ main.defineCard("fortune", {
   onActivate = function (ent)
     local mult = system.getStorage("main:mult")
     main.addMult(mult)
+  end
+})
+
+local function getStalemartyrPrice()
+  local piles = {main.card.draw, main.card.discard, main.card.hand}
+  local amount = 0
+  for k, pile in ipairs(piles) do
+    for i, card in ipairs(pile) do
+      if card.defaultPriceGain then
+        amount = amount + card.defaultPriceGain
+      end
+    end
+  end
+  return amount
+end
+main.defineCard("stalemartyr", {
+  name = "Stalemartyr",
+  image = "stalemartyr",
+  description = "Gives {multColor}MULT{/multColor} equal to the sum\nof all {priceColor}PRICE{/priceColor} in the deck",
+  trigger = {"DEPLOY"},
+  price = 3,
+
+  onUpdate = function (ent)
+    local amount = getStalemartyrPrice()
+    if amount > 0 then
+      amount = "+" .. tostring(amount)
+    end
+    ent.description = "Gives {multColor}MULT{/multColor} equal to the sum\nof all {priceColor}PRICE{/priceColor} in the deck\n(currently {multColor}" .. amount .. " MULT{/multColor})"
+  end,
+
+  onActivate = function (ent)
+    main.addPrice(getStalemartyrPrice())
+  end
+})
+
+main.defineCard("lastHope", {
+  name = "Last Hope",
+  image = "lastHope",
+  description = "Discard all cards in hand,\n draw 1 CARD and\ngive it {repeatColor}+3 REPEAT{/repeatColor}",
+  energy = 1,
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity = "RARE",
+  onActivate = function ()
+    main.discardCurrentCardsInHand()
+    local card = main.drawCard()
+    main.changeEntityComponent(card, "repeatActivation", 3, combiner.ADD)
   end
 })
