@@ -64,7 +64,7 @@ main.defineCard("void", {
 main.defineCard("vision", {
   name = "Vision",
   image = "vision",
-  defaultDrawCard = 2,
+  defaultDrawCard = 3,
   trigger = {"DEPLOY"},
   price = 2,
   rarity = "RARE",
@@ -270,4 +270,21 @@ main.defineCard("relay", {
       end)
     end
   end
+})
+
+main.defineCard("spirit", {
+  name = "Spirit",
+  image = "spirit",
+  description = "If there are fewer\nthan 3 cards in hand,",
+  trigger = {"DEPLOY"},
+  energy=0,
+  price = 3,
+  rarity = "RARE",
+  defaultDrawCard=2,
+
+  filter = function (ent)
+    if #main.card.hand < 3 then
+      return true
+    end
+  end,
 })
