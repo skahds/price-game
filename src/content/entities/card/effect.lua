@@ -244,3 +244,30 @@ main.defineCard("lastHope", {
     main.changeEntityComponent(card, "repeatActivation", 3, combiner.ADD)
   end
 })
+
+main.defineCard("relay", {
+  name = "Relay",
+  image = "relay",
+  description = "Trigger card to the right",
+  trigger = {"DEPLOY"},
+  energy=0,
+  price = 4,
+  rarity = "EPIC",
+
+  filter = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      return true
+    end
+  end,
+  
+  onActivate = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      local pipeline = main.getPipeline("main")
+      pipeline:add(0.5, function ()
+        main.triggerEnt(target, "DEPLOY")
+      end)
+    end
+  end
+})

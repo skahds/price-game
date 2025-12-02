@@ -4,7 +4,6 @@ local levels = {}
 local activeUI = {}
 -- routes: "PLAY", "SHOP"
 local route = {
-  {id="SHOP", node=2},
   {id="PLAY", node=1, reward={4}},
   {id="PLAY", node=3},
   {id="SHOP", node=2},

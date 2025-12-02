@@ -37,14 +37,11 @@ main.defineCard("greenHammer", {
   description = "{priceColor}+50 PRICE{/priceColor} if\ncurrent bar is red",
   trigger = {"DEPLOY"},
   price = 3,
-  filter = function ()
+  onActivate = function (ent)
     local prices = main.getPrice()
     if prices < 0 then
-      return true
+      main.addPrice(50)
     end
-  end,
-  onActivate = function (ent)
-    main.addPrice(50)
   end
 })
 
@@ -54,13 +51,10 @@ main.defineCard("redHammer", {
   description = "{priceColor}-50 PRICE{/priceColor} if\ncurrent bar is green",
   trigger = {"DEPLOY"},
   price = 3,
-  filter = function ()
+  onActivate = function (ent)
     local prices = main.getPrice()
     if prices > 0 then
-      return true
+      main.addPrice(-50)
     end
-  end,
-  onActivate = function (ent)
-    main.addPrice(-50)
   end
 })
