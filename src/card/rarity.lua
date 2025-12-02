@@ -89,6 +89,12 @@ function bag:getRandomCardWithInfo(info)
         end
       end
 
+      if info.minimumRarity then
+        if t.rarity.chanceWeight > self:getRarity(info.minimumRarity).chanceWeight then
+          return false
+        end
+      end
+
       for _, already in ipairs(result) do
         if already == t.card then
           return false
@@ -158,6 +164,12 @@ function bag:getRandomNewsWithInfo(info)
         end
       end
 
+      if info.minimumRarity then
+        if t.rarity.chanceWeight > self:getRarity(info.minimumRarity).chanceWeight then
+          return false
+        end
+      end
+
       for _, already in ipairs(result) do
         if already == t.news then
           return false
@@ -186,6 +198,7 @@ defineRarity("COMMON", {chanceWeight=10, format="{commonColor}COMMON{/commonColo
 defineRarity("RARE", {chanceWeight=6, format="{rareColor}RARE{/rareColor}"})
 defineRarity("EPIC", {chanceWeight=3, format="{epicColor}EPIC{/epicColor}"})
 defineRarity("UNIQUE", {chanceWeight=0, format="UNIQUE"})
+defineRarity("STARTER", {chanceWeight=0, format="STARTER"})
 
 local rarity = class()
 function rarity:init(ent)

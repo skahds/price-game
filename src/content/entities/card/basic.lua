@@ -4,6 +4,7 @@ main.defineCard("add", {
   trigger = {"DEPLOY"},
   defaultPriceGain = 10,
   price = 1,
+  rarity="STARTER"
 })
 
 main.defineCard("subtract", {
@@ -12,6 +13,7 @@ main.defineCard("subtract", {
   trigger = {"DEPLOY"},
   defaultPriceGain = -10,
   price = 1,
+  rarity="STARTER"
 })
 
 
@@ -21,6 +23,7 @@ main.defineCard("multiply", {
   trigger = {"DEPLOY"},
   defaultMultGain = 4,
   price = 1,
+  rarity="STARTER"
 })
 
 -- main.defineCard("goldenHex", {
@@ -73,11 +76,11 @@ main.defineCard("rebalance", {
 main.defineCard("greenDice", {
   name = "Green Dice",
   image = "greenDice",
-  description = "2 in 3 chance to give {priceColor}+25 PRICE{/priceColor}\n1 in 3 chance to give {priceColor}-15 PRICE",
+  description = "2 in 3 chance to give {priceColor}+30 PRICE{/priceColor}\n1 in 3 chance to give {priceColor}-15 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
-      main.addPrice(25)
+      main.addPrice(30)
     else
       main.addPrice(-15)
     end
@@ -88,11 +91,11 @@ main.defineCard("greenDice", {
 main.defineCard("redDice", {
   name = "Red Dice",
   image = "redDice",
-  description = "2 in 3 chance to give {priceColor}-25 PRICE{/priceColor}\n1 in 3 chance to give {priceColor}+15 PRICE",
+  description = "2 in 3 chance to give {priceColor}-30 PRICE{/priceColor}\n1 in 3 chance to give {priceColor}+15 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/3 then
-      main.addPrice(-25)
+      main.addPrice(-30)
     else
       main.addPrice(15)
     end

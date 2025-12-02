@@ -24,7 +24,6 @@ main.defineCard("amplifier", {
 main.defineCard("whitewash", {
   name = "Whitewash",
   image = "whitewash",
-  energy = 0,
   description = "News in area gains {priceColor}+5 PRICE",
   trigger = {"DEPLOY"},
   price = 2,
@@ -208,12 +207,12 @@ local function getStalemartyrPrice()
       end
     end
   end
-  return amount
+  return amount/2
 end
 main.defineCard("stalemartyr", {
   name = "Stalemartyr",
   image = "stalemartyr",
-  description = "Gives {multColor}MULT{/multColor} equal to the sum\nof all {priceColor}PRICE{/priceColor} in the deck",
+  description = "Gives {multColor}MULT{/multColor} equal to half the sum\nof all {priceColor}PRICE{/priceColor} in the deck",
   trigger = {"DEPLOY"},
   price = 3,
 
@@ -222,11 +221,11 @@ main.defineCard("stalemartyr", {
     if amount > 0 then
       amount = "+" .. tostring(amount)
     end
-    ent.description = "Gives {multColor}MULT{/multColor} equal to the sum\nof all {priceColor}PRICE{/priceColor} in the deck\n(currently {multColor}" .. amount .. " MULT{/multColor})"
+    ent.description = "Gives {multColor}MULT{/multColor} equal to half the sum\nof all {priceColor}PRICE{/priceColor} in the deck\n(currently {multColor}" .. amount .. " MULT{/multColor})"
   end,
 
   onActivate = function (ent)
-    main.addPrice(getStalemartyrPrice())
+    main.addMult(getStalemartyrPrice())
   end
 })
 
@@ -256,7 +255,7 @@ main.defineCard("relay", {
 
   filter = function (ent)
     local target = main.getCardBesides(ent, 1)
-    if target then
+    if target and main.canTriggerFullCheck(target, "DEPLOY") then
       return true
     end
   end,
@@ -292,7 +291,7 @@ main.defineCard("spirit", {
 main.defineCard("mitosis", {
   name = "Mitosis",
   image = "mitosis",
-  description = "Double this card's {priceColor}PRICE{/priceColor}\nand permanently cost {energyColor}+1 ENERGY",
+  description = "Double this card's {priceColor}PRICE{/priceColor}\nand it permanently costs {energyColor}+1 ENERGY",
   trigger = {"DEPLOY"},
   energy=0,
   price = 3,

@@ -58,24 +58,24 @@ end
 local rewardList = {
   {claim=function ()
     local bag = system.getStorage("rarity:bag")
-    local t = bag:getRandomCardWithInfo({rarity="COMMON", amount=3})
+    local t = bag:getRandomCardWithInfo({minimumRarity="COMMON", amount=3})
     main.createRewardsOptions(t, {rewardType="card"})
   end,
-  description="Choose a {commonColor}COMMON{/commonColor} card!"},
+  description="Choose a {commonColor}COMMON+{/commonColor} card!"},
 
   {claim=function ()
     local bag = system.getStorage("rarity:bag")
-    local t = bag:getRandomCardWithInfo({rarity="RARE", amount=3})
+    local t = bag:getRandomCardWithInfo({minimumRarity="RARE", amount=3})
     main.createRewardsOptions(t, {rewardType="card"})
   end,
-  description="Choose a {rareColor}RARE{/rareColor} card!"},
+  description="Choose a {rareColor}RARE+{/rareColor} card!"},
 
   {claim=function ()
     local bag = system.getStorage("rarity:bag")
-    local t = bag:getRandomCardWithInfo({rarity="EPIC", amount=3})
+    local t = bag:getRandomCardWithInfo({minimumRarity="EPIC", amount=3})
     main.createRewardsOptions(t, {rewardType="card"})
   end,
-  description="Choose an {epicColor}EPIC{/epicColor} card!"},
+  description="Choose an {epicColor}EPIC+{/epicColor} card!"},
 
   {claim=function ()
     local bag = system.getStorage("rarity:bag")
