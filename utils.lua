@@ -158,3 +158,16 @@ function utils.combineSlashN(t)
   end
   return s
 end
+
+function utils.normalize(x, y)
+  local length = math.sqrt(x*x + y*y)
+  if length == 0 then
+    return 1, 0  -- as a default direction
+  end
+  return x / length, y / length
+end
+
+function utils.randomDirection()
+  local angle = 2 * math.pi * math.random()
+  return math.cos(angle), math.sin(angle)
+end

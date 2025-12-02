@@ -45,6 +45,9 @@ function main.defineParticle(id, etype)
     self.lifetime = self.lifetime or 1
     self.targetState = self.targetState or nil
     self.timeToTravel = self.timeToTravel or 1
+
+    self.direction = self.direction or nil
+    self.speed = self.speed or nil
   end
 
   function ent:update()
@@ -59,6 +62,11 @@ function main.defineParticle(id, etype)
     if self.targetState then
       flux.to(self, self.timeToTravel, self.targetState)
       self.timeToTravel = (self.timeToTravel or 1) - dt
+    end
+
+    if self.direction and self.speed then
+      self.x = self.x + self.speed * self.direction.x * dt
+      self.y = self.y + self.speed * self.direction.y * dt
     end
   end
 

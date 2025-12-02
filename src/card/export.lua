@@ -12,6 +12,14 @@ main.card = {
   reward = {},
 }
 
+function main.getAllStack()
+  return {main.card.hand, main.card.draw, main.card.discard, main.card.shop, main.card.reward}
+end
+
+function main.getAllVisibleStack()
+  return {main.card.hand, main.card.shop, main.card.reward}
+end
+
 local function fixCardOrderOnStack(ownerShip)
   local stack = main.card[ownerShip]
   for i, card in ipairs(stack) do
