@@ -104,10 +104,40 @@ function main.getCardInOrder(order)
   end
 end
 
-function main.getRandomCard(pile)
-  pile = pile or "hand"
-  local r = love.math.random(1, #main.card[pile])
-  return main.card[pile][r]
+function main.getRandomCard(...)
+  local extract
+  if ... == nil then
+    extract = {"hand"}
+  elseif type(...) == "string" then
+    extract = {...}
+  else
+    extract = ...
+  end
+
+  local filter
+  for i, e in ipairs(extract) do
+    if type(e) == "function" then
+      filter = e
+      break
+    end
+  end
+
+  local validCards = {}
+  for i, e in ipairs(extract) do
+    if type(e) == "string" then
+      for _, card in ipairs(main.card[e]) do
+        if not filter or filter(card) then
+          table.insert(validCards, card)
+        end
+      end
+    end
+  end
+
+  if #validCards == 0 then
+    return nil
+  end
+
+  return validCards[love.math.random(1, #validCards)]
 end
 
 function main.getCardBesides(ent, cardOrder)

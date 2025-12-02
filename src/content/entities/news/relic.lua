@@ -49,7 +49,7 @@ main.defineNews("nuclear", {
   rarity = "RARE"
 })
 
-main.defineNews("burnoff", {
+main.defineNews("burnOff", {
   name = "Burn Off",
   image = "burnOffNews",
   trigger = {"EACHTURN"},
@@ -81,7 +81,7 @@ main.defineNews("focus", {
   rarity = "RARE"
 })
 
-main.defineNews("allout", {
+main.defineNews("allOut", {
   name = "All Out",
   image = "alloutNews",
   trigger = {"ENCOUNTER"},
@@ -103,6 +103,23 @@ main.defineNews("recycle", {
     if card then
       main.transferOwnership(card, "draw")
       main.shuffleDraw()
+    end
+  end
+})
+
+main.defineNews("powerCore", {
+  name = "Power Core",
+  image = "powerCoreNews",
+  description = "1 in 4 chance for a random\ncard in the deck to\ncost {energyColor}-1 ENERGY",
+  trigger = {"EACHTURN"},
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function ()
+    local card = main.getRandomCard("discard", "draw", "hand", function (card)
+      if card.energy == 0 then return false else return true end
+    end)
+    if card then
+      card.energy = card.energy - 1
     end
   end
 })
