@@ -94,15 +94,13 @@ main.defineNews("allOut", {
 main.defineNews("recycle", {
   name = "Recycle",
   image = "recycleNews",
-  description = "Shuffle a random card from the\n discard pile to the draw pile",
-  trigger = {"CARDTRIGGER"},
+  description = "Shuffle the discard pile to the draw pile",
+  trigger = {"EACHTURN"},
   isRelic = true,
   rarity = "RARE",
   onActivate = function ()
-    local card = main.getRandomCard("discard")
-    if card then
-      main.transferOwnership(card, "draw")
-      main.shuffleDraw()
+    for i, card in ipairs(main.card.discard) do
+      main.addCardToDraw(card)
     end
   end
 })
@@ -118,7 +116,7 @@ main.defineNews("powerCore", {
     local card = main.getRandomCard("discard", "draw", "hand", function (card)
       if card.energy == 0 then return false else return true end
     end)
-    if card then
+    if card and love.math.random() <= 0.25 then
       card.energy = card.energy - 1
     end
   end

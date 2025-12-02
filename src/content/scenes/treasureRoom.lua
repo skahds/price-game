@@ -35,6 +35,8 @@ main.defineScene("treasureRoom", function ()
   local t = bag:getRandomNewsWithInfo({amount=3})
     main.createRewardsOptions(t, {rewardType="news"})
   
+  main.showCharts()
+
   continue = main.ui.spawnUI("treasureRoomContinue", {x=640-150, y=430})
 end, function ()
   deleteAll({continue})
