@@ -37,28 +37,42 @@ end
 function bag:getRandomCard(filter)
   filter = filter or function() return true end
 
-  local range = {}
-  local totalWeight = 0
+  local cardsByRarity = {}
+  local availableRarities = {}
+  
   for k, t in pairs(self.cardBag) do
     if filter(t) == true then
-      totalWeight = totalWeight + t.rarity.chanceWeight
-      table.insert(range, t)
+      local rarityId = t.rarity.id
+      if not cardsByRarity[rarityId] then
+        cardsByRarity[rarityId] = {}
+        table.insert(availableRarities, t.rarity)
+      end
+      table.insert(cardsByRarity[rarityId], t.card)
     end
   end
 
-  if totalWeight == 0 then
-    error("rarity total weight can't be 0")
+  -- Stage 1: Pick a rarity tier based on chanceWeight
+  local totalWeight = 0
+  for _, rarity in ipairs(availableRarities) do
+    totalWeight = totalWeight + rarity.chanceWeight
   end
 
   local rand = love.math.random(1, totalWeight)
   local num = 0
+  local selectedRarity = nil
 
-  for k, t in ipairs(range) do
-    num = num + t.rarity.chanceWeight
+  for _, rarity in ipairs(availableRarities) do
+    num = num + rarity.chanceWeight
     if num >= rand then
-      return t.card
+      selectedRarity = rarity.id
+      break
     end
   end
+
+  -- Stage 2: Pick a random card from that rarity tier
+  local cardsInRarity = cardsByRarity[selectedRarity]
+  local randomIndex = love.math.random(1, #cardsInRarity)
+  return cardsInRarity[randomIndex]
 end
 
 function bag:getRandomCardWithInfo(info)
@@ -92,29 +106,42 @@ end
 
 function bag:getRandomNews(filter)
   filter = filter or function() return true end
-
-  local range = {}
-  local totalWeight = 0
+  local newsByRarity = {}
+  local availableRarities = {}
+  
   for k, t in pairs(self.newsBag) do
     if filter(t) == true then
-      totalWeight = totalWeight + t.rarity.chanceWeight
-      table.insert(range, t)
+      local rarityId = t.rarity.id
+      if not newsByRarity[rarityId] then
+        newsByRarity[rarityId] = {}
+        table.insert(availableRarities, t.rarity)
+      end
+      table.insert(newsByRarity[rarityId], t.news)
     end
   end
 
-  if totalWeight == 0 then
-    error("rarity total weight can't be 0")
+  -- Stage 1: Pick a rarity tier based on chanceWeight
+  local totalWeight = 0
+  for _, rarity in ipairs(availableRarities) do
+    totalWeight = totalWeight + rarity.chanceWeight
   end
 
   local rand = love.math.random(1, totalWeight)
   local num = 0
+  local selectedRarity = nil
 
-  for k, t in ipairs(range) do
-    num = num + t.rarity.chanceWeight
+  for _, rarity in ipairs(availableRarities) do
+    num = num + rarity.chanceWeight
     if num >= rand then
-      return t.news
+      selectedRarity = rarity.id
+      break
     end
   end
+
+  -- Stage 2: Pick a random news from that rarity tier
+  local newsInRarity = newsByRarity[selectedRarity]
+  local randomIndex = love.math.random(1, #newsInRarity)
+  return newsInRarity[randomIndex]
 end
 
 function bag:getRandomNewsWithInfo(info)

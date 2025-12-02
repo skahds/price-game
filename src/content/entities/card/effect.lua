@@ -139,7 +139,7 @@ main.defineCard("grant", {
   description = "Card to the right gains {multColor}+3 MULT",
   trigger = {"DEPLOY"},
   price = 4,
-  rarity = "EPIC",
+  rarity = "RARE",
 
   onActivate = function (ent)
     local target = main.getCardBesides(ent, 1)
