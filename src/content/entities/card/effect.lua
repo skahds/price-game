@@ -288,3 +288,19 @@ main.defineCard("spirit", {
     end
   end,
 })
+
+main.defineCard("mitosis", {
+  name = "Mitosis",
+  image = "mitosis",
+  description = "Double this card's {priceColor}PRICE{/priceColor}\nand permanently cost {energyColor}+1 ENERGY",
+  trigger = {"DEPLOY"},
+  energy=0,
+  price = 3,
+  rarity = "RARE",
+  defaultPriceGain=-10,
+
+  onActivate = function (ent)
+    main.changeEntityComponent(ent, "defaultPriceGain", 2, combiner.MULTIPLY)
+    ent.energy = ent.energy + 1
+  end,
+})
