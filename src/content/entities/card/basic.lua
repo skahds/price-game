@@ -76,7 +76,7 @@ main.defineCard("rebalance", {
 main.defineCard("greenDice", {
   name = "Green Dice",
   image = "greenDice",
-  description = "1 in 2 chance to give {priceColor}+30 PRICE{/priceColor}\n1 in 2 chance to give {multColor}+10 MULT",
+  description = "1 in 2 chance to give {priceColor}+30 PRICE{/priceColor}\nelse, give {multColor}+10 MULT",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/2 then
