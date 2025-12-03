@@ -47,11 +47,18 @@ main.definePlaceableNewsCard("radar", {
 }, {
   image = "radarNews",
   trigger = {"CARDTRIGGER"},
-  description = "1 in 2 chance to draw 1 CARD",
-  onActivate = function ()
-    if love.math.random() >= 0.5 then
+  radarCounter = 1,
+  description = "Every 2nd activation:\ndraw 1 CARD",
+  onUpdate = function (ent)
+    ent.description = "Every 2nd activation:\ndraw 1 CARD\n(" .. 3-ent.radarCounter .. " activation left)"
+  end,
+  onActivate = function (ent)
+    if ent.radarCounter == 2 then
       main.drawCard()
+      ent.radarCounter = 0
     end
+
+    ent.radarCounter = ent.radarCounter + 1
   end
 })
 
