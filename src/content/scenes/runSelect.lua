@@ -40,23 +40,6 @@ main.ui.defineButton("toPlay", {
   end
 })
 
-local function seperateLines(text)
-  local t = {}
-  while true do
-    local ss, se = string.find(text, "\n")
-    if ss then
-      local firstPart = string.sub(text, 1, ss)
-      table.insert(t, firstPart)
-      text = string.sub(text, se+1, #text)
-    else
-      table.insert(t, text)
-      break
-    end
-  end
-
-  return t
-end
-
 system.on("@draw", function ()
   for i, starter in ipairs(starters) do
     system.render(60, function ()
@@ -73,7 +56,7 @@ system.on("@draw", function ()
 
     local texts = {}
     table.insert(texts, starter.name)
-    local lines = seperateLines(starter.description)
+    local lines = utils.seperateSlashN(starter.description)
     for _, str in ipairs(lines) do
       table.insert(texts, str)
     end

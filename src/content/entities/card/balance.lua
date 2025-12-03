@@ -58,3 +58,19 @@ main.defineCard("redHammer", {
     end
   end
 })
+
+main.defineCard("stalemartyr", {
+  name = "Stalemartyr",
+  image = "stalemartyr",
+  description = "Gives {priceColor}PRICE{priceColor} inverse to\n the previous bar",
+  trigger = {"DEPLOY"},
+  price = 3,
+
+  onActivate = function (ent)
+    local bar = system.getStorage("main:chart"):getBar(-2)
+    if bar then
+      local price = bar.endPrice - bar.startPrice
+      main.addPrice(-price)
+    end
+  end
+})

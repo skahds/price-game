@@ -197,38 +197,6 @@ main.defineCard("fortune", {
   end
 })
 
-local function getStalemartyrPrice()
-  local piles = {main.card.draw, main.card.discard, main.card.hand}
-  local amount = 0
-  for k, pile in ipairs(piles) do
-    for i, card in ipairs(pile) do
-      if card.defaultPriceGain then
-        amount = amount + card.defaultPriceGain
-      end
-    end
-  end
-  return amount/2
-end
-main.defineCard("stalemartyr", {
-  name = "Stalemartyr",
-  image = "stalemartyr",
-  description = "Gives {multColor}MULT{/multColor} equal to half the sum\nof all {priceColor}PRICE{/priceColor} in the deck",
-  trigger = {"DEPLOY"},
-  price = 3,
-
-  onUpdate = function (ent)
-    local amount = getStalemartyrPrice()
-    if amount > 0 then
-      amount = "+" .. tostring(amount)
-    end
-    ent.description = "Gives {multColor}MULT{/multColor} equal to half the sum\nof all {priceColor}PRICE{/priceColor} in the deck\n(currently {multColor}" .. amount .. " MULT{/multColor})"
-  end,
-
-  onActivate = function (ent)
-    main.addMult(getStalemartyrPrice())
-  end
-})
-
 main.defineCard("lastHope", {
   name = "Last Hope",
   image = "lastHope",
@@ -320,6 +288,32 @@ main.defineCard("snatch", {
           main.cardToHand(card)
         end)
       end
+    end
+  end
+})
+
+main.defineCard("portableGenerator", {
+  name = "Portable Generator",
+  image = "portableGenerator",
+  description = "Card to the right gains {energyColor}+1 ENERGY{/energyColor}\nand costs {energyColor}+1 ENERGY{/energyColor}",
+  energy = 0,
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity = "EPIC",
+
+  filter = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      return true
+    end
+  end,
+  
+  onActivate = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      target.energy = target.energy + 1
+      target.overrideEnergy = math.min(target.overrideEnergy+1, target.energy)
+      main.changeEntityComponent(target, "defaultEnergyGain", 1, combiner.ADD)
     end
   end
 })

@@ -128,15 +128,9 @@ end
 function utils.seperateSlashN(text)
   local t = {}
 
-  while true do
-    local ss, se = string.find(text, "\n")
-    if ss then
-      local firstPart = string.sub(text, 1, ss)
-      table.insert(t, firstPart)
-      text = string.sub(text, se+1, #text)
-    else
-      table.insert(t, text)
-      break
+  if text then
+    for line in text:gmatch("[^\n]+") do
+      table.insert(t, line)
     end
   end
 

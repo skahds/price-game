@@ -31,19 +31,9 @@ function main.parseDescriptionList(ent)
     local text = descriptionType.func(ent)
 
     if text then
-
-    while true do
-      local ss, se = string.find(text, "\n")
-      if ss then
-        local firstPart = string.sub(text, 1, ss)
-        table.insert(t, firstPart)
-        text = string.sub(text, se+1, #text)
-      else
-        break
+      for line in text:gmatch("[^\n]+") do
+        table.insert(t, line)
       end
-    end
-    
-      table.insert(t, text)
     end
   end
   return t
@@ -55,19 +45,11 @@ local function parseTagsList(ent)
     local t = {}
     local text = descriptionType.func(ent)
     if text then
-      while true do
-        local ss, se = string.find(text, "\n")
-        if ss then
-          local firstPart = string.sub(text, 1, ss)
-          table.insert(t, firstPart)
-          text = string.sub(text, se+1, #text)
-        else
-          break
-        end
+      for line in text:gmatch("[^\n]+") do
+        table.insert(t, line)
       end
-
-      table.insert(t, text)
     end
+    
     if #t > 0 then
       table.insert(allTags, t)
     end

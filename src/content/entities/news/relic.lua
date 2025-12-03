@@ -108,7 +108,7 @@ main.defineNews("recycle", {
 main.defineNews("powerCore", {
   name = "Power Core",
   image = "powerCoreNews",
-  description = "1 in 4 chance for a random\ncard in the deck to\ncost {energyColor}-1 ENERGY",
+  description = "A random card in the\ndeck costs {energyColor}-1 ENERGY",
   trigger = {"EACHTURN"},
   isRelic = true,
   rarity = "RARE",
@@ -116,7 +116,7 @@ main.defineNews("powerCore", {
     local card = main.getRandomCard("discard", "draw", "hand", function (card)
       if card.energy == 0 then return false else return true end
     end)
-    if card and love.math.random() <= 0.25 then
+    if card then
       card.energy = card.energy - 1
     end
   end

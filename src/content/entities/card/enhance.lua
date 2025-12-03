@@ -60,13 +60,23 @@ main.definePlaceableNewsCard("decomposite", {
   image = "decomposite",
   trigger= {"DEPLOY"},
   price=3,
-  rarity = "RARE"
+  rarity = "RARE",
 }, {
   image = "decompositeNews",
   trigger = {"CARDTRIGGER"},
-  description = "1 in 3 chance to make a random card {energyColor}FREE",
-  onActivate = function ()
-    local target = main.getRandomCard("hand")
-    target.overrideEnergy = 0
+  decompositeCounter = 1,
+  description = "Every 3rd activation:\nmake a random card {energyColor}FREE",
+  onUpdate = function (ent)
+    ent.description = "Every 3rd activation:\nmake a random card {energyColor}FREE\n(" .. 4-ent.decompositeCounter .. " activation left)"
+  end,
+
+  onActivate = function (ent)
+    if ent.decompositeCounter == 3 then
+      local target = main.getRandomCard("hand")
+      target.overrideEnergy = 0
+      ent.decompositeCounter = 0
+    end
+
+    ent.decompositeCounter = ent.decompositeCounter + 1
   end
 })
