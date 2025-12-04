@@ -24,16 +24,6 @@
 -- })
 
 --todo: change/remove?
--- main.defineCard("cargo", {
---   name = "Cargo",
---   description = "Spawns a {energyColor}FREE{/energyColor} card\nwhich gives {priceColor}-10 PRICE",
---   image = "cargo",
---   trigger = {"DEPLOY"},
---   price = 2,
---   onActivate = function (ent)
---     main.basicSpawnCard("subtract", {temporary = 1, energy=0}, ent, "hand")
---   end
--- })
 
 -- main.defineCard("cell", {
 --   name = "Cell",

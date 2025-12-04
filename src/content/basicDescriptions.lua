@@ -50,6 +50,8 @@ end)
 main.addDescriptionType(21, function (ent)
   if ent.spawnNews then
     local t = main.parseDescriptionList(main.getEntityDefinitionWithComponents(main.entities[ent.spawnNews].definition))
+    table.remove(t, 1)
+    table.remove(t, #t)
     return utils.combineSlashN(t)
   end
 end)
@@ -122,7 +124,7 @@ end)
 main.addDescriptionType(30, function (ent)
   if ent.temporary ~= math.huge then
     local n = ent.temporary
-    return "USE-" .. n ..": Deleted after " .. n .. " use"
+    return "Deleted after " .. n .. " use"
   end
 end)
 
@@ -154,8 +156,14 @@ end)
 
 main.addDescriptionTag(30, function (ent)
   if ent.descriptionTagEntity then
-    local t = main.parseDescriptionList(main.getEntityDefinitionWithComponents(main.entities[ent.descriptionTagEntity].definition))
-    table.insert(t, 1, main.entities[ent.descriptionTagEntity].definition.name)
-    return utils.combineSlashN(t)
+    local def = main.entities[ent.descriptionTagEntity].definition
+    local t = main.parseDescriptionList(main.getEntityDefinitionWithComponents(def))
+    table.remove(t, #t)
+    if ent.isCard then
+      t[1] = t[1] .. " " .. "{energyColor}{energyIcon}" .. (def.energy or 1)
+    end
+
+    local result = utils.combineSlashN(t)
+    return result
   end
 end)

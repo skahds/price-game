@@ -333,3 +333,16 @@ main.defineCard("arrow", {
   end,
   rarity = "RARE",
 })
+
+main.defineCard("cargo", {
+  name = "Cargo",
+  description = "Creates a Junk in\nthe draw pile",
+  descriptionTagEntity = "junk",
+  defaultPriceGain = -50,
+  image = "cargo",
+  trigger = {"DEPLOY"},
+  price = 2,
+  onActivate = function (ent)
+    main.basicSpawnCard("junk", {}, ent, "draw")
+  end
+})
