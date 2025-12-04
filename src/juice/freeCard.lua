@@ -9,7 +9,7 @@ system.on("@draw", function ()
     flux.to(info, 1, {oppacity=0.8})
   end
   
-  for i, pile in ipairs(main.getAllVisibleStack()) do
+  for i, pile in ipairs(main.getAllVisiblePiles()) do
     for i, card in ipairs(pile) do
       local ui = card.ui
       if card.overrideEnergy == 0 then

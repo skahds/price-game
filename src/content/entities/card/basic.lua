@@ -93,6 +93,7 @@ main.defineCard("junk", {
   image = "junk",
   trigger = {"DEPLOY"},
   temporary = 1,
-  price = -1,
+  momentary = true,
+  price = 0,
   rarity = "UNIQUE",
 })

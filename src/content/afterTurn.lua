@@ -7,6 +7,7 @@ system.on("main:endTurn", function ()
 
   if scoreRequired <= score then
     pipeline:add(0.1, function ()
+      system.call("main:encounterEnd")
       local currentDay = system.getStorage("main:currentDay")
       if currentDay == 7 then
         system.updateStorage("main:gameResult", "WIN")
@@ -17,6 +18,7 @@ system.on("main:endTurn", function ()
     end)
   elseif roundsRemaining <= 0 then
     pipeline:add(0.1, function ()
+      system.call("main:encounterEnd")
       system.updateStorage("main:gameResult", "LOSE")
       main.playScene("gameEnd")
     end)

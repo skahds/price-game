@@ -317,3 +317,19 @@ main.defineCard("portableGenerator", {
     end
   end
 })
+
+main.defineCard("arrow", {
+  name = "Arrow",
+  image = "arrow",
+  description = "Spend all energy, give\n{priceColor}-17 PRICE{/priceColor} for each",
+  energy=0,
+  trigger = {"DEPLOY"},
+  price = 3,
+  
+  onActivate = function (ent)
+    local energy = system.getStorage("main:energy")
+    main.addPrice(-17*energy)
+    main.addEnergy(-energy)
+  end,
+  rarity = "RARE",
+})

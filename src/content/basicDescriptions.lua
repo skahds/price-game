@@ -127,6 +127,13 @@ main.addDescriptionType(30, function (ent)
 end)
 
 main.addDescriptionType(31, function (ent)
+  if ent.momentary then
+    return "Deleted after encounter ends"
+  end
+end)
+
+
+main.addDescriptionType(32, function (ent)
   if ent.repeatActivation > 0 then
     local n = ent.repeatActivation
     if n == 1 then
@@ -137,7 +144,7 @@ main.addDescriptionType(31, function (ent)
   end
 end)
 
-main.addDescriptionType(32, function (ent)
+main.addDescriptionType(33, function (ent)
   if ent.isHollow == true then
     return "HOLLOW: Doesn't take up space"
   end

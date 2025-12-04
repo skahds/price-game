@@ -62,6 +62,7 @@ main.defineCard("liquidate", {
   trigger = {"DEPLOY"},
   defaultPriceGain = -3,
   temporary=1,
+  momentary=true,
   energy=0,
   rarity = "UNIQUE"
 })

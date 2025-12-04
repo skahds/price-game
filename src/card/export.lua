@@ -12,11 +12,11 @@ main.card = {
   reward = {},
 }
 
-function main.getAllStack()
+function main.getAllPiles()
   return {main.card.hand, main.card.draw, main.card.discard, main.card.shop, main.card.reward}
 end
 
-function main.getAllVisibleStack()
+function main.getAllVisiblePiles()
   return {main.card.hand, main.card.shop, main.card.reward}
 end
 
