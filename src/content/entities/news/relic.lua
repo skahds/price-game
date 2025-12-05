@@ -110,6 +110,7 @@ main.defineNews("powerCore", {
   image = "powerCoreNews",
   description = "A random card in the\ndeck costs {energyColor}-1 ENERGY",
   trigger = {"EACHTURN"},
+  temporary=3,
   isRelic = true,
   rarity = "RARE",
   onActivate = function ()
@@ -118,6 +119,75 @@ main.defineNews("powerCore", {
     end)
     if card then
       card.energy = card.energy - 1
+    end
+  end
+})
+
+main.defineNews("junkDynamo", {
+  name = "Junk Dynamo",
+  image = "junkDynamoNews",
+  description = "Create 2 Junk",
+  descriptionTagEntity = "junk",
+  trigger = {"ENCOUNTER"},
+  defaultEnergyGain = 1,
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function ()
+    main.basicSpawnCard("junk", {}, nil, "draw")
+    main.basicSpawnCard("junk", {}, nil, "draw")
+  end
+})
+
+main.defineNews("junkDynamo", {
+  name = "Junk Dynamo",
+  image = "junkDynamoNews",
+  description = "Creates 2 Junk in\nthe draw pile",
+  descriptionTagEntity = "junk",
+  trigger = {"EACHTURN"},
+  defaultEnergyGain = 1,
+  isRelic = true,
+  rarity = "COMMON",
+  onActivate = function ()
+    main.basicSpawnCard("junk", {}, nil, "draw")
+    main.basicSpawnCard("junk", {}, nil, "draw")
+  end
+})
+
+main.defineNews("battery", {
+  name = "Battery",
+  image = "batteryNews",
+  description = "Creates a Junk with {repeatColor}+7 REPEAT",
+  descriptionTagEntity = "junk",
+  trigger = {"ENCOUNTER"},
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function ()
+    local card = main.basicSpawnCard("junk", {}, nil, "hand")
+    main.changeEntityComponent(card, "repeatActivation", 7, combiner.ADD)
+  end
+})
+
+main.defineNews("bluePill", {
+  name = "Blue Pill",
+  image = "bluePillNews",
+  description = "destroy all STARTER cards in deck\nand create 4 random {rareColor}RARE+{/rareColor} card",
+  trigger = {"OBTAIN"},
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function ()
+    for k, pile in ipairs(main.getAllPiles()) do
+      for i=#pile, 1, -1 do
+        local card = pile[i]
+        if card.rarity.id == "STARTER" then
+          main.deleteCard(card)
+        end
+      end
+    end
+
+    local bag = system.getStorage("rarity:bag")
+    local t = bag:getRandomCardWithInfo({minimumRarity="RARE", amount=4})
+    for k, card in ipairs(t) do
+      main.basicSpawnCard(card, {}, nil, "draw")
     end
   end
 })

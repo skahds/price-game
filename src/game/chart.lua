@@ -66,6 +66,10 @@ end
 
 function chart:addNews(news)
   table.insert(self.news, news)
+
+  if main.canTrigger(news, "OBTAIN") then
+    main.triggerEnt(news, "OBTAIN")
+  end
 end
 
 function chart:removeNews(index)

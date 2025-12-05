@@ -152,7 +152,7 @@ main.defineCard("grant", {
 main.defineCard("reap", {
   name = "Reap",
   image = "reap",
-  description = "Destroys card to the right and\ngains its {priceColor}PRICE",
+  description = "Destroys card to the right and\ngain its {priceColor}PRICE",
   energy = 1,
   trigger = {"DEPLOY"},
   price = 4,
@@ -200,7 +200,7 @@ main.defineCard("fortune", {
 main.defineCard("lastHope", {
   name = "Last Hope",
   image = "lastHope",
-  description = "Discard all cards in hand,\n draw 1 CARD and\ngive it {repeatColor}+3 REPEAT{/repeatColor}",
+  description = "Discard all cards in hand,\ndraw 1 CARD and\ngive it {repeatColor}+3 REPEAT{/repeatColor}",
   energy = 1,
   trigger = {"DEPLOY"},
   price = 3,

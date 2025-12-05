@@ -56,9 +56,28 @@ end
 
 -- helperish function, this was made during creation of content
 function main.basicSpawnCard(id, args, ent, ownership)
-  args.x, args.y = args.x or ent.y, args.y or ent.y
+  if ent == nil then
+    args.x, args.y = args.x or 0, args.y or 0
+  else
+    args.x, args.y = args.x or ent.y, args.y or ent.y
+  end
+  
+
   if ownership == "hand" then
-    return main.createCardBesidesEntInHand(id, args, ent)
+    if ent == nil then
+      local ownerShip = "hand"
+      local card = main.spawnEntity(id, args, true)
+      card.ui.x = 0
+      card.ui.y = 720
+      table.insert(main.card[ownerShip], card)
+      card.cardOrder = #main.card.hand
+      card.ownerShip = ownerShip
+      fixCardOrderOnStack(ownerShip)
+      main.card.updateAllCardPositionBackToOriginalPosition()
+      return card
+    else
+      return main.createCardBesidesEntInHand(id, args, ent)
+    end
   end
 
   if ownership == "draw" then
