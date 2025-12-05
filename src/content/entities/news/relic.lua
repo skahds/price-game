@@ -170,7 +170,7 @@ main.defineNews("battery", {
 main.defineNews("bluePill", {
   name = "Blue Pill",
   image = "bluePillNews",
-  description = "destroy all STARTER cards in deck\nand create 4 random {rareColor}RARE+{/rareColor} card",
+  description = "Destroy all STARTER cards in deck\nand create 4 random {rareColor}RARE+{/rareColor} card",
   trigger = {"OBTAIN"},
   isRelic = true,
   rarity = "RARE",
@@ -188,6 +188,23 @@ main.defineNews("bluePill", {
     local t = bag:getRandomCardWithInfo({minimumRarity="RARE", amount=4})
     for k, card in ipairs(t) do
       main.basicSpawnCard(card, {}, nil, "draw")
+    end
+  end
+})
+
+main.defineNews("doppelganger", {
+  name = "Doppelganger",
+  image = "doppelgangerNews",
+  description = "Create 3 copies of a random card",
+  trigger = {"OBTAIN"},
+  isRelic = true,
+  rarity = "COMMON",
+  onActivate = function ()
+    local card = main.getRandomCard("discard", "draw", "hand")
+    if card then
+      for i=1, 3 do
+        main.basicSpawnCard(card.id, main.getAllComponentsFromEntity(card), nil, "draw")
+      end
     end
   end
 })
