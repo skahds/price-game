@@ -33,7 +33,7 @@ end
 main.defineScene("treasureRoom", function ()
   local bag = system.getStorage("rarity:bag")
   local t = bag:getRandomNewsWithInfo({amount=2})
-  t[3] = "doppelganger"
+  t[3] = "chickenGame"
   main.createRewardsOptions(t, {rewardType="news"})
   
   main.showCharts()

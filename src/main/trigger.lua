@@ -18,10 +18,13 @@ function main.canTriggerFullCheck(ent, trigger)
   end
 end
 
-function main.triggerEnt(ent, trigger)
+function main.triggerEnt(ent, trigger, extraInfo)
   local bypass = false
   if trigger == nil then
     bypass = true
+  end
+  if arg.isCard then
+    print("and")
   end
   if main.canTrigger(ent, trigger) or bypass then
     if ent.filter and ent:filter() ~= true and bypass == false then
@@ -30,7 +33,7 @@ function main.triggerEnt(ent, trigger)
     system.call("main:entityAboutToTrigger", ent)
     
     if ent.onActivate then
-      ent:onActivate()
+      ent:onActivate(extraInfo)
     end
     
     system.call("main:entityTriggered", ent)

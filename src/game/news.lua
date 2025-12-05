@@ -88,7 +88,7 @@ local function getNextNews(gridX, gridY)
   return nextNews
 end
 
-local function repeatingTriggerNews(news, trigger)
+local function repeatingTriggerNews(news, trigger, extraInfo)
   if news == nil then
     error("news is nil")
   end
@@ -98,14 +98,14 @@ local function repeatingTriggerNews(news, trigger)
 
   if main.canTrigger(news, trigger) then
     pipeline:add(0.8, function ()
-      main.triggerEnt(news, trigger)
+      main.triggerEnt(news, trigger, extraInfo)
       local gridX, gridY = main.grid.entityToGrid(news)
 
       pipeline:add(0, function ()
         local nextNews = getNextNews(gridX, gridY)
         
         if nextNews then
-          repeatingTriggerNews(nextNews, trigger)
+          repeatingTriggerNews(nextNews, trigger, extraInfo)
         else
           pipeline:add(0, function ()
             system.call("main:repeatingTriggerNewsEnd", trigger)
@@ -118,7 +118,7 @@ local function repeatingTriggerNews(news, trigger)
     local nextNews = getNextNews(gridX, gridY)
     
     if nextNews then
-      repeatingTriggerNews(nextNews, trigger)
+      repeatingTriggerNews(nextNews, trigger, extraInfo)
     else
       pipeline:add(0, function ()
         system.call("main:repeatingTriggerNewsEnd", trigger)
@@ -127,7 +127,7 @@ local function repeatingTriggerNews(news, trigger)
   end
 end
 
-function main.triggerAllNews(trigger)
+function main.triggerAllNews(trigger, extraInfo)
   local pipeline = main.getPipeline("main")
   local chart = system.getStorage("main:chart")
   if chart == nil then
@@ -142,11 +142,11 @@ function main.triggerAllNews(trigger)
 
   local firstNews = getFirstNews()
   if chart:getNews(2) then
-    repeatingTriggerNews(firstNews, trigger)
+    repeatingTriggerNews(firstNews, trigger, extraInfo)
   else
     if main.canTrigger(firstNews, trigger) then
       pipeline:add(0.8, function ()
-        main.triggerEnt(firstNews, trigger)
+        main.triggerEnt(firstNews, trigger, extraInfo)
       end)
     end
     pipeline:add(0, function ()
@@ -205,6 +205,6 @@ end)
 
 system.on("main:entityTriggered", function (ent)
   if ent.isCard then
-    main.triggerAllNews("CARDTRIGGER")
+    main.triggerAllNews("CARDTRIGGER", ent)
   end
 end)

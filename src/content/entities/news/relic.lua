@@ -10,7 +10,7 @@ main.defineNews("discount", {
       card.overrideEnergy = 0
     end
   end,
-  rarity = "RARE"
+  rarity = "COMMON"
 })
 
 main.defineNews("dream", {
@@ -109,7 +109,7 @@ main.defineNews("powerCore", {
   name = "Power Core",
   image = "powerCoreNews",
   description = "A random card in the\ndeck costs {energyColor}-1 ENERGY",
-  trigger = {"EACHTURN"},
+  trigger = {"ENCOUTER"},
   temporary=3,
   isRelic = true,
   rarity = "RARE",
@@ -205,6 +205,40 @@ main.defineNews("doppelganger", {
       for i=1, 3 do
         main.basicSpawnCard(card.id, main.getAllComponentsFromEntity(card), nil, "draw")
       end
+    end
+  end
+})
+
+main.defineNews("marbles", {
+  name = "Marbles",
+  image = "marblesNews",
+  description = "Draw all cards that is {energyColor}FREE{energyColor}",
+  trigger = {"ENCOUTER"},
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function ()
+    local pipeline = main.getPipeline("main")
+    for i, card in ipairs(main.card.draw) do
+      if card.overrideEnergy == 0 then
+        pipeline:add(0.25, function ()
+          main.cardToHand(card)
+        end)
+      end
+    end
+  end
+})
+
+main.defineNews("chickenGame", {
+  name = "Chicken Game",
+  image = "chickenGameNews",
+  description = "Creates a copy of that card",
+  trigger = {"CARDTRIGGER"},
+  temporary=5,
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function (ent, card)
+    if card then
+      main.basicSpawnCard(card.id, main.getAllComponentsFromEntity(card), nil, "hand")
     end
   end
 })
