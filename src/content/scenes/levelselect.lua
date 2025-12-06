@@ -10,8 +10,37 @@ system.updateStorage("main:currentRoute", 1)
 local levelSelectSize = 64
 local scoreRequired
 
+local basicRoute = {
+  {id="PLAY", node=3},
+  {id="PLAY", node=3},
+  {id="SHOP", node=2},
+  {id="PLAY", node=3},
+  {id="PLAY", node=3},
+  {id="SHOP", node=2},
+  {id="PLAY", node=3},
+  {id="PLAY", node=3},
+  {id="SHOP", node=2},
+  {id="PLAY", node=1},
+}
+
+local basicScoreRequired = {
+  200,
+  300,
+  400,
+  550,
+  700,
+  1000,
+  2000
+}
+
 local function getscoreRequirement(i, difficulty)
-  local s = scoreRequired[i] or math.floor(20*(1.5^i)+0.5)
+  local s
+  if scoreRequired then
+    s = scoreRequired[i] or math.floor(20*(1.5^i)+0.5)
+  else
+    s = basicScoreRequired[i] or math.floor(20*(1.5^i)+0.5)
+  end
+
   s = math.floor(s * (1+difficulty)/20)*10
   return s
 end
@@ -99,6 +128,8 @@ main.defineScene("levelSelect", function ()
     system.saveGame()
   end)
   
+  local route = route or basicRoute
+
   generateLevelMap(route[currentRoute].node)
   if system.getStorage("main:isDoingTutorial") and currentRoute == 1 then
     levels[1].x = 150

@@ -3,13 +3,12 @@ local pipeline = main.getPipeline("main")
 
 local function updateScore()
   local score = system.getStorage("main:score")
-  local percentageHold = system.getStorage("main:ownedPercentage") or 0.5
   local bar = system.getStorage("main:currentBar")
 
   if bar then
     local change = math.floor((bar.endPrice - bar.startPrice)+0.5)
     local mult = system.getStorage("main:mult")
-    change = change * percentageHold/100
+    change = math.abs(change)
     change = change * mult
     score = score + change
     system.updateStorage("main:score", score)

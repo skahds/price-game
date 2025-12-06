@@ -109,7 +109,7 @@ main.defineNews("powerCore", {
   name = "Power Core",
   image = "powerCoreNews",
   description = "A random card in the\ndeck costs {energyColor}-1 ENERGY",
-  trigger = {"ENCOUTER"},
+  trigger = {"ENCOUNTER"},
   temporary=3,
   isRelic = true,
   rarity = "RARE",
@@ -203,7 +203,7 @@ main.defineNews("doppelganger", {
     local card = main.getRandomCard("discard", "draw", "hand")
     if card then
       for i=1, 3 do
-        main.basicSpawnCard(card.id, main.getAllComponentsFromEntity(card), nil, "draw")
+        main.basicSpawnCard(card.id, main.getAllComponentsFromEntity(card), nil, "hand")
       end
     end
   end

@@ -66,13 +66,6 @@ end
 
 function chart:addNews(news)
   table.insert(self.news, news)
-
-  if main.canTrigger(news, "OBTAIN") then
-    local pipeline = main.getPipeline("main")
-    pipeline:add(0.5, function ()
-      main.triggerEnt(news, "OBTAIN")
-    end)
-  end
 end
 
 function chart:removeNews(index)

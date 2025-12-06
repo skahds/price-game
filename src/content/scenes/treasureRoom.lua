@@ -18,16 +18,15 @@ local function continueAction()
 
   if #main.card.reward > 0 then
     main.clearReward()
+    continueAction()
   end
 
   if system.getStorage("main:isThereNewsReward") then
     main.clearReward()
+    continueAction()
   end
 
-  local pipeline = main.getPipeline("scene")
-  if #pipeline.pipeline == 0 then
-    main.playScene("levelSelect")
-  end
+  main.playScene("levelSelect")
 end
 
 main.defineScene("treasureRoom", function ()

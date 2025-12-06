@@ -115,6 +115,13 @@ system.on("main:newsClicked", function (ent, button)
   table.remove(news, ent.rewardIndex)
   ent.rewardIndex = nil
 
+  if main.canTrigger(ent, "OBTAIN") then
+    local pipeline = main.getPipeline("main")
+    pipeline:add(0.5, function ()
+      main.triggerEnt(ent, "OBTAIN")
+    end)
+  end
+
   main.clearReward()
 end)
 

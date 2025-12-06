@@ -2,8 +2,7 @@ local pipeline = main.getPipeline("main")
 local cover
 -- local ownSlider
 local scaleYSlider
-local sell
-local buy
+local startTurn
 local setting
 local drawPile, discardPile
 
@@ -23,10 +22,7 @@ main.defineScene("play", function ()
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
   
-  sell = main.ui.spawnUI("startTurn", {x=640-85-75, y=50, mult=-1, color={0.7, 0.4, 0.4}})
-  main.updateRichTextText(sell.richtext, "DOWN")
-  buy = main.ui.spawnUI("startTurn", {x=640+85-75, y=50, color={0.4, 0.7, 0.4}})
-  main.updateRichTextText(buy.richtext, "UP")
+  startTurn = main.ui.spawnUI("startTurn", {x=640-100, y=30})
   drawPile = main.ui.spawnUI("drawPile", {x=1280-60, y=720-60})
   discardPile = main.ui.spawnUI("discardPile", {x=60, y=720-60})
 
@@ -34,8 +30,7 @@ main.defineScene("play", function ()
     main.drawCard()
     main.addEntityToTutorial(main.card.hand[1], "Click this card\nto select it")
     tutorialInfos.cardChoice = main.card.hand[1]
-    sell.isVisible = false
-    buy.isVisible = false
+    startTurn.isVisible = false
   else
     main.shuffleDiscardToDraw()
     main.shuffleDraw()
@@ -72,7 +67,7 @@ end, function ()
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)
-  deleteAll({cover, scaleYSlider, sell, buy, setting, drawPile, discardPile})
+  deleteAll({cover, scaleYSlider, startTurn, setting, drawPile, discardPile})
   chart:clear()
 
   local bar = main.spawnBar()
@@ -118,9 +113,8 @@ system.on("main:entityTriggered", function (ent)
     end
   elseif tutorialInfos.stage == 2 then
     if system.getStorage("main:energy") == 0 then
-      buy.isVisible = true
-      sell.isVisible = true
-      main.addEntityToTutorial(buy, "If you predict the {priceColor}{priceIcon}PRICE{/priceColor}\nmultiplied by the {multColor}{multIcon}MULT{/multColor}\nwill be {greenColor}positive{/greenColor}, click here!")
+      startTurn.isVisible = true
+      main.addEntityToTutorial(startTurn, "When you're done with your turn, press here!\nyou will gain the amount of score\nwhether {priceColor}PRICE{/priceColor} is {greenColor}positive{/greenColor} or {redColor}negative{/redColor}!")
     end
   end
     

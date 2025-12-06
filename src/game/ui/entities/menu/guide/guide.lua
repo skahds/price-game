@@ -19,7 +19,7 @@ local pages = {
   },  {
     image="energyGuide",
     size={438, 200},
-    text={"Most cards uses {energyColor}energy,", "You replenish {energyColor}energy{/energyColor} at the", "end of turn"}
+    text={"Most cards use {energyColor}energy,", "You replenish {energyColor}energy{/energyColor} at the", "end of turn"}
   },  {
     image="chartGuide",
     size={503, 200},
