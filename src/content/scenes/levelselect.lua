@@ -3,33 +3,12 @@ local flux = system.getStorage("flux")
 local levels = {}
 local activeUI = {}
 -- routes: "PLAY", "SHOP"
-local route = {
-  {id="SHOP", node=2},
-  {id="PLAY", node=1, reward={4}},
-  {id="PLAY", node=3},
-  {id="SHOP", node=2},
-  {id="PLAY", node=3},
-  {id="PLAY", node=3},
-  {id="SHOP", node=2},
-  {id="PLAY", node=3},
-  {id="PLAY", node=3},
-  {id="SHOP", node=2},
-  {id="PLAY", node=1},
-}
+local route
 local currentRoute = 1
 system.updateStorage("main:currentRoute", 1)
 
 local levelSelectSize = 64
-
-local scoreRequired = {
-  200,
-  300,
-  400,
-  550,
-  700,
-  1000,
-  2000
-}
+local scoreRequired
 
 local function getscoreRequirement(i, difficulty)
   local s = scoreRequired[i] or math.floor(20*(1.5^i)+0.5)
@@ -110,7 +89,9 @@ local function generateNodeName()
 end
 
 system.on("@update", function ()
-  currentRoute = system.getStorage("main:currentRoute")
+  route = system.getStorage("main:route")
+  currentRoute = system.getStorage("main:currentRoute") or 1
+  scoreRequired =  system.getStorage("main:scoreRequirementList")
 end)
 
 main.defineScene("levelSelect", function ()
@@ -141,7 +122,7 @@ main.defineScene("levelSelect", function ()
       ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"), difficulty)
       ui.moneyReward = 2+difficulty
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
-      if difficulty >= 3 or route[currentRoute].enemy then
+      if route[currentRoute].enemy then
         local e
         if route[currentRoute].enemy then e = route[currentRoute].enemy end
         ui.enemy = main.enemies.entities[e] or main.enemies.getRandomEnemy()
@@ -248,8 +229,15 @@ system.on("@draw", function ()
     end
   end
 
+  local amountOfDay = 0
+  for i, t in ipairs(route) do
+    if t.id == "PLAY" then
+      amountOfDay = amountOfDay + 1
+    end
+  end
+  
   local t = main.printRichText({
-    format="DAY: " .. system.getStorage("main:currentDay") .. "/7",
+    format="DAY: " .. system.getStorage("main:currentDay") .. "/" .. amountOfDay,
     x=640,
     y=20,
     screenSpace = true,

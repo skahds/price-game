@@ -116,10 +116,10 @@ end)
 main.addDescriptionType(29, function (ent)
   if ent.isRelic == true then
     if ent.isCard then
-      return "RELIC: Stays in hand"
+      return "Stays in hand"
     end
     if ent.isNews then
-      return "RELIC: Stays between encounters"
+      return "Stays between encounters"
     end
   end
 end)

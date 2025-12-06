@@ -1,6 +1,7 @@
 local starters = {}
 local order = 1
 local width, height = 400, 500
+local starterChosen
 
 main.defineScene("runSelect", function ()
   for i, starter in ipairs(main.starters) do
@@ -29,7 +30,16 @@ main.ui.defineButton("toPlay", {
   audio = "breaker",
   onButtonClicked = function (ent)
     local selection = starters[ent.order]
+    starterChosen = ent.order
     selection.onActivate()
+
+    if selection.route then
+      system.updateStorage("main:route", selection.route)
+    end
+
+    if selection.scoreRequirementList then
+      system.updateStorage("main:scoreRequirementList", selection.scoreRequirementList)
+    end
 
     if ent.order == 1 then
       main.playScene("levelSelect")
@@ -63,6 +73,24 @@ system.on("@draw", function ()
     for i, str in ipairs(texts) do
       local t = main.printRichText({format=str, renderLayer=61, x=starter.x+width/2, y=starter.y+100+i*60})
       t.x = t.x - t.richText:getWidth()/2
+    end
+  end
+end)
+
+system.register("runSelect", 11, function ()
+  local t = {}
+  t.starterChosen = starterChosen
+  return t
+end, function (t)
+  if t.starterChosen then
+    local selection = main.starters[t.starterChosen]
+    starterChosen = t.starterChosen
+    if selection.route then
+      system.updateStorage("main:route", selection.route)
+    end
+
+    if selection.scoreRequirementList then
+      system.updateStorage("main:scoreRequirementList", selection.scoreRequirementList)
     end
   end
 end)

@@ -23,9 +23,6 @@ function main.triggerEnt(ent, trigger, extraInfo)
   if trigger == nil then
     bypass = true
   end
-  if arg.isCard then
-    print("and")
-  end
   if main.canTrigger(ent, trigger) or bypass then
     if ent.filter and ent:filter() ~= true and bypass == false then
       return false

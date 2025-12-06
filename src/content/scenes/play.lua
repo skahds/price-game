@@ -154,7 +154,8 @@ system.on("@mouse:released", function ()
       main.addEntityToTutorial(c, "Remember that {redColor}negative{/redColor} {priceColor}PRICE{/priceColor}\nis just another way to win!")
     end)
   elseif tutorialInfos.stage == 5 then
+    -- be careful cuz it can activate inbetween above's main.wait(1)
     main.clearTutorial()
-    tutorialInfos.stage = 6
+    -- tutorialInfos.stage = 6
   end
 end)
