@@ -80,7 +80,9 @@ main.definePlaceableNewsCard("decomposite", {
   onActivate = function (ent)
     if ent.decompositeCounter == 3 then
       local target = main.getRandomCard("hand")
-      target.overrideEnergy = 0
+      if target then
+        target.overrideEnergy = 0
+      end
       ent.decompositeCounter = 0
     end
 

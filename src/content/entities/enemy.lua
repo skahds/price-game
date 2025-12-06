@@ -21,7 +21,9 @@ main.defineEnemy("oracle", {
   trigger = {"EACHTURN"},
   onActivate = function (ent)
     local card = main.getRandomCard()
-    main.discardCard(card)
+    if card then
+      main.discardCard(card)
+    end
   end,
 })
 
@@ -32,7 +34,9 @@ main.defineEnemy("regulator", {
   trigger = {"EACHTURN"},
   onActivate = function (ent)
     local card = main.getRandomCard()
-    card.overrideEnergy = card.overrideEnergy + 1
+    if card then
+      card.overrideEnergy = card.overrideEnergy + 1
+    end
   end,
 })
 

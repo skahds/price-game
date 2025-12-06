@@ -314,8 +314,7 @@ local function makeJuice(text, event)
     local scaleFactor = 1.5
     local sx = text.sx * scaleFactor
     local sy = text.sy * scaleFactor
-    flux.to(text, 0.1, {sx = sx, sy=sy, r=rotation})
-    main.wait(0.1, function ()
+    flux.to(text, 0.1, {sx = sx, sy=sy, r=rotation}):oncomplete(function ()
       flux.to(text, 0.1, {sx = 1, sy=1,r=0})
     end)
   end)
