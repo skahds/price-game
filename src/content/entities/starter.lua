@@ -1,5 +1,5 @@
 local basicRoute = {
-  {id="PLAY", node=1, reward={4}},
+  {id="PLAY", node=3},
   {id="PLAY", node=3},
   {id="SHOP", node=2},
   {id="PLAY", node=3},
@@ -46,7 +46,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "VENTURE",
   image="basicMultiply",
-  description="for the demo!",
+  description="For the demo!",
   route = utils.deepCopy(basicRoute),
   scoreRequirementList = basicScoreRequired,
   onActivate = function ()

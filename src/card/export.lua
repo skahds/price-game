@@ -83,6 +83,7 @@ function main.basicSpawnCard(id, args, ent, ownership)
   if ownership == "draw" then
     local card = main.createCard(id, args, "draw")
     main.addCardToDraw(card)
+    main.shuffleDraw()
     return card
   end
 

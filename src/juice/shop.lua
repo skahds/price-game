@@ -34,7 +34,7 @@ system.on("main:cardTransferedOwnership", function (card, oldOwnerShip, newOwner
   end)
   flux.to(text, 0.5, {sx=size+randomSizeIncrease, sy=size+randomSizeIncrease})
   
-  system.playAudio("boop")
+  system.playAudio("cash")
 end)
 
 -- card prices juice

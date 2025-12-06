@@ -1,4 +1,4 @@
-local sfxList = {"boop", "breaker"}
+local sfxList = {"boop", "breaker", "cash"}
 
 for i, sfx in ipairs(sfxList) do
   main.audio.setDefaultAudioFunction(sfx, function (audio)

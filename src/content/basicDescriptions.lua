@@ -162,7 +162,8 @@ main.addDescriptionTag(30, function (ent)
     local def = main.entities[ent.descriptionTagEntity].definition
     local t = main.parseDescriptionList(main.getEntityDefinitionWithComponents(def))
     table.remove(t, #t)
-    if ent.isCard then
+
+    if def.isCard then
       t[1] = t[1] .. " " .. "{energyColor}{energyIcon}" .. (def.energy or 1)
     end
 
