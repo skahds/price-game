@@ -144,7 +144,7 @@ system.on("@update", function ()
       y=380+love.math.random(-20, 100),
       colorOffset=love.math.random()}
     table.insert(energyInfos.balls, ball)
-    flux.to(ball, 4, {x=500}):ease("sinein")
+    flux.to(ball, 6, {x=500}):ease("sinein")
   end
   for i=#energyInfos.balls, 1, -1 do
     local ball = energyInfos.balls[i]

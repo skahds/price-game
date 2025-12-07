@@ -41,7 +41,7 @@ system.on("main:currentPriceChanged", function (change)
   else
     color={0.9, 0.5, 0.5}
   end
-  local amount = math.floor(math.log(math.abs(change)*2)+0.5)
+  local amount = math.floor(math.log(math.abs(change)*2)+0.5)+3
   createJuice(amount, color, {x=50+350/4, y=300})
 end)
 
@@ -53,6 +53,6 @@ system.on("main:multChanged", function (change)
     color = {1, 0.6, 0.7}
   end
 
-  local amount = math.floor(math.log(math.abs(change)*2)+0.5)
+  local amount = math.floor(math.log(math.abs(change)*2)+0.5)+3
   createJuice(amount, color, {x=50+350*3/4, y=300})
 end)
