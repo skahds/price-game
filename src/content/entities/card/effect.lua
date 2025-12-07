@@ -208,7 +208,9 @@ main.defineCard("lastHope", {
   onActivate = function ()
     main.discardCurrentCardsInHand()
     local card = main.drawCard()
-    main.changeEntityComponent(card, "repeatActivation", 3, combiner.ADD)
+    if card then
+      main.changeEntityComponent(card, "repeatActivation", 3, combiner.ADD)
+    end
   end
 })
 
@@ -295,7 +297,7 @@ main.defineCard("snatch", {
 main.defineCard("portableGenerator", {
   name = "Portable Generator",
   image = "portableGenerator",
-  description = "Card to the right gains {energyColor}+1 ENERGY{/energyColor}\nand costs {energyColor}+1 ENERGY{/energyColor}",
+  description = "Card to the right generates {energyColor}+1 ENERGY{/energyColor}\nand costs {energyColor}+1 ENERGY{/energyColor}",
   energy = 0,
   trigger = {"DEPLOY"},
   price = 3,

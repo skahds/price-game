@@ -60,7 +60,7 @@ main.defineScene("levelEnd", function ()
   local roundsRemaining = system.getStorage("main:roundsRemaining")
   local t = {}
   table.insert(t, "Total score: " .. finalStats.finalScore)
-  table.insert(t, "Turn played: " .. finalStats.barsTaken)
+  table.insert(t, "Turn played: " .. finalStats.barsTaken-1)
 
   local money = roundsRemaining + 3
   if money < 10 then

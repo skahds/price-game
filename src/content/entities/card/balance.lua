@@ -34,9 +34,16 @@ main.defineCard("flag", {
 main.defineCard("greenHammer", {
   name = "Green Hammer",
   image = "greenHammer",
-  description = "{priceColor}+50 PRICE{/priceColor} if\ncurrent bar is red",
+  description = "{priceColor}+50 PRICE{/priceColor} if\ncurrent {priceColor}PRICE{/priceColor} is {redColor}negative",
   trigger = {"DEPLOY"},
   price = 3,
+  filter = function ()
+    local prices = main.getPrice()
+    if prices < 0 then
+      return true
+    end
+  end,
+
   onActivate = function (ent)
     local prices = main.getPrice()
     if prices < 0 then
@@ -48,9 +55,16 @@ main.defineCard("greenHammer", {
 main.defineCard("redHammer", {
   name = "Red Hammer",
   image = "redHammer",
-  description = "{priceColor}-50 PRICE{/priceColor} if\ncurrent bar is green",
+  description = "{priceColor}-50 PRICE{/priceColor} if\ncurrent {priceColor}PRICE{/priceColor} is {greenColor}positive",
   trigger = {"DEPLOY"},
   price = 3,
+    filter = function ()
+    local prices = main.getPrice()
+    if prices > 0 then
+      return true
+    end
+  end,
+
   onActivate = function (ent)
     local prices = main.getPrice()
     if prices > 0 then

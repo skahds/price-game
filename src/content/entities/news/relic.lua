@@ -99,9 +99,7 @@ main.defineNews("recycle", {
   isRelic = true,
   rarity = "RARE",
   onActivate = function ()
-    for i, card in ipairs(main.card.discard) do
-      main.addCardToDraw(card)
-    end
+    main.shuffleDiscardToDraw()
   end
 })
 
@@ -119,6 +117,7 @@ main.defineNews("powerCore", {
     end)
     if card then
       card.energy = card.energy - 1
+      card.overrideEnergy = math.max(card.overrideEnergy-1, 0)
     end
   end
 })
@@ -141,14 +140,13 @@ main.defineNews("junkDynamo", {
 main.defineNews("junkDynamo", {
   name = "Junk Dynamo",
   image = "junkDynamoNews",
-  description = "Creates 2 Junk in\nthe draw pile",
+  description = "Creates a Junk in\nthe draw pile",
   descriptionTagEntity = "junk",
   trigger = {"EACHTURN"},
   defaultEnergyGain = 1,
   isRelic = true,
   rarity = "COMMON",
   onActivate = function ()
-    main.basicSpawnCard("junk", {}, nil, "draw")
     main.basicSpawnCard("junk", {}, nil, "draw")
   end
 })

@@ -91,7 +91,7 @@ system.on("main:cardClicked", function (ent)
 
   if tutorialInfos.stage == 1 then
     main.clearTutorial()
-    main.addEntityToTutorial(main.card.hand[1], "Move your mouse up\nand press to activate!\n(consumes energy)")
+    main.addEntityToTutorial(main.card.hand[1], "Move your mouse up\nand press to activate!\n(consumes {energyColor}{energyIcon}ENERGY{/energyColor})")
   end
 end)
 
@@ -114,7 +114,7 @@ system.on("main:entityTriggered", function (ent)
   elseif tutorialInfos.stage == 2 then
     if system.getStorage("main:energy") == 0 then
       startTurn.isVisible = true
-      main.addEntityToTutorial(startTurn, "When you're done with your turn, press here!\nyou will gain the amount of score\nwhether {priceColor}PRICE{/priceColor} is {greenColor}positive{/greenColor} or {redColor}negative{/redColor}!")
+      main.addEntityToTutorial(startTurn, "When you're done with your turn, press here!\nyou will gain the amount of score\nwhether {priceColor}{priceIcon}PRICE{/priceColor} is {greenColor}positive{/greenColor} or {redColor}negative{/redColor}!")
     end
   end
     
@@ -145,7 +145,7 @@ system.on("@mouse:released", function ()
     tutorialInfos.stage = 5
     local c = main.getCardInOrder(3)
     main.wait(1, function ()
-      main.addEntityToTutorial(c, "Remember that {redColor}negative{/redColor} {priceColor}PRICE{/priceColor}\nis just another way to win!")
+      main.addEntityToTutorial(c, "Remember that {redColor}negative{/redColor} {priceColor}{priceIcon}PRICE{/priceColor}\nis just another way to win!")
     end)
   elseif tutorialInfos.stage == 5 then
     -- be careful cuz it can activate inbetween above's main.wait(1)
