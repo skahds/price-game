@@ -63,13 +63,7 @@ main.defineScene("levelEnd", function ()
   table.insert(t, "Turn played: " .. finalStats.barsTaken-1)
 
   local money = roundsRemaining + 3
-  if money < 10 then
-    local text = "Money Earned: {moneyColor}"
-    for i=1, money do
-      text = text .. "$"
-    end
-    table.insert(t, text)
-  else
+  if money then
     table.insert(t, "Money Earned: {moneyColor}$" .. money)
   end
     

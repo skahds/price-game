@@ -19,7 +19,7 @@ end
 system.on("renderer:render", function ()
   table.sort(renderKeys)
 
-  love.graphics.setCanvas(defaultCanvas)
+  love.graphics.setCanvas{defaultCanvas, stencil=true}
   love.graphics.clear(0.1, 0.1, 0.1, 1)
   
   for i, layer in ipairs(renderKeys) do

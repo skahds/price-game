@@ -29,6 +29,7 @@ main.ui.defineButton("toPlay", {
   text = "PLAY",
   audio = "breaker",
   onButtonClicked = function (ent)
+    if #main.getPipeline("scene").pipeline > 0 then return end
     local selection = starters[ent.order]
     starterChosen = ent.order
     selection.onActivate()

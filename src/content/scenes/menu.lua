@@ -2,6 +2,7 @@ local play
 local credits
 local logo
 local discord
+local settings
 local continue
 
 local function deleteAll(args)
@@ -24,8 +25,8 @@ main.defineScene("menu", function ()
   end
   credits = main.ui.spawnUI("credits", {x=20, y=20})
   discord = main.ui.spawnUI("discord", {x=20, y=720-150})
+  settings = main.ui.spawnUI("openSetting", {x=1280-20-200, y=720-150})
   main.hideCharts()
 end, function ()
-  deleteAll({play, credits, logo, discord, continue})
-  -- main.ui.guidebook()
+  deleteAll({play, credits, logo, discord, continue, settings})
 end)

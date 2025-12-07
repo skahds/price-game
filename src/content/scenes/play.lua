@@ -3,6 +3,7 @@ local cover
 -- local ownSlider
 local scaleYSlider
 local startTurn
+local settings
 local setting
 local drawPile, discardPile
 
@@ -25,6 +26,8 @@ main.defineScene("play", function ()
   startTurn = main.ui.spawnUI("startTurn", {x=640-100, y=30})
   drawPile = main.ui.spawnUI("drawPile", {x=1280-60, y=720-60})
   discardPile = main.ui.spawnUI("discardPile", {x=60, y=720-60})
+  settings = main.ui.spawnUI("openSetting", {x=1280-30-60, y=30, width=60, height=60, color={0.8, 0.8, 0.8}})
+  main.updateRichTextText(settings.richtext, "=")
 
   if system.getStorage("main:isDoingTutorial") and tutorialInfos.stage == 1 then
     main.drawCard()
@@ -67,7 +70,7 @@ end, function ()
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)
-  deleteAll({cover, scaleYSlider, startTurn, setting, drawPile, discardPile})
+  deleteAll({cover, scaleYSlider, startTurn, setting, drawPile, discardPile, settings})
   chart:clear()
 
   local bar = main.spawnBar()
@@ -142,14 +145,12 @@ end)
 system.on("@mouse:released", function ()
   if tutorialInfos.stage == 4 then
     main.clearTutorial()
-    tutorialInfos.stage = 5
     local c = main.getCardInOrder(3)
-    main.wait(1, function ()
-      main.addEntityToTutorial(c, "Remember that {redColor}negative{/redColor} {priceColor}{priceIcon}PRICE{/priceColor}\nis just another way to win!")
-    end)
+    tutorialInfos.stage = 5
+    main.addEntityToTutorial(c, "Remember that {redColor}negative{/redColor} {priceColor}{priceIcon}PRICE{/priceColor}\nis just another way to win!")
   elseif tutorialInfos.stage == 5 then
-    -- be careful cuz it can activate inbetween above's main.wait(1)
     main.clearTutorial()
-    -- tutorialInfos.stage = 6
+    main.spawnNews("tips", {x=0, y=0})
+    tutorialInfos.stage = 6
   end
 end)

@@ -297,7 +297,8 @@ main.defineCard("snatch", {
 main.defineCard("portableGenerator", {
   name = "Portable Generator",
   image = "portableGenerator",
-  description = "Card to the right generates {energyColor}+1 ENERGY{/energyColor}\nand costs {energyColor}+1 ENERGY{/energyColor}",
+  description = "Card to the right generates {energyColor}+1 ENERGY{/energyColor}",
+  temporary=1,
   energy = 0,
   trigger = {"DEPLOY"},
   price = 3,
@@ -313,8 +314,6 @@ main.defineCard("portableGenerator", {
   onActivate = function (ent)
     local target = main.getCardBesides(ent, 1)
     if target then
-      target.energy = target.energy + 1
-      target.overrideEnergy = math.min(target.overrideEnergy+1, target.energy)
       main.changeEntityComponent(target, "defaultEnergyGain", 1, combiner.ADD)
     end
   end
@@ -323,14 +322,14 @@ main.defineCard("portableGenerator", {
 main.defineCard("arrow", {
   name = "Arrow",
   image = "arrow",
-  description = "Spend all energy, give\n{priceColor}-17 PRICE{/priceColor} for each",
+  description = "Spend all energy, give\n{priceColor}-37 PRICE{/priceColor} for each",
   energy=0,
   trigger = {"DEPLOY"},
   price = 3,
   
   onActivate = function (ent)
     local energy = system.getStorage("main:energy")
-    main.addPrice(-17*energy)
+    main.addPrice(-37*energy)
     main.addEnergy(-energy)
   end,
   rarity = "RARE",

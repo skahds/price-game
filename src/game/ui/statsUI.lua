@@ -148,6 +148,7 @@ system.on("@draw", function ()
 
   local energy = system.getStorage("main:energy")
   local energyPerTurn = system.getStorage("main:energyPerTurn")
+
   system.render(200, function ()
     local widthPerBar = 330/energyPerTurn
 
@@ -167,6 +168,13 @@ system.on("@draw", function ()
       local x = 60+i*widthPerBar
       love.graphics.line(x, 372, x, 468)
     end
+
+    -- love.graphics.setColor(1, 1, 1)
+    -- love.graphics.setStencilMode("draw", 1)
+    -- love.graphics.rectangle("fill", 70, 380, energyInfos.w, 80, r, r)
+    -- love.graphics.setStencilMode("test", 1)
+    -- love.graphics.circle("fill", 70, 380, 30)
+    -- love.graphics.setStencilMode()
   end, true)
 
   if energy > energyPerTurn then
