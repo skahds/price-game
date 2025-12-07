@@ -132,8 +132,28 @@ system.on("main:sceneChanged", function()
 end)
 
 --energy
-local energyInfos = {w=0}
+local counter = 0
+local energyInfos = {w=0, balls={}}
 system.on("@update", function ()
+  counter = counter + system.getStorage("dt")
+  if counter > 0.2 then
+    counter = 0
+    local ball = {
+      r=love.math.random(40, 50),
+      x=20,
+      y=380+love.math.random(-20, 100),
+      colorOffset=love.math.random()}
+    table.insert(energyInfos.balls, ball)
+    flux.to(ball, 4, {x=500}):ease("sinein")
+  end
+  for i=#energyInfos.balls, 1, -1 do
+    local ball = energyInfos.balls[i]
+    if ball.x > 450 then
+      table.remove(energyInfos.balls, i)
+    end
+    -- ball.x = ball.x + 80 * system.getStorage("dt") + ball.x-80
+  end
+
   local energy = system.getStorage("main:energy")
   local energyPerTurn = system.getStorage("main:energyPerTurn")
   local widthPerBar = 330/energyPerTurn
@@ -162,19 +182,22 @@ system.on("@draw", function ()
     love.graphics.setColor(1, 0.7, 0.3, 1)
     love.graphics.rectangle("fill", 70, 380, energyInfos.w, 80, r, r)
 
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.setStencilMode("draw", 1)
+    love.graphics.rectangle("fill", 70, 380, energyInfos.w, 80, r, r)
+    love.graphics.setStencilMode("test", 1)
+    for i, ball in ipairs(energyInfos.balls) do
+      love.graphics.setColor(1, 0.85, 0.5, 1-(ball.x-70)/400-ball.colorOffset/3)
+      love.graphics.circle("fill", ball.x, ball.y, ball.r)
+    end
+    love.graphics.setStencilMode()
+
     love.graphics.setColor(0.3, 0.3, 0.3, 1)
     love.graphics.setLineWidth(10)
     for i=1, (energyPerTurn-1) do
       local x = 60+i*widthPerBar
       love.graphics.line(x, 372, x, 468)
     end
-
-    -- love.graphics.setColor(1, 1, 1)
-    -- love.graphics.setStencilMode("draw", 1)
-    -- love.graphics.rectangle("fill", 70, 380, energyInfos.w, 80, r, r)
-    -- love.graphics.setStencilMode("test", 1)
-    -- love.graphics.circle("fill", 70, 380, 30)
-    -- love.graphics.setStencilMode()
   end, true)
 
   if energy > energyPerTurn then
