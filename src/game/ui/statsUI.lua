@@ -75,6 +75,11 @@ system.on("main:scoreChanged", function (change)
     multText.isVisible = true
   end)
 end)
+system.on("main:sceneChanged", function ()
+  scoreInfos.currentScore=0
+  scoreInfos.score = 0
+  scoreInfos.scoreToClaim=0
+end)
 
 system.on("@update", function ()
   local score = system.getStorage("main:score")
