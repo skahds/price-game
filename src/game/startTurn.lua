@@ -1,4 +1,3 @@
-system.updateStorage("main:isOnTurn", false)
 local pipeline = main.getPipeline("main")
 
 local function updateScore()

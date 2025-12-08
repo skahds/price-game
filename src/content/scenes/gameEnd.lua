@@ -27,7 +27,7 @@ main.defineScene("gameEnd", function ()
   
   table.insert(t, "Total score: " .. finalStats.finalScore)
 
-  main.ui.spawnUI("settingRestart", {x=540, y=400})
+  restart = main.ui.spawnUI("settingRestart", {x=540, y=400})
 
   local height = font:getHeight()
 

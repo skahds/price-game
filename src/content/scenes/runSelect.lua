@@ -42,12 +42,12 @@ main.ui.defineButton("toPlay", {
       system.updateStorage("main:scoreRequirementList", selection.scoreRequirementList)
     end
 
-    if ent.order == 1 then
+    -- if ent.order == 1 then
+    --   main.playScene("levelSelect")
+      
+    -- else
       main.playScene("levelSelect")
-      system.updateStorage("main:isDoingTutorial", true)
-    else
-      main.playScene("levelSelect")
-    end
+    -- end
   end
 })
 

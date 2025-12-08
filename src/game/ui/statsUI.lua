@@ -187,7 +187,7 @@ system.on("@draw", function ()
     love.graphics.rectangle("fill", 70, 380, energyInfos.w, 80, r, r)
     love.graphics.setStencilMode("test", 1)
     for i, ball in ipairs(energyInfos.balls) do
-      love.graphics.setColor(1, 0.85, 0.5, 1-(ball.x-70)/400-ball.colorOffset/3)
+      love.graphics.setColor(1, 0.85, 0.5, 1.1-(ball.x-70)/400-ball.colorOffset/2)
       love.graphics.circle("fill", ball.x, ball.y, ball.r)
     end
     love.graphics.setStencilMode()

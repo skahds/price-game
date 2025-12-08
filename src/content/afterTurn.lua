@@ -8,8 +8,9 @@ system.on("main:endTurn", function ()
   if scoreRequired <= score then
     pipeline:add(0.1, function ()
       system.call("main:encounterEnd")
-      local currentDay = system.getStorage("main:currentDay")
-      if currentDay == 7 then
+      local route = system.getStorage("main:route")
+      local currentRoute = system.getStorage("main:currentRoute") or 1
+      if currentRoute-1 == #route then
         system.updateStorage("main:gameResult", "WIN")
         main.playScene("gameEnd")
       else

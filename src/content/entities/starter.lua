@@ -3,18 +3,18 @@ local basicRoute = {
   {id="PLAY", node=3},
   {id="SHOP", node=2},
   {id="PLAY", node=3},
-  {id="PLAY", node=3},
-  {id="SHOP", node=2},
-  {id="PLAY", node=3},
-  {id="PLAY", node=3},
-  {id="SHOP", node=2},
-  {id="PLAY", node=1},
+  -- {id="PLAY", node=3},
+  -- {id="SHOP", node=2},
+  -- {id="PLAY", node=3},
+  -- {id="PLAY", node=3},
+  -- {id="SHOP", node=2},
+  -- {id="PLAY", node=1},
 }
 
 local basicScoreRequired = {
-  200,
-  300,
-  400,
+  20,
+  30,
+  40,
   550,
   700,
   1000,
@@ -39,6 +39,7 @@ main.defineRunStarter({
     main.createCardToDraw("subtract", 3)
     main.createCardToDraw("amplifier", 2)
 
+    system.updateStorage("main:isDoingTutorial", true)
     -- main.shuffleDraw()
   end
 })

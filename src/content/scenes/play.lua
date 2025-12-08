@@ -8,7 +8,7 @@ local setting
 local drawPile, discardPile
 
 --tutorial, stage kinda like a rocketship :)
-local tutorialInfos = {stage=1}
+local tutorialInfos = system.getStorage("main:tutorialInfos")
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -17,6 +17,10 @@ local function deleteAll(args)
     end
   end
 end
+
+system.on("@update", function ()
+  tutorialInfos = system.getStorage("main:tutorialInfos")
+end)
 
 main.defineScene("play", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=360,
@@ -151,6 +155,7 @@ system.on("@mouse:released", function ()
   elseif tutorialInfos.stage == 5 then
     main.clearTutorial()
     main.spawnNews("tips", {x=0, y=0})
+    system.updateStorage("main:isDoingTutorial", false)
     tutorialInfos.stage = 6
   end
 end)

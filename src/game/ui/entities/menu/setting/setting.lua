@@ -160,7 +160,44 @@ main.ui.defineButton("settingExit", {
   end
 })
 
--- TEMPORARY
+local function restartGame()
+  if #main.getPipeline("scene").pipeline > 0 then
+    return
+  end
+  for k, pile in ipairs(main.getAllPiles()) do
+    for i=#pile, 1, -1 do
+      local card = pile[i]
+      main.deleteCard(card)
+    end
+  end
+
+  local chart = system.getStorage("main:chart")
+  if chart then
+    chart:clear()
+    for i=#chart.news, 1, -1 do
+      local news = chart.news[i]
+      main.deleteNews(news)
+    end
+  end
+
+  system.updateStorage("main:endLevelReward", {})
+
+  local mainPipeline = main.getPipeline("main")
+  while #mainPipeline.pipeline > 0 do
+    mainPipeline:skipCurrentAction()
+  end
+
+  main.clearTutorial()
+  main.clearReward()
+  main.resetStats()
+
+  if system.getStorage("main:currentScene") == "play" then
+    system.updateStorage("main:currentDay", 0)
+  end
+
+  main.playScene("menu")
+end
+
 main.ui.defineButton("settingRestart", {
   width = 200,
   height = 80,
@@ -170,7 +207,10 @@ main.ui.defineButton("settingRestart", {
   text = "RESTART",
   audio = "breaker",
   onButtonClicked = function (ent)
-    love.event.restart()
+    restartGame()
+    if isSettingShown then
+      main.ui.gameSettings()
+    end
   end
 })
 

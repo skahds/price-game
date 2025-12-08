@@ -5,7 +5,6 @@ local activeUI = {}
 -- routes: "PLAY", "SHOP"
 local route
 local currentRoute = 1
-system.updateStorage("main:currentRoute", 1)
 
 local levelSelectSize = 64
 local scoreRequired

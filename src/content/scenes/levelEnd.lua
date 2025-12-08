@@ -103,6 +103,7 @@ main.defineScene("levelEnd", function ()
 end, function ()
 
   deleteAll({cover, levelEndContinue})
+  deleteAll(stats)
 
   for i=#main.card.hand, 1, -1 do
     local card = main.card.hand[i]
