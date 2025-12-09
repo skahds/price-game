@@ -61,7 +61,7 @@ main.defineRunStarter({
 })
 
 main.defineRunStarter({
-  name = "Crusade",
+  name = "Firm",
   image="vision",
   description="14 days!",
   route = utils.deepCopy(basicRoute),
