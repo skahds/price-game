@@ -47,13 +47,14 @@ system.on("main:currentPriceChanged", function ()
   end
 end)
 
-function love.wheelmoved(x, y)
+system.on("@mouse:wheelmoved", function (t)
+  local y=t.y
   if y > 0 and playerCam.zoom < 3 then
     playerCam.zoom = playerCam.zoom*1.2
   elseif y < 0 and playerCam.zoom > 0.7 then
     playerCam.zoom = playerCam.zoom/1.2
   end
-end
+end)
 
 local hasPressed = false
 system.on("@update", function ()

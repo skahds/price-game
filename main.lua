@@ -40,6 +40,10 @@ function love.mousemoved( x, y, dx, dy, istouch )
   system.call("@mouse:moved", {dx=dx, dy=dy})
 end
 
+function love.wheelmoved(x, y)
+  system.call("@mouse:wheelmoved", {x=x, y=y})
+end
+
 
 local isDown = {false, false, false}
 system.on("@update", function ()

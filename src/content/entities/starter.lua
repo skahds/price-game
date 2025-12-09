@@ -3,18 +3,18 @@ local basicRoute = {
   {id="PLAY", node=3},
   {id="SHOP", node=2},
   {id="PLAY", node=3},
-  -- {id="PLAY", node=3},
-  -- {id="SHOP", node=2},
-  -- {id="PLAY", node=3},
-  -- {id="PLAY", node=3},
-  -- {id="SHOP", node=2},
-  -- {id="PLAY", node=1},
+  {id="PLAY", node=3},
+  {id="SHOP", node=2},
+  {id="PLAY", node=3},
+  {id="PLAY", node=3},
+  {id="SHOP", node=2},
+  {id="PLAY", node=1},
 }
 
 local basicScoreRequired = {
-  20,
-  30,
-  40,
+  200,
+  300,
+  400,
   550,
   700,
   1000,
@@ -46,6 +46,22 @@ main.defineRunStarter({
 
 main.defineRunStarter({
   name = "VENTURE",
+  image="basicMultiply",
+  description="For the demo!",
+  route = utils.deepCopy(basicRoute),
+  scoreRequirementList = basicScoreRequired,
+  onActivate = function ()
+    main.createCardToDraw("add", 3)
+    main.createCardToDraw("subtract", 3)
+    main.createCardToDraw("multiply", 3)
+    main.createCardToDraw("amplifier", 2)
+
+    main.shuffleDraw()
+  end
+})
+
+main.defineRunStarter({
+  name = "BLLALA",
   image="basicMultiply",
   description="For the demo!",
   route = utils.deepCopy(basicRoute),

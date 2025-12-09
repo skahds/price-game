@@ -1,7 +1,9 @@
+local flux = system.getStorage("flux")
 local starters = {}
 local order = 1
 local width, height = 400, 500
 local starterChosen
+local runSelectSlider
 
 main.defineScene("runSelect", function ()
   for i, starter in ipairs(main.starters) do
@@ -11,12 +13,27 @@ main.defineScene("runSelect", function ()
     table.insert(starters, t)
   end
 
+  runSelectSlider = main.ui.spawnUI("basicSlider", {
+      x=640-150,
+      y=20,
+      width = 300,
+      height = 60,
+      targetStorage = "main:runSelectSlider",
+      slideAmount = system.getStorage("main:runSelectSlider") or 0,
+      ballColor = {0.8, 0.4, 0.4},
+      renderLayer = 411,
+      outline = 10,
+      outlineBelow = true,
+      outlineColor = {0.5, 0.5, 0.5},
+    })
+
   main.tweenCamera(0.2, {x=0, y=0})
   main.hideCharts()
 end, function ()
   for i, starter in ipairs(starters) do
     starter.ui:delete()
   end
+  runSelectSlider:delete()
   starters = {}
 end)
 
@@ -52,6 +69,17 @@ main.ui.defineButton("toPlay", {
 })
 
 system.on("@draw", function ()
+  if runSelectSlider then
+    runSelectSlider.slideAmount = system.getStorage("main:runSelectSlider") or 0
+  end
+
+  local totalWidth = 100 + #starters*500-1280
+  for i, starter in ipairs(starters) do
+    local slideAmount = system.getStorage("main:runSelectSlider") or 0
+    flux.to(starter, 0.3, {x=100-slideAmount*totalWidth+(width+100)*(i-1)})
+    starter.ui.x = starter.x+width/2-100
+  end
+
   for i, starter in ipairs(starters) do
     system.render(60, function ()
       love.graphics.setColor(0.6, 0.6, 0.6)
@@ -75,6 +103,16 @@ system.on("@draw", function ()
       local t = main.printRichText({format=str, renderLayer=61, x=starter.x+width/2, y=starter.y+100+i*60})
       t.x = t.x - t.richText:getWidth()/2
     end
+  end
+end)
+
+system.on("@mouse:wheelmoved", function (t)
+  local y=t.y
+  local str = system.getStorage("main:runSelectSlider") or 0
+  if y > 0 and str < 0.95 then
+    system.updateStorage("main:runSelectSlider", str+0.1)
+  elseif y < 0 and str > 0.05 then
+    system.updateStorage("main:runSelectSlider", str-0.1)
   end
 end)
 

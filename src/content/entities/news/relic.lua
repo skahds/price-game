@@ -97,7 +97,7 @@ main.defineNews("recycle", {
   description = "Shuffle the discard pile to the draw pile",
   trigger = {"EACHTURN"},
   isRelic = true,
-  rarity = "RARE",
+  rarity = "COMMON",
   onActivate = function ()
     main.shuffleDiscardToDraw()
   end
@@ -158,7 +158,7 @@ main.defineNews("battery", {
   descriptionTagEntity = "junk",
   trigger = {"ENCOUNTER"},
   isRelic = true,
-  rarity = "RARE",
+  rarity = "COMMON",
   onActivate = function ()
     local card = main.basicSpawnCard("junk", {}, nil, "hand")
     main.changeEntityComponent(card, "repeatActivation", 7, combiner.ADD)

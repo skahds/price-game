@@ -105,30 +105,30 @@ function main.ui.gameSettings()
     })
 
     exit = main.ui.spawnUI("settingExit", {
-      x=dimension.w/2-width/4-75,
+      x=dimension.w/2-width/3-75,
       y=dimension.h/2+80,
       renderLayer = 412,
     })
 
     back = main.ui.spawnUI("settingBack", {
-      x=dimension.w/2-width/4-75,
+      x=dimension.w/2-width/3-75,
       y=dimension.h/2-30,
       renderLayer = 412,
     })
 
     restart = main.ui.spawnUI("settingRestart", {
-      x=dimension.w/2-width/4-75,
+      x=dimension.w/2-width/3-75,
       y=dimension.h/2-140,
       renderLayer = 412,
     })
 
-    guide = main.ui.spawnUI("settingGuide", {
-      x=dimension.w/2-width/4-75-80,
-      y=dimension.h/2-140,
-      renderLayer = 412,
-    })
+    -- guide = main.ui.spawnUI("settingGuide", {
+    --   x=dimension.w/2-width/4-75-80,
+    --   y=dimension.h/2-140,
+    --   renderLayer = 412,
+    -- })
   else
-    deleteAll({cover, sfxSlider, musicSlider, exit, back, restart, guide, gameSpeedSlider})
+    deleteAll({cover, sfxSlider, musicSlider, exit, back, restart, gameSpeedSlider})
     isSettingShown = false
     saveSettings()
   end
