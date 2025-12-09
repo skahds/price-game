@@ -22,7 +22,7 @@ local basicScoreRequired = {
 }
 
 main.defineRunStarter({
-  name = "TUTORIAL",
+  name = "Tutorial",
   description="Quick guide!",
   image = "basicAdd",
   route  = {
@@ -45,7 +45,7 @@ main.defineRunStarter({
 })
 
 main.defineRunStarter({
-  name = "VENTURE",
+  name = "Venture",
   image="basicMultiply",
   description="For the demo!",
   route = utils.deepCopy(basicRoute),
@@ -61,9 +61,25 @@ main.defineRunStarter({
 })
 
 main.defineRunStarter({
-  name = "BLLALA",
-  image="basicMultiply",
-  description="For the demo!",
+  name = "Crusade",
+  image="vision",
+  description="14 days!",
+  route = utils.deepCopy(basicRoute),
+  scoreRequirementList = basicScoreRequired,
+  onActivate = function ()
+    main.createCardToDraw("add", 3)
+    main.createCardToDraw("subtract", 3)
+    main.createCardToDraw("multiply", 3)
+    main.createCardToDraw("amplifier", 2)
+
+    main.shuffleDraw()
+  end
+})
+
+main.defineRunStarter({
+  name = "Enterprise",
+  image="stalemartyr",
+  description="21 days!",
   route = utils.deepCopy(basicRoute),
   scoreRequirementList = basicScoreRequired,
   onActivate = function ()

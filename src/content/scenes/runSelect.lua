@@ -109,9 +109,9 @@ end)
 system.on("@mouse:wheelmoved", function (t)
   local y=t.y
   local str = system.getStorage("main:runSelectSlider") or 0
-  if y > 0 and str < 0.95 then
+  if y < 0 and str < 0.95 then
     system.updateStorage("main:runSelectSlider", str+0.1)
-  elseif y < 0 and str > 0.05 then
+  elseif y > 0 and str > 0.05 then
     system.updateStorage("main:runSelectSlider", str-0.1)
   end
 end)
