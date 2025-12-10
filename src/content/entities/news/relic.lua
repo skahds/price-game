@@ -240,3 +240,35 @@ main.defineNews("chickenGame", {
     end
   end
 })
+
+main.defineNews("warBanner", {
+  name = "War Banner",
+  description = "Your card with COMMON\nrarity gains {repeatColor}+2 REPEAT",
+  image = "warBannerNews",
+  trigger = {"EACHTURN"},
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function ()
+    for i, card in ipairs(main.card.hand) do
+      if card.rarity.id == "COMMON" then
+        main.changeEntityComponent(card, "repeatActivation", 2, combiner.ADD)
+      end
+    end
+  end
+})
+
+main.defineNews("seedOfLight", {
+  name = "Seed Of Light",
+  description = "A random card in the deck becomes\n{energyColor}FREE{/energyColor} and gains {repeatColor}+4 REPEAT",
+  image = "seedOfLightNews",
+  trigger = {"ENCOUNTER"},
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function ()
+    local card = main.getRandomCard("discard", "draw", "hand")
+    if card then
+      card.overrideEnergy = 0
+      main.changeEntityComponent(card, "repeatActivation", 4, combiner.ADD)
+    end
+  end
+})

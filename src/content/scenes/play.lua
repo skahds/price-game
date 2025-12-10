@@ -140,7 +140,9 @@ system.on("main:endTurn", function ()
       local chart = system.getStorage("main:chart")
       main.spawnNews("badNews", {x=0,y=0})
       local n = chart:getNews(1)
-      main.addEntityToTutorial(n, "This is a news, it activates\nwhen the turn starts.")
+      if n then
+        main.addEntityToTutorial(n, "This is a news, it activates\nwhen the turn starts.")
+      end
       tutorialInfos.stage = 4
     end)
   end
@@ -150,6 +152,9 @@ system.on("@mouse:released", function ()
   if tutorialInfos.stage == 4 then
     main.clearTutorial()
     local c = main.getCardInOrder(3)
+    if c == nil then
+      return
+    end
     tutorialInfos.stage = 5
     main.addEntityToTutorial(c, "Remember that {redColor}negative{/redColor} {priceColor}{priceIcon}PRICE{/priceColor}\nis just another way to win!")
   elseif tutorialInfos.stage == 5 then

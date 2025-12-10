@@ -40,7 +40,7 @@ main.defineScene("runSelect", function ()
     outlineColor = {0.4, 0.4, 0.4}, outline=10})
 
   arrowLeft = main.ui.spawnUI("runSelectArrow", {x=400, y=360-64})
-  arrowLeft = main.ui.spawnUI("runSelectArrow", {x=1280-400, y=360-64, sx=-1})
+  arrowRight = main.ui.spawnUI("runSelectArrow", {x=1280-400, y=360-64, sx=-1})
 
   main.tweenCamera(0.2, {x=0, y=0})
   main.hideCharts()
@@ -112,6 +112,18 @@ system.on("@update", function ()
 
   if starters[starterHovering] == nil then
     return
+  end
+
+  if starterHovering == 1 then
+    arrowLeft.isVisible = false
+  else
+    arrowLeft.isVisible = true
+  end
+
+  if starterHovering == #starters then
+    arrowRight.isVisible = false
+  else
+    arrowRight.isVisible = true
   end
 
   local offsetX = (starterHovering-1)*500+width/2-640

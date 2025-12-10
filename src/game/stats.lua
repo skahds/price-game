@@ -20,7 +20,7 @@ end
 
 main.resetStats()
 
-local stats = {"main:score", "main:mult", "main:energyPerTurn", "main:energy", "main:money", "shop:maxCardAmount", "main:maxCardAmount", "main:roundsPerDay", "main:roundsRemaining", "main:currentDay", "main:scoreRequirement", "main:currentRoute"
+local stats = {"main:score", "main:mult", "main:energyPerTurn", "main:energy", "main:money", "shop:maxCardAmount", "main:maxCardAmount", "main:roundsPerDay", "main:roundsRemaining", "main:currentDay", "main:scoreRequirement", "main:currentRoute", "main:currentDay"
 }
 
 system.register("stats", 10, function ()
