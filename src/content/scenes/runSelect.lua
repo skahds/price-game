@@ -6,7 +6,7 @@ local difficulyNaming = {"Easy", "Medium", "Hard"}
 local starterChosen
 local starterHovering = 1
 local difficultySelected = 1
-local coverLeft, coverRight
+local coverLeft, coverRight, arrowLeft, arrowRight
 local toPlay
 
 local function deleteAll(args)
@@ -39,13 +39,38 @@ main.defineScene("runSelect", function ()
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10})
 
+  arrowLeft = main.ui.spawnUI("runSelectArrow", {x=400, y=360-64})
+  arrowLeft = main.ui.spawnUI("runSelectArrow", {x=1280-400, y=360-64, sx=-1})
+
   main.tweenCamera(0.2, {x=0, y=0})
   main.hideCharts()
 end, function ()
   starters = {}
 
-  deleteAll({toPlay, coverLeft, coverRight})
+  deleteAll({toPlay, coverLeft, coverRight, arrowLeft, arrowRight})
 end)
+
+local flux = system.getStorage("flux")
+
+main.ui.defineUI("runSelectArrow", {
+  image = "runArrowLeft",
+  renderLayer = 95,
+  width = 64,
+  height= 128,
+  onHover = function (ent)
+
+  end,
+  notHovered = function (ent)
+
+  end,
+  onMouseReleased = function (ent, button)
+    if ent.sx and ent.sx < 0 then
+      starterHovering = math.min(#starters, starterHovering+1)
+    else
+      starterHovering = math.max(1, starterHovering-1)
+    end
+  end,
+})
 
 main.ui.defineButton("toPlay", {
   width = 200,
