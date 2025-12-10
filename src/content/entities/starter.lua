@@ -11,7 +11,7 @@ local basicRoute = {
   {id="PLAY", node=1},
 }
 
-local basicScoreRequired = {
+local basicScoreRequired = {{
   200,
   300,
   400,
@@ -19,7 +19,23 @@ local basicScoreRequired = {
   700,
   1000,
   2000
-}
+},{
+  250,
+  350,
+  500,
+  700,
+  1100,
+  2000,
+  4000
+}, {
+  250,
+  400,
+  550,
+  800,
+  1300,
+  3000,
+  10000
+}}
 
 main.defineRunStarter({
   name = "Tutorial",
@@ -32,7 +48,7 @@ main.defineRunStarter({
     {id="PLAY", node=3},
     {id="PLAY", node=3},
   },
-  scoreRequirementList = basicScoreRequired,
+  scoreWithDifficulty = {{200,300,400,550,700,1000,2000}},
   onActivate = function ()
     main.createCardToDraw("add", 3)
     main.createCardToDraw("multiply", 3)
@@ -49,7 +65,7 @@ main.defineRunStarter({
   image="basicMultiply",
   description="For the demo!",
   route = utils.deepCopy(basicRoute),
-  scoreRequirementList = basicScoreRequired,
+  scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
     main.createCardToDraw("add", 3)
     main.createCardToDraw("subtract", 3)
@@ -65,7 +81,7 @@ main.defineRunStarter({
   image="vision",
   description="14 days!",
   route = utils.deepCopy(basicRoute),
-  scoreRequirementList = basicScoreRequired,
+  scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
     main.createCardToDraw("add", 3)
     main.createCardToDraw("subtract", 3)
@@ -81,7 +97,7 @@ main.defineRunStarter({
   image="stalemartyr",
   description="21 days!",
   route = utils.deepCopy(basicRoute),
-  scoreRequirementList = basicScoreRequired,
+  scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
     main.createCardToDraw("add", 3)
     main.createCardToDraw("subtract", 3)

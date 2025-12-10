@@ -193,12 +193,12 @@ main.defineNews("bluePill", {
 main.defineNews("doppelganger", {
   name = "Doppelganger",
   image = "doppelgangerNews",
-  description = "Create 3 copies of a random card",
+  description = "Create 3 copies of your leftmost card",
   trigger = {"OBTAIN"},
   isRelic = true,
   rarity = "COMMON",
   onActivate = function ()
-    local card = main.getRandomCard("discard", "draw", "hand")
+    local card = main.getCardInOrder(1)
     if card then
       for i=1, 3 do
         main.basicSpawnCard(card.id, main.getAllComponentsFromEntity(card), nil, "hand")

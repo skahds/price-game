@@ -196,7 +196,7 @@ end
 
 defineRarity("COMMON", {chanceWeight=10, format="{commonColor}COMMON{/commonColor}"})
 defineRarity("RARE", {chanceWeight=6, format="{rareColor}RARE{/rareColor}"})
-defineRarity("EPIC", {chanceWeight=3, format="{epicColor}EPIC{/epicColor}"})
+defineRarity("EPIC", {chanceWeight=2, format="{epicColor}EPIC{/epicColor}"})
 defineRarity("UNIQUE", {chanceWeight=0, format="UNIQUE"})
 defineRarity("STARTER", {chanceWeight=0, format="STARTER"})
 

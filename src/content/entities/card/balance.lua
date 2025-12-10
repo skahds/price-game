@@ -45,10 +45,7 @@ main.defineCard("greenHammer", {
   end,
 
   onActivate = function (ent)
-    local prices = main.getPrice()
-    if prices < 0 then
-      main.addPrice(50)
-    end
+    main.addPrice(50)
   end
 })
 
@@ -66,10 +63,7 @@ main.defineCard("redHammer", {
   end,
 
   onActivate = function (ent)
-    local prices = main.getPrice()
-    if prices > 0 then
-      main.addPrice(-50)
-    end
+    main.addPrice(-50)
   end
 })
 

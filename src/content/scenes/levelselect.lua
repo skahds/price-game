@@ -260,7 +260,7 @@ system.on("@draw", function ()
   end
 
   local amountOfDay = 0
-  for i, t in ipairs(route) do
+  for i, t in ipairs(route) do -- test
     if t.id == "PLAY" then
       amountOfDay = amountOfDay + 1
     end
