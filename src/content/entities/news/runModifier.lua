@@ -7,8 +7,33 @@ run modifiers:
 
 main.defineRunModifier({
   definition={
+  name = "Jailed Hand",
+  news = {"lock", "blueOnion"}
+}, lock={
+  name = "Lock",
+  image = "lockNews",
+  description = "Reduce hand size by 3",
+  trigger = {"OBTAIN"},
+  isRelic = true,
+  rarity = "UNIQUE",
+  onActivate = function (ent, card)
+    print("uorah")
+    system.updateStorage("main:maxCardAmount", math.max(0, system.getStorage("main:maxCardAmount")-3))
+  end
+}, blueOnion={
+  name = "Blue Onion",
+  image = "blueOnionNews",
+  trigger = {"CARDTRIGGER"},
+  defaultDrawCard=1,
+  isRelic = true,
+  rarity = "UNIQUE",
+}})
+
+
+main.defineRunModifier({
+  definition={
   name = "Empty Box",
-  news = {"emptyBox", "radarNews", "veilNews"}
+  news = {"emptyBox"}
 }, emptyBox={
   name = "Empty Bod",
   image = "emptyBoxNews",

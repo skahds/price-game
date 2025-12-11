@@ -48,15 +48,16 @@ main.defineScene("runSelect", function ()
   local blockSpacing = 80
   local y = 100+blockSpacing+10
   for i, modifier in ipairs(main.runModifiers) do
+    existingNews[i] = {}
     for e, news in ipairs(modifier.news) do
-      local n = main.spawnEntity(news, {x=leftCoverX+20, y=y+blockSpacing*(i-0.5)})
+      local n = main.spawnEntity(news, {x=leftCoverX+10, y=y+blockSpacing*(i-0.5)})
       n.ui.renderLayer = 140
       n.ui.sx = 2
       n.ui.sy = 2
       n.ui.x = n.ui.x + (n.ui:getWidth()+10)*(e-1)
       n.ui.y = n.ui.y - n.ui:getHeight()/2
       n.ui.screenSpace = true
-      table.insert(existingNews, n)
+      table.insert(existingNews[i], n)
     end
   end
 
@@ -66,10 +67,12 @@ end, function ()
   starters = {}
 
   deleteAll({toPlay, coverLeft, coverRight, arrowLeft, arrowRight})
-  for i=#existingNews, 1, -1 do
-    local news = existingNews[i]
-    news.ui:delete()
-    news:delete()
+  for _, t in pairs(existingNews) do
+    for i=#t, 1, -1 do
+      local news = t[i]
+      news.ui:delete()
+      news:delete()
+    end
   end
 
   for k, v in pairs(runModifierSelected) do
@@ -77,7 +80,14 @@ end, function ()
       local modifier = main.runModifiers[k]
 
       for i, news in ipairs(modifier.news) do
-        main.spawnNews(news, {x=0, y=0})
+        local ent = main.spawnNews(news, {x=0, y=0})
+
+        if main.canTrigger(ent, "OBTAIN") then
+          local pipeline = main.getPipeline("main")
+          pipeline:add(0.5, function ()
+            main.triggerEnt(ent, "OBTAIN")
+          end)
+        end
       end
     end
   end
@@ -263,6 +273,20 @@ system.on("@draw", function ()
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y - t.richText:getHeight()/2
+
+  -- names
+  local totalNews = 0
+  for i, modifier in ipairs(main.runModifiers) do
+    local lastNews = existingNews[i][#existingNews[i]]
+    local t = main.printRichText({
+      format = modifier.name,
+      x=lastNews.ui:getX()+lastNews.ui:getWidth()+10,
+      y=lastNews.ui:getY()+lastNews.ui:getHeight()/2,
+      renderLayer=97,
+      font = system.getFont("defaultFont40")
+    })
+    t.y = t.y - t.richText:getHeight()/2
+  end
 
   -- lines
   system.render(96, function ()
