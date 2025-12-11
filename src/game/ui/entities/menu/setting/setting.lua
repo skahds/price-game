@@ -1,6 +1,8 @@
 local isSettingShown = false
-local cover, gameSpeedSlider, sfxSlider, musicSlider, exit, back, restart, guide
-local sfxStorage, musicStorage, gameSpeedStorage = "audio:sfxVolume", "audio:musicVolume", "main:gameSpeedSlider"
+local cover, exit, back, restart, guide
+local sliders = {}
+local sfxStorage, musicStorage, gameSpeedStorage, crtStorage = "audio:sfxVolume", "audio:musicVolume", "main:gameSpeedSlider", "main:crtEffect"
+system.updateStorage("main:crtStorage", 0.3)
 
 local function deleteAll(arg)
   for k, ent in ipairs(arg) do
@@ -15,8 +17,105 @@ local function saveSettings()
   local a = system.getStorage(sfxStorage)
   local b = system.getStorage(musicStorage)
   local c = system.getStorage(gameSpeedStorage)
-  local t = {[sfxStorage]=a, [musicStorage]=b, [gameSpeedStorage]=c}
+  local d = system.getStorage(crtStorage)
+  local t = {[sfxStorage]=a, [musicStorage]=b, [gameSpeedStorage]=c, [crtStorage]=d}
   system.writeFileTable("settings", t)
+end
+
+
+
+local function tab1()
+  local dimension = system.getStorage("screenDimension")
+  table.insert(sliders, main.ui.spawnUI("basicSlider", {
+    x=dimension.w/2,
+    y=dimension.h/2-100,
+    width = 300,
+    height = 50,
+    onBasicSliderDraw = function (ent)
+      love.graphics.setColor(1, 1, 1)
+      local font = system.getFont("defaultFont50")
+      love.graphics.setFont(font)
+      local format = "Game speed: " .. speedTable[ent.slideAmount*10] .. "x"
+      local width = font:getWidth(format)
+      love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
+    end,
+    targetStorage = gameSpeedStorage,
+    slideAmount = system.getStorage(gameSpeedStorage) or 0.5,
+    ballColor = {0.8, 0.4, 0.4},
+    renderLayer = 410,
+    outline = 10,
+    outlineBelow = true,
+    outlineColor = {0.5, 0.5, 0.5},
+  }))
+
+  table.insert(sliders, main.ui.spawnUI("basicSlider", {
+    x=dimension.w/2,
+    y=dimension.h/2,
+    width = 300,
+    height = 50,
+    onBasicSliderDraw = function (ent)
+      love.graphics.setColor(1, 1, 1)
+      local font = system.getFont("defaultFont50")
+      love.graphics.setFont(font)
+      local format = "SFX: " .. ent.slideAmount * 100 .. "%"
+      local width = font:getWidth(format)
+      love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
+    end,
+    targetStorage = sfxStorage,
+    slideAmount = system.getStorage(sfxStorage) or 1,
+    ballColor = {0.8, 0.4, 0.4},
+    renderLayer = 410,
+    outline = 10,
+    outlineBelow = true,
+    outlineColor = {0.5, 0.5, 0.5},
+  }))
+
+  table.insert(sliders, main.ui.spawnUI("basicSlider", {
+    x=dimension.w/2,
+    y=dimension.h/2+100,
+    width = 300,
+    height = 50,
+    onBasicSliderDraw = function (ent)
+      love.graphics.setColor(1, 1, 1)
+      local font = system.getFont("defaultFont50")
+      love.graphics.setFont(font)
+      local format = "MUSIC: " .. ent.slideAmount * 100 .. "%"
+      local width = font:getWidth(format)
+      love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
+    end,
+    targetStorage = musicStorage,
+    slideAmount = system.getStorage(musicStorage) or 1,
+    ballColor = {0.8, 0.4, 0.4},
+    renderLayer = 411,
+    outline = 10,
+    outlineBelow = true,
+    outlineColor = {0.5, 0.5, 0.5},
+  }))
+end
+
+local function tab2()
+  local dimension = system.getStorage("screenDimension")
+  table.insert(sliders, main.ui.spawnUI("basicSlider", {
+    x=dimension.w/2,
+    y=dimension.h/2-100,
+    width = 300,
+    height = 50,
+    onBasicSliderDraw = function (ent)
+      love.graphics.setColor(1, 1, 1)
+      local font = system.getFont("defaultFont50")
+      love.graphics.setFont(font)
+      local format = "CRT: " .. ent.slideAmount * 100 .. "%"
+      local width = font:getWidth(format)
+      love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
+    end,
+    targetStorage = crtStorage,
+    slideAmount = system.getStorage(crtStorage) or 0.5,
+    ballColor = {0.8, 0.4, 0.4},
+    renderLayer = 410,
+    outline = 10,
+    outlineBelow = true,
+    outlineColor = {0.5, 0.5, 0.5},
+  }))
 end
 
 function main.ui.gameSettings()
@@ -38,72 +137,6 @@ function main.ui.gameSettings()
       ignoreUIChecks = false,
       renderLayer = 400})
 
-    gameSpeedSlider = main.ui.spawnUI("basicSlider", {
-      x=dimension.w/2,
-      y=dimension.h/2-100,
-      width = 300,
-      height = 50,
-      onBasicSliderDraw = function (ent)
-        love.graphics.setColor(1, 1, 1)
-        local font = system.getFont("defaultFont50")
-        love.graphics.setFont(font)
-        local format = "Game speed " .. speedTable[ent.slideAmount*10] .. "x"
-        local width = font:getWidth(format)
-        love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
-      end,
-      targetStorage = gameSpeedStorage,
-      slideAmount = system.getStorage(gameSpeedStorage) or 0.5,
-      ballColor = {0.8, 0.4, 0.4},
-      renderLayer = 410,
-      outline = 10,
-      outlineBelow = true,
-      outlineColor = {0.5, 0.5, 0.5},
-    })
-    
-    sfxSlider = main.ui.spawnUI("basicSlider", {
-      x=dimension.w/2,
-      y=dimension.h/2,
-      width = 300,
-      height = 50,
-      onBasicSliderDraw = function (ent)
-        love.graphics.setColor(1, 1, 1)
-        local font = system.getFont("defaultFont50")
-        love.graphics.setFont(font)
-        local format = "SFX " .. ent.slideAmount * 100 .. "%"
-        local width = font:getWidth(format)
-        love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
-      end,
-      targetStorage = sfxStorage,
-      slideAmount = system.getStorage(sfxStorage) or 1,
-      ballColor = {0.8, 0.4, 0.4},
-      renderLayer = 410,
-      outline = 10,
-      outlineBelow = true,
-      outlineColor = {0.5, 0.5, 0.5},
-    })
-
-    musicSlider = main.ui.spawnUI("basicSlider", {
-      x=dimension.w/2,
-      y=dimension.h/2+100,
-      width = 300,
-      height = 50,
-      onBasicSliderDraw = function (ent)
-        love.graphics.setColor(1, 1, 1)
-        local font = system.getFont("defaultFont50")
-        love.graphics.setFont(font)
-        local format = "MUSIC " .. ent.slideAmount * 100 .. "%"
-        local width = font:getWidth(format)
-        love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
-      end,
-      targetStorage = musicStorage,
-      slideAmount = system.getStorage(musicStorage) or 1,
-      ballColor = {0.8, 0.4, 0.4},
-      renderLayer = 411,
-      outline = 10,
-      outlineBelow = true,
-      outlineColor = {0.5, 0.5, 0.5},
-    })
-
     exit = main.ui.spawnUI("settingExit", {
       x=dimension.w/2-width/3-75,
       y=dimension.h/2+80,
@@ -122,13 +155,16 @@ function main.ui.gameSettings()
       renderLayer = 412,
     })
 
+    -- tab1()
+    tab2()
     -- guide = main.ui.spawnUI("settingGuide", {
     --   x=dimension.w/2-width/4-75-80,
     --   y=dimension.h/2-140,
     --   renderLayer = 412,
     -- })
   else
-    deleteAll({cover, sfxSlider, musicSlider, exit, back, restart, gameSpeedSlider})
+    deleteAll({cover, exit, back, restart})
+    deleteAll(sliders)
     isSettingShown = false
     saveSettings()
   end

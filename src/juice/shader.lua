@@ -2,11 +2,6 @@ local shaderCode = [[
     uniform float strength = 0.5;
     uniform vec2 resolution;
     
-    // Scanline effect
-    float scanline(vec2 uv) {
-        return sin(uv.y * resolution.y * 2.0) * 0.04;
-    }
-    
     // Vignette effect
     float vignette(vec2 uv) {
         uv = (uv - 0.5) * 2.0;
@@ -32,7 +27,7 @@ local shaderCode = [[
         vec2 resolution = love_ScreenSize.xy;
         
         // Apply curvature
-        vec2 curved_uv = mix(uv, curve(uv), strength/3);
+        vec2 curved_uv = mix(uv, curve(uv), strength/5);
         
         // Return black if outside bounds after curvature
         if (curved_uv.x < 0.0 || curved_uv.x > 1.0 || 
@@ -44,11 +39,13 @@ local shaderCode = [[
         vec4 texColor = Texel(tex, curved_uv);
         
         // Apply scanlines
-        float scan = 1.0 - scanline(curved_uv) * strength;
+        float scanline_coord = screen_coords.y;
+        float scanline_size = 8.0; // Adjust this for thicker/thinner scanlines
+        float scan = 1.0 - (mod(floor(scanline_coord / scanline_size), 2.0) * 0.5 * strength/6);
         texColor.rgb *= scan;
         
         // Apply vignette
-        float vig = mix(1.0, vignette(curved_uv), strength * 0.5);
+        float vig = mix(1.0, vignette(curved_uv), strength * 0.2);
         texColor.rgb *= vig;
         
         // RGB shift for chromatic aberration
@@ -59,7 +56,7 @@ local shaderCode = [[
         texColor.b = mix(texColor.b, b, strength);
         
         // Slight brightness boost and contrast
-        texColor.rgb = mix(texColor.rgb, pow(texColor.rgb, vec3(0.9)), strength * 0.3);
+        texColor.rgb = mix(texColor.rgb, pow(texColor.rgb, vec3(0.9)), strength * 0.4);
         
         return texColor * color;
     }
@@ -67,8 +64,10 @@ local shaderCode = [[
 
 -- Create and return the shader
 local shader = love.graphics.newShader(shaderCode)
-
--- Initialize with default strength
 shader:send("strength", 0.2)
+local timepass = 0
+system.on("@update", function ()
+  shader:send("strength", system.getStorage("main:crtEffect") or 0.3)
+end)
 
 system.updateStorage("system:shader", shader)
