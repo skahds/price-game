@@ -1,9 +1,11 @@
 local isSettingShown = false
 local cover, exit, back, restart, guide
 local sliders = {}
+local activeTabs = {}
 local sfxStorage, musicStorage, gameSpeedStorage, crtStorage = "audio:sfxVolume", "audio:musicVolume", "main:gameSpeedSlider", "main:crtEffect"
-system.updateStorage("main:crtStorage", 0.3)
+local selectedTab = 1
 
+system.updateStorage("main:crtStorage", 0.3)
 local function deleteAll(arg)
   for k, ent in ipairs(arg) do
     ent:delete()
@@ -118,6 +120,8 @@ local function tab2()
   }))
 end
 
+local tabs = {tab1, tab2}
+
 function main.ui.gameSettings()
   if isSettingShown == false then
     isSettingShown = true
@@ -155,8 +159,23 @@ function main.ui.gameSettings()
       renderLayer = 412,
     })
 
-    -- tab1()
-    tab2()
+    local name = {"GAME", "GRAPHICS"}
+    for i=1, #tabs do
+      table.insert(activeTabs, main.ui.spawnUI("settingTab", {
+        x=dimension.w/2-width/2+(i-1)*160,
+        y=dimension.h/2-height/2-64,
+        renderLayer = 412,
+        outline = 10,
+        rx=20,
+        ry=20,
+        outlineColor = {0.4, 0.4, 0.4},
+        order = i,
+        text=name[i],
+        font=system.getFont("defaultFont40")
+      }))
+    end
+
+    tabs[selectedTab]()
     -- guide = main.ui.spawnUI("settingGuide", {
     --   x=dimension.w/2-width/4-75-80,
     --   y=dimension.h/2-140,
@@ -165,6 +184,7 @@ function main.ui.gameSettings()
   else
     deleteAll({cover, exit, back, restart})
     deleteAll(sliders)
+    deleteAll(activeTabs)
     isSettingShown = false
     saveSettings()
   end
@@ -194,6 +214,28 @@ main.ui.defineButton("settingExit", {
   onButtonClicked = function (ent)
     love.event.quit()
   end
+})
+
+main.ui.defineUI("settingTab", {
+  renderLayer = 101,
+  screenSpace = true,
+  width = 160,
+  height= 64,
+  order = 1,
+  color = {0.6, 0.6, 0.6},
+  text="REPLACEME",
+  onUpdate = function (ent)
+    if selectedTab ~= ent.order then
+      ent.color = {0.45, 0.45, 0.45}
+    else
+      ent.color = {0.6, 0.6, 0.6}
+    end
+  end,
+  onMouseReleased = function (ent, button)
+    selectedTab = ent.order
+    deleteAll(sliders)
+    tabs[ent.order]()
+  end,
 })
 
 local function restartGame()

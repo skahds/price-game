@@ -40,6 +40,12 @@ function main.ui.defineUI(id, eType)
     self.renderLayer = self.renderLayer or 100
   end
 
+  function ent:update()
+    if self.onUpdate then
+      self:onUpdate()
+    end
+  end
+
   function ent:draw()
     local renderLayer = self.renderLayer
     system.render(renderLayer, function ()

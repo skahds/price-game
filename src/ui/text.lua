@@ -13,7 +13,7 @@ local function richTextUpdate(ent)
   ent.richtext.sx = ent.sx
   ent.richtext.sy = ent.sy
   local textWidth = ent.richtext.richText:getWidth()
-  local textHeight = font:getHeight(ent.richtext.format)
+  local textHeight = ent.richtext.richText:getHeight()
   ent.richtext.x = ent.x-ent.ox*ent.sx+ent:getWidth()/2-textWidth/2*ent.sx
   ent.richtext.y = ent.y-ent.oy*ent.sy+ent:getHeight()/2-textHeight/2*ent.sy
   ent.richtext.renderLayer = ent.renderLayer+1
@@ -24,6 +24,7 @@ system.on("ui:spawnedUI", function (ent)
     ent.richtext = main.newRichText({format=ent.text,
     x=ent.x,
     y=ent.y,
+    font=ent.font or nil,
     screenSpace = ent.screenSpace,
     renderLayer = ent.renderLayer+1})
   end
