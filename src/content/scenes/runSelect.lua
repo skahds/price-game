@@ -71,6 +71,16 @@ end, function ()
     news.ui:delete()
     news:delete()
   end
+
+  for k, v in pairs(runModifierSelected) do
+    if v == true then
+      local modifier = main.runModifiers[k]
+
+      for i, news in ipairs(modifier.news) do
+        main.spawnNews(news, {x=0, y=0})
+      end
+    end
+  end
 end)
 
 local flux = system.getStorage("flux")

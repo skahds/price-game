@@ -28,5 +28,14 @@ main.defineScene("menu", function ()
   settings = main.ui.spawnUI("openSetting", {x=1280-20-200, y=720-150})
   main.hideCharts()
 end, function ()
+  local chart = system.getStorage("main:chart")
+  if chart == nil then
+    main.spawnChart({bearPower = 0.1, bullPower = 0.1})
+    chart = system.getStorage("main:chart")
+    local pos = chart:getCurrentPricePos()
+
+    local bar = main.spawnBar()
+  end
+
   deleteAll({play, credits, logo, discord, continue, settings})
 end)

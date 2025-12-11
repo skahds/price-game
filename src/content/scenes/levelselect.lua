@@ -189,15 +189,6 @@ main.defineScene("levelSelect", function ()
       main.addEntityToTutorial(activeUI[1], "Click here to begin\nyour encounter!")
     end
   end
-
-  local chart = system.getStorage("main:chart")
-  if chart == nil then
-    main.spawnChart({bearPower = 0.1, bullPower = 0.1})
-    chart = system.getStorage("main:chart")
-    local pos = chart:getCurrentPricePos()
-
-    local bar = main.spawnBar()
-  end
   
   main.hideCharts()
 end, function ()

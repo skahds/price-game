@@ -187,7 +187,7 @@ main.defineCard("doubleDown", {
 main.defineCard("fortune", {
   name = "Fortune",
   image = "fortune",
-  description = "Multiplies current {priceColor}MULT{/priceColor} by 2",
+  description = "Multiplies current {multColor}MULT{/multColor} by 2",
   trigger = {"DEPLOY"},
   price = 3,
   rarity  = "RARE",
