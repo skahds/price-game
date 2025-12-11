@@ -179,7 +179,7 @@ function main.spawnNews(id, args)
     error("tried to spawn news while chart doesn't exist")
   end
 
-  local news = main.spawnEntity(id, args, true)
+  local news = main.spawnEntity(id, args)
 
   local x, y, w, h = main.grid.entityToGrid(news)
   local gridX, gridY = main.grid.getClosestAvailableGrid(news.x, news.y, w, h)

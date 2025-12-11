@@ -6,9 +6,22 @@ function main.definePlaceableNewsCard(id, card, news)
 end
 
 main.starters = {}
+main.runModifiers = {}
 
 function main.defineRunStarter(content)
   table.insert(main.starters, content)
+end
+
+-- contents = {definition={name, news={"this", "that"}}, this={news...}, that={news...}}
+function main.defineRunModifier(contents)
+  local def = contents.definition
+  table.insert(main.runModifiers, def)
+
+  for k, t in pairs(contents) do
+    if k ~= "definition" then
+      main.defineNews(k, t)
+    end
+  end
 end
 
 function main.createCardToDraw(id, amount)

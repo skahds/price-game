@@ -1,7 +1,7 @@
 main.world = {}
 main.deleteQueue = {}
 
-function main.spawnEntity(id, args, ret)
+function main.spawnEntity(id, args)
   if main.entities[id] == nil then
     error("unknown entity " .. id)
   end
@@ -11,7 +11,5 @@ function main.spawnEntity(id, args, ret)
 
   system.call("main:entitySpawned", entity)
 
-  if ret then
-    return main.world[#main.world]
-  end
+  return main.world[#main.world]
 end

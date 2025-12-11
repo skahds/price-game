@@ -1,4 +1,15 @@
-main.defineNews("emptyBox", {
+--[[
+run modifiers:
+-hand size is turned to 2, when a card is triggered, draw a card
+-energy is increased to 20, when a card is triggered, increase its energy cost by 1
+-when a card is triggered, destroy it and create a random card
+]]
+
+main.defineRunModifier({
+  definition={
+  name = "Empty Box",
+  news = {"emptyBox", "radarNews", "veilNews"}
+}, emptyBox={
   name = "Empty Bod",
   image = "emptyBoxNews",
   description = "Destroy it and create a random card",
@@ -13,4 +24,4 @@ main.defineNews("emptyBox", {
       main.deleteCard(card)
     end
   end
-})
+}})

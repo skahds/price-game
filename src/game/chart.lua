@@ -294,7 +294,7 @@ end, function (t)
   end
 
   for i, t in ipairs(t.bars) do
-    local bar = main.spawnEntity("bar", t, true)
+    local bar = main.spawnEntity("bar", t)
     if chart then
       chart:addBar(bar)
     end

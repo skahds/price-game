@@ -6,6 +6,8 @@ local difficulyNaming = {"Easy", "Medium", "Hard"}
 local starterChosen
 local starterHovering = 1
 local difficultySelected = 1
+local runModifierSelected = {}
+local existingNews = {}
 local coverLeft, coverRight, arrowLeft, arrowRight
 local toPlay
 
@@ -42,12 +44,33 @@ main.defineScene("runSelect", function ()
   arrowLeft = main.ui.spawnUI("runSelectArrow", {x=400, y=360-64})
   arrowRight = main.ui.spawnUI("runSelectArrow", {x=1280-400, y=360-64, sx=-1})
 
+  local leftCoverX = 50
+  local blockSpacing = 80
+  local y = 100+blockSpacing+10
+  for i, modifier in ipairs(main.runModifiers) do
+    for e, news in ipairs(modifier.news) do
+      local n = main.spawnEntity(news, {x=leftCoverX+20, y=y+blockSpacing*(i-0.5)})
+      n.ui.renderLayer = 140
+      n.ui.sx = 2
+      n.ui.sy = 2
+      n.ui.x = n.ui.x + (n.ui:getWidth()+10)*(e-1)
+      n.ui.y = n.ui.y - n.ui:getHeight()/2
+      n.ui.screenSpace = true
+      table.insert(existingNews, n)
+    end
+  end
+
   main.tweenCamera(0.2, {x=0, y=0})
   main.hideCharts()
 end, function ()
   starters = {}
 
   deleteAll({toPlay, coverLeft, coverRight, arrowLeft, arrowRight})
+  for i=#existingNews, 1, -1 do
+    local news = existingNews[i]
+    news.ui:delete()
+    news:delete()
+  end
 end)
 
 local flux = system.getStorage("flux")
@@ -152,16 +175,27 @@ system.on("@mouse:released", function (button)
   end
 
   local mouse = system.getStorage("realMouse")
+  local leftCoverX = 50
   local rightCoverX = 1280-380
   local blockSpacing = 80
   local y = 100+blockSpacing+10
   local starter = starters[starterHovering]
+
+  for i, modifier in ipairs(main.runModifiers) do
+    if main.AABB_check(mouse, {x=leftCoverX, y=y+(i-1)*blockSpacing, width=330, height=blockSpacing}) then
+      if runModifierSelected[i] ~= true then
+        runModifierSelected[i] = true
+      else
+        runModifierSelected[i] = false
+      end
+    end
+  end
+
   for i, difficulty in ipairs(starter.scoreWithDifficulty) do
     if main.AABB_check(mouse, {x=rightCoverX, y=y+(i-1)*blockSpacing, width=330, height=blockSpacing}) then
       difficultySelected = i
     end
   end
-  
 end)
 
 system.on("@draw", function ()
@@ -207,13 +241,41 @@ system.on("@draw", function ()
   local starter = starters[starterHovering]
   --left cover modifier selection
   local leftCoverMidX = 50+330/2
+  local blockSpacing = 80
+  local leftCoverX = 50
+  local leftCoverRightX = 50+330
+
   local t = main.printRichText({
     format = "Modifier",
     x=leftCoverMidX,
-    y=100,
+    y=70+(30+blockSpacing+10)/2,
     renderLayer=97
   })
   t.x = t.x - t.richText:getWidth()/2
+  t.y = t.y - t.richText:getHeight()/2
+
+  -- lines
+  system.render(96, function ()
+    love.graphics.setLineWidth(10)
+    local y = 100+blockSpacing+10
+
+    for k, v in pairs(runModifierSelected) do
+      if v == true then
+        local resultY = y+(k-1)*(blockSpacing)
+        love.graphics.setColor(1, 1, 1, 0.3)
+        love.graphics.rectangle("fill", leftCoverX+5, resultY, 330-10, blockSpacing)
+      end
+    end
+
+    love.graphics.setColor(0.4, 0.4, 0.4)
+    love.graphics.line(leftCoverX, y, leftCoverRightX, y)
+    for i, modifier in ipairs(main.runModifiers) do
+      local resultY = y+i*(blockSpacing)
+
+      love.graphics.setColor(0.4, 0.4, 0.4)
+      love.graphics.line(leftCoverX, resultY, leftCoverRightX, resultY)
+    end
+  end, true)
 
 
 
@@ -223,10 +285,11 @@ system.on("@draw", function ()
   local t = main.printRichText({
     format = "Difficulty",
     x=rightCoverMidX,
-    y=100,
+    y=70+(30+blockSpacing+10)/2,
     renderLayer=97
   })
   t.x = t.x - t.richText:getWidth()/2
+  t.y = t.y - t.richText:getHeight()/2
   local blockSpacing = 80
 
   for i, difficulty in ipairs(starter.scoreWithDifficulty) do

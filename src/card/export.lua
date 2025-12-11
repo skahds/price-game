@@ -29,7 +29,7 @@ end
 
 function main.createCard(id, args, ownerShip)
   ownerShip = ownerShip or "hand"
-  local card = main.spawnEntity(id, args, true)
+  local card = main.spawnEntity(id, args)
   table.insert(main.card[ownerShip], card)
   card.cardOrder = #main.card.hand
   card.ownerShip = ownerShip
@@ -43,7 +43,7 @@ function main.createCardBesidesEntInHand(id, args, ent, positionOffset)
   local ownerShip = "hand"
   local positionOffset = positionOffset or 1
   local finalX = ent.ui.x + positionOffset
-  local card = main.spawnEntity(id, args, true)
+  local card = main.spawnEntity(id, args)
   card.ui.x = finalX
   card.ui.y = ent.ui.y
   table.insert(main.card[ownerShip], card)
@@ -66,7 +66,7 @@ function main.basicSpawnCard(id, args, ent, ownership)
   if ownership == "hand" then
     if ent == nil then
       local ownerShip = "hand"
-      local card = main.spawnEntity(id, args, true)
+      local card = main.spawnEntity(id, args)
       card.ui.x = 0
       card.ui.y = 720
       table.insert(main.card[ownerShip], card)

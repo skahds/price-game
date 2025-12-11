@@ -14,8 +14,9 @@ function main.createRewardsOptions(rewards, info)
     for i, option in ipairs(rewards) do
       local xOffsetLeft = -(#rewards-1)*(space/2)-32
       local orderOffset = space*(i-1)
-      local n = main.spawnEntity(option, {x=640+xOffsetLeft+orderOffset, y=250}, true)
+      local n = main.spawnEntity(option, {x=640+xOffsetLeft+orderOffset, y=250})
       n.isRelic = true
+      n.isToChoose = true
       n.ui.renderLayer = 140
       n.ui.sx = 2
       n.ui.sy = 2
@@ -88,6 +89,10 @@ system.on("main:newsClicked", function (ent, button)
     return
   end
 
+  if ent.isToChoose ~= true then
+    return
+  end
+
   local cam = main.getCamera()
 
   chart:addNews(ent)
@@ -102,6 +107,7 @@ system.on("main:newsClicked", function (ent, button)
   ent.ui.sy = 1
   ent.x, ent.y = main.screenSpaceToWorldPosition(ent.x, ent.y)
   ent.ui.x, ent.ui.y = ent.x, ent.y
+  ent.isToChoose = false
 
   local targx=love.math.random(-50, 50)
   local targy=love.math.random(-50, 50)

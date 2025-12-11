@@ -1,6 +1,4 @@
 local basicRoute = {
-  {id="SHOP", node=2},
-  {id="SHOP", node=2},
   {id="PLAY", node=3},
   {id="PLAY", node=3},
   {id="SHOP", node=2},
@@ -81,7 +79,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Firm",
   image="vision",
-  description="14 days!",
+  description="Not for demo",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -97,7 +95,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Enterprise",
   image="stalemartyr",
-  description="21 days!",
+  description="Not for demo",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
