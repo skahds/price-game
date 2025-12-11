@@ -79,7 +79,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Firm",
   image="vision",
-  description="Not for demo",
+  description="Not yet",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -95,7 +95,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Enterprise",
   image="stalemartyr",
-  description="Not for demo",
+  description="Not yet",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()

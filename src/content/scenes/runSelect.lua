@@ -74,23 +74,6 @@ end, function ()
       news:delete()
     end
   end
-
-  for k, v in pairs(runModifierSelected) do
-    if v == true then
-      local modifier = main.runModifiers[k]
-
-      for i, news in ipairs(modifier.news) do
-        local ent = main.spawnNews(news, {x=0, y=0})
-
-        if main.canTrigger(ent, "OBTAIN") then
-          local pipeline = main.getPipeline("main")
-          pipeline:add(0.5, function ()
-            main.triggerEnt(ent, "OBTAIN")
-          end)
-        end
-      end
-    end
-  end
 end)
 
 local flux = system.getStorage("flux")
@@ -139,12 +122,24 @@ main.ui.defineButton("toPlay", {
       system.updateStorage("main:scoreRequirementList", selection.scoreWithDifficulty[difficultySelected])
     end
 
-    -- if ent.order == 1 then
-    --   main.playScene("levelSelect")
-      
-    -- else
-      main.playScene("levelSelect")
-    -- end
+    main.playScene("levelSelect")
+
+    for k, v in pairs(runModifierSelected) do
+      if v == true then
+        local modifier = main.runModifiers[k]
+
+        for i, news in ipairs(modifier.news) do
+          local ent = main.spawnNews(news, {x=0, y=0})
+
+          if main.canTrigger(ent, "OBTAIN") then
+            local pipeline = main.getPipeline("main")
+            pipeline:add(0.5, function ()
+              main.triggerEnt(ent, "OBTAIN")
+            end)
+          end
+        end
+      end
+    end
   end
 })
 

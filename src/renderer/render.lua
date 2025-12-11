@@ -19,6 +19,7 @@ end
 system.on("renderer:render", function ()
   table.sort(renderKeys)
 
+  
   love.graphics.setCanvas{defaultCanvas, stencil=true}
   love.graphics.clear(0.1, 0.1, 0.1, 1)
   
@@ -48,7 +49,12 @@ system.on("renderer:render", function ()
   local offsetY = (screenHeight - virtualHeight * scale) / 2
   
   love.graphics.setColor(1, 1, 1, 1)
+  
+  if system.getStorage("system:shader") then
+    love.graphics.setShader(system.getStorage("system:shader"))
+  end
   love.graphics.draw(defaultCanvas, offsetX, offsetY, 0, scale, scale)
+  love.graphics.setShader()
 
   if scaleX > scaleY then -- Pillarboxing (black bars on sides)
     love.graphics.setColor(0, 0, 0, 1)

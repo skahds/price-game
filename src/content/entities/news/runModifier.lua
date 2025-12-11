@@ -1,13 +1,6 @@
---[[
-run modifiers:
--hand size is turned to 2, when a card is triggered, draw a card
--energy is increased to 20, when a card is triggered, increase its energy cost by 1
--when a card is triggered, destroy it and create a random card
-]]
-
 main.defineRunModifier({
   definition={
-  name = "Jailed Hand",
+  name = "Sealed eye",
   news = {"lock", "blueOnion"}
 }, lock={
   name = "Lock",
@@ -17,7 +10,6 @@ main.defineRunModifier({
   isRelic = true,
   rarity = "UNIQUE",
   onActivate = function (ent, card)
-    print("uorah")
     system.updateStorage("main:maxCardAmount", math.max(0, system.getStorage("main:maxCardAmount")-3))
   end
 }, blueOnion={
@@ -35,9 +27,9 @@ main.defineRunModifier({
   name = "Empty Box",
   news = {"emptyBox"}
 }, emptyBox={
-  name = "Empty Bod",
+  name = "Empty Box",
   image = "emptyBoxNews",
-  description = "Destroy it and create a random card",
+  description = "Destroy it and\ncreate a random card",
   trigger = {"CARDTRIGGER"},
   isRelic = true,
   rarity = "UNIQUE",
@@ -49,4 +41,61 @@ main.defineRunModifier({
       main.deleteCard(card)
     end
   end
+}})
+
+main.defineRunModifier({
+  definition={
+  name = "Revelation",
+  news = {"localSpace", "scatter"}
+}, localSpace={
+  name = "Local Space",
+  image = "localSpaceNews",
+  description = "Increase hand size by 2",
+  trigger = {"OBTAIN"},
+  isRelic = true,
+  rarity = "UNIQUE",
+  onActivate = function (ent, card)
+    system.updateStorage("main:maxCardAmount", system.getStorage("main:maxCardAmount")+2)
+  end
+}, scatter={
+  name = "Scatter",
+  image = "scatterNews",
+  description = "Discard a random card",
+  trigger = {"CARDTRIGGER"},
+  isRelic = true,
+  rarity = "UNIQUE",
+  onActivate = function (ent)
+    local card = main.getRandomCard()
+    if card then
+      main.discardCard(card)
+    end
+  end,
+}})
+
+main.defineRunModifier({
+  definition={
+  name = "Machine",
+  news = {"chained", "piston"}
+}, chained={
+  name = "Chained",
+  image = "chainedNews",
+  description = "{energyColor}-1 max ENERGY",
+  trigger = {"OBTAIN"},
+  isRelic = true,
+  rarity = "UNIQUE",
+  onActivate = function (ent, card)
+    system.updateStorage("main:energyPerTurn", math.max(0, system.getStorage("main:energyPerTurn")-1))
+    system.updateStorage("main:energy", system.getStorage("main:energyPerTurn"))
+  end
+}, piston={
+  name = "Piston",
+  image = "pistonNews",
+  description = "A random card\ngains {repeatColor}+1 REPEAT",
+  trigger = {"CARDTRIGGER"},
+  isRelic = true,
+  rarity = "UNIQUE",
+  onActivate = function (ent)
+    local card = main.getRandomCard()
+    main.changeEntityComponent(card, "repeatActivation", 1, combiner.ADD)
+  end,
 }})
