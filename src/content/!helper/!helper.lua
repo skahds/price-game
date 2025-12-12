@@ -7,6 +7,7 @@ end
 
 main.starters = {}
 main.runModes = {}
+main.runModifiers = {}
 
 function main.defineRunStarter(content)
   table.insert(main.starters, content)
@@ -23,6 +24,11 @@ function main.defineRunMode(contents)
     end
   end
 end
+
+function main.defineModifiers(content)
+  table.insert(main.runModifiers, content)
+end
+
 
 function main.createCardToDraw(id, amount)
   for i=1, amount do

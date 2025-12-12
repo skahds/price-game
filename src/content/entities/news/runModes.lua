@@ -79,7 +79,7 @@ main.defineRunMode({
 }, chained={
   name = "Chained",
   image = "chainedNews",
-  description = "{energyColor}-1 max ENERGY",
+  description = "{energyColor}-1 MAX ENERGY",
   trigger = {"OBTAIN"},
   isRelic = true,
   rarity = "UNIQUE",

@@ -3,6 +3,8 @@ local function sliderUpdate(sliderObject)
   if love.mouse.isDown(sliderObject.button or 1) then
     local mouse
 
+    sliderObject.outline = sliderObject.outline or 0
+
     if sliderObject.screenSpace == false then
       mouse = system.getStorage("mouse")
     else

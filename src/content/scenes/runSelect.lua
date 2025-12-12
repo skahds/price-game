@@ -24,10 +24,10 @@ end
 local function openModifier(action)
   if isModifierOpen == false and action ~= "close" then
     table.insert(modifierUIS, main.ui.spawnUI("cover", {
-      x=640-600/2,
-      y=100,
-      width = 600,
-      height = 400,
+      x=640-800/2,
+      y=50,
+      width = 800,
+      height = 450,
       color = {0.6, 0.6, 0.6},
       outline = 10,
       rx=10,
@@ -35,6 +35,16 @@ local function openModifier(action)
       outlineColor = {0.4, 0.4, 0.4},
       ignoreUIChecks = false,
       renderLayer = 100}))
+
+      for i, modifier in ipairs(main.runModifiers) do
+        local ui = main.ui.spawnUI("modifierSlider", {
+          x=640-200,
+          y=100+(i-1)*100
+        })
+        ui.x = ui.x - ui:getWidth()/2
+        table.insert(modifierUIS, ui)
+      end
+
 
     isModifierOpen = true
   else
@@ -177,6 +187,47 @@ main.ui.defineButton("openModifier", {
   audio = "breaker",
   onButtonClicked = function (ent)
     openModifier()
+  end
+})
+
+-- main thing to edit when creating: increment, onBasicSliderDraw, targetStorage
+main.ui.defineSlider("modifierSlider", {
+  defaultWidth = 200,
+  defaultHeight = 50,
+  renderLayer = 200,
+  slideDirection = "horizontal",
+  slideAmount = 0.5,
+  screenSpace = true,
+  increment = 1 / ( 0.1 ),
+  outline = 10,
+  outlineBelow = true,
+  outlineColor = {0.5, 0.5, 0.5},
+
+  onDraw = function (ent)
+    local slideAmount = ent.slideAmount or 0.5
+    local x = ent.x
+    local y = ent.y
+
+    if ent.slideDirection == "horizontal" then
+      x = x + ent:getWidth() * slideAmount
+      y = y + ent:getHeight()/2
+    end
+
+    system.render(ent.renderLayer+1, function ()
+      love.graphics.setColor(0.4, 0.4, 0.4)
+      love.graphics.circle("fill", x, y, ent:getHeight()/2.2)
+    end, ent.screenSpace)
+  end,
+
+  onSlide = function (ent, amountScrolled)
+    -- snaps it by increments
+    local increment = ent.increment
+    local slideAmount = math.floor(amountScrolled*increment + 0.5)/increment
+    ent.slideAmount = slideAmount
+    local percentageHold = (slideAmount)
+    -- if ent.targetStorage then
+    --   system.updateStorage(ent.targetStorage, percentageHold)
+    -- end
   end
 })
 
