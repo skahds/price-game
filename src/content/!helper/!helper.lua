@@ -6,16 +6,16 @@ function main.definePlaceableNewsCard(id, card, news)
 end
 
 main.starters = {}
-main.runModifiers = {}
+main.runModes = {}
 
 function main.defineRunStarter(content)
   table.insert(main.starters, content)
 end
 
 -- contents = {definition={name, news={"this", "that"}}, this={news...}, that={news...}}
-function main.defineRunModifier(contents)
+function main.defineRunMode(contents)
   local def = contents.definition
-  table.insert(main.runModifiers, def)
+  table.insert(main.runModes, def)
 
   for k, t in pairs(contents) do
     if k ~= "definition" then

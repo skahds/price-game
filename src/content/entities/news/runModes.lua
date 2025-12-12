@@ -1,4 +1,4 @@
-main.defineRunModifier({
+main.defineRunMode({
   definition={
   name = "Sealed eye",
   news = {"lock", "blueOnion"}
@@ -22,7 +22,7 @@ main.defineRunModifier({
 }})
 
 
-main.defineRunModifier({
+main.defineRunMode({
   definition={
   name = "Empty Box",
   news = {"emptyBox"}
@@ -43,7 +43,7 @@ main.defineRunModifier({
   end
 }})
 
-main.defineRunModifier({
+main.defineRunMode({
   definition={
   name = "Revelation",
   news = {"localSpace", "scatter"}
@@ -72,7 +72,7 @@ main.defineRunModifier({
   end,
 }})
 
-main.defineRunModifier({
+main.defineRunMode({
   definition={
   name = "Machine",
   news = {"chained", "piston"}

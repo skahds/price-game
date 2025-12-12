@@ -1,21 +1,46 @@
 local flux = system.getStorage("flux")
 local starters = {}
-local order = 1
 local width, height = 400, 400
 local difficulyNaming = {"Easy", "Medium", "Hard"}
 local starterChosen
 local starterHovering = 1
 local difficultySelected = 1
-local runModifierSelected = {}
+local runModeSelected = {}
 local existingNews = {}
 local coverLeft, coverRight, arrowLeft, arrowRight
 local toPlay
+local modifierButton
+local isModifierOpen = false
+local modifierUIS = {}
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
     if ent.delete then
       ent:delete()
     end
+  end
+end
+
+local function openModifier(action)
+  if isModifierOpen == false and action ~= "close" then
+    table.insert(modifierUIS, main.ui.spawnUI("cover", {
+      x=640-600/2,
+      y=100,
+      width = 600,
+      height = 400,
+      color = {0.6, 0.6, 0.6},
+      outline = 10,
+      rx=10,
+      ry=10,
+      outlineColor = {0.4, 0.4, 0.4},
+      ignoreUIChecks = false,
+      renderLayer = 100}))
+
+    isModifierOpen = true
+  else
+    deleteAll(modifierUIS)
+
+    isModifierOpen = false
   end
 end
 
@@ -27,7 +52,8 @@ main.defineScene("runSelect", function ()
     table.insert(starters, t)
   end
 
-  toPlay = main.ui.spawnUI("toPlay", {x=540, y=550, renderLayer=102})
+  toPlay = main.ui.spawnUI("toPlay", {x=640-120-100, y=550, renderLayer=102})
+  modifierButton = main.ui.spawnUI("openModifier", {x=640+120-100, y=550, renderLayer=102})
 
   coverLeft = main.ui.spawnUI("cover", {x=50, y=70, width=330, height=580,
     rx=20, ry=20,
@@ -47,9 +73,9 @@ main.defineScene("runSelect", function ()
   local leftCoverX = 50
   local blockSpacing = 80
   local y = 100+blockSpacing+10
-  for i, modifier in ipairs(main.runModifiers) do
+  for i, mode in ipairs(main.runModes) do
     existingNews[i] = {}
-    for e, news in ipairs(modifier.news) do
+    for e, news in ipairs(mode.news) do
       local n = main.spawnEntity(news, {x=leftCoverX+10, y=y+blockSpacing*(i-0.5)})
       n.ui.renderLayer = 140
       n.ui.sx = 2
@@ -65,8 +91,9 @@ main.defineScene("runSelect", function ()
   main.hideCharts()
 end, function ()
   starters = {}
+  openModifier("close")
 
-  deleteAll({toPlay, coverLeft, coverRight, arrowLeft, arrowRight})
+  deleteAll({toPlay, coverLeft, coverRight, arrowLeft, arrowRight, modifierButton})
   for _, t in pairs(existingNews) do
     for i=#t, 1, -1 do
       local news = t[i]
@@ -75,8 +102,6 @@ end, function ()
     end
   end
 end)
-
-local flux = system.getStorage("flux")
 
 main.ui.defineUI("runSelectArrow", {
   image = "runArrowLeft",
@@ -108,7 +133,6 @@ main.ui.defineButton("toPlay", {
   audio = "breaker",
   onButtonClicked = function (ent)
     if #main.getPipeline("scene").pipeline > 0 then return end
-    -- if ent.order ~= starterHovering then starterHovering = ent.order return end
 
     local selection = starters[starterHovering]
     starterChosen = starterHovering
@@ -124,11 +148,11 @@ main.ui.defineButton("toPlay", {
 
     main.playScene("levelSelect")
 
-    for k, v in pairs(runModifierSelected) do
+    for k, v in pairs(runModeSelected) do
       if v == true then
-        local modifier = main.runModifiers[k]
+        local mode = main.runModes[k]
 
-        for i, news in ipairs(modifier.news) do
+        for i, news in ipairs(mode.news) do
           local ent = main.spawnNews(news, {x=0, y=0})
 
           if main.canTrigger(ent, "OBTAIN") then
@@ -140,6 +164,19 @@ main.ui.defineButton("toPlay", {
         end
       end
     end
+  end
+})
+
+main.ui.defineButton("openModifier", {
+  width = 200,
+  height = 100,
+  color = {0.6, 0.8, 0.6},
+  renderLayer = 62,
+  screenSpace = true,
+  text = "MODIFIER",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    openModifier()
   end
 })
 
@@ -196,12 +233,12 @@ system.on("@mouse:released", function (button)
   local y = 100+blockSpacing+10
   local starter = starters[starterHovering]
 
-  for i, modifier in ipairs(main.runModifiers) do
+  for i, mode in ipairs(main.runModes) do
     if main.AABB_check(mouse, {x=leftCoverX, y=y+(i-1)*blockSpacing, width=330, height=blockSpacing}) then
-      if runModifierSelected[i] ~= true then
-        runModifierSelected[i] = true
+      if runModeSelected[i] ~= true then
+        runModeSelected[i] = true
       else
-        runModifierSelected[i] = false
+        runModeSelected[i] = false
       end
     end
   end
@@ -254,14 +291,14 @@ system.on("@draw", function ()
   end
 
   local starter = starters[starterHovering]
-  --left cover modifier selection
+  --left cover mode selection
   local leftCoverMidX = 50+330/2
   local blockSpacing = 80
   local leftCoverX = 50
   local leftCoverRightX = 50+330
 
   local t = main.printRichText({
-    format = "Modifier",
+    format = "Modes",
     x=leftCoverMidX,
     y=70+(30+blockSpacing+10)/2,
     renderLayer=97
@@ -271,10 +308,10 @@ system.on("@draw", function ()
 
   -- names
   local totalNews = 0
-  for i, modifier in ipairs(main.runModifiers) do
+  for i, mode in ipairs(main.runModes) do
     local lastNews = existingNews[i][#existingNews[i]]
     local t = main.printRichText({
-      format = modifier.name,
+      format = mode.name,
       x=lastNews.ui:getX()+lastNews.ui:getWidth()+10,
       y=lastNews.ui:getY()+lastNews.ui:getHeight()/2,
       renderLayer=97,
@@ -288,7 +325,7 @@ system.on("@draw", function ()
     love.graphics.setLineWidth(10)
     local y = 100+blockSpacing+10
 
-    for k, v in pairs(runModifierSelected) do
+    for k, v in pairs(runModeSelected) do
       if v == true then
         local resultY = y+(k-1)*(blockSpacing)
         love.graphics.setColor(1, 1, 1, 0.3)
@@ -298,7 +335,7 @@ system.on("@draw", function ()
 
     love.graphics.setColor(0.4, 0.4, 0.4)
     love.graphics.line(leftCoverX, y, leftCoverRightX, y)
-    for i, modifier in ipairs(main.runModifiers) do
+    for i, mode in ipairs(main.runModes) do
       local resultY = y+i*(blockSpacing)
 
       love.graphics.setColor(0.4, 0.4, 0.4)
