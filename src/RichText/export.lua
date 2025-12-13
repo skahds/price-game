@@ -81,15 +81,13 @@ function main.newRichText(args)
 
   text.richTextTable = textTable
 
-  function textTable.delete(t)
-    for k, text in pairs(deleteQueue) do
-      if text.index == t.index then
-        return
-      end
-    end
-    table.insert(deleteQueue, t)
-    t.insideDeleteQueue = true
+function textTable.delete(t)
+  if t.insideDeleteQueue then
+    return
   end
+  table.insert(deleteQueue, t)
+  t.insideDeleteQueue = true
+end
 
   return texts[#texts]
 end

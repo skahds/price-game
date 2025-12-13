@@ -12,6 +12,7 @@ local toPlay
 local modifierButton
 local isModifierOpen = false
 local modifierUIS = {}
+local modifierValues = {}
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -36,21 +37,53 @@ local function openModifier(action)
       ignoreUIChecks = false,
       renderLayer = 100}))
 
+      local yGap = 80
       for i, modifier in ipairs(main.runModifiers) do
+        local amount = modifier.range[2]-modifier.range[1]
+        local totalWidth = 50*amount
         local ui = main.ui.spawnUI("modifierSlider", {
+          attachedModifier=i,
           x=640-200,
-          y=100+(i-1)*100
+          y=100+(i-1)*yGap,
+          width = totalWidth,
+          increment = amount,
+          slideAmount = 1*(-modifier.range[1]+(modifierValues[i] or 0))/amount
         })
         ui.x = ui.x - ui:getWidth()/2
+        ui.y = ui.y - ui:getHeight()/2
         table.insert(modifierUIS, ui)
+
+        local text = main.newRichText({
+          attachedModifier = i,
+          format = modifier.updateDescription(modifierValues[i] or 0),
+          renderLayer = 200,
+          x=640,
+          y=100+(i-1)*yGap,
+          font = system.getFont("defaultFont40"),
+        })
+        text.y = text.y - text.richText:getHeight()/2
+        table.insert(modifierUIS, text)
       end
 
 
     isModifierOpen = true
   else
-    deleteAll(modifierUIS)
+    for i=#modifierUIS, 1, -1 do
+      local ui = modifierUIS[i]
+      ui:delete()
+    end
 
     isModifierOpen = false
+  end
+end
+
+local function updateModifier()
+  for i, ui in ipairs(modifierUIS) do
+    if ui.richText then
+      local modifier = main.runModifiers[ui.attachedModifier]
+      local value = modifierValues[ui.attachedModifier]
+      main.updateRichTextText(ui, modifier.updateDescription(value or 0))
+    end
   end
 end
 
@@ -102,6 +135,11 @@ main.defineScene("runSelect", function ()
 end, function ()
   starters = {}
   openModifier("close")
+  for k, v in pairs(modifierValues) do
+    if v ~= 0 then
+      main.runModifiers[k].effect(v)
+    end
+  end
 
   deleteAll({toPlay, coverLeft, coverRight, arrowLeft, arrowRight, modifierButton})
   for _, t in pairs(existingNews) do
@@ -192,6 +230,7 @@ main.ui.defineButton("openModifier", {
 
 -- main thing to edit when creating: increment, onBasicSliderDraw, targetStorage
 main.ui.defineSlider("modifierSlider", {
+  attachedModifier = 0,
   defaultWidth = 200,
   defaultHeight = 50,
   renderLayer = 200,
@@ -224,10 +263,11 @@ main.ui.defineSlider("modifierSlider", {
     local increment = ent.increment
     local slideAmount = math.floor(amountScrolled*increment + 0.5)/increment
     ent.slideAmount = slideAmount
-    local percentageHold = (slideAmount)
-    -- if ent.targetStorage then
-    --   system.updateStorage(ent.targetStorage, percentageHold)
-    -- end
+    local range = main.runModifiers[ent.attachedModifier].range
+    local rangeAmount = range[2]-range[1]
+    local amount = math.floor((range[1]+slideAmount*rangeAmount)+0.5) -- 0 -> -1, 0.5 -> 0, 1 -> 1
+    modifierValues[ent.attachedModifier] = amount
+    updateModifier()
   end
 })
 
@@ -340,6 +380,14 @@ system.on("@draw", function ()
       t.x = t.x - t.richText:getWidth()/2
     end
   end
+
+  system.render(82, function ()
+    love.graphics.setColor(1, 1, 1, 0.5)
+    for i=1, #starters do
+      love.graphics.circle("fill", 640-((#starters/2)-(i-0.5))*80, 20, 10)
+    end
+      love.graphics.circle("fill", 640-((#starters/2)-(starterHovering-0.5))*80, 20, 10)
+  end, true)
 
   local starter = starters[starterHovering]
   --left cover mode selection

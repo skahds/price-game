@@ -63,7 +63,7 @@ function main.ui.defineButton(id, eType)
     buttonUp(ent)
 
     if ent.audio then
-      system.playAudio(ent.audio)
+      local audio = system.playAudio(ent.audio)
     end
     
     if ent.onButtonClicked then

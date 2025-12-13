@@ -26,6 +26,7 @@ function main.defineRunMode(contents)
 end
 
 function main.defineModifiers(content)
+  content.amount = 0
   table.insert(main.runModifiers, content)
 end
 
