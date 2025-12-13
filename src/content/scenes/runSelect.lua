@@ -5,6 +5,7 @@ local difficulyNaming = {"Easy", "Medium", "Hard"}
 local starterChosen
 local starterHovering = 1
 local difficultySelected = 1
+local pressableBoxes = {}
 local runModeSelected = {}
 local existingNews = {}
 local coverLeft, coverRight, arrowLeft, arrowRight
@@ -128,6 +129,28 @@ main.defineScene("runSelect", function ()
       n.ui.screenSpace = true
       table.insert(existingNews[i], n)
     end
+    
+    local ui = main.ui.spawnUI("pressableBox", {
+      x=leftCoverX,
+      y=y+blockSpacing*(i-1),
+      width=330,
+      height=blockSpacing,
+      modesOrder = i
+    })
+    table.insert(pressableBoxes, ui)
+  end
+
+  --kinda hacky? whatever; on @update, positions will be moved if the difficulty doesn't exist
+  local rightCoverX = 1280-380
+  for i=1, 4 do
+    local ui = main.ui.spawnUI("pressableBox", {
+      x=rightCoverX,
+      y=y+(i-1)*blockSpacing,
+      width=330,
+      height=blockSpacing,
+      difficultyOrder = i
+    })
+    table.insert(pressableBoxes, ui)
   end
 
   main.tweenCamera(0.2, {x=0, y=0})
@@ -142,6 +165,7 @@ end, function ()
   end
 
   deleteAll({toPlay, coverLeft, coverRight, arrowLeft, arrowRight, modifierButton})
+  deleteAll(pressableBoxes)
   for _, t in pairs(existingNews) do
     for i=#t, 1, -1 do
       local news = t[i]
@@ -167,6 +191,32 @@ main.ui.defineUI("runSelectArrow", {
       starterHovering = math.min(#starters, starterHovering+1)
     else
       starterHovering = math.max(1, starterHovering-1)
+    end
+  end,
+})
+
+main.ui.defineUI("pressableBox", {
+  renderLayer = 95,
+  width = 1,
+  height= 1,
+  color = {1, 1, 1, 0},
+  screenSpace=true,
+  onHover = function (ent)
+
+  end,
+  notHovered = function (ent)
+
+  end,
+  onMouseReleased = function (ent)
+    if ent.modesOrder then
+      local i = ent.modesOrder
+      if runModeSelected[i] ~= true then
+        runModeSelected[i] = true
+      else
+        runModeSelected[i] = false
+      end
+    elseif ent.difficultyOrder then
+      difficultySelected = ent.difficultyOrder
     end
   end,
 })
@@ -280,6 +330,18 @@ system.on("@update", function ()
     return
   end
 
+  local rightCoverX = 1280-380
+  local starter = starters[starterHovering]
+  for i, ui in ipairs(pressableBoxes) do
+    if ui.difficultyOrder then
+      if #starter.scoreWithDifficulty < ui.difficultyOrder then
+        ui.x = 2000
+      else
+        ui.x = rightCoverX
+      end
+    end
+  end
+
   if starterHovering == 1 then
     arrowLeft.isVisible = false
   else
@@ -306,38 +368,6 @@ system.on("@update", function ()
   local starter = starters[starterHovering]
   if difficultySelected > #starter.scoreWithDifficulty then
     difficultySelected = #starter.scoreWithDifficulty
-  end
-end)
-
-system.on("@mouse:released", function (button)
-  if button ~= 1 then
-    return
-  end
-  if system.getStorage("main:currentScene") ~= "runSelect" then
-    return
-  end
-
-  local mouse = system.getStorage("realMouse")
-  local leftCoverX = 50
-  local rightCoverX = 1280-380
-  local blockSpacing = 80
-  local y = 100+blockSpacing+10
-  local starter = starters[starterHovering]
-
-  for i, mode in ipairs(main.runModes) do
-    if main.AABB_check(mouse, {x=leftCoverX, y=y+(i-1)*blockSpacing, width=330, height=blockSpacing}) then
-      if runModeSelected[i] ~= true then
-        runModeSelected[i] = true
-      else
-        runModeSelected[i] = false
-      end
-    end
-  end
-
-  for i, difficulty in ipairs(starter.scoreWithDifficulty) do
-    if main.AABB_check(mouse, {x=rightCoverX, y=y+(i-1)*blockSpacing, width=330, height=blockSpacing}) then
-      difficultySelected = i
-    end
   end
 end)
 
