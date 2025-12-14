@@ -4,6 +4,7 @@ local logo
 local discord
 local settings
 local continue
+local collection
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -23,6 +24,7 @@ main.defineScene("menu", function ()
   else
     play = main.ui.spawnUI("menuPlay", {x=640-100, y=390})
   end
+  collection = main.ui.spawnUI("openCollection", {x=640-125, y=720-150})
   credits = main.ui.spawnUI("credits", {x=20, y=20})
   discord = main.ui.spawnUI("discord", {x=20, y=720-150})
   settings = main.ui.spawnUI("openSetting", {x=1280-20-200, y=720-150})

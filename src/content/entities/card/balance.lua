@@ -12,7 +12,8 @@ main.defineCard("scale", {
     (last.endPrice - last.startPrice) * (last.endPrice-last.startPrice) < 0 then
       main.changeEntityComponent(ent, "defaultMultGain", 4, combiner.ADD)
     end
-  end
+  end,
+  rarity = "COMMON",
 })
 
 main.defineCard("flag", {
@@ -28,7 +29,8 @@ main.defineCard("flag", {
         main.changeEntityComponent(ent, "defaultPriceGain", -10, combiner.ADD)
       end
     end)
-  end
+  end,
+  rarity = "COMMON",
 })
 
 main.defineCard("greenHammer", {
@@ -46,7 +48,8 @@ main.defineCard("greenHammer", {
 
   onActivate = function (ent)
     main.addPrice(50)
-  end
+  end,
+  rarity = "COMMON",
 })
 
 main.defineCard("redHammer", {
@@ -64,7 +67,8 @@ main.defineCard("redHammer", {
 
   onActivate = function (ent)
     main.addPrice(-50)
-  end
+  end,
+  rarity = "COMMON",
 })
 
 main.defineCard("stalemartyr", {
@@ -80,5 +84,6 @@ main.defineCard("stalemartyr", {
       local price = bar.endPrice - bar.startPrice
       main.addPrice(-price)
     end
-  end
+  end,
+  rarity = "COMMON",
 })

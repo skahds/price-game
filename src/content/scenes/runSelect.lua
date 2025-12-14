@@ -23,11 +23,19 @@ local function deleteAll(args)
   end
 end
 
+local function formatNum(n)
+  if n >= 0 then
+    return "+" .. n
+  else
+    return n
+  end
+end
+
 local function openModifier(action)
   if isModifierOpen == false and action ~= "close" then
     table.insert(modifierUIS, main.ui.spawnUI("cover", {
       x=640-800/2,
-      y=50,
+      y=80,
       width = 800,
       height = 450,
       color = {0.6, 0.6, 0.6},
@@ -45,7 +53,7 @@ local function openModifier(action)
         local ui = main.ui.spawnUI("modifierSlider", {
           attachedModifier=i,
           x=640-200,
-          y=100+(i-1)*yGap,
+          y=130+(i-1)*yGap,
           width = totalWidth,
           increment = amount,
           slideAmount = 1*(-modifier.range[1]+(modifierValues[i] or 0))/amount
@@ -56,14 +64,27 @@ local function openModifier(action)
 
         local text = main.newRichText({
           attachedModifier = i,
+          usage = "description",
           format = modifier.updateDescription(modifierValues[i] or 0),
           renderLayer = 200,
           x=640,
-          y=100+(i-1)*yGap,
+          y=130+(i-1)*yGap,
           font = system.getFont("defaultFont40"),
         })
         text.y = text.y - text.richText:getHeight()/2
         table.insert(modifierUIS, text)
+
+        local scoreResult = main.newRichText({
+          attachedModifier = i,
+          usage = "scoreEffect",
+          format = formatNum((modifierValues[i] or 0)*modifier.scoreEffect) .. "%",
+          renderLayer = 200,
+          x=640+150,
+          y=130+(i-1)*yGap,
+          font = system.getFont("defaultFont40"),
+        })
+        text.y = text.y - text.richText:getHeight()/2
+        table.insert(modifierUIS, scoreResult)
       end
 
 
@@ -82,8 +103,12 @@ local function updateModifier()
   for i, ui in ipairs(modifierUIS) do
     if ui.richText then
       local modifier = main.runModifiers[ui.attachedModifier]
-      local value = modifierValues[ui.attachedModifier]
-      main.updateRichTextText(ui, modifier.updateDescription(value or 0))
+      local value = modifierValues[ui.attachedModifier] or 0
+      if ui.usage == "description" then
+        main.updateRichTextText(ui, modifier.updateDescription(value))
+      elseif ui.usage == "scoreEffect" then
+        main.updateRichTextText(ui, formatNum((-value)*modifier.scoreEffect) .. "%%")
+      end
     end
   end
 end

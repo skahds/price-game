@@ -5,7 +5,9 @@ main.defineNews("discount", {
   description = "A random card becomes {energyColor}FREE{/energyColor}",
   isRelic = true,
   onActivate = function (ent)
-    local card = main.getRandomCard()
+    local card = main.getRandomCard(function (card)
+      return card.overrideEnergy > 0
+    end)
     if card and card.overrideEnergy > 0 then
       card.overrideEnergy = 0
     end
@@ -185,7 +187,7 @@ main.defineNews("bluePill", {
     local bag = system.getStorage("rarity:bag")
     local t = bag:getRandomCardWithInfo({minimumRarity="RARE", amount=4})
     for k, card in ipairs(t) do
-      main.basicSpawnCard(card, {}, nil, "draw")
+      main.basicSpawnCard(card, {}, nil, "hand")
     end
   end
 })

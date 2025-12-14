@@ -10,7 +10,6 @@ main.ui.defineSlider("basicSlider", {
   increment = 1 / ( 0.1 ),
 
   onDraw = function (ent)
-    
     local slideAmount = ent.slideAmount or 0.5
     local x = ent.x
     local y = ent.y

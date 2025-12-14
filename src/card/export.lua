@@ -10,6 +10,8 @@ main.card = {
   shop = {},
   -- to be used in the levelEnd
   reward = {},
+  -- to be used anywhere for visual
+  misc = {},
 }
 
 function main.getAllPiles()
@@ -17,7 +19,7 @@ function main.getAllPiles()
 end
 
 function main.getAllVisiblePiles()
-  return {main.card.hand, main.card.shop, main.card.reward}
+  return {main.card.hand, main.card.shop, main.card.reward, main.card.misc}
 end
 
 local function fixCardOrderOnStack(ownerShip)

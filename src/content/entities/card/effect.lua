@@ -32,7 +32,8 @@ main.defineCard("whitewash", {
     onActivate = function (ent, targetEnt)
       main.changeEntityComponent(targetEnt, "defaultPriceGain", 5, combiner.ADD)
     end
-  }
+  },
+  rarity = "COMMON",
 })
 
 main.defineCard("void", {
@@ -345,5 +346,35 @@ main.defineCard("cargo", {
   price = 2,
   onActivate = function (ent)
     main.basicSpawnCard("junk", {}, ent, "draw")
+  end
+})
+
+main.defineCard("cell", {
+  name = "Cell",
+  image = "cell",
+  description = "Card to the right and\nleft becomes {energyColor}FREE{/energyColor}",
+  temporary=1,
+  energy = 2,
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity = "COMMON",
+
+  filter = function (ent)
+    local target1 = main.getCardBesides(ent, -1)
+    local target2 = main.getCardBesides(ent, 1)
+    if target1 or target2 then
+      return true
+    end
+  end,
+  
+  onActivate = function (ent)
+    local target1 = main.getCardBesides(ent, -1)
+    local target2 = main.getCardBesides(ent, 1)
+    if target1 then
+      target1.overrideEnergy = 0
+    end
+    if target2 then
+      target2.overrideEnergy = 0
+    end
   end
 })

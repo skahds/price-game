@@ -48,6 +48,7 @@ main.defineCard("grassBow", {
     end
   end,
   price = 2,
+  rarity = "COMMON",
 })
 
 main.defineCard("wake", {
@@ -59,6 +60,7 @@ main.defineCard("wake", {
     main.changeEntityComponent(ent, "defaultPriceGain", 5, combiner.ADD)
   end,
   price = 2,
+  rarity = "COMMON",
 })
 
 main.defineCard("rebalance", {
@@ -71,6 +73,7 @@ main.defineCard("rebalance", {
     main.addPrice(mult)
   end,
   price = 2,
+  rarity = "COMMON",
 })
 
 main.defineCard("greenDice", {
@@ -86,6 +89,7 @@ main.defineCard("greenDice", {
     end
   end,
   price = 2,
+  rarity = "COMMON",
 })
 
 main.defineCard("junk", {

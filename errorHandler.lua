@@ -37,9 +37,9 @@ function love.errorhandler(msg)
 	end
 	if love.audio then love.audio.stop() end
 
-  local img = love.graphics.readbackTexture(defaultCanvas)
-  img:encode("png", "crash.png")
-  local crashImage = love.graphics.newImage("crash.png")
+  -- local img = love.graphics.readbackTexture(defaultCanvas)
+  -- img:encode("png", "crash.png")
+  -- local crashImage = love.graphics.newImage("crash.png")
 
 
 	love.graphics.reset()
@@ -85,9 +85,9 @@ function love.errorhandler(msg)
 		if not love.graphics.isActive() then return end
 		local pos = 100
 		-- love.graphics.clear(0.1, 0.1, 0.1, 0.6)
-    local widthScale, heightScale = love.graphics.getWidth()/crashImage:getWidth(), love.graphics.getHeight()/crashImage:getHeight()
-    love.graphics.draw(crashImage, 0, 0, 0, widthScale, heightScale)
-    love.graphics.setColor(0, 0, 0, 0.6)
+    -- local widthScale, heightScale = love.graphics.getWidth()/crashImage:getWidth(), love.graphics.getHeight()/crashImage:getHeight()
+    -- love.graphics.draw(crashImage, 0, 0, 0, widthScale, heightScale)
+    love.graphics.setColor(0, 0, 0, 1)
     love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
     love.graphics.setColor(1, 1, 1)
     love.graphics.setFont(fontbig)
