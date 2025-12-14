@@ -7,6 +7,7 @@ local amountOfPage
 local contentPerPage = 20
 local selectLeft, selectRight
 local cover
+local currentPageText
 
 local function checkRarity(ent)
   local rarity = ent.definition.rarity.id
@@ -29,6 +30,7 @@ system.on("@load", function ()
       table.insert(listOfItems, ent)
     end
   end
+
   amountOfPage = math.floor(#listOfItems/contentPerPage)+1
 end)
 
@@ -42,15 +44,33 @@ local function updateContent()
   local startI = (currentPage-1) * contentPerPage
   local contentInThisPage = contentPerPage
   if currentPage == amountOfPage then
-    contentInThisPage = #listOfItems - contentPerPage * currentPage
+    contentInThisPage = #listOfItems - contentPerPage * (currentPage-1)
   end
 
+  for i=#existingItems, 1, -1 do
+    existingItems[i]:delete()
+  end
+  
   for i=1, contentInThisPage do
-    local itemI = startI+i-1 --yeahyeah it starts at 0 whatever
-    local item = listOfItems[itemI]
-    local x = itemI%5
-    local y = math.floor(itemI/5)
-    main.ui.spawnUI("collectionPlaceholder", {x=100+x*100, y=100+y*100})
+    local itemI = startI+i --yeahyeah it starts at 0 whatever
+    local item = listOfItems[itemI].definition
+    local x = (i-1)%5
+    local y = math.floor((i-1)/5)
+    -- todo: discard all this and just change it to spawn card and spawn news grahh
+    local img = system.getImage(item.image)
+    local scale = 1.7
+    if img:getWidth() < 40 then
+      scale = 2
+    end
+    local ui = main.ui.spawnUI("collectionPlaceholder", {name=item.name,x=640+(x-2)*800/5, y=240+(y-1)*110, image = item.image, sx=scale, sy=scale, showDescription = true})
+    for k, v in pairs(main.getAllComponentsFromEntity(item)) do
+      ui[k] = utils.deepCopy(v)
+    end
+    ui.width = img:getWidth()
+    ui.height = img:getHeight()
+    ui.ox = img:getWidth()/2
+    ui.oy = img:getHeight()/2
+    table.insert(existingItems, ui)
   end
 end
 
@@ -62,6 +82,7 @@ local function buttonClick(n)
     currentPage = currentPage - 1
     updateContent()
   end
+  main.updateRichTextText(currentPageText, "page " .. currentPage .. "/" .. amountOfPage)
 end
 
 local function openCollection()
@@ -82,7 +103,7 @@ local function openCollection()
       renderLayer = 400})
 
     selectLeft = main.ui.spawnUI("collectionSelect", {
-      x=640-130-40,
+      x=640-150-40,
       y=550,
       renderLayer = 402,
       text="<",
@@ -92,7 +113,7 @@ local function openCollection()
     })
 
     selectRight = main.ui.spawnUI("collectionSelect", {
-      x=640+130-40,
+      x=640+150-40,
       y=550,
       renderLayer = 402,
       text=">",
@@ -100,11 +121,25 @@ local function openCollection()
         buttonClick(1)
       end
     })
+    
+    currentPageText = main.newRichText({
+      x=640,
+      y=550,
+      format = "page " .. currentPage .. "/" .. amountOfPage,
+      renderLayer = 402
+    })
+    currentPageText.x = currentPageText.x - currentPageText.richText:getWidth()/2
+    -- currentPageText.y = currentPageText.y - currentPageText.richText:getHeight()/2
+
     updateContent()
   else
     isOpen = false
 
-    deleteAll({cover, selectLeft, selectRight})
+    for i=#existingItems, 1, -1 do
+      existingItems[i]:delete()
+    end
+
+    deleteAll({cover, selectLeft, selectRight, currentPageText})
   end
 end
 
