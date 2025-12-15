@@ -9,7 +9,7 @@ local contentHorizontal = 4
 local selectLeft, selectRight
 local close
 local cover
-local currentPageText
+local topText, currentPageText
 
 local function checkRarity(ent)
   local rarity = ent.definition.rarity.id
@@ -109,12 +109,12 @@ local function updateContent()
       local c = main.createCard(item.id, {ignoreCardSelect=true}, "misc")
       c.ui.renderLayer = 402
       c.ui.x=640+(x-1.5)*800/contentHorizontal
-      c.ui.y=320+(y-1)*130
+      c.ui.y=340+(y-1)*130
       c.ui.x = c.ui.x - c.ui:getWidth()/2
       c.ui.y = c.ui.y - c.ui:getHeight()/2
       table.insert(existingItems, c)
     elseif item.isNews then
-      local n = main.spawnEntity(item.id, {x=640+(x-1.5)*800/contentHorizontal, y=320+(y-1)*130})
+      local n = main.spawnEntity(item.id, {x=640+(x-1.5)*800/contentHorizontal, y=340+(y-1)*130})
       n.isRelic = true
       n.ui.renderLayer = 402
       n.ui.sx = 2
@@ -179,12 +179,21 @@ local function openCollection()
     
     currentPageText = main.newRichText({
       x=640,
-      y=550,
+      y=590,
       format = "page " .. currentPage .. "/" .. amountOfPage,
       renderLayer = 402
     })
     currentPageText.x = currentPageText.x - currentPageText.richText:getWidth()/2
-    -- currentPageText.y = currentPageText.y - currentPageText.richText:getHeight()/2
+    currentPageText.y = currentPageText.y - currentPageText.richText:getHeight()/2
+
+    topText = main.newRichText({
+      x=640,
+      y=80,
+      format = "Collection",
+      renderLayer = 402,
+      font = system.getFont("defaultFont80")
+    })
+    topText.x = topText.x - topText.richText:getWidth()/2
 
     close = main.ui.spawnUI("collectionClose", {
       x=940,
@@ -197,7 +206,7 @@ local function openCollection()
     isOpen = false
 
     clearExistingItem()
-    deleteAll({cover, selectLeft, selectRight, currentPageText, close})
+    deleteAll({cover, selectLeft, selectRight, currentPageText, close, topText})
   end
 end
 
