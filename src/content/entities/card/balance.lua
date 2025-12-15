@@ -74,7 +74,7 @@ main.defineCard("redHammer", {
 main.defineCard("stalemartyr", {
   name = "Stalemartyr",
   image = "stalemartyr",
-  description = "Gives {priceColor}PRICE{priceColor} inverse to\n the previous bar",
+  description = "Gives {priceColor}PRICE{/priceColor} inverse to\n the previous bar",
   trigger = {"DEPLOY"},
   price = 3,
 

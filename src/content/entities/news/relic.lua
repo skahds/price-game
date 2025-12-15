@@ -213,7 +213,7 @@ main.defineNews("marbles", {
   name = "Marbles",
   image = "marblesNews",
   description = "Draw all cards that is {energyColor}FREE{energyColor}",
-  trigger = {"ENCOUTER"},
+  trigger = {"ENCOUNTER"},
   isRelic = true,
   rarity = "RARE",
   onActivate = function ()

@@ -1,4 +1,3 @@
--- for storing stuff that'll be used in this card folder, not for use outside
 main.card = {
   -- the cards we own.. the index defines the order
   hand = {},
@@ -33,7 +32,7 @@ function main.createCard(id, args, ownerShip)
   ownerShip = ownerShip or "hand"
   local card = main.spawnEntity(id, args)
   table.insert(main.card[ownerShip], card)
-  card.cardOrder = #main.card.hand
+  card.cardOrder = #main.card[ownerShip]
   card.ownerShip = ownerShip
   if card.ownerShip == "draw" or card.ownerShip == "discard" then
     card.ui.isVisible = false
@@ -111,6 +110,8 @@ function main.deleteCard(card)
   cardUI:delete()
   card:delete()
   
+  -- print(#main.card.misc)
+
   main.card.updateAllCardPositionBackToOriginalPosition()
 
   return true
@@ -132,6 +133,8 @@ function main.getRandomCard(...)
     extract = {"hand"}
   elseif type(...) == "string" then
     extract = {...}
+  elseif type(...) == "function" then
+    extract = {..., "hand"}
   else
     extract = ...
   end

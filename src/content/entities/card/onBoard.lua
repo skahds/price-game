@@ -11,7 +11,7 @@ main.definePlaceableNewsCard("expound", {
   target={
     shape = {w=3, h=3},
     onActivate = function (ent, targetEnt)
-      main.changeEntityComponent(targetEnt, "defaultMultGain", 3, combiner.ADD)
+      main.changeEntityComponent(targetEnt, "defaultMultGain", 2, combiner.ADD)
     end
   }
 })

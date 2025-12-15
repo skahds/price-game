@@ -4,8 +4,10 @@ local listOfItems = {}
 local existingItems = {}
 local currentPage = 1
 local amountOfPage
-local contentPerPage = 20
+local contentPerPage = 12
+local contentHorizontal = 4
 local selectLeft, selectRight
+local close
 local cover
 local currentPageText
 
@@ -18,17 +20,49 @@ local function checkRarity(ent)
   end
 end
 
+local function sortT(t)
+  local sortValue = {STARTER=1, COMMON=2, RARE=3, EPIC=4}
+  -- sorts by rarity (common first), then sort the ents of the same rarity alphabetically
+  table.sort(t, function (ent, ent2)
+    local def1 = ent.definition
+    local def2 = ent2.definition
+    local rarity1 = def1.rarity.id
+    local rarity2 = def2.rarity.id
+    
+    local sort1 = sortValue[rarity1]
+    local sort2 = sortValue[rarity2]
+    
+    if sort1 ~= sort2 then
+      return sort1 < sort2
+    else
+      return def1.name < def2.name
+    end
+  end)
+end
+
 system.on("@load", function ()
+  local newsList = {}
   for k, ent in pairs(main.entities) do
     if ent.definition and ent.definition.isNews and checkRarity(ent) then
-      table.insert(listOfItems, ent)
+      table.insert(newsList, ent)
     end
   end
+  sortT(newsList)
 
+  local cardList = {}
   for k, ent in pairs(main.entities) do
     if ent.definition and ent.definition.isCard and checkRarity(ent) then
-      table.insert(listOfItems, ent)
+      table.insert(cardList, ent)
     end
+  end
+  sortT(cardList)
+
+  for i, item in ipairs(newsList) do
+    table.insert(listOfItems, item)
+  end
+  
+  for i, item in ipairs(cardList) do
+    table.insert(listOfItems, item)
   end
 
   amountOfPage = math.floor(#listOfItems/contentPerPage)+1
@@ -40,6 +74,23 @@ local function deleteAll(arg)
   end
 end
 
+local function clearExistingItem()
+  for i=#existingItems, 1, -1 do
+    local item = existingItems[i]
+    if item.isCard then
+      main.deleteCard(item)
+    elseif item.isNews then
+      item.ui:delete()
+      item:delete()
+    end
+  end
+  if main.card.misc[#main.card.misc] then
+    main.deleteCard(main.card.misc[#main.card.misc])
+  end
+
+  existingItems = {}
+end
+
 local function updateContent()
   local startI = (currentPage-1) * contentPerPage
   local contentInThisPage = contentPerPage
@@ -47,30 +98,34 @@ local function updateContent()
     contentInThisPage = #listOfItems - contentPerPage * (currentPage-1)
   end
 
-  for i=#existingItems, 1, -1 do
-    existingItems[i]:delete()
-  end
+  clearExistingItem()
   
   for i=1, contentInThisPage do
     local itemI = startI+i --yeahyeah it starts at 0 whatever
     local item = listOfItems[itemI].definition
-    local x = (i-1)%5
-    local y = math.floor((i-1)/5)
-    -- todo: discard all this and just change it to spawn card and spawn news grahh
-    local img = system.getImage(item.image)
-    local scale = 1.7
-    if img:getWidth() < 40 then
-      scale = 2
+    local x = (i-1)%contentHorizontal
+    local y = math.floor((i-1)/contentHorizontal)
+    if item.isCard then
+      local c = main.createCard(item.id, {ignoreCardSelect=true}, "misc")
+      c.ui.renderLayer = 402
+      c.ui.x=640+(x-1.5)*800/contentHorizontal
+      c.ui.y=320+(y-1)*130
+      c.ui.x = c.ui.x - c.ui:getWidth()/2
+      c.ui.y = c.ui.y - c.ui:getHeight()/2
+      table.insert(existingItems, c)
+    elseif item.isNews then
+      local n = main.spawnEntity(item.id, {x=640+(x-1.5)*800/contentHorizontal, y=320+(y-1)*130})
+      n.isRelic = true
+      n.ui.renderLayer = 402
+      n.ui.sx = 2
+      n.ui.sy = 2
+      n.ui.x = n.ui.x - n.ui:getWidth()/2
+      n.ui.y = n.ui.y - n.ui:getHeight()/2
+      n.rewardIndex = i
+      n.ui.screenSpace = true
+      n.screenSpace = true
+      table.insert(existingItems, n)
     end
-    local ui = main.ui.spawnUI("collectionPlaceholder", {name=item.name,x=640+(x-2)*800/5, y=240+(y-1)*110, image = item.image, sx=scale, sy=scale, showDescription = true})
-    for k, v in pairs(main.getAllComponentsFromEntity(item)) do
-      ui[k] = utils.deepCopy(v)
-    end
-    ui.width = img:getWidth()
-    ui.height = img:getHeight()
-    ui.ox = img:getWidth()/2
-    ui.oy = img:getHeight()/2
-    table.insert(existingItems, ui)
   end
 end
 
@@ -131,15 +186,18 @@ local function openCollection()
     currentPageText.x = currentPageText.x - currentPageText.richText:getWidth()/2
     -- currentPageText.y = currentPageText.y - currentPageText.richText:getHeight()/2
 
+    close = main.ui.spawnUI("collectionClose", {
+      x=940,
+      y=80,
+      renderLayer = 402,
+    })
+
     updateContent()
   else
     isOpen = false
 
-    for i=#existingItems, 1, -1 do
-      existingItems[i]:delete()
-    end
-
-    deleteAll({cover, selectLeft, selectRight, currentPageText})
+    clearExistingItem()
+    deleteAll({cover, selectLeft, selectRight, currentPageText, close})
   end
 end
 
@@ -164,6 +222,19 @@ main.ui.defineButton("collectionSelect", {
   screenSpace = true,
   text = "<",
   audio = "breaker",
+})
+
+main.ui.defineButton("collectionClose", {
+  width = 60,
+  height = 60,
+  color = {0.7, 0.4, 0.4},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "X",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    openCollection()
+  end
 })
 
 main.ui.defineUI("collectionPlaceholder", {

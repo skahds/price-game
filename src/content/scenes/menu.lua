@@ -39,5 +39,5 @@ end, function ()
     local bar = main.spawnBar()
   end
 
-  deleteAll({play, credits, logo, discord, continue, settings})
+  deleteAll({play, credits, logo, discord, continue, settings, collection})
 end)

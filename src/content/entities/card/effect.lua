@@ -353,7 +353,6 @@ main.defineCard("cell", {
   name = "Cell",
   image = "cell",
   description = "Card to the right and\nleft becomes {energyColor}FREE{/energyColor}",
-  temporary=1,
   energy = 2,
   trigger = {"DEPLOY"},
   price = 3,

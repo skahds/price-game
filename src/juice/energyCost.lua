@@ -1,5 +1,5 @@
 local font = system.getFont("defaultFont40")
-local stacks = {"hand", "shop", "reward"}
+local stacks = main.getAllVisiblePiles()
 
 local function getGap(i)
   return (math.max(10, 35-i*3))*(i)
@@ -7,7 +7,7 @@ end
 
 system.on("@draw", function ()
   for i, stack in ipairs(stacks) do
-    for i, card in ipairs(main.card[stack]) do
+    for i, card in ipairs(stack) do
       local ui = card.ui
       local realAmount = card.overrideEnergy
       local oldAmount = card.energy

@@ -35,6 +35,11 @@ end
 system.on("main:cardClicked", function (card, button)
   local cardUI = card.ui
   local currentCard = player.cardUIselected
+
+  if cardUI.ignoreCardSelect or card.ignoreCardSelect then
+    return
+  end
+
   if currentCard then
     releaseUICard(currentCard, button)
 

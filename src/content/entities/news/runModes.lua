@@ -96,6 +96,8 @@ main.defineRunMode({
   rarity = "UNIQUE",
   onActivate = function (ent)
     local card = main.getRandomCard()
-    main.changeEntityComponent(card, "repeatActivation", 1, combiner.ADD)
+    if card then
+      main.changeEntityComponent(card, "repeatActivation", 1, combiner.ADD)
+    end
   end,
 }})
