@@ -382,6 +382,8 @@ function main.drawCardTillMaxCapacity()
       end
       main.triggerAllNews("EACHTURN")
     end
+  else
+    main.triggerAllNews("EACHTURN")
   end
 end
 
