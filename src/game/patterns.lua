@@ -88,12 +88,12 @@ end
 --positive
 main.definePattern({id="star", name="Star", sequence={"anynegative", "smallernegative", "positive"}, mult=12, price=25})
 main.definePattern({id="soliders", name="Soliders", sequence={"anypositive", "anypositive", "anypositive"}, mult=10, price=20})
-main.definePattern({id="upReversal", name="Up Reversal", sequence={"anynegative", "smallerpositive"}, mult=5, price=12})
-main.definePattern({id="upEngulve", name="Up Engulve", sequence={"anynegative", "positive"}, mult=2, price=6})
+main.definePattern({id="upReversal", name="Up Reversal", sequence={"anynegative", "smallerpositive"}, mult=3, price=8})
+main.definePattern({id="upEngulf", name="Up Engulf", sequence={"anynegative", "positive"}, mult=2, price=6})
 
 
 --negative
 main.definePattern({id="moon", name="Moon", sequence={"anypositive", "smallerpositive", "negative"}, mult=10, price=-25})
 main.definePattern({id="crows", name="Crows", sequence={"anynegative", "anynegative", "anynegative"}, mult=10, price=-20})
 main.definePattern({id="downReversal", name="Down Reversal", sequence={"anypositive", "smallernegative"}, mult=5, price=-12})
-main.definePattern({id="downEngulve", name="Down Engulve", sequence={"anypositive", "negative"}, mult=2, price=-6})
+main.definePattern({id="downEngulf", name="Down Engulf", sequence={"anypositive", "negative"}, mult=3, price=-8})

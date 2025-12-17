@@ -380,10 +380,17 @@ function main.drawCardTillMaxCapacity()
       if #system.getStorage("main:chart").bars == 1 then
         main.triggerAllNews("ENCOUNTER")
       end
-      main.triggerAllNews("EACHTURN")
+      if system.getStorage("main:currentScene") == "play" then
+        main.triggerAllNews("EACHTURN")
+      end
     end
   else
-    main.triggerAllNews("EACHTURN")
+    if #system.getStorage("main:chart").bars == 1 then
+      main.triggerAllNews("ENCOUNTER")
+    end
+    if system.getStorage("main:currentScene") == "play" then
+      main.triggerAllNews("EACHTURN")
+    end
   end
 end
 

@@ -1,3 +1,11 @@
+local function format(n)
+  if n >= 0 then
+    return "+" .. n
+  else
+    return n
+  end
+end
+
 system.on("@draw", function ()
   local pattern = main.getCurrentPattern()
   if pattern == nil then
@@ -15,12 +23,9 @@ system.on("@draw", function ()
   local y = math.huge
   local lowestY = -math.huge
   local height = 0
-  print"starting"
   for i=#chart.bars, #chart.bars-amountOfBar+1, -1 do
-    print(y, lowestY)
     y = math.min(y, math.min(chart.bars[i].y, chart.bars[i].y+chart.bars[i].height))
     lowestY = math.max(lowestY, math.max(chart.bars[i].y, chart.bars[i].y+chart.bars[i].height))
-    print(y, lowestY)
   end
   height = lowestY - y
 
@@ -30,10 +35,34 @@ system.on("@draw", function ()
     x=x+width/2,
     y=y-5,
     screenSpace = false,
-    font = system.getFont("defaultFont20")
+    font = system.getFont("defaultFont20"),
+    outline=true,
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y - t.richText:getHeight()
+
+  local t = main.printRichText({
+    format = "{multColor}" ..format(pattern.mult) .. " {multIcon}MULT",
+    renderLayer = 30,
+    x=x+width/2,
+    y=y+height+5,
+    screenSpace = false,
+    font = system.getFont("defaultFont20"),
+    outline=true,
+  })
+  t.x = t.x - t.richText:getWidth()/2
+
+  local t = main.printRichText({
+    format = "{priceColor}" ..format(pattern.price) .. " {priceIcon}PRICE",
+    renderLayer = 30,
+    x=x+width/2,
+    y=y+height+5,
+    screenSpace = false,
+    font = system.getFont("defaultFont20"),
+    outline=true,
+  })
+  t.x = t.x - t.richText:getWidth()/2
+  t.y = t.y + t.richText:getHeight()
 
   system.render(30, function ()
     love.graphics.setColor(1, 1, 1, 0.45)

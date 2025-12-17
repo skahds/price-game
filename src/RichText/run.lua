@@ -37,25 +37,21 @@ local function drawOutline(t)
     end
     
     love.graphics.setColor(color)
-    --offset
+    
+    -- Calculate outline offset based on scale
     local defaultFont = system.getStorage("defaultFont")
-    local fontFactor = 0.5+t.richText.font:getWidth(t.format)/defaultFont:getWidth(t.format)/2
+    local fontFactor = (t.richText.font:getWidth(t.format)/defaultFont:getWidth(t.format))^0.8
     local o = 8*math.max(sx, sy)*fontFactor
+    o = math.min(o, 30)
 
+    -- Scale step size by outline size to keep constant sample count
+    local stepSize = math.max(1, math.ceil(o / 8))
+    
     local cosR = math.cos(r)
     local sinR = math.sin(r)
 
-    o = math.min(o, 30)
-
-    for xi=1, o do
-      if xi%2 ~= 1 then
-        goto continue
-      end
-      for yi=1, o do
-        if yi%2 ~= 1 then
-          goto continue
-        end
-
+    for xi = 1, o, stepSize do
+      for yi = 1, o, stepSize do
         local offsetX = xi - o/2
         local offsetY = yi - o/2
         
@@ -63,10 +59,7 @@ local function drawOutline(t)
         local rotatedY = offsetX * sinR + offsetY * cosR
         
         text:draw(x+rotatedX, y+rotatedY, r, sx, sy, ox, oy)
-        
-        ::continue::
       end
-      ::continue::
     end
   end, fixed)
 end
