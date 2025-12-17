@@ -1,19 +1,20 @@
 local isSettingShown = false
-local cover, exit, back, restart, guide
-local sliders = {}
+local cover, exit, back, restart
+local uiInTab = {}
 local activeTabs = {}
 local sfxStorage, musicStorage, gameSpeedStorage, crtStorage = "audio:sfxVolume", "audio:musicVolume", "main:gameSpeedSlider", "main:crtEffect"
 local selectedTab = 1
 
-system.updateStorage("main:crtStorage", 0.3)
+system.updateStorage(crtStorage, 0.3)
+system.updateStorage(gameSpeedStorage, 0.1)
 local function deleteAll(arg)
   for k, ent in ipairs(arg) do
     ent:delete()
   end
 end
 
-local speedTable = {0.1, 0.2, 0.5, 0.75, 1, 2, 3, 4, 5, 6}
-speedTable[0] = 0
+local speedTable = {1, 2, 3, 4, 6, 8, 12, 16, 32, 128}
+speedTable[0] = 0.5
 
 local function saveSettings()
   local a = system.getStorage(sfxStorage)
@@ -28,7 +29,7 @@ end
 
 local function tab1()
   local dimension = system.getStorage("screenDimension")
-  table.insert(sliders, main.ui.spawnUI("basicSlider", {
+  table.insert(uiInTab, main.ui.spawnUI("basicSlider", {
     x=dimension.w/2,
     y=dimension.h/2-100,
     width = 300,
@@ -50,54 +51,16 @@ local function tab1()
     outlineColor = {0.5, 0.5, 0.5},
   }))
 
-  table.insert(sliders, main.ui.spawnUI("basicSlider", {
-    x=dimension.w/2,
-    y=dimension.h/2,
-    width = 300,
-    height = 50,
-    onBasicSliderDraw = function (ent)
-      love.graphics.setColor(1, 1, 1)
-      local font = system.getFont("defaultFont50")
-      love.graphics.setFont(font)
-      local format = "SFX: " .. ent.slideAmount * 100 .. "%"
-      local width = font:getWidth(format)
-      love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
-    end,
-    targetStorage = sfxStorage,
-    slideAmount = system.getStorage(sfxStorage) or 1,
-    ballColor = {0.8, 0.4, 0.4},
-    renderLayer = 410,
-    outline = 10,
-    outlineBelow = true,
-    outlineColor = {0.5, 0.5, 0.5},
-  }))
-
-  table.insert(sliders, main.ui.spawnUI("basicSlider", {
-    x=dimension.w/2,
-    y=dimension.h/2+100,
-    width = 300,
-    height = 50,
-    onBasicSliderDraw = function (ent)
-      love.graphics.setColor(1, 1, 1)
-      local font = system.getFont("defaultFont50")
-      love.graphics.setFont(font)
-      local format = "MUSIC: " .. ent.slideAmount * 100 .. "%"
-      local width = font:getWidth(format)
-      love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
-    end,
-    targetStorage = musicStorage,
-    slideAmount = system.getStorage(musicStorage) or 1,
-    ballColor = {0.8, 0.4, 0.4},
-    renderLayer = 411,
-    outline = 10,
-    outlineBelow = true,
-    outlineColor = {0.5, 0.5, 0.5},
+  table.insert(uiInTab, main.ui.spawnUI("openCollection", {
+    x=dimension.w/2+150-125,
+    y=dimension.h/2-30,
+    renderLayer = 412,
   }))
 end
 
 local function tab2()
   local dimension = system.getStorage("screenDimension")
-  table.insert(sliders, main.ui.spawnUI("basicSlider", {
+  table.insert(uiInTab, main.ui.spawnUI("basicSlider", {
     x=dimension.w/2,
     y=dimension.h/2-100,
     width = 300,
@@ -120,10 +83,57 @@ local function tab2()
   }))
 end
 
-local tabs = {tab1, tab2}
+local function tab3()
+  local dimension = system.getStorage("screenDimension")
+  table.insert(uiInTab, main.ui.spawnUI("basicSlider", {
+    x=dimension.w/2,
+    y=dimension.h/2-100,
+    width = 300,
+    height = 50,
+    onBasicSliderDraw = function (ent)
+      love.graphics.setColor(1, 1, 1)
+      local font = system.getFont("defaultFont50")
+      love.graphics.setFont(font)
+      local format = "SFX: " .. ent.slideAmount * 100 .. "%"
+      local width = font:getWidth(format)
+      love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
+    end,
+    targetStorage = sfxStorage,
+    slideAmount = system.getStorage(sfxStorage) or 1,
+    ballColor = {0.8, 0.4, 0.4},
+    renderLayer = 410,
+    outline = 10,
+    outlineBelow = true,
+    outlineColor = {0.5, 0.5, 0.5},
+  }))
 
-function main.ui.gameSettings()
-  if isSettingShown == false then
+  table.insert(uiInTab, main.ui.spawnUI("basicSlider", {
+    x=dimension.w/2,
+    y=dimension.h/2,
+    width = 300,
+    height = 50,
+    onBasicSliderDraw = function (ent)
+      love.graphics.setColor(1, 1, 1)
+      local font = system.getFont("defaultFont50")
+      love.graphics.setFont(font)
+      local format = "MUSIC: " .. ent.slideAmount * 100 .. "%"
+      local width = font:getWidth(format)
+      love.graphics.print(format, ent.x+ent:getWidth()/2-width/2, ent.y-50)
+    end,
+    targetStorage = musicStorage,
+    slideAmount = system.getStorage(musicStorage) or 1,
+    ballColor = {0.8, 0.4, 0.4},
+    renderLayer = 411,
+    outline = 10,
+    outlineBelow = true,
+    outlineColor = {0.5, 0.5, 0.5},
+  }))
+end
+
+local tabs = {tab1, tab2, tab3}
+
+function main.ui.gameSettings(action)
+  if isSettingShown == false and action ~= "close" then
     isSettingShown = true
     local width = 700
     local height = 400
@@ -159,7 +169,7 @@ function main.ui.gameSettings()
       renderLayer = 412,
     })
 
-    local name = {"GAME", "GRAPHICS"}
+    local name = {"GAME", "GRAPHICS", "AUDIO"}
     for i=1, #tabs do
       table.insert(activeTabs, main.ui.spawnUI("settingTab", {
         x=dimension.w/2-width/2+(i-1)*160,
@@ -182,8 +192,8 @@ function main.ui.gameSettings()
     --   renderLayer = 412,
     -- })
   else
-    deleteAll({cover, exit, back, restart})
-    deleteAll(sliders)
+    deleteAll({cover, exit, back, restart, collection})
+    deleteAll(uiInTab)
     deleteAll(activeTabs)
     isSettingShown = false
     saveSettings()
@@ -233,7 +243,7 @@ main.ui.defineUI("settingTab", {
   end,
   onMouseReleased = function (ent, button)
     selectedTab = ent.order
-    deleteAll(sliders)
+    deleteAll(uiInTab)
     tabs[ent.order]()
   end,
 })

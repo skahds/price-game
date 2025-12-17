@@ -1,7 +1,7 @@
 main.defineRunMode({
   definition={
   name = "Sealed eye",
-  news = {"lock", "blueOnion"}
+  news = {"lock", "foresight"}
 }, lock={
   name = "Lock",
   image = "lockNews",
@@ -12,9 +12,9 @@ main.defineRunMode({
   onActivate = function (ent, card)
     system.updateStorage("main:maxCardAmount", math.max(0, system.getStorage("main:maxCardAmount")-3))
   end
-}, blueOnion={
-  name = "Blue Onion",
-  image = "blueOnionNews",
+}, foresight={
+  name = "Foresight",
+  image = "foresightNews",
   trigger = {"CARDTRIGGER"},
   defaultDrawCard=1,
   isRelic = true,

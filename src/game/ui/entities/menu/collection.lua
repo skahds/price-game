@@ -1,4 +1,5 @@
 local renderLayer = 220
+local flux = system.getStorage("flux")
 local isOpen = false
 local listOfItems = {}
 local existingItems = {}
@@ -103,24 +104,27 @@ local function updateContent()
   for i=1, contentInThisPage do
     local itemI = startI+i --yeahyeah it starts at 0 whatever
     local item = listOfItems[itemI].definition
+    local middleX = 640
     local x = (i-1)%contentHorizontal
     local y = math.floor((i-1)/contentHorizontal)
     if item.isCard then
       local c = main.createCard(item.id, {ignoreCardSelect=true}, "misc")
-      c.ui.renderLayer = 402
-      c.ui.x=640+(x-1.5)*800/contentHorizontal
+      c.ui.renderLayer = renderLayer+2
+      c.ui.x=middleX
+      flux.to(c.ui, 0.2, {x=640+(x-1.5)*800/contentHorizontal}):ease("backout")
       c.ui.y=340+(y-1)*130
-      c.ui.x = c.ui.x - c.ui:getWidth()/2
-      c.ui.y = c.ui.y - c.ui:getHeight()/2
+      c.ui.ox = c.ui.width/2
+      c.ui.oy = c.ui.height/2
       table.insert(existingItems, c)
     elseif item.isNews then
-      local n = main.spawnEntity(item.id, {x=640+(x-1.5)*800/contentHorizontal, y=340+(y-1)*130})
+      local n = main.spawnEntity(item.id, {x=middleX, y=340+(y-1)*130})
+      flux.to(n.ui, 0.2, {x=640+(x-1.5)*800/contentHorizontal}):ease("backout")
       n.isRelic = true
-      n.ui.renderLayer = 402
+      n.ui.renderLayer = renderLayer+2
       n.ui.sx = 2
       n.ui.sy = 2
-      n.ui.x = n.ui.x - n.ui:getWidth()/2
-      n.ui.y = n.ui.y - n.ui:getHeight()/2
+      n.ui.ox = n.ui.width/2
+      n.ui.oy = n.ui.height/2
       n.rewardIndex = i
       n.ui.screenSpace = true
       n.screenSpace = true
@@ -155,12 +159,12 @@ local function openCollection()
       ry=20,
       outlineColor = {0.4, 0.4, 0.4},
       ignoreUIChecks = false,
-      renderLayer = 400})
+      renderLayer = renderLayer})
 
     selectLeft = main.ui.spawnUI("collectionSelect", {
       x=640-150-40,
       y=550,
-      renderLayer = 402,
+      renderLayer = renderLayer+2,
       text="<",
       onButtonClicked = function ()
         buttonClick(-1)
@@ -170,7 +174,7 @@ local function openCollection()
     selectRight = main.ui.spawnUI("collectionSelect", {
       x=640+150-40,
       y=550,
-      renderLayer = 402,
+      renderLayer = renderLayer+2,
       text=">",
       onButtonClicked = function ()
         buttonClick(1)
@@ -181,7 +185,7 @@ local function openCollection()
       x=640,
       y=590,
       format = "page " .. currentPage .. "/" .. amountOfPage,
-      renderLayer = 402
+      renderLayer = renderLayer+2
     })
     currentPageText.x = currentPageText.x - currentPageText.richText:getWidth()/2
     currentPageText.y = currentPageText.y - currentPageText.richText:getHeight()/2
@@ -190,7 +194,7 @@ local function openCollection()
       x=640,
       y=80,
       format = "Collection",
-      renderLayer = 402,
+      renderLayer = renderLayer+1,
       font = system.getFont("defaultFont80")
     })
     topText.x = topText.x - topText.richText:getWidth()/2
@@ -198,7 +202,7 @@ local function openCollection()
     close = main.ui.spawnUI("collectionClose", {
       x=940,
       y=80,
-      renderLayer = 402,
+      renderLayer = renderLayer+2,
     })
 
     updateContent()
@@ -220,6 +224,7 @@ main.ui.defineButton("openCollection", {
   audio = "breaker",
   onButtonClicked = function (ent)
     openCollection()
+    main.ui.gameSettings("close")
   end
 })
 
@@ -244,11 +249,4 @@ main.ui.defineButton("collectionClose", {
   onButtonClicked = function (ent)
     openCollection()
   end
-})
-
-main.ui.defineUI("collectionPlaceholder", {
-  width = 30,
-  height = 30,
-  renderLayer = 403,
-  screenSpace = true,
 })

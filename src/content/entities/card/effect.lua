@@ -278,14 +278,14 @@ main.defineCard("mitosis", {
 main.defineCard("snatch", {
   name = "Snatch",
   image = "snatch",
-  description = "Draw all cards that is {energyColor}FREE{energyColor}\nfrom your discard pile",
+  description = "Draw all cards that is {energyColor}FREE{energyColor}\nfrom your draw pile",
   energy = 0,
   trigger = {"DEPLOY"},
   price = 2,
   rarity = "RARE",
   onActivate = function ()
     local pipeline = main.getPipeline("main")
-    for i, card in ipairs(main.card.discard) do
+    for i, card in ipairs(main.card.draw) do
       if card.overrideEnergy == 0 then
         pipeline:add(0.25, function ()
           main.cardToHand(card)

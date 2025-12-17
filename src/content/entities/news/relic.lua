@@ -127,28 +127,14 @@ main.defineNews("powerCore", {
 main.defineNews("junkDynamo", {
   name = "Junk Dynamo",
   image = "junkDynamoNews",
-  description = "Create 2 Junk",
-  descriptionTagEntity = "junk",
-  trigger = {"ENCOUNTER"},
-  defaultEnergyGain = 1,
-  isRelic = true,
-  rarity = "RARE",
-  onActivate = function ()
-    main.basicSpawnCard("junk", {}, nil, "draw")
-    main.basicSpawnCard("junk", {}, nil, "draw")
-  end
-})
-
-main.defineNews("junkDynamo", {
-  name = "Junk Dynamo",
-  image = "junkDynamoNews",
-  description = "Creates a Junk in\nthe draw pile",
+  description = "Creates 2 Junk in\nthe draw pile",
   descriptionTagEntity = "junk",
   trigger = {"EACHTURN"},
   defaultEnergyGain = 1,
   isRelic = true,
   rarity = "COMMON",
   onActivate = function ()
+    main.basicSpawnCard("junk", {}, nil, "draw")
     main.basicSpawnCard("junk", {}, nil, "draw")
   end
 })
