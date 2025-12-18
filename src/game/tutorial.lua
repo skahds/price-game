@@ -46,12 +46,17 @@ system.on("@draw", function ()
   end, true)
 
   for _, t in ipairs(targettedEnt) do
+    local isScreenspace = true
+    if t.entity.screenSpace == false or (t.entity.ui and t.entity.ui.screenSpace == false) then
+      isScreenspace = false
+    end
+
     local textTable = utils.seperateSlashN(t.text)
     for i, str in ipairs(textTable) do
       local x = t.entity:getX()
       local y = t.entity:getY()
-      if t.entity.screenSpace == false or (t.entity.ui and t.entity.ui.screenSpace == false) then
-        x, y = main.worldPositionToScreenSpace(x, y)
+      if isScreenspace == false then
+        x, y = main.worldPositionToScreenSpace(x+t.entity:getWidth(), y)
       end
 
       local text = main.printRichText({
@@ -60,17 +65,30 @@ system.on("@draw", function ()
         x=x,
         y=y,
         font=font,
+        outline = true,
+        outlineColor = {0, 0, 0}
       })
       local w, h = text.richText:getWidth(), text.richText:getHeight()
       local extraHeight = text.richText:getHeight()*(i-1)
       local yPos
-      if y+t.entity:getHeight()/2 > 360 then
-        yPos = text.y-h*(0.5+#textTable) + extraHeight
-      else
-        yPos = text.y+t.entity:getHeight()+h*0.5 + extraHeight
+
+      if isScreenspace then
+        if y+t.entity:getHeight()/2 > 360 then
+          yPos = text.y-h*(0.5+#textTable) + extraHeight
+        else
+          yPos = text.y+t.entity:getHeight()+h*0.5 + extraHeight
+        end
       end
 
-      text.x, text.y = clampPosition(text.x-w/2+t.entity:getWidth()/2, yPos, w, h)
+      local resultX
+      if isScreenspace then
+        resultX = text.x-w/2+t.entity:getWidth()/2
+      else
+        resultX = text.x+15
+        yPos = text.y - (-i+0.5+#textTable/2) * h + t.entity:getHeight()/2 - h*0.5
+      end
+
+      text.x, text.y = clampPosition(resultX, yPos, w, h)
     end
   end
 end)

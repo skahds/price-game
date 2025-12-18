@@ -56,8 +56,17 @@ system.on("main:repeatingTriggerCardEnd", function (trigger)
 
   pipeline:add(0, function ()
 
+  local pattern = main.getCurrentPattern()
+  if pattern then
+    main.addMult(pattern.mult)
+    main.addPrice(pattern.price)
+  end
+
+  pipeline:add(0.2, function ()
+
     main.triggerAllNews("ROUND")
 
+  end)
   end)
 end)
 

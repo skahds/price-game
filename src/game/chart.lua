@@ -172,6 +172,19 @@ function bar:init(args)
   basicEnt.init(self, args)
 end
 
+function bar:getX()
+  return self.x
+end
+function bar:getY()
+  return self.y
+end
+function bar:getWidth()
+  return self.width or self.defaultWidth
+end
+function bar:getHeight()
+  return self.height or self.defaultHeight
+end
+
 function bar:update()
   local height = -(chart:priceToYPos(self.endPrice)-chart:priceToYPos(self.startPrice))
   local flux = system.getStorage("flux")
