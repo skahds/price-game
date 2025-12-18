@@ -24,6 +24,10 @@ system.on("@draw", function ()
     return
   end
 
+  if system.getStorage("main:isOnTurn") == true then
+    return
+  end
+
   local amountOfBar = #pattern.sequence
   local x = chart:getBar(-amountOfBar).x
   local width = chart:getBar(-1).x+chart:getBar(-1).width-chart:getBar(-amountOfBar).x

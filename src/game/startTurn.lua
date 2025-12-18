@@ -54,7 +54,7 @@ system.on("main:repeatingTriggerCardEnd", function (trigger)
     return
   end
 
-  pipeline:add(0, function ()
+  pipeline:add(0.2, function ()
 
   local pattern = main.getCurrentPattern()
   if pattern then
