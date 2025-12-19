@@ -16,7 +16,6 @@ main.defineCard("subtract", {
   rarity="STARTER"
 })
 
-
 main.defineCard("multiply", {
   name = "Multiply",
   image = "basicMultiply",
