@@ -35,8 +35,6 @@ end, function ()
     main.spawnChart({bearPower = 0.1, bullPower = 0.1})
     chart = system.getStorage("main:chart")
     local pos = chart:getCurrentPricePos()
-
-    local bar = main.spawnBar()
   end
 
   deleteAll({play, credits, logo, discord, continue, settings, collection})

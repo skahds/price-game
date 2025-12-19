@@ -35,10 +35,18 @@ main.defineScene("treasureRoom", function ()
   local t = bag:getRandomNewsWithInfo({amount=3})
   main.createRewardsOptions(t, {rewardType="news"})
   
+  main.shuffleDiscardToDraw()
+  while #main.card.draw > 0 do
+    main.drawCard()
+  end
   main.showCharts()
-
   continue = main.ui.spawnUI("treasureRoomContinue", {x=640-150, y=430})
 end, function ()
+  for i=#main.card.hand, 1, -1 do
+    local card = main.card.hand[i]
+    main.addCardToDraw(card)
+  end
+
   deleteAll({continue})
 end)
 

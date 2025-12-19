@@ -25,18 +25,18 @@ system.on("main:sceneChanged", function ()
   local time = 4
 
   if scene == "levelSelect" then
-    flux.to(originalMult, time, {1.2, 1.8, 1.5})
+    flux.to(originalMult, time, {1.2, 1.8, 2})
   elseif scene == "play" then
-    flux.to(originalMult, time, {1.2, 1.3, 1.8})
+    flux.to(originalMult, time, {1.4, 1.6, 2.2})
   elseif scene == "shop" then
-    flux.to(originalMult, time, {1.8, 1.7, 1.1})
+    flux.to(originalMult, time, {2.5, 2.1, 1.4})
   else
     flux.to(originalMult, time, {1, 1, 1})
   end
 end)
 
 local function fluxuateColor()
-  flux.to(fluxuationMult, 8, {love.math.random(92, 108)/100, love.math.random(92, 108)/100, love.math.random(92, 108)/100}):oncomplete(fluxuateColor)
+  flux.to(fluxuationMult, 8, {love.math.random(90, 110)/100, love.math.random(90, 110)/100, love.math.random(90, 110)/100}):oncomplete(fluxuateColor)
 end
 fluxuateColor()
 

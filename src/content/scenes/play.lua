@@ -56,6 +56,10 @@ main.defineScene("play", function ()
     end
   end
 
+  if system.getStorage("main:chart") and system.getStorage("main:chart"):getBar(1) == nil then
+    main.spawnBar()
+  end
+
   system.updateStorage("main:roundsRemaining", system.getStorage("main:roundsPerDay"))
 
   local piles = {main.card.hand, main.card.draw, main.card.discard}

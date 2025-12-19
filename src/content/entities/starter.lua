@@ -28,7 +28,7 @@ local basicScoreRequired = {{
   2000,
   4000
 }, {
-  250,
+  300,
   400,
   550,
   800,
@@ -63,7 +63,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Venture",
   image="basicMultiply",
-  description="For the demo!",
+  description="Normal deck",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -79,7 +79,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Firm",
   image="vision",
-  description="Not yet",
+  description="Deck on drawing",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -94,8 +94,24 @@ main.defineRunStarter({
 
 main.defineRunStarter({
   name = "Enterprise",
-  image="stalemartyr",
-  description="Not yet",
+  image="sigil",
+  description="Deck on energy",
+  route = utils.deepCopy(basicRoute),
+  scoreWithDifficulty = basicScoreRequired,
+  onActivate = function ()
+    main.createCardToDraw("add", 3)
+    main.createCardToDraw("subtract", 3)
+    main.createCardToDraw("multiply", 3)
+    main.createCardToDraw("amplifier", 2)
+
+    main.shuffleDraw()
+  end
+})
+
+main.defineRunStarter({
+  name = "Association",
+  image="radar",
+  description="Deck on activation",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
