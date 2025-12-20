@@ -113,18 +113,6 @@ function chart:update()
 
 end
 
-function chart:draw()
-  -- system.render(10, function ()
-  --   love.graphics.setLineWidth(1)
-  --   love.graphics.setColor(0.2, 0.2, 0.2, 0.5)
-  --   for i=1, 500 do
-  --     local pricePerLine = (i-250)*2
-  --     local y = self:priceToYPos(pricePerLine)
-  --     love.graphics.line(-10000, y, 10000, y)
-  --   end
-  -- end)
-end
-
 -- function chart:delete()
 --   self:forAllBar(function (bar)
 --     bar:delete()

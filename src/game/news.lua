@@ -159,6 +159,9 @@ function main.deleteNews(news)
   if news == nil then
     error("news is nil")
   end
+  if news.isAboutToBeDeleted then
+    return
+  end
   local chart = system.getStorage("main:chart")
   if chart == nil then
     error("tried to delete news with nil chart")

@@ -28,7 +28,7 @@ local basicScoreRequired = {{
   2000,
   4000
 }, {
-  300,
+  250,
   400,
   550,
   800,

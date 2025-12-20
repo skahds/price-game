@@ -2,14 +2,13 @@ local combo = 0
 
 local lastActivated
 system.on("main:entityTriggered", function (ent)
-  local isOnTurn = system.getStorage("main:isOnTurn")
   if ent.isCard then
     combo = combo + 1
     system.call("main:comboChanged", 1)
 
     lastActivated = "card"
   elseif ent.isNews then
-    if lastActivated == "news" and isOnTurn == false then
+    if lastActivated == "news" then
       combo = combo + 1
       system.call("main:comboChanged", 1)
     else

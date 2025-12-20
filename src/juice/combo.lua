@@ -20,7 +20,7 @@ local startColor, endColor = {0.95, 0.3, 0.3, 1}, {0.95, 0.62, 0.35}
 local infos = {opacity=0, currentCombo = 0, noComboTimer = 0}
 system.on("@update", function ()
   local combo = system.getStorage("main:currentCombo")
-  if combo == nil or combo <= 1 then
+  if combo == nil or combo <= 1 or system.getStorage("main:isOnTurn") == true then
     infos.noComboTimer = infos.noComboTimer + system.getStorage("dt")
     if infos.noComboTimer > 1 then
       infos.currentCombo = 0
