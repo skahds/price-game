@@ -198,6 +198,20 @@ main.defineCard("fortune", {
   end
 })
 
+main.defineCard("parachute", {
+  name = "Parachute",
+  image = "parachute",
+  description = "Multiplies current {multColor}MULT{/multColor} by 1,5",
+  trigger = {"DEPLOY"},
+  energy=0,
+  price = 3,
+  rarity  = "RARE",
+  onActivate = function (ent)
+    local mult = system.getStorage("main:mult")
+    main.addMult(math.floor(mult/2+0.5))
+  end
+})
+
 main.defineCard("lastHope", {
   name = "Last Hope",
   image = "lastHope",
@@ -333,7 +347,21 @@ main.defineCard("arrow", {
     main.addPrice(-37*energy)
     main.addEnergy(-energy)
   end,
-  rarity = "RARE",
+})
+
+main.defineCard("ray", {
+  name = "Ray",
+  image = "ray",
+  description = "Spend all energy, give\n{multColor}+10 MULT{/multColor} for each",
+  energy=0,
+  trigger = {"DEPLOY"},
+  price = 3,
+  
+  onActivate = function (ent)
+    local energy = system.getStorage("main:energy")
+    main.addMult(10*energy)
+    main.addEnergy(-energy)
+  end,
 })
 
 main.defineCard("cargo", {

@@ -22,7 +22,7 @@ main.defineScene("menu", function ()
     play = main.ui.spawnUI("menuPlay", {x=640-110-150, y=390})
     continue = main.ui.spawnUI("loadGame", {x=640-110+150, y=390})
   else
-    play = main.ui.spawnUI("menuPlay", {x=640-100, y=390})
+    play = main.ui.spawnUI("menuPlay", {x=640-110, y=390})
   end
   collection = main.ui.spawnUI("openCollection", {x=640-125, y=720-150})
   credits = main.ui.spawnUI("credits", {x=20, y=20})
