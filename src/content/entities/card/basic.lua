@@ -25,15 +25,15 @@ main.defineCard("multiply", {
   rarity="STARTER"
 })
 
--- main.defineCard("goldenHex", {
---   name = "Golden Hex",
---   image = "goldenHex",
---   energy = 2,
---   trigger = {"DEPLOY"},
---   defaultMoneyGain = 1,
---   rarity="RARE",
---   price = 4,
--- })
+main.defineCard("goldenHex", {
+  name = "Golden Hex",
+  image = "goldenHex",
+  energy = 1,
+  trigger = {"DEPLOY"},
+  defaultMoneyGain = 1,
+  rarity="RARE",
+  price = 4,
+})
 
 main.defineCard("grassBow", {
   name = "Grass Bow",

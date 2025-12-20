@@ -195,6 +195,18 @@ main.defineNews("doppelganger", {
   end
 })
 
+main.defineNews("surplus", {
+  name = "Surplus",
+  image = "surplusNews",
+  description = "Increase shop offer amount by 2",
+  trigger = {"OBTAIN"},
+  isRelic = true,
+  rarity = "COMMON",
+  onActivate = function ()
+    system.updateStorage("shop:maxCardAmount", system.getStorage("shop:maxCardAmount")+2)
+  end
+})
+
 main.defineNews("marbles", {
   name = "Marbles",
   image = "marblesNews",
