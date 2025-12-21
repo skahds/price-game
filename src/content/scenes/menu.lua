@@ -24,7 +24,8 @@ main.defineScene("menu", function ()
   else
     play = main.ui.spawnUI("menuPlay", {x=640-110, y=390})
   end
-  collection = main.ui.spawnUI("openCollection", {x=640-125, y=720-150})
+  -- collection = main.ui.spawnUI("openCollection", {x=640-125, y=720-150})
+  collection = main.ui.spawnUI("openPatterns", {x=640-125, y=720-150})
   credits = main.ui.spawnUI("credits", {x=20, y=20})
   discord = main.ui.spawnUI("discord", {x=20, y=720-150})
   settings = main.ui.spawnUI("openSetting", {x=1280-20-200, y=720-150})

@@ -84,6 +84,10 @@ function main.getCurrentPattern()
   return nil
 end
 
+function main.getPatternsTable()
+  return patterns
+end
+
 
 --positive
 main.definePattern({id="star", name="Star", sequence={"anynegative", "smallernegative", "positive"}, mult=12, price=25})

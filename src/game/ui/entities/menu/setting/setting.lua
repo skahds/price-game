@@ -56,6 +56,12 @@ local function tab1()
     y=dimension.h/2-30,
     renderLayer = 412,
   }))
+
+  table.insert(uiInTab, main.ui.spawnUI("openPatterns", {
+    x=dimension.w/2+150-125,
+    y=dimension.h/2+50,
+    renderLayer = 412,
+  }))
 end
 
 local function tab2()
