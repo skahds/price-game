@@ -405,3 +405,30 @@ main.defineCard("cell", {
     end
   end
 })
+
+main.defineCard("fracture", {
+  name = "Fracture",
+  image = "fracture",
+  description = "If there are more cards\nin the draw pile than\nthe discard pile, draw\ncards until it's equal",
+  trigger = {"DEPLOY"},
+  energy=1,
+  price = 4,
+  rarity = "EPIC",
+
+  filter = function (ent)
+    if #main.card.draw > #main.card.discard then
+      return true
+    end
+  end,
+
+  onActivate = function (ent)
+    local pipeline = main.getPipeline("main")
+    for i=1, #main.card.draw-#main.card.discard do
+      if i ~= 1 then
+        pipeline:add(0.25, function ()
+          main.drawCard()
+        end)
+      end
+    end
+  end
+})
