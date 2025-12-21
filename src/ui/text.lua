@@ -26,7 +26,8 @@ system.on("ui:spawnedUI", function (ent)
     y=ent.y,
     font=ent.font or nil,
     screenSpace = ent.screenSpace,
-    renderLayer = ent.renderLayer+1})
+    renderLayer = ent.renderLayer+1,
+    outline = ent.textOutline or nil})
   end
 end)
 

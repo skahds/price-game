@@ -55,12 +55,14 @@ local function tab1()
     x=dimension.w/2+150-125,
     y=dimension.h/2-30,
     renderLayer = 412,
+    height=80
   }))
 
   table.insert(uiInTab, main.ui.spawnUI("openPatterns", {
     x=dimension.w/2+150-125,
-    y=dimension.h/2+50,
+    y=dimension.h/2+80,
     renderLayer = 412,
+    height=80
   }))
 end
 
