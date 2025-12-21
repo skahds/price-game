@@ -147,8 +147,8 @@ system.on("@update", function ()
     else
       direction = -1
     end
-    local h = height*-direction*50
-    table.insert(sequence, height*-direction*50)
+    local h = height*-direction*60
+    table.insert(sequence, h)
     currentY = currentY + h
     highY = math.min(highY, currentY)
     lowY = math.max(lowY, currentY)
@@ -168,7 +168,7 @@ system.on("@update", function ()
     renderLayer = renderLayer+1,
     x=startX,
     y=160,
-    outline=true,
+    outline=true
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y + t.richText:getHeight()
@@ -219,9 +219,6 @@ system.on("@update", function ()
       love.graphics.rectangle("fill", startX-25+xoffset, 360+currentY-yoffset, 50, bar)
       currentY = currentY + bar
     end
-
-    love.graphics.setColor(1, 1, 1, 0.75)
-    love.graphics.setLineWidth(3)
   end, true)
 end)
 

@@ -102,7 +102,7 @@ system.on("main:cardClicked", function (ent)
 
   if tutorialInfos.stage == 1 then
     main.clearTutorial()
-    main.addEntityToTutorial(main.card.hand[1], "Move your mouse up\nand press to activate!\n(consumes {energyColor}{energyIcon}ENERGY{/energyColor})")
+    main.addEntityToTutorial(main.card.hand[1], "Move your mouse up\nand click to activate!\n(consumes {energyColor}{energyIcon}ENERGY{/energyColor})")
   end
 end)
 

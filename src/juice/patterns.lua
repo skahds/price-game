@@ -96,6 +96,10 @@ system.on("main:entityTriggered", function (ent)
 end)
 
 system.on("@mouse:released", function ()
+  if tutorialInfos.patternsStage == nil then
+    return
+  end
+
   if tutorialInfos.patternsStage == 1 then
     tutorialInfos.patternsStage = 2
   elseif tutorialInfos.patternsStage == 2 then
@@ -104,9 +108,28 @@ system.on("@mouse:released", function ()
     main.addEntityToTutorial(chart:getBar(-1), "These patterns gives\n{priceIcon}{priceColor}PRICE{/priceColor} and {multIcon}{multColor}MULT{/multColor}\nwhen the round starts")
     tutorialInfos.patternsStage = 3
   elseif tutorialInfos.patternsStage == 3 then
-    -- create a "patterns" button you can click to open up lists of pattern
     renderLayer = 30
     main.clearTutorial()
     tutorialInfos.patternsStage = 4
+  elseif tutorialInfos.patternsStage == 5 then
+    tutorialInfos.patternsStage = 6
+  elseif tutorialInfos.patternsStage == 6 then
+    local chart = system.getStorage("main:chart")
+    tutorialInfos.patternsStage = 7
+    main.clearTutorial()
+    main.addEntityToTutorial(chart:getBar(-1), "You can find out more patterns\nthrough the menu (top right)!")
+  elseif tutorialInfos.patternsStage == 7 then
+    main.clearTutorial()
+    tutorialInfos.patternsStage = 8
+    renderLayer = 30
+  end
+end)
+
+system.on("main:currentPriceChanged", function ()
+  if tutorialInfos.patternsStage == 4 and tutorialInfos.stage > 5 then
+    tutorialInfos.patternsStage = 5
+    local chart = system.getStorage("main:chart")
+    main.addEntityToTutorial(chart:getBar(-1), "You have created a new pattern!")
+    renderLayer = 310
   end
 end)

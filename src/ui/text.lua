@@ -27,7 +27,8 @@ system.on("ui:spawnedUI", function (ent)
     font=ent.font or nil,
     screenSpace = ent.screenSpace,
     renderLayer = ent.renderLayer+1,
-    outline = ent.textOutline or nil})
+    outline = ent.textOutline or nil,
+    outlineColor = ent.textOutlineColor or nil})
   end
 end)
 
