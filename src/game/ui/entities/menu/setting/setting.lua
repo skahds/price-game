@@ -132,73 +132,66 @@ end
 
 local tabs = {tab1, tab2, tab3}
 
-function main.ui.gameSettings(action)
-  if isSettingShown == false and action ~= "close" then
-    isSettingShown = true
-    local width = 700
-    local height = 400
-    local dimension = system.getStorage("screenDimension")
-    cover = main.ui.spawnUI("cover", {
-      x=dimension.w/2-width/2,
-      y=dimension.h/2-height/2,
-      width = width,
-      height = height,
-      color = {0.6, 0.6, 0.6},
+main.defineUITab("settings", function ()
+  isSettingShown = true
+  local width = 700
+  local height = 400
+  local dimension = system.getStorage("screenDimension")
+  cover = main.ui.spawnUI("cover", {
+    x=dimension.w/2-width/2,
+    y=dimension.h/2-height/2,
+    width = width,
+    height = height,
+    color = {0.6, 0.6, 0.6},
+    outline = 10,
+    rx=20,
+    ry=20,
+    outlineColor = {0.4, 0.4, 0.4},
+    ignoreUIChecks = false,
+    renderLayer = 400})
+
+  exit = main.ui.spawnUI("settingExit", {
+    x=dimension.w/2-width/3-75,
+    y=dimension.h/2+80,
+    renderLayer = 412,
+  })
+
+  back = main.ui.spawnUI("settingBack", {
+    x=dimension.w/2-width/3-75,
+    y=dimension.h/2-30,
+    renderLayer = 412,
+  })
+
+  restart = main.ui.spawnUI("settingRestart", {
+    x=dimension.w/2-width/3-75,
+    y=dimension.h/2-140,
+    renderLayer = 412,
+  })
+
+  local name = {"GAME", "GRAPHICS", "AUDIO"}
+  for i=1, #tabs do
+    table.insert(activeTabs, main.ui.spawnUI("settingTab", {
+      x=dimension.w/2-width/2+(i-1)*160,
+      y=dimension.h/2-height/2-64,
+      renderLayer = 412,
       outline = 10,
       rx=20,
       ry=20,
       outlineColor = {0.4, 0.4, 0.4},
-      ignoreUIChecks = false,
-      renderLayer = 400})
-
-    exit = main.ui.spawnUI("settingExit", {
-      x=dimension.w/2-width/3-75,
-      y=dimension.h/2+80,
-      renderLayer = 412,
-    })
-
-    back = main.ui.spawnUI("settingBack", {
-      x=dimension.w/2-width/3-75,
-      y=dimension.h/2-30,
-      renderLayer = 412,
-    })
-
-    restart = main.ui.spawnUI("settingRestart", {
-      x=dimension.w/2-width/3-75,
-      y=dimension.h/2-140,
-      renderLayer = 412,
-    })
-
-    local name = {"GAME", "GRAPHICS", "AUDIO"}
-    for i=1, #tabs do
-      table.insert(activeTabs, main.ui.spawnUI("settingTab", {
-        x=dimension.w/2-width/2+(i-1)*160,
-        y=dimension.h/2-height/2-64,
-        renderLayer = 412,
-        outline = 10,
-        rx=20,
-        ry=20,
-        outlineColor = {0.4, 0.4, 0.4},
-        order = i,
-        text=name[i],
-        font=system.getFont("defaultFont40")
-      }))
-    end
-
-    tabs[selectedTab]()
-    -- guide = main.ui.spawnUI("settingGuide", {
-    --   x=dimension.w/2-width/4-75-80,
-    --   y=dimension.h/2-140,
-    --   renderLayer = 412,
-    -- })
-  else
-    deleteAll({cover, exit, back, restart, collection})
-    deleteAll(uiInTab)
-    deleteAll(activeTabs)
-    isSettingShown = false
-    saveSettings()
+      order = i,
+      text=name[i],
+      font=system.getFont("defaultFont40")
+    }))
   end
-end
+
+  tabs[selectedTab]()
+end, function ()
+  deleteAll({cover, exit, back, restart, collection})
+  deleteAll(uiInTab)
+  deleteAll(activeTabs)
+  isSettingShown = false
+  saveSettings()
+end)
 
 main.ui.defineButton("settingBack", {
   width = 200,
@@ -209,7 +202,7 @@ main.ui.defineButton("settingBack", {
   text = "BACK",
   audio = "breaker",
   onButtonClicked = function (ent)
-    main.ui.gameSettings()
+    main.openUITab("settings", false)
   end
 })
 
@@ -296,9 +289,7 @@ main.ui.defineButton("settingRestart", {
   audio = "breaker",
   onButtonClicked = function (ent)
     restartGame()
-    if isSettingShown then
-      main.ui.gameSettings()
-    end
+    main.closeAllUITabs()
   end
 })
 
@@ -312,7 +303,7 @@ main.ui.defineButton("settingGuide", {
   audio = "breaker",
   onButtonClicked = function (ent)
     main.ui.guidebook()
-    main.ui.gameSettings()
+    main.openUITab("settings", false)
   end
 })
 

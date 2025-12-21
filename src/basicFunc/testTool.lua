@@ -1,6 +1,6 @@
 system.on("@keyreleased", function (key)
   if key == "escape" then
-    main.ui.gameSettings()
+    main.openUITab("settings")
   end
 end)
 

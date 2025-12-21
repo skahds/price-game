@@ -1,6 +1,5 @@
 local renderLayer = 220
 local flux = system.getStorage("flux")
-local isOpen = false
 local listOfItems = {}
 local existingItems = {}
 local currentPage = 1
@@ -85,10 +84,7 @@ local function clearExistingItem()
       item:delete()
     end
   end
-  if main.card.misc[#main.card.misc] then
-    main.deleteCard(main.card.misc[#main.card.misc])
-  end
-
+  
   existingItems = {}
 end
 
@@ -144,75 +140,69 @@ local function buttonClick(n)
   main.updateRichTextText(currentPageText, "page " .. currentPage .. "/" .. amountOfPage)
 end
 
-local function openCollection()
-  if isOpen == false then
-    isOpen = true
-    
-    cover = main.ui.spawnUI("cover", {
-      x=640-400,
-      y=360-300,
-      width = 800,
-      height = 600,
-      color = {0.6, 0.6, 0.6},
-      outline = 10,
-      rx=20,
-      ry=20,
-      outlineColor = {0.4, 0.4, 0.4},
-      ignoreUIChecks = false,
-      renderLayer = renderLayer})
+main.defineUITab("collection", function ()
+  cover = main.ui.spawnUI("cover", {
+    x=640-400,
+    y=360-300,
+    width = 800,
+    height = 600,
+    color = {0.6, 0.6, 0.6},
+    outline = 10,
+    rx=20,
+    ry=20,
+    outlineColor = {0.4, 0.4, 0.4},
+    ignoreUIChecks = false,
+    renderLayer = renderLayer})
 
-    selectLeft = main.ui.spawnUI("collectionSelect", {
-      x=640-150-40,
-      y=550,
-      renderLayer = renderLayer+2,
-      text="<",
-      onButtonClicked = function ()
-        buttonClick(-1)
-      end
-    })
+  selectLeft = main.ui.spawnUI("collectionSelect", {
+    x=640-150-40,
+    y=550,
+    renderLayer = renderLayer+2,
+    text="<",
+    onButtonClicked = function ()
+      buttonClick(-1)
+    end
+  })
 
-    selectRight = main.ui.spawnUI("collectionSelect", {
-      x=640+150-40,
-      y=550,
-      renderLayer = renderLayer+2,
-      text=">",
-      onButtonClicked = function ()
-        buttonClick(1)
-      end
-    })
-    
-    currentPageText = main.newRichText({
-      x=640,
-      y=590,
-      format = "page " .. currentPage .. "/" .. amountOfPage,
-      renderLayer = renderLayer+2
-    })
-    currentPageText.x = currentPageText.x - currentPageText.richText:getWidth()/2
-    currentPageText.y = currentPageText.y - currentPageText.richText:getHeight()/2
+  selectRight = main.ui.spawnUI("collectionSelect", {
+    x=640+150-40,
+    y=550,
+    renderLayer = renderLayer+2,
+    text=">",
+    onButtonClicked = function ()
+      buttonClick(1)
+    end
+  })
+  
+  currentPageText = main.newRichText({
+    x=640,
+    y=590,
+    format = "page " .. currentPage .. "/" .. amountOfPage,
+    renderLayer = renderLayer+2
+  })
+  currentPageText.x = currentPageText.x - currentPageText.richText:getWidth()/2
+  currentPageText.y = currentPageText.y - currentPageText.richText:getHeight()/2
 
-    topText = main.newRichText({
-      x=640,
-      y=80,
-      format = "Collection",
-      renderLayer = renderLayer+1,
-      font = system.getFont("defaultFont80")
-    })
-    topText.x = topText.x - topText.richText:getWidth()/2
+  topText = main.newRichText({
+    x=640,
+    y=80,
+    format = "Collection",
+    renderLayer = renderLayer+1,
+    font = system.getFont("defaultFont80")
+  })
+  topText.x = topText.x - topText.richText:getWidth()/2
 
-    close = main.ui.spawnUI("collectionClose", {
-      x=940,
-      y=80,
-      renderLayer = renderLayer+2,
-    })
+  close = main.ui.spawnUI("collectionClose", {
+    x=940,
+    y=80,
+    renderLayer = renderLayer+2,
+  })
 
-    updateContent()
-  else
-    isOpen = false
-
-    clearExistingItem()
-    deleteAll({cover, selectLeft, selectRight, currentPageText, close, topText})
-  end
-end
+  updateContent()
+end, function ()
+  clearExistingItem()
+  deleteAll({cover, selectLeft, selectRight, currentPageText, close, topText})
+end)
 
 main.ui.defineButton("openCollection", {
   width = 250,
@@ -223,8 +213,7 @@ main.ui.defineButton("openCollection", {
   text = "COLLECTION",
   audio = "breaker",
   onButtonClicked = function (ent)
-    openCollection()
-    main.ui.gameSettings("close")
+    main.openUITab("collection")
   end
 })
 
@@ -247,6 +236,6 @@ main.ui.defineButton("collectionClose", {
   text = "X",
   audio = "breaker",
   onButtonClicked = function (ent)
-    openCollection()
+    main.openUITab("collection", false)
   end
 })

@@ -7,6 +7,6 @@ main.ui.defineButton("openSetting", {
   text = "SETTINGS",
   audio = "breaker",
   onButtonClicked = function (ent)
-    main.ui.gameSettings()
+    main.openUITab("settings")
   end
 })
