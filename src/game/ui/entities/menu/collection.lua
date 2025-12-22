@@ -65,6 +65,17 @@ system.on("@load", function ()
     table.insert(listOfItems, item)
   end
 
+  local listOfEnemy = {}
+  for i, enemy in ipairs(main.enemies.entities) do
+    table.insert(listOfEnemy, enemy)
+  end
+  table.sort(listOfEnemy, function (a, b)
+    return a.name < b.name
+  end)
+  for i, item in ipairs(listOfEnemy) do
+    table.insert(listOfItems, item)
+  end
+
   amountOfPage = math.floor(#listOfItems/contentPerPage)+1
 end)
 
@@ -115,7 +126,6 @@ local function updateContent()
     elseif item.isNews then
       local n = main.spawnEntity(item.id, {x=middleX, y=340+(y-1)*130})
       flux.to(n.ui, 0.2, {x=640+(x-1.5)*800/contentHorizontal}):ease("backout")
-      n.isRelic = true
       n.ui.renderLayer = renderLayer+2
       n.ui.sx = 2
       n.ui.sy = 2
@@ -135,6 +145,12 @@ local function buttonClick(n)
     updateContent()
   elseif n < 0 and currentPage ~= 1 then
     currentPage = currentPage - 1
+    updateContent()
+  elseif n > 0 and currentPage == amountOfPage then
+    currentPage = 1
+    updateContent()
+  elseif n < 0 and currentPage == 1 then
+    currentPage = amountOfPage
     updateContent()
   end
   main.updateRichTextText(currentPageText, "page " .. currentPage .. "/" .. amountOfPage)

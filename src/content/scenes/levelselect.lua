@@ -135,6 +135,11 @@ main.defineScene("levelSelect", function ()
     levels[1].y = -100
   end
 
+  local enemy
+  if route[currentRoute].enemy then
+    enemy = route[currentRoute].enemy[love.math.random(1, #route[currentRoute].enemy)]
+  end
+
   for i, level in ipairs(levels) do
     local x = level.x
     local y = level.y
@@ -152,10 +157,8 @@ main.defineScene("levelSelect", function ()
       ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"), difficulty)
       ui.moneyReward = 2+difficulty
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
-      if route[currentRoute].enemy then
-        local e
-        if route[currentRoute].enemy then e = route[currentRoute].enemy end
-        ui.enemy = main.enemies.entities[e] or main.enemies.getRandomEnemy()
+      if enemy then
+        ui.enemy = main.enemies.getEnemy(enemy)
         ui.description = ui.description .. "\nhas Enemy: " .. ui.enemy.name
         ui.descriptionTagEntity = ui.enemy.id
       end

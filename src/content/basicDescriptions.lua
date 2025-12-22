@@ -97,7 +97,7 @@ end)
 
 main.addDescriptionType(24, function (ent)
   if ent.defaultMoneyGain ~= 0 then
-    return "+{moneyColor}$" .. ent.defaultMoneyGain
+    return "Earn {moneyColor}$" .. ent.defaultMoneyGain
   end
 end)
 

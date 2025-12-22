@@ -74,7 +74,7 @@ main.defineRunMode({
 
 main.defineRunMode({
   definition={
-  name = "Machine",
+  name = "Engine",
   news = {"chained", "piston"}
 }, chained={
   name = "Chained",

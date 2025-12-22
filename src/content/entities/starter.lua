@@ -2,13 +2,13 @@ local basicRoute = {
   {id="PLAY", node=3},
   {id="PLAY", node=3},
   {id="SHOP", node=2},
-  {id="PLAY", node=3},
-  {id="PLAY", node=3},
-  {id="SHOP", node=2},
-  {id="PLAY", node=3},
+  {id="PLAY", node=3, enemy={"oracle", "regulator"}},
   {id="PLAY", node=3},
   {id="SHOP", node=2},
-  {id="PLAY", node=1},
+  {id="PLAY", node=3, enemy={"trap"}},
+  {id="PLAY", node=3, enemey={"fog"}},
+  {id="SHOP", node=2},
+  {id="PLAY", node=1, enemy={"machine"}},
 }
 
 local basicScoreRequired = {{
@@ -79,7 +79,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Firm",
   image="vision",
-  description="Deck on drawing",
+  description="NOT IMPLEMENTED",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -95,7 +95,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Enterprise",
   image="sigil",
-  description="Deck on energy",
+  description="NOT IMPLEMENTED",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -111,7 +111,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Association",
   image="radar",
-  description="Deck on activation",
+  description="NOT IMPLEMENTED",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()

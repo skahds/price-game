@@ -55,6 +55,10 @@ main.defineScene("gameEnd", function ()
   end
   system.updateStorage("main:score", 0)
   main.showCharts()
+
+  if love.filesystem.getInfo("save") then
+    love.filesystem.remove("save")
+  end
 end, function ()
 
   deleteAll({cover, restart})
