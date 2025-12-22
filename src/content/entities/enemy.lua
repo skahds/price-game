@@ -80,6 +80,23 @@ main.defineEnemy("machine", {
   defaultEnergyGain = -1,
 })
 
+main.defineEnemy("straw", {
+  name = "The Straw",
+  image = "strawNews",
+  description = "Every 2nd activation:\nLose {moneyColor}$1{/moneyColor}",
+  trigger = {"CARDTRIGGER"},
+  strawCounter = 2,
+  onActivate = function (ent)
+    ent.strawCounter = ent.strawCounter - 1
+    if ent.strawCounter == 0 then
+      main.addMoney(-1)
+      ent.strawCounter = 2
+    end
+    ent.description = "Every 2nd activation:\nLose {moneyColor}$1{/moneyColor}\n(" .. ent.strawCounter .. " activation left)"
+  end,
+})
+
+
 --[[
 probably will get up some "boss" enemies that get selected in the select screen like:
 -EACH TURN: discard 1 random card

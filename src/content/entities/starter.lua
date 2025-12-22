@@ -3,7 +3,7 @@ local basicRoute = {
   {id="PLAY", node=3},
   {id="SHOP", node=2},
   {id="PLAY", node=3, enemy={"oracle", "regulator"}},
-  {id="PLAY", node=3},
+  {id="PLAY", node=3, enemy={"straw"}},
   {id="SHOP", node=2},
   {id="PLAY", node=3, enemy={"trap"}},
   {id="PLAY", node=3, enemey={"fog"}},
