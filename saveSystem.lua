@@ -32,7 +32,7 @@ function system.saveGame()
     return false
   end
   
-  local success, err = love.filesystem.write("save", obj)
+  local success, err = love.filesystem.write("save.sav", obj)
   if not success then
     print("Error writing save file: " .. err)
     return false
@@ -42,11 +42,11 @@ function system.saveGame()
 end
 
 function system.loadGame()
-  if not love.filesystem.getInfo("save") then
+  if not love.filesystem.getInfo("save.sav") then
     return false
   end
 
-  local save = love.filesystem.read("save")
+  local save = love.filesystem.read("save.sav")
   if not save then
     return false
   end
@@ -84,7 +84,7 @@ function system.writeFileTable(id, t)
     return false
   end
   
-  local success, err = love.filesystem.write(id, obj)
+  local success, err = love.filesystem.write(id .. ".sav", obj)
   if not success then
     print("Error writing save file: " .. err)
     return false
@@ -94,11 +94,11 @@ function system.writeFileTable(id, t)
 end
 
 function system.readFileTable(id)
-  if not love.filesystem.getInfo(id) then
+  if not love.filesystem.getInfo(id .. ".sav") then
     return false
   end
 
-  local file = love.filesystem.read(id)
+  local file = love.filesystem.read(id .. ".sav")
   if not file then
     return false
   end

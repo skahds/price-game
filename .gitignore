@@ -1,2 +1,6 @@
 .vscode/
 build/
+*.dll
+resources/
+*.lib
+*.txt

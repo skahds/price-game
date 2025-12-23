@@ -56,8 +56,8 @@ main.defineScene("gameEnd", function ()
   system.updateStorage("main:score", 0)
   main.showCharts()
 
-  if love.filesystem.getInfo("save") then
-    love.filesystem.remove("save")
+  if love.filesystem.getInfo("save.sav") then
+    love.filesystem.remove("save.sav")
   end
 end, function ()
 
