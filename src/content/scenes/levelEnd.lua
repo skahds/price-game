@@ -62,9 +62,12 @@ main.defineScene("levelEnd", function ()
   table.insert(t, "Total score: " .. finalStats.finalScore)
   table.insert(t, "Turn played: " .. finalStats.barsTaken-1)
 
-  local money = roundsRemaining + 3
-  if money then
-    table.insert(t, "Money Earned: {moneyColor}$" .. money)
+  local money = system.getStorage("main:moneyReward")
+  table.insert(t, "Money reward: {moneyColor}$" .. money)
+  
+  local extraMoney = roundsRemaining
+  if extraMoney then
+    table.insert(t, "{moneyColor}$1{/moneyColor} per turn left: {moneyColor}$" .. money)
   end
     
 

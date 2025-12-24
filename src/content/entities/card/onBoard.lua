@@ -3,15 +3,15 @@ main.definePlaceableNewsCard("expound", {
   image = "expound",
   trigger= {"DEPLOY"},
   price=4,
-  rarity = "EPIC"
+  rarity = "RARE"
 }, {
   image = "expoundNews",
   trigger = {"ROUND"},
-  description="Target news gains {multColor}+1 MULT{/multColor} permanently",
+  description="For each news,\ngive {multColor}+2 MULT{/multColor}",
   target={
     shape = {w=3, h=3},
     onActivate = function (ent, targetEnt)
-      main.changeEntityComponent(targetEnt, "defaultMultGain", 2, combiner.ADD)
+      main.addMult(2)
     end
   }
 })

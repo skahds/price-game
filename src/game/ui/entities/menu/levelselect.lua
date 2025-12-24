@@ -33,6 +33,7 @@ main.ui.defineUI("levelSelect", {
   onMouseReleased = function (ent, button)
     local pipeline = main.getPipeline("scene")
     if #pipeline.pipeline == 0 then
+      system.updateStorage("main:moneyReward", ent.moneyReward)
       system.updateStorage("main:scoreRequirement", ent.scoreRequirement)
       -- system.updateStorage("main:scoreRequirement", 1)
       main.playScene(ent.targetScene)

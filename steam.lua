@@ -11,5 +11,3 @@ function Steam.friends.onGameOverlayActivated(data)
     print("Steam overlay now inactive")
   end
 end
-
-print("My app id is " .. Steam.utils.getAppID())

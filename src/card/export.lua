@@ -377,7 +377,7 @@ function main.drawCardTillMaxCapacity()
         end)
       end)
     elseif system.getStorage("main:score") < system.getStorage("main:scoreRequirement") then
-      if #system.getStorage("main:chart").bars == 1 then
+      if #system.getStorage("main:chart").bars == 1 and system.getStorage("main:currentScene") == "play" then
         main.triggerAllNews("ENCOUNTER")
       end
       if system.getStorage("main:currentScene") == "play" then
@@ -385,7 +385,7 @@ function main.drawCardTillMaxCapacity()
       end
     end
   else
-    if #system.getStorage("main:chart").bars == 1 then
+    if #system.getStorage("main:chart").bars == 1 and system.getStorage("main:currentScene") == "play" then
       main.triggerAllNews("ENCOUNTER")
     end
     if system.getStorage("main:currentScene") == "play" then

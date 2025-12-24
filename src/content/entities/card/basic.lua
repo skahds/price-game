@@ -20,7 +20,7 @@ main.defineCard("multiply", {
   name = "Multiply",
   image = "basicMultiply",
   trigger = {"DEPLOY"},
-  defaultMultGain = 4,
+  defaultMultGain = 2,
   price = 1,
   rarity="STARTER"
 })
@@ -38,12 +38,12 @@ main.defineCard("goldenHex", {
 main.defineCard("grassBow", {
   name = "Grass Bow",
   image = "grassBow",
-  description = "Card to the right gains {priceColor}+6 PRICE",
+  description = "Card to the right gains {priceColor}+4 PRICE",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     local targetEnt = main.getCardBesides(ent, 1)
     if targetEnt then
-      main.changeEntityComponent(targetEnt, "defaultPriceGain", 6, combiner.ADD)
+      main.changeEntityComponent(targetEnt, "defaultPriceGain", 4, combiner.ADD)
     end
   end,
   price = 2,
@@ -53,10 +53,11 @@ main.defineCard("grassBow", {
 main.defineCard("wake", {
   name = "Wake",
   image = "wake",
-  description = "Gains {priceColor}+5 PRICE",
+  description = "Gains {priceColor}+3 PRICE",
+  defaultPriceGain=6,
   trigger = {"DEPLOY"},
   onActivate = function (ent)
-    main.changeEntityComponent(ent, "defaultPriceGain", 5, combiner.ADD)
+    main.changeEntityComponent(ent, "defaultPriceGain", 3, combiner.ADD)
   end,
   price = 2,
   rarity = "COMMON",
@@ -78,13 +79,13 @@ main.defineCard("rebalance", {
 main.defineCard("greenDice", {
   name = "Green Dice",
   image = "greenDice",
-  description = "1 in 2 chance to give {priceColor}+30 PRICE{/priceColor}\nelse, give {multColor}+10 MULT",
+  description = "1 in 2 chance to give {priceColor}+16 PRICE{/priceColor}\nelse, give {multColor}+4 MULT",
   trigger = {"DEPLOY"},
   onActivate = function (ent)
     if love.math.random() > 1/2 then
-      main.addPrice(30)
+      main.addPrice(16)
     else
-      main.addMult(10)
+      main.addMult(4)
     end
   end,
   price = 2,

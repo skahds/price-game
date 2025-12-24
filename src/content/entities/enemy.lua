@@ -76,8 +76,15 @@ main.defineEnemy("trap", {
 main.defineEnemy("machine", {
   name = "The Machine",
   image = "machineNews",
-  trigger = {"EACHTURN"},
-  defaultEnergyGain = -1,
+  description = "Discard a random card",
+  trigger = {"CARDTRIGGER"},
+  rarity = "UNIQUE",
+  onActivate = function (ent)
+    local card = main.getRandomCard()
+    if card then
+      main.discardCard(card)
+    end
+  end,
 })
 
 main.defineEnemy("straw", {

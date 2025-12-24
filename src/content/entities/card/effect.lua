@@ -24,13 +24,13 @@ main.defineCard("amplifier", {
 main.defineCard("whitewash", {
   name = "Whitewash",
   image = "whitewash",
-  description = "News in area gains {priceColor}+5 PRICE",
+  description = "News in area gains {priceColor}+2 PRICE",
   trigger = {"DEPLOY"},
   price = 2,
   target = {
     shape = {w=3, h=3},
     onActivate = function (ent, targetEnt)
-      main.changeEntityComponent(targetEnt, "defaultPriceGain", 5, combiner.ADD)
+      main.changeEntityComponent(targetEnt, "defaultPriceGain", 2, combiner.ADD)
     end
   },
   rarity = "COMMON",
@@ -136,7 +136,7 @@ main.defineCard("grant", {
   name = "Grant",
   image = "grant",
   energy = 1,
-  description = "Card to the right gains {multColor}+3 MULT",
+  description = "Card to the right gains {multColor}+1 MULT",
   trigger = {"DEPLOY"},
   price = 4,
   rarity = "RARE",
@@ -145,7 +145,7 @@ main.defineCard("grant", {
     local target = main.getCardBesides(ent, 1)
 
     if target then
-      main.changeEntityComponent(target, "defaultMultGain", 3, combiner.ADD)
+      main.changeEntityComponent(target, "defaultMultGain", 1, combiner.ADD)
     end
   end
 })
@@ -232,7 +232,7 @@ main.defineCard("lastHope", {
 main.defineCard("relay", {
   name = "Relay",
   image = "relay",
-  description = "Trigger card to the right",
+  description = "Trigger and discard card to the right",
   trigger = {"DEPLOY"},
   energy=0,
   price = 4,
@@ -251,6 +251,7 @@ main.defineCard("relay", {
       local pipeline = main.getPipeline("main")
       pipeline:add(0.5, function ()
         main.triggerEnt(target, "DEPLOY")
+        main.discardCard(target)
       end)
     end
   end
@@ -312,7 +313,7 @@ main.defineCard("snatch", {
 main.defineCard("portableGenerator", {
   name = "Portable Generator",
   image = "portableGenerator",
-  description = "Card to the right generates {energyColor}+1 ENERGY{/energyColor}",
+  description = "Card to the right generates {energyColor}+1 ENERGY{/energyColor}\nand costs {energyColor}+1 ENERGY",
   temporary=1,
   energy = 0,
   trigger = {"DEPLOY"},
@@ -330,6 +331,8 @@ main.defineCard("portableGenerator", {
     local target = main.getCardBesides(ent, 1)
     if target then
       main.changeEntityComponent(target, "defaultEnergyGain", 1, combiner.ADD)
+      target.energy = target.energy + 1
+      target.overrideEnergy = target.overrideEnergy + 1
     end
   end
 })
@@ -337,14 +340,14 @@ main.defineCard("portableGenerator", {
 main.defineCard("arrow", {
   name = "Arrow",
   image = "arrow",
-  description = "Spend all energy, give\n{priceColor}-37 PRICE{/priceColor} for each",
+  description = "Spend all energy, give\n{priceColor}-23 PRICE{/priceColor} for each",
   energy=0,
   trigger = {"DEPLOY"},
   price = 3,
   
   onActivate = function (ent)
     local energy = system.getStorage("main:energy")
-    main.addPrice(-37*energy)
+    main.addPrice(-23*energy)
     main.addEnergy(-energy)
   end,
 })
@@ -352,14 +355,14 @@ main.defineCard("arrow", {
 main.defineCard("ray", {
   name = "Ray",
   image = "ray",
-  description = "Spend all energy, give\n{multColor}+10 MULT{/multColor} for each",
+  description = "Spend all energy, give\n{multColor}+5 MULT{/multColor} for each",
   energy=0,
   trigger = {"DEPLOY"},
   price = 3,
   
   onActivate = function (ent)
     local energy = system.getStorage("main:energy")
-    main.addMult(10*energy)
+    main.addMult(5*energy)
     main.addEnergy(-energy)
   end,
 })
@@ -368,7 +371,7 @@ main.defineCard("cargo", {
   name = "Cargo",
   description = "Creates a Junk in\nthe draw pile",
   descriptionTagEntity = "junk",
-  defaultPriceGain = -50,
+  defaultPriceGain = -40,
   image = "cargo",
   trigger = {"DEPLOY"},
   price = 2,
@@ -377,34 +380,34 @@ main.defineCard("cargo", {
   end
 })
 
-main.defineCard("cell", {
-  name = "Cell",
-  image = "cell",
-  description = "Card to the right and\nleft becomes {energyColor}FREE{/energyColor}",
-  energy = 2,
-  trigger = {"DEPLOY"},
-  price = 3,
-  rarity = "COMMON",
+-- main.defineCard("cell", {
+--   name = "Cell",
+--   image = "cell",
+--   description = "Card to the right\nbecomes {energyColor}FREE{/energyColor}",
+--   energy = 1,
+--   trigger = {"DEPLOY"},
+--   price = 3,
+--   rarity = "COMMON",
 
-  filter = function (ent)
-    local target1 = main.getCardBesides(ent, -1)
-    local target2 = main.getCardBesides(ent, 1)
-    if target1 or target2 then
-      return true
-    end
-  end,
+--   filter = function (ent)
+--     local target1 = main.getCardBesides(ent, -1)
+--     local target2 = main.getCardBesides(ent, 1)
+--     if target1 or target2 then
+--       return true
+--     end
+--   end,
   
-  onActivate = function (ent)
-    local target1 = main.getCardBesides(ent, -1)
-    local target2 = main.getCardBesides(ent, 1)
-    if target1 then
-      target1.overrideEnergy = 0
-    end
-    if target2 then
-      target2.overrideEnergy = 0
-    end
-  end
-})
+--   onActivate = function (ent)
+--     local target1 = main.getCardBesides(ent, -1)
+--     local target2 = main.getCardBesides(ent, 1)
+--     if target1 then
+--       target1.overrideEnergy = 0
+--     end
+--     if target2 then
+--       target2.overrideEnergy = 0
+--     end
+--   end
+-- })
 
 main.defineCard("fracture", {
   name = "Fracture",

@@ -1,10 +1,13 @@
 local basicRoute = {
   {id="PLAY", node=3},
   {id="PLAY", node=3},
+  {id="PLAY", node=3},
   {id="SHOP", node=2},
+  {id="PLAY", node=3},
   {id="PLAY", node=3, enemy={"oracle", "regulator"}},
   {id="PLAY", node=3, enemy={"straw"}},
   {id="SHOP", node=2},
+  {id="PLAY", node=3},
   {id="PLAY", node=3, enemy={"trap"}},
   {id="PLAY", node=3, enemey={"fog"}},
   {id="SHOP", node=2},
@@ -12,29 +15,38 @@ local basicRoute = {
 }
 
 local basicScoreRequired = {{
-  200,
-  300,
   400,
-  550,
-  700,
-  1000,
-  2000
-},{
-  250,
-  350,
-  500,
-  700,
-  1100,
-  2000,
-  4000
-}, {
-  250,
-  400,
-  550,
+  600,
   800,
-  1300,
+  1400,
+  2000,
+  2800,
+  5000,
+  7500,
+  10000,
+  20000,
+},{
+  400,
+  600,
+  800,
+  1600,
   3000,
-  10000
+  4000,
+  8000,
+  12000,
+  16000,
+  40000,
+}, {
+  400,
+  700,
+  900,
+  2000,
+  3500,
+  5000,
+  11000,
+  20000,
+  30000,
+  80000,
 }}
 
 main.defineRunStarter({
@@ -45,10 +57,10 @@ main.defineRunStarter({
     {id="PLAY", node=1, reward={4}},
     {id="PLAY", node=3},
     {id="SHOP", node=2},
-    {id="PLAY", node=3},
-    {id="PLAY", node=3},
+    {id="PLAY", node=3, enemy={"regulator"}},
+    {id="PLAY", node=1, enemy={"fog"}},
   },
-  scoreWithDifficulty = {{200,300,400,550,700,1000,2000}},
+  scoreWithDifficulty = {{400, 600, 800, 1400, 2000,}},
   onActivate = function ()
     main.createCardToDraw("add", 3)
     main.createCardToDraw("multiply", 3)
