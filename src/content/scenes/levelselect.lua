@@ -34,6 +34,7 @@ local basicScoreRequired = {
 
 local function getscoreRequirement(i, difficulty)
   local s
+  difficulty = 1 -- todo: rework this "difficulty" thing
   if scoreRequired then
     s = scoreRequired[i] or math.floor(20*(1.5^i)+0.5)
   else
@@ -91,20 +92,43 @@ local rewardList = {
     main.createRewardsOptions(t, {rewardType="news"})
   end,
   description="Choose a relic!"},
+
+  {claim=function ()
+    main.createRewardsUpgrade()
+  end,
+  description="Upgrade a card!"},
+
+  {money = 25,},
 }
 
-local function generateReward(difficulty)
+local function pickRandom(t)
+  return t[love.math.random(1, #t)]
+end
+
+local function generateReward(index)
   local t
-  if difficulty == 1 then
-    t = utils.deepCopy(rewardList[1])
-  elseif difficulty == 2 then
-    t = utils.deepCopy(rewardList[2])
-  elseif difficulty == 3 then
-    t = utils.deepCopy(rewardList[4])
+  if #levels == 2 then
+    if index == 1 then
+      t = utils.deepCopy(pickRandom{rewardList[1], rewardList[2]})
+    elseif index == 2 then
+      t = utils.deepCopy(pickRandom{rewardList[5], rewardList[6]})
+    else
+      t = t.utils.deepCopy(rewardList[1])
+    end
+  elseif #levels == 3 then
+    if index == 1 then
+      t = utils.deepCopy(rewardList[1])
+    elseif index == 2 then
+      t = utils.deepCopy(rewardList[2])
+    elseif index == 3 then
+      t = utils.deepCopy(pickRandom{rewardList[5], rewardList[6]})
+    else
+      t = t.utils.deepCopy(rewardList[1])
+    end
   else
     t = t.utils.deepCopy(rewardList[1])
   end
-  t.difficulty = difficulty
+  t.difficulty = index
   return t
 end
 
@@ -156,8 +180,9 @@ main.defineScene("levelSelect", function ()
       end
       ui.name = generateNodeName()
       ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"), difficulty)
-      ui.moneyReward = 3
-      ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward .. "\nRewards: " .. ui.reward.description
+      ui.moneyReward = ui.reward.money or 3
+      ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward
+      if ui.reward.description then ui.description = ui.description .. "\nRewards: " .. ui.reward.description end
       if enemy then
         ui.enemy = main.enemies.getEnemy(enemy)
         ui.description = ui.description .. "\nhas Enemy: " .. ui.enemy.name

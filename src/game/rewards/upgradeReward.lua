@@ -88,6 +88,9 @@ end
 
 system.on("@update", function ()
   if cardSelected == nil then
+    if #existingUI > 0 then
+      main.card.updateAllCardPositionBackToOriginalPosition()
+    end
     return
   end
   local ui = cardSelected.ui

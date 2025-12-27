@@ -45,6 +45,8 @@ local function continueAction()
     main.clearRewardOptions()
   end
 
+  main.clearRewardUpgrade()
+
   local pipeline = main.getPipeline("scene")
   if #pipeline.pipeline == 0 then
     main.playScene("levelSelect")
@@ -67,7 +69,7 @@ main.defineScene("levelEnd", function ()
   
   local extraMoney = roundsRemaining
   if extraMoney then
-    table.insert(t, "{moneyColor}$1{/moneyColor} per turn left: {moneyColor}$" .. money)
+    table.insert(t, "{moneyColor}$1{/moneyColor} per turn left: {moneyColor}$" .. extraMoney)
   end
     
 
@@ -97,9 +99,9 @@ main.defineScene("levelEnd", function ()
     main.drawCard()
   end
 
-  for i=1, money do
-    main.addMoney(1)
-  end
+  main.addMoney(money)
+  main.addMoney(roundsRemaining)
+
   system.updateStorage("main:score", 0)
   system.call("main:scoreChanged", 0)
   main.showCharts()

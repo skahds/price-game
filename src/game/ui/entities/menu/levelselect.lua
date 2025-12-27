@@ -37,7 +37,7 @@ main.ui.defineUI("levelSelect", {
       system.updateStorage("main:scoreRequirement", ent.scoreRequirement)
       -- system.updateStorage("main:scoreRequirement", 1)
       main.playScene(ent.targetScene)
-      if ent.reward then
+      if ent.reward and ent.reward.claim then
         local reward = system.getStorage("main:endLevelReward")
         table.insert(reward, ent.reward)
       end
