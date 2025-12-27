@@ -7,14 +7,16 @@ main.card = {
   discard = {},
   -- to be used in the shop scene
   shop = {},
-  -- to be used in the levelEnd
+  -- to be used in the optionReward
   reward = {},
+  -- to be used in upgrade
+  upgrade = {},
   -- to be used anywhere for visual
   misc = {},
 }
 
 function main.getAllPiles()
-  return {main.card.hand, main.card.draw, main.card.discard, main.card.shop, main.card.reward}
+  return {main.card.hand, main.card.draw, main.card.discard, main.card.shop, main.card.reward, main.card.upgrade}
 end
 
 function main.getAllVisiblePiles()

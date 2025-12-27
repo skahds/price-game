@@ -277,7 +277,8 @@ local function restartGame()
   end
 
   main.clearTutorial()
-  main.clearReward()
+  main.clearRewardOptions()
+  main.clearRewardUpgrade()
   main.resetStats()
 
   if system.getStorage("main:currentScene") == "play" then

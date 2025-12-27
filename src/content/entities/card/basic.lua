@@ -4,7 +4,7 @@ main.defineCard("add", {
   trigger = {"DEPLOY"},
   defaultPriceGain = 10,
   price = 1,
-  rarity="STARTER"
+  rarity="STARTER",
 })
 
 main.defineCard("subtract", {

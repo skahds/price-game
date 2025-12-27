@@ -7,7 +7,7 @@ system.on("@update", function ()
     system.updateStorage("main:currentSelectedCard", uiEnt.parent)
     main.card.updateAllCardPositionBackToOriginalPosition("hand", {ignoreCard=uiEnt.parent})
 
-    if uiEnt.parent.ownerShip == "shop" then
+    if uiEnt.parent.ownerShip == "shop" or uiEnt.parent.ownerShip == "upgrade" then
       return
     end
     

@@ -43,4 +43,5 @@ end
 
 function main.closeAllUITabs()
   unloadAll()
+  currentTab = nil
 end

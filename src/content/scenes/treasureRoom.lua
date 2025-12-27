@@ -17,12 +17,14 @@ local function continueAction()
   end
 
   if #main.card.reward > 0 then
-    main.clearReward()
+    main.clearRewardOptions()
   end
 
   if system.getStorage("main:isThereNewsReward") then
-    main.clearReward()
+    main.clearRewardOptions()
   end
+
+  main.clearRewardUpgrade()
 
   local pipeline = main.getPipeline("scene")
   if #pipeline.pipeline == 0 then
@@ -33,12 +35,18 @@ end
 main.defineScene("treasureRoom", function ()
   local bag = system.getStorage("rarity:bag")
   local t = bag:getRandomNewsWithInfo({amount=3})
-  main.createRewardsOptions(t, {rewardType="news"})
+  -- main.createRewardsOptions(t, {rewardType="news"})
   
   main.shuffleDiscardToDraw()
   while #main.card.draw > 0 do
     main.drawCard()
   end
+
+  local pipeline = main.getPipeline("main")
+  pipeline:add(0, function()
+    main.createRewardsUpgrade()
+  end)
+  main.card.updateAllCardPositionBackToOriginalPosition()
   main.showCharts()
   continue = main.ui.spawnUI("treasureRoomContinue", {x=640-150, y=430})
 end, function ()

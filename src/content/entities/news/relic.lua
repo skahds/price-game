@@ -156,7 +156,7 @@ main.defineNews("battery", {
 main.defineNews("bluePill", {
   name = "Blue Pill",
   image = "bluePillNews",
-  description = "Destroy all STARTER cards in deck\nand create 4 random {rareColor}RARE+{/rareColor} card",
+  description = "Destroy all {priceColor}PRICE{/priceColor} STARTER cards in\ndeck and create 4 random {rareColor}COMMON+{/rareColor} card",
   trigger = {"OBTAIN"},
   isRelic = true,
   rarity = "RARE",
@@ -164,14 +164,14 @@ main.defineNews("bluePill", {
     for k, pile in ipairs(main.getAllPiles()) do
       for i=#pile, 1, -1 do
         local card = pile[i]
-        if card.rarity.id == "STARTER" then
+        if card.rarity.id == "STARTER" and (card.id == "add" or card.id == "subtract") then
           main.deleteCard(card)
         end
       end
     end
 
     local bag = system.getStorage("rarity:bag")
-    local t = bag:getRandomCardWithInfo({minimumRarity="RARE", amount=4})
+    local t = bag:getRandomCardWithInfo({minimumRarity="COMMON", amount=4})
     for k, card in ipairs(t) do
       main.basicSpawnCard(card, {}, nil, "hand")
     end
@@ -181,14 +181,14 @@ main.defineNews("bluePill", {
 main.defineNews("doppelganger", {
   name = "Doppelganger",
   image = "doppelgangerNews",
-  description = "Create 3 copies of your leftmost card",
+  description = "Create 2 copies of your leftmost card",
   trigger = {"OBTAIN"},
   isRelic = true,
   rarity = "COMMON",
   onActivate = function ()
     local card = main.getCardInOrder(1)
     if card then
-      for i=1, 3 do
+      for i=1, 2 do
         main.basicSpawnCard(card.id, main.getAllComponentsFromEntity(card), nil, "hand")
       end
     end

@@ -144,7 +144,7 @@ main.defineScene("levelSelect", function ()
   for i, level in ipairs(levels) do
     local x = level.x
     local y = level.y
-    local ui = main.ui.spawnUI("levelSelect", {x=x, y=y, isLastLevel=isLast})
+    local ui = main.ui.spawnUI("levelSelect", {x=x, y=y})
     if route[currentRoute].id == "PLAY" then
       local difficulty = i
       activeUI[i] = ui

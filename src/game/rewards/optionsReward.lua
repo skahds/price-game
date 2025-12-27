@@ -28,7 +28,7 @@ function main.createRewardsOptions(rewards, info)
   end
 end
 
-function main.clearReward()
+function main.clearRewardOptions()
   if #main.card.reward > 0 then
     for i=#main.card.reward, 1, -1 do
       pipeline:add(0.15, function ()
@@ -68,7 +68,7 @@ system.on("main:cardClicked", function (ent, button)
     return
   end
 
-  main.clearReward()
+  main.clearRewardOptions()
 end)
 
 system.on("main:newsClicked", function (ent, button)
@@ -128,7 +128,7 @@ system.on("main:newsClicked", function (ent, button)
     end)
   end
 
-  main.clearReward()
+  main.clearRewardOptions()
 end)
 
 system.on("@draw", function ()
