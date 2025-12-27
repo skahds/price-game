@@ -20,7 +20,7 @@ function main.getAllPiles()
 end
 
 function main.getAllVisiblePiles()
-  return {main.card.hand, main.card.shop, main.card.reward, main.card.misc}
+  return {main.card.hand, main.card.shop, main.card.reward, main.card.upgrade, main.card.misc}
 end
 
 local function fixCardOrderOnStack(ownerShip)
