@@ -34,14 +34,14 @@ local basicScoreRequired = {
 
 local function getscoreRequirement(i, difficulty)
   local s
-  difficulty = 1 -- todo: rework this "difficulty" thing
   if scoreRequired then
     s = scoreRequired[i] or math.floor(20*(1.5^i)+0.5)
   else
     s = basicScoreRequired[i] or math.floor(20*(1.5^i)+0.5)
   end
 
-  s = math.floor(s * (1+difficulty)/20)*10
+  print((1+(difficulty-1)*0.2))
+  s = math.floor(s * (1+(difficulty-1)*0.2)/10)*10
   return s
 end
 
@@ -98,7 +98,7 @@ local rewardList = {
   end,
   description="Upgrade a card!"},
 
-  {money = 25,},
+  {money = 20},
 }
 
 local function pickRandom(t)
@@ -111,7 +111,7 @@ local function generateReward(index)
     if index == 1 then
       t = utils.deepCopy(pickRandom{rewardList[1], rewardList[2]})
     elseif index == 2 then
-      t = utils.deepCopy(pickRandom{rewardList[5], rewardList[6]})
+      t = utils.deepCopy(pickRandom{rewardList[3], rewardList[5], rewardList[6]})
     else
       t = t.utils.deepCopy(rewardList[1])
     end
@@ -153,7 +153,14 @@ main.defineScene("levelSelect", function ()
   
   local route = route or basicRoute
 
-  generateLevelMap(route[currentRoute].node)
+  local amountOfNode
+  if type(route[currentRoute].node) == "table" then
+    amountOfNode = route[currentRoute].node[love.math.random(route[currentRoute].node[1], route[currentRoute].node[2])]
+  else
+    amountOfNode = route[currentRoute].node
+  end
+
+  generateLevelMap(amountOfNode)
   if system.getStorage("main:isDoingTutorial") and currentRoute == 1 then
     levels[1].x = 150
     levels[1].y = -100
