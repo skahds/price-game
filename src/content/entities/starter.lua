@@ -1,5 +1,5 @@
 local basicRoute = {
-  {id="PLAY", node=3,},
+  {id="PLAY", node=3},
   {id="PLAY", node=3},
   {id="PLAY", node=3},
   {id="SHOP", node=2},

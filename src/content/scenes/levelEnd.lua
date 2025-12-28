@@ -130,8 +130,8 @@ main.ui.defineButton("levelEndContinue", {
 })
 
 system.on("@draw", function ()
-
-  if system.getStorage("main:currentScene") ~= "levelEnd" then
+  local scene = system.getStorage("main:currentScene")
+  if scene ~= "levelEnd" then
     return
   end
 

@@ -198,6 +198,7 @@ defineRarity("COMMON", {chanceWeight=10, format="{commonColor}COMMON{/commonColo
 defineRarity("RARE", {chanceWeight=6, format="{rareColor}RARE{/rareColor}"})
 defineRarity("EPIC", {chanceWeight=2, format="{epicColor}EPIC{/epicColor}"})
 defineRarity("UNIQUE", {chanceWeight=0, format="UNIQUE"})
+defineRarity("ENEMY", {chanceWeight=0, format="{redColor}ENEMY"})
 defineRarity("STARTER", {chanceWeight=0, format="STARTER"})
 
 local rarity = class()

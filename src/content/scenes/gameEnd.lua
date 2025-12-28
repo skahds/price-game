@@ -27,7 +27,7 @@ main.defineScene("gameEnd", function ()
   
   table.insert(t, "Total score: " .. finalStats.finalScore)
 
-  restart = main.ui.spawnUI("settingRestart", {x=540, y=400})
+  restart = main.ui.spawnUI("settingRestart", {x=540, y=400, renderLayer=102})
 
   local height = font:getHeight()
 
@@ -63,4 +63,16 @@ end, function ()
 
   deleteAll({cover, restart})
   deleteAll(stats)
+end)
+
+system.on("@draw", function ()
+  local scene = system.getStorage("main:currentScene")
+  if scene ~= "gameEnd" then
+    return
+  end
+
+  system.render(101, function ()
+    love.graphics.setColor(0.08, 0.08, 0.08, 0.6)
+    love.graphics.rectangle("fill", 0, 0, 1280, 720)
+  end, true)
 end)

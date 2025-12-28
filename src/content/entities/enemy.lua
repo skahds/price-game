@@ -16,7 +16,7 @@ function main.enemies.getEnemy(id)
 end
 
 function main.defineEnemy(id, t)
-  t.rarity = "UNIQUE"
+  t.rarity = "ENEMY"
   t.id = id
   t.definition = t
   table.insert(main.enemies.entities, t)
