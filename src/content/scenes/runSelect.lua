@@ -23,12 +23,8 @@ local function deleteAll(args)
   end
 end
 
-local function formatNum(n)
-  if n >= 0 then
-    return "+" .. n
-  else
-    return n
-  end
+local function formatNum(value, modifierScoreEffect)
+  return "x" .. 1 + (value * modifierScoreEffect)/100 .. " moola"
 end
 
 local function openModifier(action)
@@ -77,7 +73,7 @@ local function openModifier(action)
         local scoreResult = main.newRichText({
           attachedModifier = i,
           usage = "scoreEffect",
-          format = formatNum((modifierValues[i] or 0)*modifier.scoreEffect) .. "%",
+          format = formatNum(modifierValues[ui.attachedModifier] or 0, modifier.scoreEffect),
           renderLayer = 200,
           x=640+150,
           y=130+(i-1)*yGap,
@@ -107,7 +103,8 @@ local function updateModifier()
       if ui.usage == "description" then
         main.updateRichTextText(ui, modifier.updateDescription(value))
       elseif ui.usage == "scoreEffect" then
-        main.updateRichTextText(ui, formatNum((-value)*modifier.scoreEffect) .. "%%")
+        local mult = formatNum(value, modifier.scoreEffect)
+        main.updateRichTextText(ui, mult)
       end
     end
   end
