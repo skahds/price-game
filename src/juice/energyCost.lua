@@ -21,7 +21,7 @@ system.on("@draw", function ()
         if realAmount ~= oldAmount then
           if oldAmount > realAmount then
             for i=1, oldAmount-realAmount do
-              love.graphics.setColor(1, 1, 1, 0.5)
+              love.graphics.setColor(1, 1, 1, 0.25)
               love.graphics.draw(system.getImage("energy"), x-16+getGap(i-1+realAmount), y-16, 0, 2, 2)
             end
           else

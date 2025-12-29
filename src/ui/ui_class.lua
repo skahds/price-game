@@ -66,12 +66,14 @@ function main.ui.defineUI(id, eType)
         love.graphics.setShader()
       end
       
-
+      local x = system.ask("ui:getUIX", combiner.ADD, self)
+      local y = system.ask("ui:getUIY", combiner.ADD, self)
+      
       if self.image then
         local image = system.getImage(self.image)
-        love.graphics.draw(image, self.x, self.y, self.r, self.sx, self.sy, self.ox, self.oy)
+        love.graphics.draw(image, x, y, self.r, self.sx, self.sy, self.ox, self.oy)
       elseif self.drawDefaultRectangle then
-        love.graphics.rectangle("fill", self.x-self.ox*self.sx, self.y-self.oy*self.sy, self.width, self.height, self.rx, self.ry)
+        love.graphics.rectangle("fill", x-self.ox*self.sx, y-self.oy*self.sy, self.width, self.height, self.rx, self.ry)
       end
 
     end, self.screenSpace)
@@ -108,3 +110,11 @@ function main.ui.defineUI(id, eType)
 
   main.ui.entities[id] = ent
 end
+
+system.answer("ui:getUIX", function (ent)
+  return ent.x
+end)
+
+system.answer("ui:getUIY", function (ent)
+  return ent.y
+end)

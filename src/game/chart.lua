@@ -20,6 +20,42 @@ function chart:init(args)
   self.price = self.price or 0
 end
 
+--It looks terrible
+-- function chart:draw()
+--   local cam = main.getCamera()
+--   local zoom = cam and cam.zoom or 1
+--   local gridSize = (main.grid and main.grid.gridSize) or 32
+
+--   -- when zoom < 1, increase spacing; snap to multiples of gridSize
+--   local multiplier = 1
+--   if zoom < 1 then
+--     multiplier = math.max(1, math.floor(1 / zoom^4))
+--   end
+--   local step = gridSize * multiplier
+--   print(multiplier, step)
+
+--   local screen = system.getStorage("screenDimension") or {w=1280, h=720}
+--   local halfW = (screen.w / 2) / zoom
+--   local halfH = (screen.h / 2) / zoom
+
+--   local minY = cam.y - halfH
+--   local maxY = cam.y + halfH
+
+--   local startLine = math.floor(minY / step) - 1
+--   local endLine = math.ceil(maxY / step) + 1
+
+--   system.render(2, function ()
+--     love.graphics.setColor(1, 1, 1, 0.12)
+--     love.graphics.setLineWidth(1)
+--     local left = cam.x - halfW - 1000
+--     local right = cam.x + halfW + 1000
+--     for i = startLine, endLine do
+--       local y = i * step
+--       love.graphics.line(left, y, right, y)
+--     end
+--   end)
+-- end
+
 function chart:addBar(bar)
   self.bars[#self.bars+1] = bar
   bar.barOrder = #self.bars

@@ -16,8 +16,8 @@ local basicRoute = {
 
 local basicScoreRequired = {{
   400,
-  600,
-  800,
+  500,
+  700,
   1400,
   2000,
   2800,
