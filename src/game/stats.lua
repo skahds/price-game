@@ -11,6 +11,7 @@ function main.resetStats()
   system.updateStorage("main:roundsRemaining", 6)
   system.updateStorage("main:scoreRequirement", 0)
   system.updateStorage("main:currentRoute", 1)
+  system.updateStorage("main:currentCycle", 1)
   system.updateStorage("main:currentDay", 1)
   system.updateStorage("main:isOnTurn", false)
   system.updateStorage("main:isDoingTutorial", false)
@@ -19,7 +20,7 @@ end
 
 main.resetStats()
 
-local stats = {"main:score", "main:mult", "main:energyPerTurn", "main:energy", "main:money", "shop:maxCardAmount", "main:maxCardAmount", "main:roundsPerDay", "main:roundsRemaining", "main:currentDay", "main:scoreRequirement", "main:currentRoute", "main:currentDay"
+local stats = {"main:score", "main:mult", "main:energyPerTurn", "main:energy", "main:money", "shop:maxCardAmount", "main:maxCardAmount", "main:roundsPerDay", "main:roundsRemaining", "main:currentDay", "main:scoreRequirement", "main:currentRoute", "main:currentCycle", "main:currentDay",
 }
 
 system.register("stats", 10, function ()

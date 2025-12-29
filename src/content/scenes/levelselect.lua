@@ -5,22 +5,10 @@ local activeUI = {}
 -- routes: "PLAY", "SHOP"
 local route
 local currentRoute = 1
+local currentCycle = 1
 
 local levelSelectSize = 64
 local scoreRequired
-
-local basicRoute = {
-  {id="PLAY", node=3},
-  {id="PLAY", node=3},
-  {id="SHOP", node=2},
-  {id="PLAY", node=3},
-  {id="PLAY", node=3},
-  {id="SHOP", node=2},
-  {id="PLAY", node=3},
-  {id="PLAY", node=3},
-  {id="SHOP", node=2},
-  {id="PLAY", node=1},
-}
 
 local basicScoreRequired = {
   200,
@@ -34,13 +22,17 @@ local basicScoreRequired = {
 
 local function getscoreRequirement(i, difficulty)
   local s
-  if scoreRequired then
-    s = scoreRequired[i] or math.floor(20*(1.5^i)+0.5)
+  if scoreRequired and scoreRequired[currentCycle] then
+    local cycle = scoreRequired[currentCycle]
+    local mult = cycle.changeInCycle
+    if i == 4 then
+      mult = cycle.bossScore
+    end
+    s = cycle.cycles[currentCycle] * mult
   else
-    s = basicScoreRequired[i] or math.floor(20*(1.5^i)+0.5)
+    error("unimplemented cycle " .. currentCycle)
   end
 
-  print((1+(difficulty-1)*0.2))
   s = math.floor(s * (1+(difficulty-1)*0.2)/10)*10
   return s
 end
@@ -143,6 +135,7 @@ end
 system.on("@update", function ()
   route = system.getStorage("main:route")
   currentRoute = system.getStorage("main:currentRoute") or 1
+  currentCycle = system.getStorage("main:currentCycle") or 1
   scoreRequired =  system.getStorage("main:scoreRequirementList")
 end)
 
@@ -150,14 +143,14 @@ main.defineScene("levelSelect", function ()
   main.wait(0.1, function ()
     system.saveGame()
   end)
-  
-  local route = route or basicRoute
+
+  local currentTrack = route[currentCycle][currentRoute] --todo fix
 
   local amountOfNode
-  if type(route[currentRoute].node) == "table" then
-    amountOfNode = route[currentRoute].node[love.math.random(route[currentRoute].node[1], route[currentRoute].node[2])]
+  if type(currentTrack.node) == "table" then
+    amountOfNode = currentTrack.node[love.math.random(currentTrack.node[1], currentTrack.node[2])]
   else
-    amountOfNode = route[currentRoute].node
+    amountOfNode = currentTrack.node
   end
 
   generateLevelMap(amountOfNode)
@@ -167,8 +160,8 @@ main.defineScene("levelSelect", function ()
   end
 
   local enemy
-  if route[currentRoute].enemy then
-    enemy = route[currentRoute].enemy[love.math.random(1, #route[currentRoute].enemy)]
+  if currentTrack.enemy then
+    enemy = currentTrack.enemy[love.math.random(1, #currentTrack.enemy)]
   end
 
   --todo: change
@@ -176,11 +169,11 @@ main.defineScene("levelSelect", function ()
     local x = level.x
     local y = level.y
     local ui = main.ui.spawnUI("levelSelect", {x=x, y=y})
-    if route[currentRoute].id == "PLAY" then
+    if currentTrack.id == "PLAY" then
       local difficulty = i
       activeUI[i] = ui
-      if route[currentRoute].reward and route[currentRoute].reward[i] then
-        ui.reward=utils.deepCopy(rewardList[route[currentRoute].reward[i]])
+      if currentTrack.reward and currentTrack.reward[i] then
+        ui.reward=utils.deepCopy(rewardList[currentTrack.reward[i]])
         ui.reward.difficulty=i
       else
         ui.reward = generateReward(difficulty)
@@ -202,7 +195,7 @@ main.defineScene("levelSelect", function ()
         color = "{epicColor}"
       end
       main.updateRichTextText(ui.richtext, color .. string.rep("!", ui.reward.difficulty))
-    elseif route[currentRoute].id == "SHOP" then
+    elseif currentTrack.id == "SHOP" then
       activeUI[i] = ui
       if i == 1 then
         ui.name = "Shop"
@@ -226,6 +219,8 @@ main.defineScene("levelSelect", function ()
     end
   end
   
+  --todo note for tmr: change all currentRoute and fix stuff
+
   main.hideCharts()
 end, function ()
   if system.getStorage("main:isDoingTutorial") then
