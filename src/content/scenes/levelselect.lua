@@ -7,18 +7,13 @@ local route
 local currentRoute = 1
 local currentCycle = 1
 
+local existingUI = {}
+local leftCoverX = 20
+local coverWidth = 330
+local rightCoverx = 1280-350
+
 local levelSelectSize = 64
 local scoreRequired
-
-local basicScoreRequired = {
-  200,
-  300,
-  400,
-  550,
-  700,
-  1000,
-  2000
-}
 
 local function getscoreRequirement(i, difficulty)
   local s
@@ -140,10 +135,25 @@ system.on("@update", function ()
   scoreRequired =  system.getStorage("main:scoreRequirementList")
 end)
 
+
+
+
 main.defineScene("levelSelect", function ()
   main.wait(0.1, function ()
     system.saveGame()
   end)
+
+  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=70, width=330, height=580,
+    rx=20, ry=20,
+    renderLayer=93,
+    color = {0.6, 0.6, 0.6},
+    outlineColor = {0.4, 0.4, 0.4}, outline=10}))
+
+  table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=70, width=330, height=580,
+    rx=20, ry=20,
+    renderLayer=93,
+    color = {0.6, 0.6, 0.6},
+    outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
   local currentTrack = route[currentCycle][currentRoute] --todo fix
 
@@ -228,6 +238,10 @@ end, function ()
     main.clearTutorial()
   end
 
+  for i, ui in ipairs(existingUI) do
+    ui:delete()
+  end
+
   for i, ui in ipairs(activeRouteUI) do
     ui:delete()
   end
@@ -249,6 +263,14 @@ local function scaleChange()
 end
 
 scaleChange()
+
+local function concat(t1, t2)
+  if t1 == "" then
+    return t2
+  else
+    return t1 .. "-" .. t2
+  end
+end
 
 system.on("@draw", function ()
   if system.getStorage("main:currentScene") ~= "levelSelect" then
@@ -290,18 +312,38 @@ system.on("@draw", function ()
       end
     end
   end
-  local leftStats = {"CYCLE: " .. currentCycle, "DAY:" .. system.getStorage("main:currentDay") .. "/" .. amountOfDay}
+  local leftStats = {"CYCLE: " .. currentCycle, "DAY: " .. system.getStorage("main:currentDay") .. "/" .. amountOfDay}
 
   for i, stat in ipairs(leftStats) do
     local t = main.printRichText({
       format=stat,
-      x=20,
-      y=20,
+      x=leftCoverX+coverWidth/2,
+      y=100,
       screenSpace = true,
-      renderLayer = 6,
-      -- font=system.getFont("defaultFont0")
+      renderLayer = 95,
+      -- font=system.getFont("defaultFont80")
       })
     t.y = t.y + t.richText:getHeight() * (i-1)
+    t.x = t.x - t.richText:getWidth()/2
   end
+
+  local tracks = "" -- TODO: REMOVE THIS :SKULL: and change it with actual ui that spawns when the scene is loaded so that i can detect when it is hovered, i can give it an image, i can tween it's size etcetc
+
+  for i, track in ipairs(route[currentCycle]) do
+    if track.id == "PLAY" then
+      tracks = concat(tracks, "X")
+    elseif track.id == "SHOP" then
+      tracks = concat(tracks, "$")
+    end
+  end
+
+  local t = main.printRichText({
+    format=tracks,
+    x=leftCoverX+coverWidth/2,
+    y=200,
+    screenSpace = true,
+    renderLayer = 95,
+  })
+  t.x = t.x - t.richText:getWidth()/2
 
 end)
