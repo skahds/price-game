@@ -10,7 +10,8 @@ system.on("main:endTurn", function ()
       system.call("main:encounterEnd")
       local route = system.getStorage("main:route")
       local currentRoute = system.getStorage("main:currentRoute") or 1
-      if currentRoute-1 == #route then
+      local cycle = system.getStorage("main:currentCycle")
+      if cycle-1 == #route then
         system.updateStorage("main:gameResult", "WIN")
         main.playScene("gameEnd")
       else

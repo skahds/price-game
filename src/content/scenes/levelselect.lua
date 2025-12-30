@@ -1,7 +1,7 @@
 local flux = system.getStorage("flux")
 
 local levels = {}
-local activeUI = {}
+local activeRouteUI = {}
 -- routes: "PLAY", "SHOP"
 local route
 local currentRoute = 1
@@ -22,18 +22,19 @@ local basicScoreRequired = {
 
 local function getscoreRequirement(i, difficulty)
   local s
-  if scoreRequired and scoreRequired[currentCycle] then
-    local cycle = scoreRequired[currentCycle]
-    local mult = cycle.changeInCycle
+  if scoreRequired and scoreRequired.cycles[currentCycle] then
+    local mult = scoreRequired.changeInCycle
     if i == 4 then
-      mult = cycle.bossScore
+      s = scoreRequired.cycles[currentCycle] * scoreRequired.bossScore
+    else
+      s = scoreRequired.cycles[currentCycle] * (1+mult*(i-1))
     end
-    s = cycle.cycles[currentCycle] * mult
   else
     error("unimplemented cycle " .. currentCycle)
   end
 
   s = math.floor(s * (1+(difficulty-1)*0.2)/10)*10
+  s=s/100
   return s
 end
 
@@ -148,13 +149,13 @@ main.defineScene("levelSelect", function ()
 
   local amountOfNode
   if type(currentTrack.node) == "table" then
-    amountOfNode = currentTrack.node[love.math.random(currentTrack.node[1], currentTrack.node[2])]
+    amountOfNode = currentTrack.node[love.math.random(1, #currentTrack.node)]
   else
     amountOfNode = currentTrack.node
   end
 
   generateLevelMap(amountOfNode)
-  if system.getStorage("main:isDoingTutorial") and currentRoute == 1 then
+  if system.getStorage("main:isDoingTutorial") and currentRoute == 1 and currentCycle == 1 then
     levels[1].x = 150
     levels[1].y = -100
   end
@@ -171,7 +172,7 @@ main.defineScene("levelSelect", function ()
     local ui = main.ui.spawnUI("levelSelect", {x=x, y=y})
     if currentTrack.id == "PLAY" then
       local difficulty = i
-      activeUI[i] = ui
+      activeRouteUI[i] = ui
       if currentTrack.reward and currentTrack.reward[i] then
         ui.reward=utils.deepCopy(rewardList[currentTrack.reward[i]])
         ui.reward.difficulty=i
@@ -196,7 +197,7 @@ main.defineScene("levelSelect", function ()
       end
       main.updateRichTextText(ui.richtext, color .. string.rep("!", ui.reward.difficulty))
     elseif currentTrack.id == "SHOP" then
-      activeUI[i] = ui
+      activeRouteUI[i] = ui
       if i == 1 then
         ui.name = "Shop"
         ui.description = "Buy items!"
@@ -211,11 +212,11 @@ main.defineScene("levelSelect", function ()
     end
   end
 
-  main.tweenCamera(0.2, {x=0, y=0, zoom=1.2})
+  main.tweenCamera(0.2, {x=0, y=0, zoom=1})
 
   if system.getStorage("main:isDoingTutorial") then
-    if currentRoute == 1 then
-      main.addEntityToTutorial(activeUI[1], "Click here to begin\nyour encounter!")
+    if currentRoute == 1 and currentCycle == 1 then
+      main.addEntityToTutorial(activeRouteUI[1], "Click here to begin\nyour encounter!")
     end
   end
   
@@ -227,10 +228,10 @@ end, function ()
     main.clearTutorial()
   end
 
-  for i, ui in ipairs(activeUI) do
+  for i, ui in ipairs(activeRouteUI) do
     ui:delete()
   end
-  activeUI = {}
+  activeRouteUI = {}
   levels = {}
 end)
 
@@ -255,7 +256,7 @@ system.on("@draw", function ()
   end
 
   system.render(3, function ()
-    for i, ui in ipairs(activeUI) do
+    for i, ui in ipairs(activeRouteUI) do
       love.graphics.setColor(1, 1, 1, 0.2)
       love.graphics.setLineWidth(4)
       love.graphics.line(ui:getX()+ui:getWidth()/2, ui:getY()+ui:getHeight()/2, 0, 0)
@@ -265,7 +266,7 @@ system.on("@draw", function ()
     love.graphics.draw(system.getImage("baseNetwork"), 0, 0, 0, scale.s, scale.s, 48, 48)
   end, false)
 
-  for i, ui in ipairs(activeUI) do
+  for i, ui in ipairs(activeRouteUI) do
 
     if ui and ui.name then
       local t = main.printRichText({
@@ -282,19 +283,25 @@ system.on("@draw", function ()
   end
 
   local amountOfDay = 0
-  for i, t in ipairs(route) do -- test
-    if t.id == "PLAY" then
-      amountOfDay = amountOfDay + 1
+  if route[currentCycle] then
+    for i, t in ipairs(route[currentCycle]) do
+      if t.id == "PLAY" then
+        amountOfDay = amountOfDay + 1
+      end
     end
   end
-  
-  local t = main.printRichText({
-    format="DAY: " .. system.getStorage("main:currentDay") .. "/" .. amountOfDay,
-    x=640,
-    y=20,
-    screenSpace = true,
-    renderLayer = 6,
-    font=system.getFont("defaultFont80")
-    })
-  t.x = t.x - t.richText:getWidth()/2
+  local leftStats = {"CYCLE: " .. currentCycle, "DAY:" .. system.getStorage("main:currentDay") .. "/" .. amountOfDay}
+
+  for i, stat in ipairs(leftStats) do
+    local t = main.printRichText({
+      format=stat,
+      x=20,
+      y=20,
+      screenSpace = true,
+      renderLayer = 6,
+      -- font=system.getFont("defaultFont0")
+      })
+    t.y = t.y + t.richText:getHeight() * (i-1)
+  end
+
 end)

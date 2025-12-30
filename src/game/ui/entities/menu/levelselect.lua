@@ -47,7 +47,14 @@ main.ui.defineUI("levelSelect", {
         e.ui.isVisible = false 
       end
 
-      system.updateStorage("main:currentRoute", system.getStorage("main:currentRoute") + 1)
+      local currentRoute = system.getStorage("main:currentRoute")
+      local cycle = system.getStorage("main:currentCycle")
+      system.updateStorage("main:currentRoute", currentRoute + 1)
+      if currentRoute == #system.getStorage("main:route")[cycle] then
+        system.updateStorage("main:currentRoute", 1)
+        system.updateStorage("main:currentCycle", cycle + 1)
+        system.updateStorage("main:currentDay", 0)
+      end
     end
   end,
 })

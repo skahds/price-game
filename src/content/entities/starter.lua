@@ -15,13 +15,13 @@ local basicRoute = {
     {id="PLAY", node=2}, -- add boss here
   },
 
-  {
-    {id="PLAY", node=3},
-    {id="PLAY", node={2, 3}, enemy={"trap"}},
-    {id="PLAY", node={2, 3}, enemey={"fog"}},
-    {id="SHOP", node=2},
-    {id="PLAY", node=1, enemy={"machine"}},
-  }
+  -- {
+  --   {id="PLAY", node=3},
+  --   {id="PLAY", node={2, 3}, enemy={"trap"}},
+  --   {id="PLAY", node={2, 3}, enemey={"fog"}},
+  --   {id="SHOP", node=2},
+  --   {id="PLAY", node=1, enemy={"machine"}},
+  -- }
 
   -- TOBE IMPLEMENTED
 }
