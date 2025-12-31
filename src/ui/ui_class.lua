@@ -1,5 +1,6 @@
 function main.ui.defineUI(id, eType)
   local ent = class()
+  ent.id = id
 
   function ent:init(args)
     for k, v in pairs(eType) do

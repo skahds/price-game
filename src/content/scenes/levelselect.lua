@@ -293,6 +293,17 @@ end)
 --juice
 local juiceInfo={s=1, r=0}
 
+local function getBobY(x)
+  return math.sin((x+juiceInfo.r*100)/100)*3
+end
+
+system.answer("ui:getUIY", function (ent)
+  if ent.id == "levelTrackIndicator" then
+    return math.sin((ent.x*10+juiceInfo.r*10)/10)*5
+  end
+  return 0
+end)
+
 local function scaleChange()
   flux.to(juiceInfo, 5, {s=1.1}):ease("linear")
   main.wait(5, function ()
@@ -371,13 +382,17 @@ system.on("@draw", function ()
     for i=1, #listOfTrackIndicator-1 do
       local node = listOfTrackIndicator[i]
       local secondNode = listOfTrackIndicator[i+1]
-      love.graphics.line(node.x+24, node.y, secondNode.x-24, secondNode.y)
+      local y1 = system.ask("ui:getUIY", combiner.ADD, node)
+      local y2 = system.ask("ui:getUIY", combiner.ADD, secondNode)
+      local y = (y1+y2)/2
+      love.graphics.line(node.x+24, y, secondNode.x-24, y)
     end
   end, true)
 
   system.render(102, function ()
     local currentNode = listOfTrackIndicator[currentRoute]
-    love.graphics.draw(system.getImage("currentNode"), currentNode.x, currentNode.y, juiceInfo.r, 1.4, 1.4, 24, 24)
+    local y = system.ask("ui:getUIY", combiner.ADD, currentNode)
+    love.graphics.draw(system.getImage("currentNode"), currentNode.x, y, juiceInfo.r, 1.4, 1.4, 24, 24)
   end, true)
 
 end)
@@ -397,14 +412,14 @@ main.ui.defineUI("levelTrackIndicator", {
   isTweening=false,
   onHover = function (ent)
     if ent.isTweening == false then
-      ent.tween = flux.to(ent, 0.2, {sx=2.2, sy=2.2}):ease("backinout")
+      ent.tween = flux.to(ent, 0.3, {sx=2.2, sy=2.2}):ease("backout")
       ent.isTweening=true
     end
     currentNodeHovered = ent.node
   end,
   notHovered = function (ent)
     if ent.isTweening == true then
-      ent.tween = flux.to(ent, 0.2, {sx=1.4, sy=1.4}):ease("backinout")
+      ent.tween = flux.to(ent, 0.3, {sx=1.4, sy=1.4}):ease("backout")
       ent.isTweening=false
     end
   end,
