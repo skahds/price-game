@@ -11,9 +11,22 @@ local existingUI = {}
 local leftCoverX = 20
 local coverWidth = 330
 local rightCoverx = 1280-350
+local listOfTrackIndicator = {}
+local currentNodeHovered = ""
 
 local levelSelectSize = 64
 local scoreRequired
+
+--
+--level select things
+--
+local function deleteAll(args)
+  for k, ent in pairs(args) do
+    if ent.delete then
+      ent:delete()
+    end
+  end
+end
 
 local function getscoreRequirement(i, difficulty)
   local s
@@ -137,11 +150,22 @@ end)
 
 
 
+--
+-- side ui thingies
+--
 
+
+
+
+--
+-- scene definition
+--
 main.defineScene("levelSelect", function ()
   main.wait(0.1, function ()
     system.saveGame()
   end)
+
+  local currentTrack = route[currentCycle][currentRoute]
 
   table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=-20, width=330, height=800,
     rx=20, ry=20,
@@ -155,7 +179,8 @@ main.defineScene("levelSelect", function ()
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
-  local gap = 24
+  currentNodeHovered = currentTrack.id
+  local gap = 32
   local totalWidth = 32 + #route[currentCycle] * (gap+32)
   for i, track in ipairs(route[currentCycle]) do
     local x = leftCoverX+coverWidth/2-totalWidth/2+(gap+32)*(i-0.5)+16
@@ -163,20 +188,20 @@ main.defineScene("levelSelect", function ()
       local ui = main.ui.spawnUI("levelTrackIndicator", {
         x=x,
         y=250,
-        image = "fightNode"
+        image = "fightNode",
+        node = "PLAY"
       })
-      table.insert(existingUI, ui)
+      table.insert(listOfTrackIndicator, ui)
     elseif track.id == "SHOP" then
       local ui = main.ui.spawnUI("levelTrackIndicator", {
         x=x,
         y=250,
-        image = "restNode"
+        image = "restNode",
+        node = "SHOP"
       })
-      table.insert(existingUI, ui)
+      table.insert(listOfTrackIndicator, ui)
     end
   end
-
-  local currentTrack = route[currentCycle][currentRoute]
 
   local amountOfNode
   if type(currentTrack.node) == "table" then
@@ -257,26 +282,22 @@ end, function ()
     main.clearTutorial()
   end
 
-  for i, ui in ipairs(existingUI) do
-    ui:delete()
-  end
+  deleteAll(existingUI)
+  deleteAll(listOfTrackIndicator)
+  deleteAll(activeRouteUI)
 
-  for i, ui in ipairs(activeRouteUI) do
-    ui:delete()
-  end
   activeRouteUI = {}
   levels = {}
 end)
 
 --juice
-local scale={s=1}
+local juiceInfo={s=1, r=0}
 
 local function scaleChange()
-  print("scale")
-  flux.to(scale, 3, {s=1.2}):ease("linear")
-  main.wait(3, function ()
-    flux.to(scale, 3, {s=0.8}):ease("linear")
-    main.wait(3, function ()
+  flux.to(juiceInfo, 5, {s=1.1}):ease("linear")
+  main.wait(5, function ()
+    flux.to(juiceInfo, 5, {s=0.9}):ease("linear")
+    main.wait(5, function ()
       scaleChange()
     end)
   end)
@@ -284,17 +305,14 @@ end
 
 scaleChange()
 
-local function concat(t1, t2)
-  if t1 == "" then
-    return t2
-  else
-    return t1 .. "-" .. t2
-  end
-end
-
 system.on("@draw", function ()
   if system.getStorage("main:currentScene") ~= "levelSelect" then
     return
+  end
+
+  juiceInfo.r = juiceInfo.r + system.getStorage("dt")
+  if juiceInfo.r > math.pi*2 then
+    juiceInfo.r = 0
   end
 
   system.render(3, function ()
@@ -305,7 +323,7 @@ system.on("@draw", function ()
     end
 
     love.graphics.setColor(1, 1, 1)
-    love.graphics.draw(system.getImage("baseNetwork"), 0, 0, 0, scale.s, scale.s, 48, 48)
+    love.graphics.draw(system.getImage("baseNetwork"), 0, 0, 0, juiceInfo.s, juiceInfo.s, 48, 48)
   end, false)
 
   for i, ui in ipairs(activeRouteUI) do
@@ -347,24 +365,20 @@ system.on("@draw", function ()
     t.x = t.x - t.richText:getWidth()/2
   end
 
-  -- local tracks = "" -- TODO: REMOVE THIS :SKULL: and change it with actual ui that spawns when the scene is loaded so that i can detect when it is hovered, i can give it an image, i can tween it's size etcetc
+  system.render(98, function ()
+    love.graphics.setLineWidth(5)
+    love.graphics.setColor(0.9, 0.9, 0.9, 0.6)
+    for i=1, #listOfTrackIndicator-1 do
+      local node = listOfTrackIndicator[i]
+      local secondNode = listOfTrackIndicator[i+1]
+      love.graphics.line(node.x+24, node.y, secondNode.x-24, secondNode.y)
+    end
+  end, true)
 
-  -- for i, track in ipairs(route[currentCycle]) do
-  --   if track.id == "PLAY" then
-  --     tracks = concat(tracks, "X")
-  --   elseif track.id == "SHOP" then
-  --     tracks = concat(tracks, "$")
-  --   end
-  -- end
-
-  -- local t = main.printRichText({
-  --   format=tracks,
-  --   x=leftCoverX+coverWidth/2,
-  --   y=200,
-  --   screenSpace = true,
-  --   renderLayer = 95,
-  -- })
-  -- t.x = t.x - t.richText:getWidth()/2
+  system.render(102, function ()
+    local currentNode = listOfTrackIndicator[currentRoute]
+    love.graphics.draw(system.getImage("currentNode"), currentNode.x, currentNode.y, juiceInfo.r, 1.4, 1.4, 24, 24)
+  end, true)
 
 end)
 
@@ -377,17 +391,20 @@ main.ui.defineUI("levelTrackIndicator", {
   height= 32,
   ox=16,
   oy=16,
+  sx=1.4,
+  sy=1.4,
   screenSpace = true,
   isTweening=false,
   onHover = function (ent)
     if ent.isTweening == false then
-      ent.tween = flux.to(ent, 0.3, {sx=2, sy=2}):ease("backinout")
+      ent.tween = flux.to(ent, 0.2, {sx=2.2, sy=2.2}):ease("backinout")
       ent.isTweening=true
     end
+    currentNodeHovered = ent.node
   end,
   notHovered = function (ent)
     if ent.isTweening == true then
-      ent.tween = flux.to(ent, 0.3, {sx=1, sy=1}):ease("backinout")
+      ent.tween = flux.to(ent, 0.2, {sx=1.4, sy=1.4}):ease("backinout")
       ent.isTweening=false
     end
   end,
