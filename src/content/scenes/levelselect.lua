@@ -143,19 +143,40 @@ main.defineScene("levelSelect", function ()
     system.saveGame()
   end)
 
-  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=70, width=330, height=580,
+  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=-20, width=330, height=800,
     rx=20, ry=20,
     renderLayer=93,
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
-  table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=70, width=330, height=580,
+  table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
     rx=20, ry=20,
     renderLayer=93,
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
-  local currentTrack = route[currentCycle][currentRoute] --todo fix
+  local gap = 24
+  local totalWidth = 32 + #route[currentCycle] * (gap+32)
+  for i, track in ipairs(route[currentCycle]) do
+    local x = leftCoverX+coverWidth/2-totalWidth/2+(gap+32)*(i-0.5)+16
+    if track.id == "PLAY" then
+      local ui = main.ui.spawnUI("levelTrackIndicator", {
+        x=x,
+        y=250,
+        image = "fightNode"
+      })
+      table.insert(existingUI, ui)
+    elseif track.id == "SHOP" then
+      local ui = main.ui.spawnUI("levelTrackIndicator", {
+        x=x,
+        y=250,
+        image = "restNode"
+      })
+      table.insert(existingUI, ui)
+    end
+  end
+
+  local currentTrack = route[currentCycle][currentRoute]
 
   local amountOfNode
   if type(currentTrack.node) == "table" then
@@ -229,8 +250,6 @@ main.defineScene("levelSelect", function ()
       main.addEntityToTutorial(activeRouteUI[1], "Click here to begin\nyour encounter!")
     end
   end
-  
-  --todo note for tmr: change all currentRoute and fix stuff
 
   main.hideCharts()
 end, function ()
@@ -253,10 +272,11 @@ end)
 local scale={s=1}
 
 local function scaleChange()
-  flux.to(scale, 5, {s=1.1}):ease("linear")
-  main.wait(5, function ()
-    flux.to(scale, 5, {s=0.9}):ease("linear")
-    main.wait(5, function ()
+  print("scale")
+  flux.to(scale, 3, {s=1.2}):ease("linear")
+  main.wait(3, function ()
+    flux.to(scale, 3, {s=0.8}):ease("linear")
+    main.wait(3, function ()
       scaleChange()
     end)
   end)
@@ -327,23 +347,51 @@ system.on("@draw", function ()
     t.x = t.x - t.richText:getWidth()/2
   end
 
-  local tracks = "" -- TODO: REMOVE THIS :SKULL: and change it with actual ui that spawns when the scene is loaded so that i can detect when it is hovered, i can give it an image, i can tween it's size etcetc
+  -- local tracks = "" -- TODO: REMOVE THIS :SKULL: and change it with actual ui that spawns when the scene is loaded so that i can detect when it is hovered, i can give it an image, i can tween it's size etcetc
 
-  for i, track in ipairs(route[currentCycle]) do
-    if track.id == "PLAY" then
-      tracks = concat(tracks, "X")
-    elseif track.id == "SHOP" then
-      tracks = concat(tracks, "$")
-    end
-  end
+  -- for i, track in ipairs(route[currentCycle]) do
+  --   if track.id == "PLAY" then
+  --     tracks = concat(tracks, "X")
+  --   elseif track.id == "SHOP" then
+  --     tracks = concat(tracks, "$")
+  --   end
+  -- end
 
-  local t = main.printRichText({
-    format=tracks,
-    x=leftCoverX+coverWidth/2,
-    y=200,
-    screenSpace = true,
-    renderLayer = 95,
-  })
-  t.x = t.x - t.richText:getWidth()/2
+  -- local t = main.printRichText({
+  --   format=tracks,
+  --   x=leftCoverX+coverWidth/2,
+  --   y=200,
+  --   screenSpace = true,
+  --   renderLayer = 95,
+  -- })
+  -- t.x = t.x - t.richText:getWidth()/2
 
 end)
+
+local flux = system.getStorage("flux")
+
+main.ui.defineUI("levelTrackIndicator", {
+  image = "fightNode",
+  renderLayer = 100,
+  width = 32,
+  height= 32,
+  ox=16,
+  oy=16,
+  screenSpace = true,
+  isTweening=false,
+  onHover = function (ent)
+    if ent.isTweening == false then
+      ent.tween = flux.to(ent, 0.3, {sx=2, sy=2}):ease("backinout")
+      ent.isTweening=true
+    end
+  end,
+  notHovered = function (ent)
+    if ent.isTweening == true then
+      ent.tween = flux.to(ent, 0.3, {sx=1, sy=1}):ease("backinout")
+      ent.isTweening=false
+    end
+  end,
+  onMouseReleased = function (ent, button)
+
+  end,
+})

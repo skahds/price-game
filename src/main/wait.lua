@@ -5,14 +5,22 @@ local deleteQueue = {}
 system.updateStorage("main:defaultDelayMult", 1)
 
 function main.wait(second, fun)
-  table.insert(timers, {currentTime=0, minimumTime=second, fun=fun, index=#timers+1})
+  table.insert(timers, {currentTime=0, minimumTime=second, fun=fun, index=#timers+1, mult=false})
+end
+
+function main.waitWithMult(second, fun)
+  table.insert(timers, {currentTime=0, minimumTime=second, fun=fun, index=#timers+1, mult=true})
 end
 
 system.on("@update", function ()
   for i=#timers, 1, -1 do
     local timer = timers[i]
-    local defaultDelayMult = system.getStorage("main:defaultDelayMult")
-    timer.currentTime = timer.currentTime + system.getStorage("dt") * defaultDelayMult
+    if timer.mult then
+      local defaultDelayMult = system.getStorage("main:defaultDelayMult")
+      timer.currentTime = timer.currentTime + system.getStorage("dt") * defaultDelayMult
+    else
+      timer.currentTime = timer.currentTime + system.getStorage("dt")
+    end
     if timer.minimumTime < timer.currentTime then
       timer.fun()
       table.insert(deleteQueue, timer)
@@ -30,7 +38,3 @@ system.on("@update", function ()
 
   deleteQueue = {}
 end)
-
-function main.waitWithMult(second, fun)
-  main.wait(second, fun)
-end
