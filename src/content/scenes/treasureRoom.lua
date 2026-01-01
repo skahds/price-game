@@ -44,7 +44,7 @@ main.defineScene("treasureRoom", function ()
 
   local pipeline = main.getPipeline("main")
   pipeline:add(0, function()
-    main.createRewardsUpgrade()
+    main.createRewardsEditPattern()
   end)
   main.card.updateAllCardPositionBackToOriginalPosition()
   main.showCharts()

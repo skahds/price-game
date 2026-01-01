@@ -9,7 +9,7 @@ main.ui.defineUI("levelSelect", {
   renderLayer = 4,
   moneyReward = 0,
   reward = nil,
-  showDescription = true,
+  -- showDescription = true,
   width = 64,
   height= 64,
   ox=32,
