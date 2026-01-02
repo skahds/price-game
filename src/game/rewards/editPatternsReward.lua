@@ -1,4 +1,5 @@
 local flux = system.getStorage("flux")
+local pipeline = main.getPipeline("main")
 local existingUI = {}
 local y = 640*2/5
 local patternSelected
@@ -29,12 +30,32 @@ local function setRandomPattern()
   patternSelected = newPattern
 end
 
-function main.createRewardsEditPattern()
+local function capitalize(str)
+  return (str:gsub("^%l", string.upper))
+end
 
-  table.insert(existingUI, main.ui.spawnUI("rerollEditPattern", {
-    x=640-400-125,
-    y=y-50,
-  }))
+function main.createRewardsEditPattern()
+  for i=1, 3 do
+    local size = "any"
+    local num = love.math.random()
+    if num < 1/3 then
+      size = "smaller"
+    elseif num < 2/3 then
+      size = "bigger"
+    end
+    local direction = "positive"
+    if love.math.random() > 0.5 then
+      direction = "negative"
+    end
+    local capitalizedString = capitalize(size) .. capitalize(direction)
+    local c = main.createCard("editPatternCard", {}, "patterns")
+    c.name = capitalize(size) .. " " .. direction
+    c.patternValue = size .. direction
+    c.ignoreCardSelect = true
+    c.ui.image="patterns" .. capitalizedString
+    c.ui.x = 640+400
+    c.ui.y = 360+(i-2)*150-c.ui:getWidth()/2
+  end
 
   setRandomPattern()
 end
@@ -43,22 +64,37 @@ function main.clearRewardEditPattern()
   for i, ui in ipairs(existingUI) do
     ui:delete()
   end
+
+  for i=#main.card.patterns, 1, -1 do
+    pipeline:add(0.15, function ()
+      local card = main.card.patterns[i]
+      main.deleteCard(card)
+    end)
+  end
 end
+
+system.on("main:cardClicked", function (ent, button)
+  if button ~= 1 then
+    return
+  end
+
+  if ent == nil then
+    return
+  end
+
+  if ent.ownerShip == "patterns" then
+    table.insert(patternSelected.sequence, ent.patternValue)
+  else
+    return
+  end
+
+  main.clearRewardEditPattern()
+end)
 
 system.on("@update", function ()
   if patternSelected == nil then
     return
   end
-
-  local t = main.printRichText({
-    format = "{moneyColor}$" .. main.getMoney(),
-      x=640-400,
-      y=y+100,
-      renderLayer = 140,
-      font = system.getFont("defaultFont80"),
-      outline = true
-    })
-  t.x = t.x - t.richText:getWidth()/2
 
   local pattern = patternSelected
 
@@ -95,16 +131,16 @@ system.on("@update", function ()
   local t = main.printRichText({
     format = pattern.name,
     renderLayer = renderLayer+1,
-    x=startX,
-    y=40,
+    x=startX-400,
+    y=100,
     outline=true
   })
   t.x = t.x - t.richText:getWidth()/2
   local t = main.printRichText({
     format = "{priceColor}" .. format(pattern.price) .. "{priceIcon}{/priceColor} {multColor}" .. format(pattern.mult) .. "{multIcon}",
     renderLayer = renderLayer+1,
-    x=startX,
-    y=40,
+    x=startX-400,
+    y=100,
     outline=true
   })
   t.x = t.x - t.richText:getWidth()/2
@@ -132,12 +168,12 @@ system.on("@update", function ()
       format = text,
       renderLayer = renderLayer+1,
       color = color,
-      x=startX+400,
-      y=360,
+      x=startX-400,
+      y=460,
       outline=true,
     })
     t.x = t.x - t.richText:getWidth()/2
-    t.y = t.y - t.richText:getHeight()*(#pattern.sequence-i+1) - t.richText:getHeight()/2
+    t.y = t.y + t.richText:getHeight()*(i-1)
   end
 
   system.render(renderLayer+1, function ()
@@ -153,35 +189,8 @@ system.on("@update", function ()
 
       local xoffset = (-amountOfBar/2-0.5+i)*60
       local yoffset = highY+totalHeight/2
-      love.graphics.rectangle("fill", startX-25+xoffset, 300+currentY-yoffset, 50, bar)
+      love.graphics.rectangle("fill", startX-25+xoffset-400, 360+currentY-yoffset, 50, bar)
       currentY = currentY + bar
     end
   end, true)
 end)
-
-local function reroll()
-  setRandomPattern()
-end
-
-main.ui.defineButton("rerollEditPattern", {
-  width = 250,
-  height = 100,
-  color = {0.4, 0.7, 0.4},
-  renderLayer = 130,
-  screenSpace = true,
-  cost = 2,
-  text = "Reroll {moneyColor}$2{/moneyColor}",
-  audio = "breaker",
-  onButtonClicked = function (ent)
-    if patternSelected == nil then return end
-    if main.getMoney() > ent.cost then
-      main.addMoney(-ent.cost)
-    else
-      return
-    end
-
-    ent.cost = ent.cost + 1
-    main.updateRichTextText(ent.richtext, "Reroll {moneyColor}$" .. ent.cost .. "{/moneyColor}")
-    reroll()
-  end
-})

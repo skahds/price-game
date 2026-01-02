@@ -270,6 +270,7 @@ local function restartGame()
   end
 
   system.updateStorage("main:endLevelReward", {})
+  main.resetPatterns()
 
   local mainPipeline = main.getPipeline("main")
   while #mainPipeline.pipeline > 0 do
@@ -279,6 +280,7 @@ local function restartGame()
   main.clearTutorial()
   main.clearRewardOptions()
   main.clearRewardUpgrade()
+  main.clearRewardEditPattern()
   main.resetStats()
 
   if system.getStorage("main:currentScene") == "play" then

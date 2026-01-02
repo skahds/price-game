@@ -1,0 +1,5 @@
+main.defineCard("editPatternCard", {
+  name = "placeholder",
+  image = "basicAdd",
+  rarity = "UNIQUE",
+})

@@ -88,18 +88,27 @@ function main.getPatternsTable()
   return patterns
 end
 
+function main.resetPatterns()
+  patterns = {}
+  --positive
+  main.definePattern({id="star", name="Star", sequence={"anynegative", "smallernegative", "positive"}, mult=4, price=20})
+  main.definePattern({id="soliders", name="Soliders", sequence={"anypositive", "anypositive", "anypositive"}, mult=3, price=12})
+  main.definePattern({id="upReversal", name="Up Reversal", sequence={"anynegative", "smallerpositive"}, mult=2, price=8})
+  main.definePattern({id="upEngulf", name="Up Engulf", sequence={"anynegative", "positive"}, mult=2, price=6})
+  main.definePattern({id="upCandle", name="Up Candle", sequence={"anypositive"}, mult=1, price=2})
 
---positive
-main.definePattern({id="star", name="Star", sequence={"anynegative", "smallernegative", "positive"}, mult=4, price=20})
-main.definePattern({id="soliders", name="Soliders", sequence={"anypositive", "anypositive", "anypositive"}, mult=3, price=12})
-main.definePattern({id="upReversal", name="Up Reversal", sequence={"anynegative", "smallerpositive"}, mult=2, price=8})
-main.definePattern({id="upEngulf", name="Up Engulf", sequence={"anynegative", "positive"}, mult=2, price=6})
-main.definePattern({id="upCandle", name="Up Candle", sequence={"anypositive"}, mult=1, price=2})
 
+  --negative
+  main.definePattern({id="moon", name="Moon", sequence={"anypositive", "smallerpositive", "negative"}, mult=4, price=-20})
+  main.definePattern({id="crows", name="Crows", sequence={"anynegative", "anynegative", "anynegative"}, mult=3, price=-12})
+  main.definePattern({id="downReversal", name="Down Reversal", sequence={"anypositive", "smallernegative"}, mult=2, price=-8})
+  main.definePattern({id="downEngulf", name="Down Engulf", sequence={"anypositive", "negative"}, mult=2, price=-6})
+  main.definePattern({id="downCandle", name="Down Candle", sequence={"anynegative"}, mult=1, price=-2})
+end
+main.resetPatterns()
 
---negative
-main.definePattern({id="moon", name="Moon", sequence={"anypositive", "smallerpositive", "negative"}, mult=4, price=-20})
-main.definePattern({id="crows", name="Crows", sequence={"anynegative", "anynegative", "anynegative"}, mult=3, price=-12})
-main.definePattern({id="downReversal", name="Down Reversal", sequence={"anypositive", "smallernegative"}, mult=2, price=-8})
-main.definePattern({id="downEngulf", name="Down Engulf", sequence={"anypositive", "negative"}, mult=2, price=-6})
-main.definePattern({id="downCandle", name="Down Candle", sequence={"anynegative"}, mult=1, price=-2})
+system.register("patterns", 18, function ()
+  return patterns
+end, function (t)
+  patterns = t
+end)
