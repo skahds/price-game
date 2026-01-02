@@ -197,7 +197,7 @@ system.on("@draw", function ()
     end
     love.graphics.setStencilMode()
 
-    love.graphics.setColor(0.3, 0.3, 0.3, 1)
+    love.graphics.setColor(0.3, 0.3, 0.3, 0.4)
     love.graphics.setLineWidth(10)
     for i=1, (energyPerTurn-1) do
       local x = 60+i*widthPerBar
