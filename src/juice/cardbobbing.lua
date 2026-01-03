@@ -8,7 +8,7 @@ system.on("@update", function ()
 end)
 
 system.answer("ui:getUIY", function (ent)
-  if ent.parent and (ent.parent.isCard or ent.parent.isNews) then
+  if ent.parent and (ent.parent.isCard or ent.parent.isNews or ent.parent.isPatternsCard) then
     return math.sin((ent:getX()+offsetX*100)/100)*3
   end
   return 0
