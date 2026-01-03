@@ -7,6 +7,7 @@ local close
 local cover
 local topText
 local hovering = nil
+local clickSelected = nil
 
 local greenColor, redColor = {0.2, 0.8, 0.2}, {0.8, 0.2, 0.2}
 
@@ -77,7 +78,7 @@ local function updateContent()
 end
 
 system.on("@update", function ()
-  if hovering == nil then
+  if hovering == nil and clickSelected == nil then
     for k, item in ipairs(existingItems) do
       if item.pattern then
         item.isVisible = true
@@ -90,9 +91,10 @@ system.on("@update", function ()
 
     return
   end
+
   local pattern
   for i, v in ipairs(main.getPatternsTable()) do
-    if v.id == hovering then
+    if v.id == (clickSelected or hovering) then
       pattern = v
     end
   end
@@ -257,6 +259,8 @@ main.defineUITab("patterns", function ()
 
   updateContent()
 end, function ()
+  hovering = nil
+  clickSelected = nil
 
   clearExistingItem()
   deleteAll({cover, close, topText})
@@ -302,6 +306,10 @@ main.ui.defineUI("patternsPlate", {
   onHover = function (ent)
     ent.color = hoverColor
     hovering = ent.pattern
+  end,
+
+  onMouseClicked = function (ent)
+    clickSelected = ent.pattern
   end,
 
   notHovered = function (ent)
