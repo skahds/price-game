@@ -113,8 +113,8 @@ function main.showPatterns(pattern, location, renderLayer)
   end
 
   for i, card in ipairs(pattern.sequence) do
-    card.ui.x = location.x - totalWidth/2 + (i-1)*card.ui:getWidth()+gap
-    card.ui.y = location.y
+    card.ui.x = location.x - totalWidth/2 + (i-1)*(card.ui:getWidth()+gap)
+    card.ui.y = location.y - card.ui:getHeight()/2
   end
 end
 
@@ -138,7 +138,7 @@ function main.getCurrentPattern()
       -- Check the last N elements of currentSequence against the pattern
       for j = 1, sequenceLength do
         local currentIndex = currentLength - sequenceLength + j
-        local patternItem = pattern.sequence[j]
+        local patternItem = pattern.sequence[j].pattern
         local currentItem = currentSequence[currentIndex]
         
         -- Check for "any" prefix
@@ -175,31 +175,37 @@ end
 main.definePatternsCard("anypositive", {
   name = "Any Positive",
   image= "patternsAnyPositive",
+  pattern="anypositive",
 })
 
 main.definePatternsCard("biggerpositive", {
   name = "Bigger Positive",
   image= "patternsBiggerPositive",
+  pattern="biggerpositive"
 })
 
 main.definePatternsCard("smallerpositive", {
   name = "Any Positive",
   image= "patternsSmallerPositive",
+  pattern="smallerpositive"
 })
 
 main.definePatternsCard("anynegative", {
   name = "Any Negative",
   image= "patternsAnyNegative",
+  pattern="anynegative"
 })
 
 main.definePatternsCard("biggernegative", {
   name = "Bigger Negative",
   image= "patternsBiggerNegative",
+  pattern="biggernegative"
 })
 
 main.definePatternsCard("smallernegative", {
   name = "Smaller Negative",
   image= "patternsSmallerNegative",
+  pattern="smallernegative"
 })
 
 function main.resetPatterns()
@@ -228,12 +234,4 @@ end)
 
 system.on("@load", function ()
   main.resetPatterns()
-  main.wait(1, function ()
-    for i, pattern in ipairs(main.getPatternsTable()) do
-      main.showPatterns(pattern, {x=640, y=10+100*(i-1)})
-    end
-    main.wait(5, function ()
-      main.hideAllPatterns()
-    end)
-  end)
 end)
