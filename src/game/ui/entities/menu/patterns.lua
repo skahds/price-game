@@ -8,6 +8,7 @@ local cover
 local topText
 local hovering = nil
 local clickSelected = nil
+local patternsUI
 
 local greenColor, redColor = {0.2, 0.8, 0.2}, {0.8, 0.2, 0.2}
 
@@ -78,6 +79,10 @@ local function updateContent()
 end
 
 system.on("@update", function ()
+  if patternsUI then
+    main.hidePatterns(patternsUI)
+  end
+
   if hovering == nil and clickSelected == nil then
     for k, item in ipairs(existingItems) do
       if item.pattern then
@@ -175,8 +180,7 @@ system.on("@update", function ()
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y + t.richText:getHeight()
 
-  main.showPatterns(pattern, {x=startX, y=360}, 300)
-  -- TODO TMR: fix bug where 2 appear at once
+  patternsUI = main.showPatterns(pattern, {x=startX, y=360}, 300)
 
 
   -- for i, card in ipairs(pattern.sequence) do
@@ -294,6 +298,7 @@ main.ui.defineButton("patternsClose", {
 
 local normalColor = {0.6, 0.6, 0.6}
 local hoverColor = {0.7, 0.7, 0.7}
+local selectedColor = {0.8, 0.8, 0.8}
 main.ui.defineUI("patternsPlate", {
   width=360,
   height=80,
@@ -304,19 +309,32 @@ main.ui.defineUI("patternsPlate", {
   rx=20,
   ry=20,
   onHover = function (ent)
-    ent.color = hoverColor
+    if clickSelected ~= ent.pattern then
+      ent.color = hoverColor
+    elseif clickSelected == ent.pattern then
+      ent.color = selectedColor
+    end
+    
     hovering = ent.pattern
   end,
 
   onMouseClicked = function (ent)
-    clickSelected = ent.pattern
+    if clickSelected == ent.pattern then
+      clickSelected = nil
+    else
+      clickSelected = ent.pattern
+    end
   end,
 
   notHovered = function (ent)
-    ent.color = normalColor
+    if clickSelected == ent.pattern then
+      ent.color = selectedColor
+    else
+      ent.color = normalColor
+    end
+
     if hovering == ent.pattern then
       hovering = nil
-      main.hideAllPatterns()
     end
   end
 })

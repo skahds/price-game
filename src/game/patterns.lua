@@ -1,5 +1,3 @@
-local currentlyVisiblePatterns = {}
-
 local patterns = {
   -- {id="crows", name="Crows", sequence={"positive", "smallernegative", "smallerpositive", mult=10, price=20}}
 }
@@ -21,10 +19,7 @@ function main.definePatternsCard(id, eType)
       self[k] = utils.deepCopy(v)
     end
 
-    local image = self.image or "blank_card"
-    
-    self.ui = main.ui.spawnUI("patterns_ui", {image=image, x=self.x, y=self.y})
-    self.ui.parent = self
+    -- no self.ui, but the ui's that exist reference self as parent
 
     self.pattern = self.pattern or "any"
   end
@@ -47,7 +42,7 @@ function main.spawnPatternsCard(id, args)
   -- table.insert(main.card[ownerShip], card)
   -- card.cardOrder = #main.card[ownerShip]
   -- card.ownerShip = ownerShip
-  card.ui.isVisible = false
+  -- card.ui.isVisible = false
   return card
 end
 
@@ -99,31 +94,37 @@ function main.createPattern(t)
   end)
 end
 
+--this creates a set of ui
 function main.showPatterns(pattern, location, renderLayer)
+  local listOfPatternsUI = {}
   local totalWidth = 0
   local gap = location.gap or 10
   for i, card in ipairs(pattern.sequence) do
-    card.ui.renderLayer = renderLayer or card.ui.renderLayer
-    card.ui.isVisible = true
-    table.insert(currentlyVisiblePatterns, card)
-    totalWidth = totalWidth + card.ui:getWidth()
+    local image = card.image or "blank_card"
+    local ui = main.ui.spawnUI("patterns_ui", {image=image, x=card.x, y=card.y})
+    table.insert(listOfPatternsUI, ui)
+    ui.parent = card
+    ui.renderLayer = renderLayer or ui.renderLayer
+
+    totalWidth = totalWidth + ui:getWidth()
     if i ~= 0 then
       totalWidth = totalWidth + gap
     end
   end
 
-  for i, card in ipairs(pattern.sequence) do
-    card.ui.x = location.x - totalWidth/2 + (i-1)*(card.ui:getWidth()+gap)
-    card.ui.y = location.y - card.ui:getHeight()/2
+  for i, ui in ipairs(listOfPatternsUI) do
+    ui.x = location.x - totalWidth/2 + (i-1)*(ui:getWidth()+gap)
+    ui.y = location.y - ui:getHeight()/2
   end
+
+  return listOfPatternsUI
 end
 
-function main.hideAllPatterns()
-  for i, card in pairs(currentlyVisiblePatterns) do
-    card.ui.isVisible = false
+function main.hidePatterns(t)
+  for i=#t, 1, -1 do
+    local ui = t[i]
+    ui:delete()
   end
-
-  currentlyVisiblePatterns = {}
 end
 
 function main.getCurrentPattern()
