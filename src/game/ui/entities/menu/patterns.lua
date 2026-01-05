@@ -15,7 +15,7 @@ local greenColor, redColor = {0.2, 0.8, 0.2}, {0.8, 0.2, 0.2}
 system.on("@load", function ()
   local listOfItems = utils.deepCopy(main.getPatternsTable())
   for i, item in ipairs(listOfItems) do
-    if item.defaultPrice * item.defaultMult > 0 then
+    if item.defaultPrice > 0 then
       table.insert(listOfPositive, item)
     else
       table.insert(listOfNegative, item)
