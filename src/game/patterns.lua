@@ -7,8 +7,10 @@ function main.definePatternsCard(id, eType)
   id = "patterns" .. id
   eType.id = id
   eType.isPatternsCard = true
-  eType.defaultMultGain = eType.defaultMultGain or 5
-  eType.defaultPriceGain = eType.defaultPriceGain or 1
+  eType.defaultMultGain = eType.defaultMultGain or 1
+  eType.defaultPriceGain = eType.defaultPriceGain or 0
+  eType.priceMultiplier = eType.priceMultiplier or 1
+  eType.multMultiplier = eType.multMultiplier or 1
   main.entities[id] = class(main.entities.basicEnt)
   local card = main.entities[id]
   local basicEnt = main.entities.basicEnt
@@ -20,8 +22,6 @@ function main.definePatternsCard(id, eType)
     end
 
     -- no self.ui, but the ui's that exist reference self as parent
-
-    self.pattern = self.pattern or "any"
   end
 
   function card:update()
@@ -83,10 +83,18 @@ end)
 
 function main.createPattern(t)
   local fixSequence = {}
+  local firstCard = main.spawnPatternsCard("placeholder", {})
+  table.insert(fixSequence, firstCard)
+  firstCard.name=t.name
+  firstCard.defaultPriceGain=t.defaultPrice
+  firstCard.defaultMultGain=t.defaultMult
+
   for i, seq in ipairs(t.sequence) do
     table.insert(fixSequence, main.spawnPatternsCard(seq, {}))
   end
   t.sequence = fixSequence
+
+  main.resultOfPattern(t)
 
   table.insert(patterns, t)
   table.sort(patterns, function (a, b)
@@ -169,6 +177,25 @@ function main.getCurrentPattern()
   return nil
 end
 
+function main.resultOfPattern(pattern)
+  pattern.price = 0
+  pattern.mult = 0
+  for i, card in ipairs(pattern.sequence) do
+    if card.defaultPriceGain then
+      pattern.price = pattern.price + card.defaultPriceGain
+    end
+    if card.defaultMultGain then
+      pattern.mult = pattern.mult + card.defaultMultGain
+    end
+    if card.priceMultiplier then
+      pattern.price = pattern.price * card.priceMultiplier
+    end
+    if card.multMultiplier then
+      pattern.mult = pattern.mult * card.multMultiplier
+    end
+  end
+end
+
 function main.getPatternsTable()
   return patterns
 end
@@ -177,54 +204,70 @@ main.definePatternsCard("anypositive", {
   name = "Any Positive",
   image= "patternsAnyPositive",
   pattern="anypositive",
+  priceMultiplier = 2,
 })
 
 main.definePatternsCard("biggerpositive", {
   name = "Bigger Positive",
   image= "patternsBiggerPositive",
-  pattern="biggerpositive"
+  pattern="biggerpositive",
+  priceMultiplier = 2,
 })
 
 main.definePatternsCard("smallerpositive", {
-  name = "Any Positive",
+  name = "Smaller Positive",
   image= "patternsSmallerPositive",
-  pattern="smallerpositive"
+  pattern="smallerpositive",
+  multMultiplier = 2,
 })
 
 main.definePatternsCard("anynegative", {
   name = "Any Negative",
   image= "patternsAnyNegative",
-  pattern="anynegative"
+  pattern="anynegative",
+  priceMultiplier = 2,
 })
 
 main.definePatternsCard("biggernegative", {
   name = "Bigger Negative",
   image= "patternsBiggerNegative",
-  pattern="biggernegative"
+  pattern="biggernegative",
+  priceMultiplier = 2,
 })
 
 main.definePatternsCard("smallernegative", {
   name = "Smaller Negative",
   image= "patternsSmallerNegative",
-  pattern="smallernegative"
+  pattern="smallernegative",
+  multMultiplier = 2,
+})
+
+main.definePatternsCard("placeholder", {
+  name = "Placeholder",
+  image= "patternsPlaceholder",
+  defaultMultGain=0,
 })
 
 function main.resetPatterns()
   patterns = {}
   --positive
-  main.createPattern({id="star", name="Star", sequence={"anynegative", "smallernegative", "biggerpositive"}, mult=4, price=20})
-  main.createPattern({id="soliders", name="Soliders", sequence={"anypositive", "anypositive", "anypositive"}, mult=3, price=12})
-  main.createPattern({id="upReversal", name="Up Reversal", sequence={"anynegative", "smallerpositive"}, mult=2, price=8})
-  main.createPattern({id="upEngulf", name="Up Engulf", sequence={"anynegative", "biggerpositive"}, mult=2, price=6})
-  main.createPattern({id="upCandle", name="Up Candle", sequence={"anypositive"}, mult=1, price=2})
+  main.createPattern({id="star", name="Star", sequence={"anynegative", "smallernegative", "biggerpositive"}, defaultMult=4, defaultPrice=20})
+  main.createPattern({id="soliders", name="Soliders", sequence={"anypositive", "anypositive", "anypositive"}, defaultMult=3, defaultPrice=12})
+  main.createPattern({id="upReversal", name="Up Reversal", sequence={"anynegative", "smallerpositive"}, defaultMult=2, defaultPrice=8})
+  main.createPattern({id="upEngulf", name="Up Engulf", sequence={"anynegative", "biggerpositive"}, defaultMult=2, defaultPrice=6})
+  main.createPattern({id="upCandle", name="Up Candle", sequence={"anypositive"}, defaultMult=1, defaultPrice=2})
 
 
   --negative
-  main.createPattern({id="moon", name="Moon", sequence={"anypositive", "smallerpositive", "biggernegative"}, mult=4, price=-20})
-  main.createPattern({id="crows", name="Crows", sequence={"anynegative", "anynegative", "anynegative"}, mult=3, price=-12})
-  main.createPattern({id="downReversal", name="Down Reversal", sequence={"anypositive", "smallernegative"}, mult=2, price=-8})
-  main.createPattern({id="downEngulf", name="Down Engulf", sequence={"anypositive", "biggernegative"}, mult=2, price=-6})
-  main.createPattern({id="downCandle", name="Down Candle", sequence={"anynegative"}, mult=1, price=-2})
+  main.createPattern({id="moon", name="Moon", sequence={"anypositive", "smallerpositive", "biggernegative"}, defaultMult=4, defaultPrice=-20})
+  main.createPattern({id="crows", name="Crows", sequence={"anynegative", "anynegative", "anynegative"}, defaultMult=3, defaultPrice=-12})
+  main.createPattern({id="downReversal", name="Down Reversal", sequence={"anypositive", "smallernegative"}, defaultMult=2, defaultPrice=-8})
+  main.createPattern({id="downEngulf", name="Down Engulf", sequence={"anypositive", "biggernegative"}, defaultMult=2, defaultPrice=-6})
+  main.createPattern({id="downCandle", name="Down Candle", sequence={"anynegative"}, defaultMult=1, defaultPrice=-2})
+
+  for i, pattern in ipairs(patterns) do
+    main.resultOfPattern(pattern)
+  end
 end
 
 system.register("patterns", 18, function ()

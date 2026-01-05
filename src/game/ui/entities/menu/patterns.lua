@@ -15,7 +15,7 @@ local greenColor, redColor = {0.2, 0.8, 0.2}, {0.8, 0.2, 0.2}
 system.on("@load", function ()
   local listOfItems = utils.deepCopy(main.getPatternsTable())
   for i, item in ipairs(listOfItems) do
-    if item.price * item.mult > 0 then
+    if item.defaultPrice * item.defaultMult > 0 then
       table.insert(listOfPositive, item)
     else
       table.insert(listOfNegative, item)
@@ -134,33 +134,33 @@ system.on("@update", function ()
     startX = 640-200
   end
 
-  local highY = 0
-  local lowY = 0
-  local currentY = 0
-  local sequence = {}
-  for i, card in ipairs(pattern.sequence) do
-    local height
-    if string.match(card.pattern, "any") then
-      height = 1
-    elseif string.match(card.pattern, "smaller") then
-      height = 0.5
-    else
-      height = 1.5
-    end
-    local direction
-    if string.match(card.pattern, "positive") then
-      direction = 1
-      love.graphics.setColor(greenColor)
-    else
-      direction = -1
-    end
-    local h = height*-direction*60
-    table.insert(sequence, h)
-    currentY = currentY + h
-    highY = math.min(highY, currentY)
-    lowY = math.max(lowY, currentY)
-  end
-  local totalHeight = lowY-highY
+  -- local highY = 0
+  -- local lowY = 0
+  -- local currentY = 0
+  -- local sequence = {}
+  -- for i, card in ipairs(pattern.sequence) do
+  --   local height
+  --   if string.match(card.pattern, "any") then
+  --     height = 1
+  --   elseif string.match(card.pattern, "smaller") then
+  --     height = 0.5
+  --   else
+  --     height = 1.5
+  --   end
+  --   local direction
+  --   if string.match(card.pattern, "positive") then
+  --     direction = 1
+  --     love.graphics.setColor(greenColor)
+  --   else
+  --     direction = -1
+  --   end
+  --   local h = height*-direction*60
+  --   table.insert(sequence, h)
+  --   currentY = currentY + h
+  --   highY = math.min(highY, currentY)
+  --   lowY = math.max(lowY, currentY)
+  -- end
+  -- local totalHeight = lowY-highY
 
   local t = main.printRichText({
     format = pattern.name,
@@ -180,6 +180,7 @@ system.on("@update", function ()
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y + t.richText:getHeight()
 
+  main.resultOfPattern(pattern)
   patternsUI = main.showPatterns(pattern, {x=startX, y=360}, 300)
 
 

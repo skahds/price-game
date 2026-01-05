@@ -58,6 +58,7 @@ system.on("main:repeatingTriggerCardEnd", function (trigger)
 
   local pattern = main.getCurrentPattern()
   if pattern then
+    main.resultOfPattern(pattern)
     main.addMult(pattern.mult)
     main.addPrice(pattern.price)
   end

@@ -96,18 +96,30 @@ main.addDescriptionType(23, function (ent)
 end)
 
 main.addDescriptionType(24, function (ent)
+  if ent.priceMultiplier and ent.priceMultiplier ~= 1 then
+    return "{priceColor}X" .. ent.priceMultiplier .. " PRICE"
+  end
+end)
+
+main.addDescriptionType(25, function (ent)
+  if ent.multMultiplier and ent.multMultiplier ~= 1 then
+    return "{multColor}X" .. ent.multMultiplier .. " MULT"
+  end
+end)
+
+main.addDescriptionType(26, function (ent)
   if ent.defaultMoneyGain ~= 0 then
     return "Earn {moneyColor}$" .. ent.defaultMoneyGain
   end
 end)
 
-main.addDescriptionType(25, function (ent)
+main.addDescriptionType(27, function (ent)
   if ent.defaultEnergyGain ~= 0 then
     return "{energyColor}" .. format(ent.defaultEnergyGain) .. " ENERGY"
   end
 end)
 
-main.addDescriptionType(26, function (ent)
+main.addDescriptionType(28, function (ent)
   if ent.defaultDrawCard ~= 0 then
     return "Draws " .. ent.defaultDrawCard .. " CARD"
   end
