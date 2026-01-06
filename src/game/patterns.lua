@@ -95,6 +95,7 @@ function main.createPattern(t)
   t.sequence = fixSequence
 
   main.resultOfPattern(t)
+  t.realPatternLength = 0
 
   table.insert(patterns, t)
   table.sort(patterns, function (a, b)
@@ -138,16 +139,29 @@ end
 function main.getCurrentPattern()
   for i, pattern in ipairs(patterns) do
     local sequenceLength = #pattern.sequence
+    local realLength = 0
     local currentLength = #currentSequence
+
+    for e, card in ipairs(pattern.sequence) do
+      if card.pattern then
+        realLength = realLength + 1
+      end
+    end
     
     -- Check if we have enough bars to match the pattern
-    if currentLength >= sequenceLength then
+    if currentLength >= realLength then
       local matches = true
       
       -- Check the last N elements of currentSequence against the pattern
       for j = 1, sequenceLength do
-        local currentIndex = currentLength - sequenceLength + j
+        local offset = 0
+        local currentIndex = currentLength - sequenceLength + j + offset
         local patternItem = pattern.sequence[j].pattern
+        if patternItem == nil then
+          offset = offset - 1
+          goto continue
+        end
+
         local currentItem = currentSequence[currentIndex]
         
         -- Check for "any" prefix
@@ -166,6 +180,8 @@ function main.getCurrentPattern()
             break
           end
         end
+
+        ::continue::
       end
       
       if matches then
@@ -180,7 +196,12 @@ end
 function main.resultOfPattern(pattern)
   pattern.price = 0
   pattern.mult = 0
+  pattern.realPatternLength = 0
   for i, card in ipairs(pattern.sequence) do
+    if card.pattern then
+      pattern.realPatternLength = pattern.realPatternLength + 1
+    end
+
     if card.defaultPriceGain then
       pattern.price = pattern.price + card.defaultPriceGain
     end

@@ -28,8 +28,9 @@ system.on("@draw", function ()
     return
   end
 
-  local amountOfBar = #pattern.sequence
-  local x = chart:getBar(-amountOfBar).x
+  main.resultOfPattern(pattern)
+  local amountOfBar = pattern.realPatternLength
+  local x = chart:getBar(-pattern.realPatternLength).x
   local width = chart:getBar(-1).x+chart:getBar(-1).width-chart:getBar(-amountOfBar).x
   local y = math.huge
   local lowestY = -math.huge

@@ -44,7 +44,7 @@ local function getscoreRequirement(i, difficulty)
   end
 
   s = math.floor(s * (1+(difficulty-1)*0.2)/10)*10
-  s=s/100
+  -- s=s/100
   return s
 end
 
