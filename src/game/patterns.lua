@@ -1,6 +1,7 @@
 local patterns = {
   -- {id="crows", name="Crows", sequence={"positive", "smallernegative", "smallerpositive", mult=10, price=20}}
 }
+main.patternsCardEntities = {}
 
 --spawnPatternsCard("anynegative", ..)
 function main.definePatternsCard(id, eType)
@@ -35,9 +36,37 @@ function main.definePatternsCard(id, eType)
   end
 
   card.definition = eType
+  card.id = id
+  table.insert(main.patternsCardEntities, card)
+end
+
+function main.getRandomPatternsCard(info)
+  info.amount = info.amount or 1
+  local t = {}
+  local listOfCards = {}
+  for i, card in ipairs(main.patternsCardEntities) do
+    if card.ignoreForPick then
+      goto continue
+    end
+
+    table.insert(listOfCards, card)
+
+    ::continue::
+  end
+
+
+  for i=1, info.amount do
+    local index = love.math.random(1, #listOfCards)
+    local card = listOfCards[index]
+    table.insert(t, card)
+    table.remove(listOfCards, index)
+  end
+
+  return t
 end
 
 function main.spawnPatternsCard(id, args)
+  id = id:gsub("patterns", "")
   local card = main.spawnEntity("patterns" .. id, args)
   -- table.insert(main.card[ownerShip], card)
   -- card.cardOrder = #main.card[ownerShip]
@@ -94,13 +123,17 @@ function main.createPattern(t)
   end
   t.sequence = fixSequence
 
-  main.resultOfPattern(t)
-  t.realPatternLength = 0
-
   table.insert(patterns, t)
   table.sort(patterns, function (a, b)
-    return math.abs((a.mult+1)*a.price) > math.abs((b.mult+1)*b.price)
+    return math.abs((a.defaultMult+1)*a.defaultPrice) > math.abs((b.defaultMult+1)*b.defaultPrice)
   end)
+end
+
+function main.createPatternsUIForCard(card)
+  local image = card.image or "blank_card"
+  local ui = main.ui.spawnUI("patterns_ui", {image=image, x=card.x, y=card.y})
+  ui.parent = card
+  return ui
 end
 
 --this creates a set of ui
@@ -267,6 +300,7 @@ main.definePatternsCard("placeholder", {
   name = "Placeholder",
   image= "patternsPlaceholder",
   defaultMultGain=0,
+  ignoreForPick = true
 })
 
 function main.resetPatterns()

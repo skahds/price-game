@@ -1,5 +1,5 @@
-main.defineCard("editPatternCard", {
-  name = "placeholder",
-  image = "basicAdd",
-  rarity = "UNIQUE",
-})
+-- main.defineCard("editPatternCard", {
+--   name = "placeholder",
+--   image = "basicAdd",
+--   rarity = "UNIQUE",
+-- })

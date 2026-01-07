@@ -13,6 +13,6 @@ main.ui.defineUI("patterns_ui", {
   end,
 
   onMouseClicked = function (ent, button)
-    
+    system.call("main:patterns_uiClicked", ent, button)
   end,
 })
