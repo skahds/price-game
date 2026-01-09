@@ -2,9 +2,11 @@ local flux = system.getStorage("flux")
 local pipeline = main.getPipeline("main")
 local patternsUI
 local existingUI = {}
+local leftStartX = 640-300
 local y = 640*2/5
 local patternSelected
 local cardOptionsUI = {}
+local patternCardSelectedIndex = 1
 
 local greenColor, redColor = {0.2, 0.8, 0.2}, {0.8, 0.2, 0.2}
 local renderLayer=120
@@ -18,6 +20,12 @@ local function format(n)
     return n
   end
 end
+
+--[[ todo:
+- choose which patterns to edit, wether new or replace
+- don't show and delete every frame, just show once and change stuff around normally
+- fluxes and animation so it doesn't look bad
+]]
 
 local function setRandomPattern()
   local listOfPattern = main.getPatternsTable()
@@ -100,12 +108,10 @@ system.on("@update", function ()
 
   local pattern = patternSelected
 
-  local startX = 640
-
   local t = main.printRichText({
     format = "Choose a pattern card to add!",
     renderLayer = renderLayer+1,
-    x=startX,
+    x=650,
     y=30,
     outline=true
   })
@@ -114,7 +120,7 @@ system.on("@update", function ()
   local t = main.printRichText({
     format = pattern.name,
     renderLayer = renderLayer+1,
-    x=startX-400,
+    x=leftStartX,
     y=100,
     outline=true
   })
@@ -122,12 +128,33 @@ system.on("@update", function ()
   local t = main.printRichText({
     format = "{priceColor}" .. format(pattern.price) .. "{priceIcon}{/priceColor} {multColor}" .. format(pattern.mult) .. "{multIcon}",
     renderLayer = renderLayer+1,
-    x=startX-400,
+    x=leftStartX,
     y=100,
     outline=true
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y + t.richText:getHeight()
 
-  patternsUI = main.showPatterns(pattern, {x=startX-400, y=360}, 300)
+  patternsUI = main.showPatterns(pattern, {x=leftStartX, y=360}, 300)
+end)
+
+system.on("@draw", function ()
+  if patternSelected == nil then
+    return
+  end
+
+  system.render(150, function ()
+    for i, card in ipairs(patternsUI) do
+      if i == 1 then goto continue end
+
+      local previousCard = patternsUI[i-1]
+      local gap = card.x - (previousCard.x + previousCard:getWidth())
+      local averageY = (system.ask("ui:getUIY", combiner.ADD, card)
+      + system.ask("ui:getUIY", combiner.ADD, previousCard))/2 + card:getHeight()/2
+
+      love.graphics.draw(system.getImage("patternsDivider"), card.x - gap/2, averageY, 0, 1.4, 1.4, 2, 43)
+
+      ::continue::
+    end
+  end, true)
 end)
