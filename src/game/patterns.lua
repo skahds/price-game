@@ -139,7 +139,16 @@ function main.showPatterns(pattern, info)
   local listOfPatternsUI = {}
   local totalWidth = 0
   local gap = info.gap or 10
+  local showSequence = {}
   for i, card in ipairs(pattern.sequence) do
+    if card.ignoreDefaultShown ~= true then
+      table.insert(showSequence, card)
+    elseif card.ignoreDefaultShown == true and info.showAllCards == true then
+      table.insert(showSequence, card)
+    end
+  end
+
+  for i, card in ipairs(showSequence) do
     local image = card.image or "blank_card"
     local ui = main.ui.spawnUI("patterns_ui", {image=image, x=card.x, y=card.y})
     table.insert(listOfPatternsUI, ui)
@@ -311,7 +320,8 @@ main.definePatternsCard("selectAdd", {
   name = "Add",
   image= "patternsSelectAdd",
   defaultMultGain=0,
-  ignoreForPick = true
+  ignoreForPick = true,
+  ignoreDefaultShown = true
 })
 
 function main.resetPatterns()

@@ -22,7 +22,6 @@ local function format(n)
 end
 
 --[[ todo:
-- don't show and delete every frame, just show once and change stuff around normally
 - fluxes and animation so it doesn't look bad
 ]]
 
@@ -42,7 +41,7 @@ local function setRandomPattern()
     main.hidePatterns(patternsUI)
   end
 
-  patternsUI = main.showPatterns(patternSelected, {x=leftStartX, y=360, renderLayer=renderLayer})
+  patternsUI = main.showPatterns(patternSelected, {x=leftStartX, y=360, renderLayer=renderLayer, showAllCards=true})
 end
 
 function main.createRewardsEditPattern()
