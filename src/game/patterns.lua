@@ -45,13 +45,9 @@ function main.getRandomPatternsCard(info)
   local t = {}
   local listOfCards = {}
   for i, card in ipairs(main.patternsCardEntities) do
-    if card.ignoreForPick then
-      goto continue
+    if card.definition.ignoreForPick ~= true then
+      table.insert(listOfCards, card)
     end
-
-    table.insert(listOfCards, card)
-
-    ::continue::
   end
 
 
@@ -123,9 +119,11 @@ function main.createPattern(t)
   end
   t.sequence = fixSequence
 
+  main.resultOfPattern(t)
+
   table.insert(patterns, t)
   table.sort(patterns, function (a, b)
-    return math.abs((a.defaultMult+1)*a.defaultPrice) > math.abs((b.defaultMult+1)*b.defaultPrice)
+    return math.abs((a.mult+1)*a.price) > math.abs((b.mult+1)*b.price)
   end)
 end
 
@@ -137,16 +135,16 @@ function main.createPatternsUIForCard(card)
 end
 
 --this creates a set of ui
-function main.showPatterns(pattern, location, renderLayer)
+function main.showPatterns(pattern, info)
   local listOfPatternsUI = {}
   local totalWidth = 0
-  local gap = location.gap or 10
+  local gap = info.gap or 10
   for i, card in ipairs(pattern.sequence) do
     local image = card.image or "blank_card"
     local ui = main.ui.spawnUI("patterns_ui", {image=image, x=card.x, y=card.y})
     table.insert(listOfPatternsUI, ui)
     ui.parent = card
-    ui.renderLayer = renderLayer or ui.renderLayer
+    ui.renderLayer = info.renderLayer or ui.renderLayer
 
     totalWidth = totalWidth + ui:getWidth()
     if i ~= 0 then
@@ -155,8 +153,8 @@ function main.showPatterns(pattern, location, renderLayer)
   end
 
   for i, ui in ipairs(listOfPatternsUI) do
-    ui.x = location.x - totalWidth/2 + (i-1)*(ui:getWidth()+gap)
-    ui.y = location.y - ui:getHeight()/2
+    ui.x = info.x - totalWidth/2 + (i-1)*(ui:getWidth()+gap)
+    ui.y = info.y - ui:getHeight()/2
   end
 
   return listOfPatternsUI
@@ -173,35 +171,41 @@ function main.getCurrentPattern()
   for i, pattern in ipairs(patterns) do
     local sequenceLength = #pattern.sequence
     local realLength = 0
-    local currentLength = #currentSequence
 
+    -- Count non-nil patterns
     for e, card in ipairs(pattern.sequence) do
       if card.pattern then
         realLength = realLength + 1
       end
     end
     
+    local currentLength = #currentSequence
+    
     -- Check if we have enough bars to match the pattern
     if currentLength >= realLength then
+
       local matches = true
+      local currentOffset = 0  -- Track position in currentSequence
       
-      -- Check the last N elements of currentSequence against the pattern
+      -- Check pattern against currentSequence
       for j = 1, sequenceLength do
-        local offset = 0
-        local currentIndex = currentLength - sequenceLength + j + offset
         local patternItem = pattern.sequence[j].pattern
+        
+        -- Skip nil pattern items
         if patternItem == nil then
-          offset = offset - 1
           goto continue
         end
-
+        
+        -- Calculate the actual index in currentSequence
+        local currentIndex = currentLength - realLength + 1 + currentOffset
+        currentOffset = currentOffset + 1
+        
         local currentItem = currentSequence[currentIndex]
+        -- print("matching " .. currentItem .. " " .. patternItem)
         
         -- Check for "any" prefix
         if patternItem:sub(1, 3) == "any" then
-          -- Extract the suffix (e.g., "negative" from "anynegative")
           local suffix = patternItem:sub(4) or ""
-          -- Check if current item ends with the suffix
           if not currentItem:match(suffix .. "$") then
             matches = false
             break
@@ -213,7 +217,7 @@ function main.getCurrentPattern()
             break
           end
         end
-
+        
         ::continue::
       end
       
@@ -299,6 +303,13 @@ main.definePatternsCard("smallernegative", {
 main.definePatternsCard("placeholder", {
   name = "Placeholder",
   image= "patternsPlaceholder",
+  defaultMultGain=0,
+  ignoreForPick = true
+})
+
+main.definePatternsCard("selectAdd", {
+  name = "Add",
+  image= "patternsSelectAdd",
   defaultMultGain=0,
   ignoreForPick = true
 })

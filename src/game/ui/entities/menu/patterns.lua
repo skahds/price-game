@@ -181,7 +181,7 @@ system.on("@update", function ()
   t.y = t.y + t.richText:getHeight()
 
   main.resultOfPattern(pattern)
-  patternsUI = main.showPatterns(pattern, {x=startX, y=360}, 300)
+  patternsUI = main.showPatterns(pattern, {x=startX, y=360, renderLayer=300})
 
 
   -- for i, card in ipairs(pattern.sequence) do

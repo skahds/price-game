@@ -110,6 +110,8 @@ system.on("@update", function ()
   main.ui.deleteQueue = {}
 end)
 
+
+
 system.on("@draw", function ()
   for _, ent in pairs(main.ui.world) do
     if ent.draw and ent.isVisible then

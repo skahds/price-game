@@ -22,7 +22,6 @@ local function format(n)
 end
 
 --[[ todo:
-- choose which patterns to edit, wether new or replace
 - don't show and delete every frame, just show once and change stuff around normally
 - fluxes and animation so it doesn't look bad
 ]]
@@ -37,6 +36,13 @@ local function setRandomPattern()
   end
 
   patternSelected = newPattern
+  table.insert(patternSelected.sequence, main.spawnPatternsCard("selectAdd", {}))
+
+  if patternsUI then
+    main.hidePatterns(patternsUI)
+  end
+
+  patternsUI = main.showPatterns(patternSelected, {x=leftStartX, y=360, renderLayer=renderLayer})
 end
 
 function main.createRewardsEditPattern()
@@ -67,6 +73,16 @@ function main.clearRewardEditPattern()
     end)
   end
 
+  for _, pattern in pairs(main.getPatternsTable()) do
+    for i=#pattern.sequence, 1, -1 do
+      local card = pattern.sequence[i]
+      if card.id == "patternsselectAdd" then
+        table.remove(pattern.sequence, i)
+        card:delete()
+      end
+    end
+  end
+
   main.wait(0.5, function ()
     patternSelected = nil
   end)
@@ -77,39 +93,55 @@ system.on("main:patterns_uiClicked", function (ent, button)
     return
   end
 
-  if ent == nil or ent.canBeSelected == false or ent.toBeChosen ~= true then
+  if ent == nil then
     return
   end
 
-  for i, card in ipairs(cardOptionsUI) do
-    card.toBeChosen = false
-  end
+  if ent.toBeChosen then
+    for i, card in ipairs(cardOptionsUI) do
+      card.toBeChosen = false
+    end
 
-  table.insert(patternSelected.sequence, ent.parent)
-  for i, card in ipairs(cardOptionsUI) do
-    if card == ent then
-      table.remove(cardOptionsUI, i)
-      break
+    local seq = patternSelected.sequence
+    -- table.insert(patternSelected.sequence, ent.parent)
+    local currentCard = seq[patternCardSelectedIndex]
+    seq[patternCardSelectedIndex] = ent.parent
+    currentCard:delete()
+
+    for i, card in ipairs(cardOptionsUI) do
+      if card == ent then
+        table.remove(cardOptionsUI, i)
+        break
+      end
+    end
+    ent:delete()
+
+    main.clearRewardEditPattern()
+  else
+    for i, card in ipairs(patternsUI) do
+      if card == ent then
+        patternCardSelectedIndex = i
+      end
     end
   end
-  ent:delete()
-
-  main.clearRewardEditPattern()
 end)
 
 system.on("@update", function ()
-  if patternsUI then
-    main.hidePatterns(patternsUI)
-  end
+  -- if patternsUI then
+  --   main.hidePatterns(patternsUI)
+  -- end
 
   if patternSelected == nil then
+    if patternsUI then
+      main.hidePatterns(patternsUI)
+    end
     return
   end
 
   local pattern = patternSelected
 
   local t = main.printRichText({
-    format = "Choose a pattern card to add!",
+    format = "Choose a pattern card to replace/add!",
     renderLayer = renderLayer+1,
     x=650,
     y=30,
@@ -134,8 +166,6 @@ system.on("@update", function ()
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y + t.richText:getHeight()
-
-  patternsUI = main.showPatterns(pattern, {x=leftStartX, y=360}, 300)
 end)
 
 system.on("@draw", function ()
@@ -145,12 +175,20 @@ system.on("@draw", function ()
 
   system.render(150, function ()
     for i, card in ipairs(patternsUI) do
+      local y1 = system.ask("ui:getUIY", combiner.ADD, card)
+      love.graphics.setColor(1, 1, 1)
+
+      if patternCardSelectedIndex == i then
+        -- to be fluxed
+        love.graphics.draw(system.getImage("patternsSelectArrow"), card.x + card:getWidth()/2, y1 + card:getHeight()+30, 0, 1.4, 1.4, 22, 12)
+      end
+
       if i == 1 then goto continue end
 
+      love.graphics.setColor(1, 1, 1)
       local previousCard = patternsUI[i-1]
       local gap = card.x - (previousCard.x + previousCard:getWidth())
-      local averageY = (system.ask("ui:getUIY", combiner.ADD, card)
-      + system.ask("ui:getUIY", combiner.ADD, previousCard))/2 + card:getHeight()/2
+      local averageY = (y1 + system.ask("ui:getUIY", combiner.ADD, previousCard))/2 + card:getHeight()/2
 
       love.graphics.draw(system.getImage("patternsDivider"), card.x - gap/2, averageY, 0, 1.4, 1.4, 2, 43)
 
