@@ -52,28 +52,31 @@ system.on("@draw", function ()
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y - t.richText:getHeight()
 
-  local t = main.printRichText({
-    format = "{multColor}" ..format(pattern.mult) .. " {multIcon}MULT",
-    renderLayer = renderLayer,
-    x=x+width/2,
-    y=y+height+5,
-    screenSpace = false,
-    font = system.getFont("defaultFont20"),
-    outline=true,
-  })
-  t.x = t.x - t.richText:getWidth()/2
-
-  local t = main.printRichText({
-    format = "{priceColor}" ..format(pattern.price) .. " {priceIcon}PRICE",
-    renderLayer = renderLayer,
-    x=x+width/2,
-    y=y+height+5,
-    screenSpace = false,
-    font = system.getFont("defaultFont20"),
-    outline=true,
-  })
-  t.x = t.x - t.richText:getWidth()/2
-  t.y = t.y + t.richText:getHeight()
+  local listOfText = {}
+  if pattern.mult then
+    table.insert(listOfText, "{multColor}" ..format(pattern.mult) .. " {multIcon}MULT")
+  end
+  if pattern.price then
+    table.insert(listOfText, "{priceColor}" ..format(pattern.price) .. " {priceIcon}PRICE")
+  end
+  if pattern.money and pattern.money ~= 0 then
+    local original = format(pattern.money)
+    local text = utils.insertString(original, 2, "$")
+    table.insert(listOfText,  "{moneyColor}" .. text .. " {/moneyColor}")
+  end
+  for i, text in ipairs(listOfText) do
+    local t = main.printRichText({
+      format = text,
+      renderLayer = renderLayer,
+      x=x+width/2,
+      y=y+height+5,
+      screenSpace = false,
+      font = system.getFont("defaultFont20"),
+      outline=true,
+    })
+    t.x = t.x - t.richText:getWidth()/2
+    t.y = t.y + t.richText:getHeight()*(i-1)
+  end
 
   system.render(renderLayer, function ()
     love.graphics.setColor(1, 1, 1, 0.75)

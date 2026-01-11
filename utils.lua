@@ -155,3 +155,7 @@ function utils.randomDirection()
   local angle = 2 * math.pi * math.random()
   return math.cos(angle), math.sin(angle)
 end
+
+function utils.insertString(originalStr, pos, insertStr)
+  return string.sub(originalStr, 1, pos-1) .. insertStr .. string.sub(originalStr, pos)
+end

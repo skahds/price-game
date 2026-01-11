@@ -67,10 +67,6 @@ end
 function main.spawnPatternsCard(id, args)
   id = id:gsub("patterns", "")
   local card = main.spawnEntity("patterns" .. id, args)
-  -- table.insert(main.card[ownerShip], card)
-  -- card.cardOrder = #main.card[ownerShip]
-  -- card.ownerShip = ownerShip
-  -- card.ui.isVisible = false
   return card
 end
 
@@ -218,22 +214,18 @@ function main.getCurrentPattern()
 
       local matches = true
       local currentOffset = 0  -- Track position in currentSequence
-      
       -- Check pattern against currentSequence
       for j = 1, sequenceLength do
         local patternItem = pattern.sequence[j].pattern
         
         -- Skip nil pattern items
         if patternItem == nil then
+          currentOffset = currentOffset + 1
           goto continue
         end
-        
         -- Calculate the actual index in currentSequence
-        local currentIndex = currentLength - realLength + 1 + currentOffset
-        currentOffset = currentOffset + 1
-        
+        local currentIndex = currentLength - realLength + j - currentOffset
         local currentItem = currentSequence[currentIndex]
-        -- print("matching " .. currentItem .. " " .. patternItem)
         
         -- Check for "any" prefix
         if patternItem:sub(1, 3) == "any" then
@@ -265,6 +257,7 @@ end
 function main.resultOfPattern(pattern)
   pattern.price = 0
   pattern.mult = 0
+  pattern.money = 0
   pattern.realPatternLength = 0
   for i, card in ipairs(pattern.sequence) do
     if card.pattern then
@@ -282,6 +275,21 @@ function main.resultOfPattern(pattern)
     end
     if card.multMultiplier then
       pattern.mult = pattern.mult * card.multMultiplier
+    end
+    if card.defaultMoneyGain then
+      pattern.money = pattern.money + card.defaultMoneyGain
+    end
+  end
+end
+
+function main.activatePattern(pattern)
+  main.resultOfPattern(pattern)
+  main.addMult(pattern.mult)
+  main.addPrice(pattern.price)
+  main.addMoney(pattern.money)
+  for i, card in ipairs(pattern.sequence) do
+    if card.onActivate then
+      card:onActivate()
     end
   end
 end
@@ -336,28 +344,6 @@ main.definePatternsCard("smallernegative", {
   pattern="smallernegative",
   multMultiplier = 1.5,
   category="default",
-})
-
-main.definePatternsCard("goldenStar", {
-  name = "Golden Star",
-  image= "goldenStar",
-  pattern="smallernegative",
-  multMultiplier = 1.5,
-  category="upgrade",
-})
-
-main.definePatternsCard("blossomMoon", {
-  name = "Blossom Moon",
-  image= "blossomMoon",
-  multMultiplier = 2,
-  category="upgrade",
-})
-
-main.definePatternsCard("cottonCandy", {
-  name = "Cotton Candy",
-  image= "cottonCandy",
-  priceMultiplier = 2,
-  category="upgrade",
 })
 
 main.definePatternsCard("placeholder", {

@@ -108,8 +108,10 @@ main.addDescriptionType(25, function (ent)
 end)
 
 main.addDescriptionType(26, function (ent)
-  if ent.defaultMoneyGain ~= 0 then
+  if ent.defaultMoneyGain ~= 0 and ent.defaultMoneyGain > 0 then
     return "Earn {moneyColor}$" .. ent.defaultMoneyGain
+  elseif ent.defaultMoneyGain ~= 0 and ent.defaultMoneyGain < 0 then
+    return "Lose {moneyColor}$" .. ent.defaultMoneyGain
   end
 end)
 
