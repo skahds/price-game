@@ -1,3 +1,4 @@
+local flux = system.getStorage("flux")
 local patterns = {
   -- {id="crows", name="Crows", sequence={"positive", "smallernegative", "smallerpositive", mult=10, price=20}}
 }
@@ -46,7 +47,9 @@ function main.getRandomPatternsCard(info)
   local listOfCards = {}
   for i, card in ipairs(main.patternsCardEntities) do
     if card.definition.ignoreForPick ~= true then
-      table.insert(listOfCards, card)
+      if info.category == nil or info.category == card.definition.category then
+        table.insert(listOfCards, card)
+      end
     end
   end
 
@@ -169,6 +172,26 @@ function main.showPatterns(pattern, info)
   return listOfPatternsUI
 end
 
+function main.movePatternsUIToPosition(patternUI, info)
+  
+
+  local totalWidth = 0
+  local gap = info.gap or 10
+  for i, ui in ipairs(patternUI) do
+    totalWidth = totalWidth + ui:getWidth()
+    if i ~= 0 then
+      totalWidth = totalWidth + gap
+    end
+  end
+
+  for i, ui in ipairs(patternUI) do
+    flux.to(ui, 0.3, {
+      x = info.x - totalWidth/2 + (i-1)*(ui:getWidth()+gap),
+      y = info.y - ui:getHeight()/2
+    })
+  end
+end
+
 function main.hidePatterns(t)
   for i=#t, 1, -1 do
     local ui = t[i]
@@ -272,6 +295,7 @@ main.definePatternsCard("anypositive", {
   image= "patternsAnyPositive",
   pattern="anypositive",
   priceMultiplier = 2,
+  category="default",
 })
 
 main.definePatternsCard("biggerpositive", {
@@ -279,6 +303,7 @@ main.definePatternsCard("biggerpositive", {
   image= "patternsBiggerPositive",
   pattern="biggerpositive",
   priceMultiplier = 2,
+  category="default",
 })
 
 main.definePatternsCard("smallerpositive", {
@@ -286,6 +311,7 @@ main.definePatternsCard("smallerpositive", {
   image= "patternsSmallerPositive",
   pattern="smallerpositive",
   multMultiplier = 1.5,
+  category="default",
 })
 
 main.definePatternsCard("anynegative", {
@@ -293,6 +319,7 @@ main.definePatternsCard("anynegative", {
   image= "patternsAnyNegative",
   pattern="anynegative",
   priceMultiplier = 2,
+  category="default",
 })
 
 main.definePatternsCard("biggernegative", {
@@ -300,6 +327,7 @@ main.definePatternsCard("biggernegative", {
   image= "patternsBiggerNegative",
   pattern="biggernegative",
   priceMultiplier = 2,
+  category="default",
 })
 
 main.definePatternsCard("smallernegative", {
@@ -307,6 +335,29 @@ main.definePatternsCard("smallernegative", {
   image= "patternsSmallerNegative",
   pattern="smallernegative",
   multMultiplier = 1.5,
+  category="default",
+})
+
+main.definePatternsCard("goldenStar", {
+  name = "Golden Star",
+  image= "goldenStar",
+  pattern="smallernegative",
+  multMultiplier = 1.5,
+  category="upgrade",
+})
+
+main.definePatternsCard("blossomMoon", {
+  name = "Blossom Moon",
+  image= "blossomMoon",
+  multMultiplier = 2,
+  category="upgrade",
+})
+
+main.definePatternsCard("cottonCandy", {
+  name = "Cotton Candy",
+  image= "cottonCandy",
+  priceMultiplier = 2,
+  category="upgrade",
 })
 
 main.definePatternsCard("placeholder", {
@@ -314,14 +365,6 @@ main.definePatternsCard("placeholder", {
   image= "patternsPlaceholder",
   defaultMultGain=0,
   ignoreForPick = true
-})
-
-main.definePatternsCard("selectAdd", {
-  name = "Add",
-  image= "patternsSelectAdd",
-  defaultMultGain=0,
-  ignoreForPick = true,
-  ignoreDefaultShown = true
 })
 
 function main.resetPatterns()

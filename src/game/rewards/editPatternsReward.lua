@@ -3,15 +3,12 @@ local pipeline = main.getPipeline("main")
 local patternsUI
 local existingUI = {}
 local leftStartX = 640-300
-local y = 640*2/5
 local patternSelected
 local cardOptionsUI = {}
-local patternCardSelectedIndex = 1
 
 local greenColor, redColor = {0.2, 0.8, 0.2}, {0.8, 0.2, 0.2}
 local renderLayer=120
--- choose a bar to add! x2 mult or smth
--- remove a bar! x0.7 mult or smth
+--choose an upgrade! kinda like balaseals, ie: +$1, x2 mult, +1 energy for rest of round?
 
 local function format(n)
   if n > 0 then
@@ -35,7 +32,6 @@ local function setRandomPattern()
   end
 
   patternSelected = newPattern
-  table.insert(patternSelected.sequence, main.spawnPatternsCard("selectAdd", {}))
 
   if patternsUI then
     main.hidePatterns(patternsUI)
@@ -45,7 +41,7 @@ local function setRandomPattern()
 end
 
 function main.createRewardsEditPattern()
-  local cards = main.getRandomPatternsCard{amount=3}
+  local cards = main.getRandomPatternsCard{amount=3, category="upgrade"}
   for i, cardT in ipairs(cards) do
     local card = main.spawnPatternsCard(cardT.id, {})
     local ui = main.createPatternsUIForCard(card)
@@ -64,22 +60,12 @@ function main.clearRewardEditPattern()
   end
 
   for i=#cardOptionsUI, 1, -1 do
-    pipeline:add(0.15, function ()
-      local card = cardOptionsUI[i].parent
-      local ui = cardOptionsUI[i]
+    local card = cardOptionsUI[i].parent
+    local ui = cardOptionsUI[i]
+    flux.to(ui, 0.3, {x=1500}):oncomplete(function ()
       ui:delete()
       card:delete()
     end)
-  end
-
-  for _, pattern in pairs(main.getPatternsTable()) do
-    for i=#pattern.sequence, 1, -1 do
-      local card = pattern.sequence[i]
-      if card.id == "patternsselectAdd" then
-        table.remove(pattern.sequence, i)
-        card:delete()
-      end
-    end
   end
 
   main.wait(0.5, function ()
@@ -102,10 +88,11 @@ system.on("main:patterns_uiClicked", function (ent, button)
     end
 
     local seq = patternSelected.sequence
-    -- table.insert(patternSelected.sequence, ent.parent)
-    local currentCard = seq[patternCardSelectedIndex]
-    seq[patternCardSelectedIndex] = ent.parent
-    currentCard:delete()
+    table.insert(seq, ent.parent)
+    table.insert(patternsUI, ent)
+    main.resultOfPattern(patternSelected)
+
+    main.movePatternsUIToPosition(patternsUI, {x=leftStartX, y=360})
 
     for i, card in ipairs(cardOptionsUI) do
       if card == ent then
@@ -113,15 +100,8 @@ system.on("main:patterns_uiClicked", function (ent, button)
         break
       end
     end
-    ent:delete()
 
     main.clearRewardEditPattern()
-  else
-    for i, card in ipairs(patternsUI) do
-      if card == ent then
-        patternCardSelectedIndex = i
-      end
-    end
   end
 end)
 
@@ -140,7 +120,7 @@ system.on("@update", function ()
   local pattern = patternSelected
 
   local t = main.printRichText({
-    format = "Choose a pattern card to replace/add!",
+    format = "Choose an upgrade to add!",
     renderLayer = renderLayer+1,
     x=650,
     y=30,
@@ -167,31 +147,31 @@ system.on("@update", function ()
   t.y = t.y + t.richText:getHeight()
 end)
 
-system.on("@draw", function ()
-  if patternSelected == nil then
-    return
-  end
+-- system.on("@draw", function ()
+--   if patternSelected == nil then
+--     return
+--   end
 
-  system.render(150, function ()
-    for i, card in ipairs(patternsUI) do
-      local y1 = system.ask("ui:getUIY", combiner.ADD, card)
-      love.graphics.setColor(1, 1, 1)
+--   system.render(150, function ()
+--     for i, card in ipairs(patternsUI) do
+--       local y1 = system.ask("ui:getUIY", combiner.ADD, card)
+--       love.graphics.setColor(1, 1, 1)
 
-      if patternCardSelectedIndex == i then
-        -- to be fluxed
-        love.graphics.draw(system.getImage("patternsSelectArrow"), card.x + card:getWidth()/2, y1 + card:getHeight()+30, 0, 1.4, 1.4, 22, 12)
-      end
+--       if patternCardSelectedIndex == i then
+--         -- to be fluxed
+--         love.graphics.draw(system.getImage("patternsSelectArrow"), card.x + card:getWidth()/2, y1 + card:getHeight()+30, 0, 1.4, 1.4, 22, 12)
+--       end
 
-      if i == 1 then goto continue end
+--       if i == 1 then goto continue end
 
-      love.graphics.setColor(1, 1, 1)
-      local previousCard = patternsUI[i-1]
-      local gap = card.x - (previousCard.x + previousCard:getWidth())
-      local averageY = (y1 + system.ask("ui:getUIY", combiner.ADD, previousCard))/2 + card:getHeight()/2
+--       love.graphics.setColor(1, 1, 1)
+--       local previousCard = patternsUI[i-1]
+--       local gap = card.x - (previousCard.x + previousCard:getWidth())
+--       local averageY = (y1 + system.ask("ui:getUIY", combiner.ADD, previousCard))/2 + card:getHeight()/2
 
-      love.graphics.draw(system.getImage("patternsDivider"), card.x - gap/2, averageY, 0, 1.4, 1.4, 2, 43)
+--       love.graphics.draw(system.getImage("patternsDivider"), card.x - gap/2, averageY, 0, 1.4, 1.4, 2, 43)
 
-      ::continue::
-    end
-  end, true)
-end)
+--       ::continue::
+--     end
+--   end, true)
+-- end)

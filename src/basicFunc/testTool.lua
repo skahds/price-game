@@ -2,14 +2,7 @@ system.on("@keyreleased", function (key)
   if key == "escape" then
     main.openUITab("settings")
   end
-
-  if key == "k" then
-    for k, v in pairs(main.card.hand) do
-      print(k, v, v.ui)
-    end
-  end
 end)
-
 
 
 -- system.on("@draw", function ()

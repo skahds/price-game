@@ -1,7 +1,5 @@
 local renderLayer = 220
 local flux = system.getStorage("flux")
-local listOfPositive = {}
-local listOfNegative = {}
 local existingItems = {}
 local close
 local cover
@@ -9,19 +7,6 @@ local topText
 local hovering = nil
 local clickSelected = nil
 local patternsUI
-
-local greenColor, redColor = {0.2, 0.8, 0.2}, {0.8, 0.2, 0.2}
-
-system.on("@load", function ()
-  local listOfItems = utils.deepCopy(main.getPatternsTable())
-  for i, item in ipairs(listOfItems) do
-    if item.defaultPrice > 0 then
-      table.insert(listOfPositive, item)
-    else
-      table.insert(listOfNegative, item)
-    end
-  end
-end)
 
 local function format(n)
   if n > 0 then
@@ -48,9 +33,21 @@ local function clearExistingItem()
   existingItems = {}
 end
 
-local stacks = {listOfPositive, listOfNegative}
 local function updateContent()
   clearExistingItem()
+
+  local listOfPositive = {}
+  local listOfNegative = {}
+
+  local listOfItems = main.getPatternsTable()
+  for i, item in ipairs(listOfItems) do
+    if item.defaultPrice > 0 then
+      table.insert(listOfPositive, item)
+    else
+      table.insert(listOfNegative, item)
+    end
+  end
+  local stacks = {listOfPositive, listOfNegative}
   
   for k, stack in ipairs(stacks) do
     for i, pattern in ipairs(stack) do
@@ -134,34 +131,6 @@ system.on("@update", function ()
     startX = 640-200
   end
 
-  -- local highY = 0
-  -- local lowY = 0
-  -- local currentY = 0
-  -- local sequence = {}
-  -- for i, card in ipairs(pattern.sequence) do
-  --   local height
-  --   if string.match(card.pattern, "any") then
-  --     height = 1
-  --   elseif string.match(card.pattern, "smaller") then
-  --     height = 0.5
-  --   else
-  --     height = 1.5
-  --   end
-  --   local direction
-  --   if string.match(card.pattern, "positive") then
-  --     direction = 1
-  --     love.graphics.setColor(greenColor)
-  --   else
-  --     direction = -1
-  --   end
-  --   local h = height*-direction*60
-  --   table.insert(sequence, h)
-  --   currentY = currentY + h
-  --   highY = math.min(highY, currentY)
-  --   lowY = math.max(lowY, currentY)
-  -- end
-  -- local totalHeight = lowY-highY
-
   local t = main.printRichText({
     format = pattern.name,
     renderLayer = renderLayer+1,
@@ -182,55 +151,6 @@ system.on("@update", function ()
 
   main.resultOfPattern(pattern)
   patternsUI = main.showPatterns(pattern, {x=startX, y=360, renderLayer=300})
-
-
-  -- for i, card in ipairs(pattern.sequence) do
-  --   local text = ""
-  --   local color
-  --   if string.match(card.pattern, "any") then
-  --     text = text .. "Any"
-  --   elseif string.match(card.pattern, "smaller") then
-  --     text = text .. "Smaller"
-  --   else
-  --     text = text .. "Bigger"
-  --   end
-  --   text = text .. " "
-  --   if string.match(card.pattern, "negative") then
-  --     text = text .. "negative"
-  --     color = redColor
-  --   else
-  --     text = text .. "positive"
-  --     color = greenColor
-  --   end
-  --   local t = main.printRichText({
-  --     format = text,
-  --     renderLayer = renderLayer+1,
-  --     color = color,
-  --     x=startX,
-  --     y=460,
-  --     outline=true,
-  --   })
-  --   t.x = t.x - t.richText:getWidth()/2
-  --   t.y = t.y + t.richText:getHeight()*(i-1)
-  -- end
-
-  -- system.render(renderLayer+1, function ()
-  --   local amountOfBar = #pattern.sequence
-    
-  --   local currentY = 0
-  --   for i, bar in ipairs(sequence) do
-  --     if bar > 0 then
-  --       love.graphics.setColor(redColor)
-  --     else
-  --       love.graphics.setColor(greenColor)
-  --     end
-
-  --     local xoffset = (-amountOfBar/2-0.5+i)*60
-  --     local yoffset = highY+totalHeight/2
-  --     love.graphics.rectangle("fill", startX-25+xoffset, 360+currentY-yoffset, 50, bar)
-  --     currentY = currentY + bar
-  --   end
-  -- end, true)
 end)
 
 main.defineUITab("patterns", function ()

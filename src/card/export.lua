@@ -408,9 +408,6 @@ function main.discardCard(card)
     ui.tween:stop()
   end
   ui.tween = flux.to(ui, 0.3, { x = targetX, y = targetY })
-  main.wait(0.3, function ()
-    ui.isVisible = false
-  end)
   main.card.updateAllCardPositionBackToOriginalPosition("hand")
 end
 
@@ -425,9 +422,6 @@ function main.addCardToDraw(card)
     ui.tween:stop()
   end
   ui.tween = flux.to(ui, 0.3, { x = targetX, y = targetY })
-  main.wait(0.3, function ()
-    ui.isVisible = false
-  end)
 end
 
 function main.shuffleDraw()
