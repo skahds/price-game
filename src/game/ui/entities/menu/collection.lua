@@ -76,6 +76,31 @@ system.on("@load", function ()
     table.insert(listOfItems, item)
   end
 
+  local listOfOriginalPattern = {}
+  local listOfUpgradePattern = {}
+  for i, card in ipairs(main.patternsCardEntities) do
+    local def = card.definition
+    if def.ignoreForPick ~= true then
+      if def.category == "default" then
+        table.insert(listOfOriginalPattern, card)
+      elseif def.category == "upgrade" then
+        table.insert(listOfUpgradePattern, card)
+      end
+    end
+  end
+  table.sort(listOfOriginalPattern, function (a, b)
+    return a.definition.name < b.definition.name
+  end)
+  table.sort(listOfUpgradePattern, function (a, b)
+    return a.definition.name < b.definition.name
+  end)
+  for i, item in ipairs(listOfOriginalPattern) do
+    table.insert(listOfItems, item)
+  end
+  for i, item in ipairs(listOfUpgradePattern) do
+    table.insert(listOfItems, item)
+  end
+
   amountOfPage = math.floor(#listOfItems/contentPerPage)+1
 end)
 
@@ -91,6 +116,9 @@ local function clearExistingItem()
     if item.isCard then
       main.deleteCard(item)
     elseif item.isNews then
+      item.ui:delete()
+      item:delete()
+    elseif item.isPatternsCard then
       item.ui:delete()
       item:delete()
     end
@@ -135,6 +163,17 @@ local function updateContent()
       n.ui.screenSpace = true
       n.screenSpace = true
       table.insert(existingItems, n)
+    elseif item.isPatternsCard then
+      local c = main.spawnPatternsCard(item.id, {})
+      local ui = main.createPatternsUIForCard(c)
+      c.ui = ui
+      ui.renderLayer = renderLayer+2
+      ui.x=middleX
+      flux.to(ui, 0.2, {x=640+(x-1.5)*800/contentHorizontal}):ease("backout")
+      ui.y=340+(y-1)*130
+      ui.ox = ui.width/2
+      ui.oy = ui.height/2
+      table.insert(existingItems, c)
     end
   end
 end
