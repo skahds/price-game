@@ -138,6 +138,7 @@ main.defineCard("grant", {
   energy = 1,
   description = "Card to the right gains {multColor}+1 MULT",
   trigger = {"DEPLOY"},
+  temporary=3,
   price = 4,
   rarity = "RARE",
 

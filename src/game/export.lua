@@ -82,6 +82,13 @@ function main.addMult(amount)
   system.call("main:multChanged", amount)
 end
 
+function main.multiplyMult(amount)
+  local mult = system.getStorage("main:mult")
+  mult = mult * amount
+  system.updateStorage("main:mult", mult)
+  system.call("main:multChanged", amount)
+end
+
 function main.addEnergy(amount)
   local energy = system.getStorage("main:energy")
   energy = energy + amount

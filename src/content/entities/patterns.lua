@@ -30,10 +30,20 @@ main.definePatternsCard("immaterialization", {
   category="upgrade",
 })
 
-main.definePatternsCard("Materialization", {
+main.definePatternsCard("materialization", {
   name = "Materialization",
   image= "materialization",
   defaultMoneyGain = -3,
   multMultiplier=3,
+  category="upgrade",
+})
+
+main.definePatternsCard("metronome", {
+  name = "Metronome",
+  image= "metronome",
+  description="Gains {multColor}X0.5 MULT",
+  onActivate = function (ent)
+    main.changeEntityComponent(ent, "multMultiplier", 0.5, combiner.ADD)
+  end,
   category="upgrade",
 })

@@ -272,3 +272,18 @@ main.defineNews("seedOfLight", {
     end
   end
 })
+
+main.defineNews("sceptre", {
+  name = "Sceptre",
+  description = "{multColor}X MULT{/multColor} by {multColor}0.5{/multColor} for each\ncards in hand",
+  image = "sceptreNews",
+  trigger = {"ROUND"},
+  isRelic = true,
+  rarity = "RARE",
+  onUpdate = function (ent)
+    ent.description = "{multColor}X MULT{/multColor} by {multColor}0.5{/multColor} for each\ncards in hand (currently {multColor}X" .. 1+math.floor(#main.card.hand/2+0.6) .."{/multColor})"
+  end,
+  onActivate = function ()
+    main.multiplyMult(1+math.floor(#main.card.hand/2+0.6))
+  end
+})
