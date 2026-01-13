@@ -8,14 +8,14 @@ main.definePatternsCard("goldenStar", {
 main.definePatternsCard("blossomMoon", {
   name = "Blossom Moon",
   image= "blossomMoon",
-  multMultiplier = 2,
+  defaultMultMultiplier = 2,
   category="upgrade",
 })
 
 main.definePatternsCard("cottonCandy", {
   name = "Cotton Candy",
   image= "cottonCandy",
-  priceMultiplier = 2,
+  defaultPriceMultiplier = 2,
   category="upgrade",
 })
 
@@ -34,7 +34,7 @@ main.definePatternsCard("materialization", {
   name = "Materialization",
   image= "materialization",
   defaultMoneyGain = -3,
-  multMultiplier=3,
+  defaultMultMultiplier=3,
   category="upgrade",
 })
 

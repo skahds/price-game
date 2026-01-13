@@ -11,8 +11,8 @@ function main.definePatternsCard(id, eType)
   eType.isPatternsCard = true
   eType.defaultMultGain = eType.defaultMultGain or 1
   eType.defaultPriceGain = eType.defaultPriceGain or 0
-  eType.priceMultiplier = eType.priceMultiplier or 1
-  eType.multMultiplier = eType.multMultiplier or 1
+  eType.defaultPriceMultiplier = eType.defaultPriceMultiplier or 1
+  eType.defaultMultMultiplier = eType.defaultMultMultiplier or 1
   main.entities[id] = class(main.entities.basicEnt)
   local card = main.entities[id]
   local basicEnt = main.entities.basicEnt
@@ -184,7 +184,7 @@ function main.movePatternsUIToPosition(patternUI, info)
     flux.to(ui, 0.3, {
       x = info.x - totalWidth/2 + (i-1)*(ui:getWidth()+gap),
       y = info.y - ui:getHeight()/2
-    })
+    }):ease(info.ease or "quadout")
   end
 end
 
@@ -270,11 +270,11 @@ function main.resultOfPattern(pattern)
     if card.defaultMultGain then
       pattern.mult = pattern.mult + card.defaultMultGain
     end
-    if card.priceMultiplier then
-      pattern.price = pattern.price * card.priceMultiplier
+    if card.defaultPriceMultiplier then
+      pattern.price = pattern.price * card.defaultPriceMultiplier
     end
-    if card.multMultiplier then
-      pattern.mult = pattern.mult * card.multMultiplier
+    if card.defaultMultMultiplier then
+      pattern.mult = pattern.mult * card.defaultMultMultiplier
     end
     if card.defaultMoneyGain then
       pattern.money = pattern.money + card.defaultMoneyGain
@@ -302,7 +302,7 @@ main.definePatternsCard("anypositive", {
   name = "Any Positive",
   image= "patternsAnyPositive",
   pattern="anypositive",
-  priceMultiplier = 2,
+  defaultPriceMultiplier = 2,
   category="default",
 })
 
@@ -310,7 +310,7 @@ main.definePatternsCard("biggerpositive", {
   name = "Bigger Positive",
   image= "patternsBiggerPositive",
   pattern="biggerpositive",
-  priceMultiplier = 2,
+  defaultPriceMultiplier = 2,
   category="default",
 })
 
@@ -318,7 +318,7 @@ main.definePatternsCard("smallerpositive", {
   name = "Smaller Positive",
   image= "patternsSmallerPositive",
   pattern="smallerpositive",
-  multMultiplier = 1.5,
+  defaultMultMultiplier = 1.5,
   category="default",
 })
 
@@ -326,7 +326,7 @@ main.definePatternsCard("anynegative", {
   name = "Any Negative",
   image= "patternsAnyNegative",
   pattern="anynegative",
-  priceMultiplier = 2,
+  defaultPriceMultiplier = 2,
   category="default",
 })
 
@@ -334,7 +334,7 @@ main.definePatternsCard("biggernegative", {
   name = "Bigger Negative",
   image= "patternsBiggerNegative",
   pattern="biggernegative",
-  priceMultiplier = 2,
+  defaultPriceMultiplier = 2,
   category="default",
 })
 
@@ -342,13 +342,13 @@ main.definePatternsCard("smallernegative", {
   name = "Smaller Negative",
   image= "patternsSmallerNegative",
   pattern="smallernegative",
-  multMultiplier = 1.5,
+  defaultMultMultiplier = 1.5,
   category="default",
 })
 
 main.definePatternsCard("placeholder", {
   name = "Placeholder",
-  image= "patternsPlaceholder",
+  image= "patternsDefault",
   defaultMultGain=0,
   ignoreForPick = true
 })

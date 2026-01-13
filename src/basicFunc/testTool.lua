@@ -4,7 +4,6 @@ system.on("@keyreleased", function (key)
   end
 end)
 
-
 -- system.on("@draw", function ()
 --   system.render(1000, function ()
 --     love.graphics.setColor(1, 1, 1)

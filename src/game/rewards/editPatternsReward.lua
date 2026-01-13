@@ -68,7 +68,7 @@ function main.clearRewardEditPattern()
     end)
   end
 
-  main.wait(0.5, function ()
+  main.wait(0.6, function ()
     patternSelected = nil
   end)
 end
@@ -93,6 +93,9 @@ system.on("main:patterns_uiClicked", function (ent, button)
     main.resultOfPattern(patternSelected)
 
     main.movePatternsUIToPosition(patternsUI, {x=leftStartX, y=360})
+    main.wait(0.3, function ()
+      main.movePatternsUIToPosition(patternsUI, {x=leftStartX, y=-100})
+    end)
 
     for i, card in ipairs(cardOptionsUI) do
       if card == ent then

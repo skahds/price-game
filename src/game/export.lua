@@ -75,6 +75,13 @@ function main.addPrice(amount)
   end
 end
 
+function main.multiplyPrice(amount)
+  local bar = system.getStorage("main:currentBar")
+  if bar then
+    bar:changePrice(main.getPrice()*amount)
+  end
+end
+
 function main.addMult(amount)
   local mult = system.getStorage("main:mult")
   mult = mult + amount

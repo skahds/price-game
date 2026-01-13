@@ -1,6 +1,7 @@
 local basicRoute = {
   {
     {id="SHOP", node=2},
+    {id="SHOP", node=2},
     {id="PLAY", node=3},
     {id="PLAY", node={2, 3}},
     {id="PLAY", node={2, 3}},

@@ -96,22 +96,20 @@ main.addDescriptionType(23, function (ent)
 end)
 
 main.addDescriptionType(24, function (ent)
-  if ent.priceMultiplier and ent.priceMultiplier ~= 1 then
-    return "{priceColor}X" .. ent.priceMultiplier .. " PRICE"
+  if ent.defaultPriceMultiplier and ent.defaultPriceMultiplier ~= 1 then
+    return "{priceColor}X" .. ent.defaultPriceMultiplier .. " PRICE"
   end
 end)
 
 main.addDescriptionType(25, function (ent)
-  if ent.multMultiplier and ent.multMultiplier ~= 1 then
-    return "{multColor}X" .. ent.multMultiplier .. " MULT"
+  if ent.defaultMultMultiplier and ent.defaultMultMultiplier ~= 1 then
+    return "{multColor}X" .. ent.defaultMultMultiplier .. " MULT"
   end
 end)
 
 main.addDescriptionType(26, function (ent)
-  if ent.defaultMoneyGain ~= 0 and ent.defaultMoneyGain > 0 then
-    return "Earn {moneyColor}$" .. ent.defaultMoneyGain
-  elseif ent.defaultMoneyGain ~= 0 and ent.defaultMoneyGain < 0 then
-    return "Lose {moneyColor}$" .. ent.defaultMoneyGain
+  if ent.defaultMoneyGain ~= 0 then
+    return "Earn {moneyColor}" .. utils.insertString(format(ent.defaultMoneyGain), 2, "$")
   end
 end)
 

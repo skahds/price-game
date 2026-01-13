@@ -289,10 +289,12 @@ end, function ()
   currentLevelHovered = nil
 
   deleteAll(existingUI)
+  existingUI = {}
   deleteAll(listOfTrackIndicator)
+  listOfTrackIndicator = {}
   deleteAll(activeRouteUI)
-
   activeRouteUI = {}
+
   levels = {}
 end)
 
@@ -399,11 +401,13 @@ system.on("@draw", function ()
     end
   end, true)
 
-  system.render(102, function ()
-    local currentNode = listOfTrackIndicator[currentRoute]
+  local currentNode = listOfTrackIndicator[currentRoute]
+  if currentNode then
     local y = system.ask("ui:getUIY", combiner.ADD, currentNode)
-    love.graphics.draw(system.getImage("currentNode"), currentNode.x, y, juiceInfo.r, 1.4, 1.4, 24, 24)
-  end, true)
+    system.render(102, function ()
+      love.graphics.draw(system.getImage("currentNode"), currentNode.x, y, juiceInfo.r, 1.4, 1.4, 24, 24)
+    end, true)
+  end
 end)
 
 main.ui.defineUI("levelSelect", {

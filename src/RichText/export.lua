@@ -36,15 +36,21 @@ local function format_number_string(n_input, original_str)
   local integer_str = tostring(math.floor(integer_part))
 
   local s_reversed = integer_str:reverse()
-  local separated_reversed = s_reversed:gsub("(%d%d%d)", "%1.")
+  local separated_reversed = s_reversed:gsub("(%d%d%d)", "%1,")
   local formatted = separated_reversed:reverse()
 
-  formatted = formatted:gsub("^%.", "")
+  formatted = formatted:gsub("^%,", "")
 
   formatted = sign .. formatted
+  
   if math.abs(fractional_part) > 0.0000001 then
-    local decimal_part = string.format("%.2f", math.abs(fractional_part)):sub(2)
-    formatted = formatted .. decimal_part
+    -- Format to reasonable precision then strip trailing zeros
+    local decimal_str = string.format("%.10f", fractional_part):sub(2)
+    -- Remove trailing zeros and decimal point if no decimals remain
+    decimal_str = decimal_str:gsub("0+$", ""):gsub("%.$", "")
+    if decimal_str ~= "" then
+      formatted = formatted .. decimal_str
+    end
   end
 
   return formatted
