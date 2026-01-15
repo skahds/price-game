@@ -101,6 +101,11 @@ local rewardList = {
   end,
   description="Upgrade a card!"},
 
+  {claim=function ()
+    main.createRewardsEditPattern()
+  end,
+  description="Upgrade a pattern!"},
+
   {money = 20},
 }
 
@@ -114,7 +119,7 @@ local function generateReward(index)
     if index == 1 then
       t = utils.deepCopy(pickRandom{rewardList[1], rewardList[2]})
     elseif index == 2 then
-      t = utils.deepCopy(pickRandom{rewardList[3], rewardList[5], rewardList[6]})
+      t = utils.deepCopy(pickRandom{rewardList[3], rewardList[5], rewardList[6], rewardList[7]})
     else
       t = t.utils.deepCopy(rewardList[1])
     end
@@ -124,7 +129,7 @@ local function generateReward(index)
     elseif index == 2 then
       t = utils.deepCopy(rewardList[2])
     elseif index == 3 then
-      t = utils.deepCopy(pickRandom{rewardList[5], rewardList[6]})
+      t = utils.deepCopy(pickRandom{rewardList[5], rewardList[6], rewardList[7]})
     else
       t = t.utils.deepCopy(rewardList[1])
     end

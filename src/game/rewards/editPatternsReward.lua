@@ -3,6 +3,10 @@ local pipeline = main.getPipeline("main")
 local patternsUI
 local existingUI = {}
 local leftStartX = 640-300
+local textPos = {
+  topText = {x=650, y=30},
+  nameText = {x=leftStartX, y=100},
+}
 local patternSelected
 local cardOptionsUI = {}
 
@@ -51,6 +55,13 @@ function main.createRewardsEditPattern()
     ui.y = 360+(i-2)*150-ui:getWidth()/2
   end
 
+  textPos = {
+    topText = {x=650, y=30-150},
+    nameText = {x=leftStartX, y=100-300},
+  }
+  flux.to(textPos.topText, 0.4, {y=30})
+  flux.to(textPos.nameText, 0.4, {y=100})
+
   setRandomPattern()
 end
 
@@ -59,16 +70,20 @@ function main.clearRewardEditPattern()
     ui:delete()
   end
 
+  flux.to(textPos.topText, 0.4, {y=30-150}):ease("backin")
+  flux.to(textPos.nameText, 0.4, {y=100-300}):ease("backin")
+
   for i=#cardOptionsUI, 1, -1 do
     local card = cardOptionsUI[i].parent
     local ui = cardOptionsUI[i]
-    flux.to(ui, 0.3, {x=1500}):oncomplete(function ()
+    ui.toBeChosen = false
+    flux.to(ui, 0.3, {x=1500}):ease("backin"):oncomplete(function ()
       ui:delete()
       card:delete()
     end)
   end
 
-  main.wait(0.6, function ()
+  main.wait(0.4, function ()
     patternSelected = nil
   end)
 end
@@ -92,9 +107,9 @@ system.on("main:patterns_uiClicked", function (ent, button)
     table.insert(patternsUI, ent)
     main.resultOfPattern(patternSelected)
 
-    main.movePatternsUIToPosition(patternsUI, {x=leftStartX, y=360})
-    main.wait(0.3, function ()
-      main.movePatternsUIToPosition(patternsUI, {x=leftStartX, y=-100})
+    main.movePatternsUIToPosition(patternsUI, {x=640, y=240, time=0.4})
+    main.wait(0.4, function ()
+      main.movePatternsUIToPosition(patternsUI, {x=640, y=-100, time=0.5, ease="backin"})
     end)
 
     for i, card in ipairs(cardOptionsUI) do
@@ -104,7 +119,9 @@ system.on("main:patterns_uiClicked", function (ent, button)
       end
     end
 
-    main.clearRewardEditPattern()
+    main.wait(0.6, function ()
+      main.clearRewardEditPattern()
+    end)
   end
 end)
 
@@ -125,8 +142,8 @@ system.on("@update", function ()
   local t = main.printRichText({
     format = "Choose an upgrade to add!",
     renderLayer = renderLayer+1,
-    x=650,
-    y=30,
+    x=textPos.topText.x,
+    y=textPos.topText.y,
     outline=true
   })
   t.x = t.x - t.richText:getWidth()/2
@@ -134,16 +151,16 @@ system.on("@update", function ()
   local t = main.printRichText({
     format = pattern.name,
     renderLayer = renderLayer+1,
-    x=leftStartX,
-    y=100,
+    x=textPos.nameText.x,
+    y=textPos.nameText.y,
     outline=true
   })
   t.x = t.x - t.richText:getWidth()/2
   local t = main.printRichText({
     format = "{priceColor}" .. format(pattern.price) .. "{priceIcon}{/priceColor} {multColor}" .. format(pattern.mult) .. "{multIcon}",
     renderLayer = renderLayer+1,
-    x=leftStartX,
-    y=100,
+    x=textPos.nameText.x,
+    y=textPos.nameText.y,
     outline=true
   })
   t.x = t.x - t.richText:getWidth()/2

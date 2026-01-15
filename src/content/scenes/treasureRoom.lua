@@ -36,7 +36,7 @@ end
 main.defineScene("treasureRoom", function ()
   local bag = system.getStorage("rarity:bag")
   local t = bag:getRandomNewsWithInfo({amount=3})
-  -- main.createRewardsOptions(t, {rewardType="news"})
+  main.createRewardsOptions(t, {rewardType="news"})
   
   main.shuffleDiscardToDraw()
   while #main.card.draw > 0 do
@@ -44,9 +44,6 @@ main.defineScene("treasureRoom", function ()
   end
 
   local pipeline = main.getPipeline("main")
-  pipeline:add(0, function()
-    main.createRewardsEditPattern()
-  end)
   main.card.updateAllCardPositionBackToOriginalPosition()
   main.showCharts()
   continue = main.ui.spawnUI("treasureRoomContinue", {x=640-150, y=430})

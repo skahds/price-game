@@ -1,4 +1,3 @@
--- todo: add multPrice
 main.defineComponent("defaultPriceGain", 0)
 main.defineComponent("defaultMultGain", 0)
 main.defineComponent("defaultPriceMultiplier", 1)

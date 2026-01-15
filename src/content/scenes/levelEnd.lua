@@ -46,6 +46,7 @@ local function continueAction()
   end
 
   main.clearRewardUpgrade()
+  main.clearRewardEditPattern()
 
   local pipeline = main.getPipeline("scene")
   if #pipeline.pipeline == 0 then

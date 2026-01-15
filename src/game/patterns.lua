@@ -181,7 +181,7 @@ function main.movePatternsUIToPosition(patternUI, info)
   end
 
   for i, ui in ipairs(patternUI) do
-    flux.to(ui, 0.3, {
+    flux.to(ui, info.time or 0.3, {
       x = info.x - totalWidth/2 + (i-1)*(ui:getWidth()+gap),
       y = info.y - ui:getHeight()/2
     }):ease(info.ease or "quadout")

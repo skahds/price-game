@@ -176,8 +176,8 @@ main.defineCard("reap", {
 main.defineCard("doubleDown", {
   name = "Double down",
   image = "doubleDown",
-  description = "Multiplies current {priceColor}PRICE{/priceColor} by 2",
   trigger = {"DEPLOY"},
+  defaultPriceMultiplier = 2,
   price = 3,
   rarity  = "RARE",
   onActivate = function (ent)
@@ -189,8 +189,8 @@ main.defineCard("doubleDown", {
 main.defineCard("rift", {
   name = "Rift",
   image = "rift",
-  description = "Multiplies current {multColor}MULT{/multColor} by 2",
   trigger = {"DEPLOY"},
+  defaultMultMultiplier = 2,
   price = 3,
   rarity  = "RARE",
   onActivate = function (ent)
@@ -202,8 +202,8 @@ main.defineCard("rift", {
 main.defineCard("parachute", {
   name = "Parachute",
   image = "parachute",
-  description = "Multiplies current {multColor}MULT{/multColor} by 1,5",
   trigger = {"DEPLOY"},
+  defaultMultMultiplier = 1.5,
   energy=0,
   price = 3,
   rarity  = "RARE",
