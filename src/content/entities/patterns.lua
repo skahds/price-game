@@ -1,7 +1,7 @@
 main.definePatternsCard("goldenStar", {
   name = "Golden Star",
   image= "goldenStar",
-  defaultMoneyGain=1,
+  defaultMoneyGain= 2,
   category="upgrade",
 })
 

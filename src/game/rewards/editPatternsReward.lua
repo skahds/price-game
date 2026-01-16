@@ -22,10 +22,6 @@ local function format(n)
   end
 end
 
---[[ todo:
-- fluxes and animation so it doesn't look bad
-]]
-
 local function setRandomPattern()
   local listOfPattern = main.getPatternsTable()
   local newPattern = listOfPattern[love.math.random(1, #listOfPattern)]

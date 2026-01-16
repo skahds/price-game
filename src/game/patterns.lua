@@ -72,6 +72,10 @@ end
 
 local currentSequence = {}
 system.on("@update", function ()
+  for i, pattern in ipairs(patterns) do
+    main.resultOfPattern(pattern)
+  end
+
   local chart = system.getStorage("main:chart")
   if chart == nil then
     return
