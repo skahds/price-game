@@ -97,6 +97,7 @@ main.defineRunStarter({
   name = "Firm",
   image="vision",
   description="NOT IMPLEMENTED",
+  isNotImplemented = true,
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -113,6 +114,7 @@ main.defineRunStarter({
   name = "Enterprise",
   image="sigil",
   description="NOT IMPLEMENTED",
+  isNotImplemented = true,
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -129,6 +131,7 @@ main.defineRunStarter({
   name = "Association",
   image="radar",
   description="NOT IMPLEMENTED",
+  isNotImplemented = true,
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()

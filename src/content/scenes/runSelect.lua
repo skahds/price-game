@@ -255,6 +255,10 @@ main.ui.defineButton("toPlay", {
     if #main.getPipeline("scene").pipeline > 0 then return end
 
     local selection = starters[starterHovering]
+    if selection.isNotImplemented == true then
+      return
+    end
+
     starterChosen = starterHovering
     selection.onActivate()
 

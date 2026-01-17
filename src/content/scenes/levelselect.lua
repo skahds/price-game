@@ -180,11 +180,11 @@ main.defineScene("levelSelect", function ()
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
-  table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
-    rx=20, ry=20,
-    renderLayer=93,
-    color = {0.6, 0.6, 0.6},
-    outlineColor = {0.4, 0.4, 0.4}, outline=10}))
+  -- table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
+  --   rx=20, ry=20,
+  --   renderLayer=93,
+  --   color = {0.6, 0.6, 0.6},
+  --   outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
   currentNodeHovered = currentTrack.id
   local gap = 32
@@ -192,13 +192,24 @@ main.defineScene("levelSelect", function ()
   for i, track in ipairs(route[currentCycle]) do
     local x = leftCoverX+coverWidth/2-totalWidth/2+(gap+32)*(i-0.5)+16
     if track.id == "PLAY" then
-      local ui = main.ui.spawnUI("levelTrackIndicator", {
-        x=x,
-        y=250,
-        image = "fightNode",
-        node = "PLAY"
-      })
-      table.insert(listOfTrackIndicator, ui)
+      if i ~= #route[currentCycle] then
+        local ui = main.ui.spawnUI("levelTrackIndicator", {
+          x=x,
+          y=250,
+          image = "fightNode",
+          node = "PLAY"
+        })
+        table.insert(listOfTrackIndicator, ui)
+      else
+        local ui = main.ui.spawnUI("levelTrackIndicator", {
+          x=x,
+          y=250,
+          image = "bossNode",
+          node = "PLAY"
+        })
+        table.insert(listOfTrackIndicator, ui)
+      end
+
     elseif track.id == "SHOP" then
       local ui = main.ui.spawnUI("levelTrackIndicator", {
         x=x,
