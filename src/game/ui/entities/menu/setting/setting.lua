@@ -194,11 +194,61 @@ main.defineUITab("settings", function ()
 
   tabs[selectedTab]()
 end, function ()
-  deleteAll({cover, exit, back, restart, collection})
+  deleteAll({cover, exit, back, restart})
   deleteAll(uiInTab)
   deleteAll(activeTabs)
   isSettingShown = false
   saveSettings()
+end)
+
+
+-- exit confirmation
+main.defineUITab("exitConfimation", function ()
+  isSettingShown = true
+  local width = 700
+  local height = 400
+  local dimension = system.getStorage("screenDimension")
+  cover = main.ui.spawnUI("cover", {
+    x=dimension.w/2-width/2,
+    y=dimension.h/2-height/2,
+    width = width,
+    height = height,
+    color = {0.6, 0.6, 0.6},
+    outline = 10,
+    rx=20,
+    ry=20,
+    outlineColor = {0.4, 0.4, 0.4},
+    ignoreUIChecks = false,
+    renderLayer = 400})
+
+  local text = {"Are you sure", "you want to exit?"}
+  for i=1, 2 do
+    local t = main.newRichText({
+      format = text[i],
+      x=dimension.w/2,
+      y=dimension.h/2-150,
+      renderLayer = 412,
+    })
+    t.x = t.x - t.richText:getWidth()/2
+    t.y = t.y + t.richText:getHeight()*(i-1)
+    table.insert(uiInTab, t)
+  end
+
+  table.insert(uiInTab, main.ui.spawnUI("confirmExitYes", {
+    x=dimension.w/2-width/4-75,
+    y=dimension.h/2+60,
+    renderLayer = 412,
+  }))
+
+  table.insert(uiInTab, main.ui.spawnUI("confirmExitNo", {
+    x=dimension.w/2+width/4-75,
+    y=dimension.h/2+60,
+    renderLayer = 412,
+  }))
+end, function ()
+  isSettingShown = false
+  deleteAll({cover})
+  deleteAll(uiInTab)
 end)
 
 main.ui.defineButton("settingBack", {
@@ -223,7 +273,33 @@ main.ui.defineButton("settingExit", {
   text = "EXIT",
   audio = "breaker",
   onButtonClicked = function (ent)
+    main.openUITab("exitConfimation", true)
+  end
+})
+
+main.ui.defineButton("confirmExitYes", {
+  width = 150,
+  height = 80,
+  color = {0.4, 0.7, 0.4},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "YES",
+  audio = "breaker",
+  onButtonClicked = function (ent)
     love.event.quit()
+  end
+})
+
+main.ui.defineButton("confirmExitNo", {
+  width = 150,
+  height = 80,
+  color = {0.7, 0.4, 0.4},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "NO",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    main.openUITab("settings", true)
   end
 })
 
