@@ -37,6 +37,8 @@ system.on("main:sceneChanged", function ()
     flux.to(main.background.originalMult, time, {1.4, 1.6, 2.2})
   elseif scene == "shop" then
     flux.to(main.background.originalMult, time, {2.5, 2.1, 1.4})
+  elseif scene == "metashop" then
+    flux.to(main.background.originalMult, time, {1.3, 0.7, 0.7})
   else
     flux.to(main.background.originalMult, time, {1, 1, 1})
   end

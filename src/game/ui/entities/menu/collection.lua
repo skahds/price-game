@@ -159,7 +159,6 @@ local function updateContent()
       n.ui.sy = 2
       n.ui.ox = n.ui.width/2
       n.ui.oy = n.ui.height/2
-      n.rewardIndex = i
       n.ui.screenSpace = true
       n.screenSpace = true
       table.insert(existingItems, n)
