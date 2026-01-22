@@ -124,4 +124,15 @@ system.on("@draw", function ()
 
     -- love.graphics.draw(system.getImage("metashopBox"), spawnX-100, 200, 0, 1.4, 1.4)
   end, true)
+
+  local credits = main.meta.getTable().credits
+  if credits then
+    local t = main.printRichText({
+      format = credits .. " {creditIcon}",
+      x = 640,
+      y= 30,
+      renderLayer = renderLayer,
+    })
+    t.x = t.x - t.richText:getWidth()/2
+  end
 end)

@@ -25,4 +25,6 @@ main.defineRichTextImage("MULT", "multIcon", "multIcon")
 main.defineRichTextImage("ENERGY", "energy", "energyIcon")
 main.defineRichTextImage("CARD", "cardIcon", "cardIcon")
 main.defineRichTextImage("REPEAT", "repeatIcon", "repeatIcon")
+
+main.defineRichTextImage("CREDIT", "credits", "creditIcon")
 -- RichText.defineImage("energyIcon", "energy")
