@@ -15,7 +15,7 @@ local function deleteAll(args)
 end
 
 local flux = system.getStorage("flux")
-main.defineScene("menu", function ()
+main.defineScene("startScreen", function ()
   logo = main.ui.spawnUI("logo", {x=640-220, y=-300})
   flux.to(logo, 2, {y=100})
   if love.filesystem.getInfo("save.sav") then

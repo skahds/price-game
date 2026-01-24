@@ -1,5 +1,5 @@
 system.on("@load", function ()
-  main.playScene("menu")
+  main.playScene("startScreen")
 
   -- local bag = system.getStorage("rarity:bag")
   -- print(bag:getRandomNewsWithRarity("RARE"))

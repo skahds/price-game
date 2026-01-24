@@ -363,7 +363,7 @@ local function restartGame()
     system.updateStorage("main:currentDay", 0)
   end
 
-  main.playScene("menu")
+  main.playScene("mainMenu")
 end
 
 main.ui.defineButton("settingRestart", {

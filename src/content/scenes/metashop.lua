@@ -1,10 +1,10 @@
 local flux = system.getStorage("flux")
 local renderLayer =  100
-local spawnX = 500
+local spawnX, spawnY, targetGap = 1280/3, 360, 180
 local uis = {}
 local existingItems = {}
 -- 4 space for card, 2 space for relics?
-local items = {card={}, relic={}}
+local items = {}
 local info = {shelfLine = 0} -- for the uis here
 
 local function deleteAll(args)
@@ -43,11 +43,7 @@ system.on("@load", function ()
   for i=1, 4 do
     local rand = love.math.random(1, #bag)
     local t = bag[rand]
-    if t.isCard then
-      table.insert(items.card, t)
-    elseif t.isNews then
-      table.insert(items.relic, t)
-    end
+    table.insert(items, t)
     table.remove(bag[rand])
   end
 end)
@@ -56,16 +52,16 @@ local function createItem(item, info)
   if item.isCard then
     local c = main.createCard(item.id, {ignoreCardSelect=true}, "misc")
     c.ui.renderLayer = renderLayer+2
-    c.ui.x=spawnX
-    flux.to(c.ui, 0.2, {x=info.x}):ease("backout")
-    c.ui.y=340+(info.y-1)*130
+    c.ui.x = spawnX
+    c.ui.y = spawnY
+    flux.to(c.ui, 0.2, {x=info.x, y=info.y}):ease("backout")
     c.ui.ox = c.ui.width/2
     c.ui.oy = c.ui.height/2
     print("created ", c.ui.x, c.ui.y)
     table.insert(existingItems, c)
   elseif item.isNews then
-    local n = main.spawnEntity(item.id, {x=spawnX, y=340+(info.y-1)*130})
-    flux.to(n.ui, 0.2, {x=info.x}):ease("backout")
+    local n = main.spawnEntity(item.id, {x=spawnX, y=spawnY})
+    flux.to(n.ui, 0.2, {x=info.x, y=info.y}):ease("backout")
     n.ui.renderLayer = renderLayer+2
     n.ui.sx = 2
     n.ui.sy = 2
@@ -78,20 +74,23 @@ local function createItem(item, info)
 end
 
 main.defineScene("metashop", function ()
-  local i = 0
-  local horizontalAmount = 2
-  -- todo: change the x.. probably make a table "slots"? or just handle them nicely whatever
-  for e, item in ipairs(items.card) do
-    i=i+1
-    local x = (i-1)%horizontalAmount
-    local y = math.floor((i-1)/horizontalAmount)
-    createItem(item, {x=spawnX+(x-1.5)*800/horizontalAmount, y=y})
+  for i, item in ipairs(items) do
+    print(item.name)
   end
-  for e, item in ipairs(items.relic) do
-    i=i+1
-    local x = (i-1)%horizontalAmount
-    local y = math.floor((i-1)/horizontalAmount)
-    createItem(item, {x=spawnX+(x-1.5)*800/horizontalAmount, y=y})
+  
+  local xIndex = 1
+  local yIndex = 1
+  for e, item in ipairs(items) do
+    local x = spawnX + (xIndex-1.5)*targetGap
+    local y = spawnY + (yIndex-1.5)*targetGap
+    print(e, x, y)
+    createItem(item, {x=x, y=y})
+
+    xIndex = xIndex + 1
+    if xIndex > 2 then
+      xIndex = 1
+      yIndex = yIndex + 1
+    end
   end
 
   main.hideCharts()
