@@ -1,7 +1,8 @@
 local uis = {}
+local tabBarUI = {}
 local tabs = {}
 local tabUI = {}
-local infos = {selectY = 360, iconGap=100} -- for fluxes/general magic number
+local infos = {selectY = 360, iconGap=100, barGap=250} -- for fluxes/general magic number
 local currentTab
 local rightX = 1280*2/3
 local middleY = 360
@@ -32,10 +33,14 @@ main.defineScene("mainMenu", function ()
   openTab(1)
   for i, tab in ipairs(tabs) do
     local yIndex = i-(#tabs/2+0.5)
-    local y = middleY+yIndex*infos.iconGap
+    local y1 = middleY+yIndex*infos.iconGap
+    local y2 = middleY+yIndex*infos.barGap
 
-    local ui = main.ui.spawnUI("menuTabIndicator", {x=100, y=y, image=tab.image, designatedTab=i})
+    local ui = main.ui.spawnUI("menuTabIndicator", {x=70, y=y1, image=tab.image, designatedTab=i})
     table.insert(uis, ui)
+
+    local ui = main.ui.spawnUI("menuTabBox", {x=300, y=y2, text=tab.name, designatedTab=i})
+    table.insert(tabBarUI, ui)
   end
 
   main.hideCharts()
@@ -46,9 +51,10 @@ end, function ()
   currentTab = nil
 
   deleteAll(uis)
+  deleteAll(tabBarUI)
 end)
 
-system.on("@draw", function ()
+system.on("@update", function ()
   if system.getStorage("main:currentScene") ~= "mainMenu" then
     return
   end
@@ -62,19 +68,39 @@ system.on("@draw", function ()
 
   flux.to(infos, 0.3, infosToBeFluxed)
 
+  for i, ui in ipairs(tabBarUI) do
+    local yDiff = (i-currentTab)*infos.barGap
+    flux.to(ui, 0.3, {y=360+yDiff})
+  end
+end)
+
+system.on("@draw", function ()
+  if system.getStorage("main:currentScene") ~= "mainMenu" then
+    return
+  end
+
 
   system.render(100, function ()
-    love.graphics.draw(system.getImage("selectTabIcon"), 170, infos.selectY, 0, 1.4, 1.4, 16, 16)
+    love.graphics.draw(system.getImage("selectTabIcon"), 140, infos.selectY, 0, 1.4, 1.4, 16, 16)
   end, true)
+end)
+
+system.on("@mouse:wheelmoved", function (t)
+  local y=t.y
+  if y < 0 and currentTab < #tabs then
+    openTab(currentTab + 1)
+  elseif y > 0 and currentTab > 1 then
+    openTab(currentTab - 1)
+  end
 end)
 
 main.ui.defineUI("menuTabBox", {
   image = "mainMenuTab",
   renderLayer = 100,
-  width = 96,
-  height= 48,
-  ox=48,
-  oy=24,
+  width = 144,
+  height= 72,
+  ox=72,
+  oy=36,
   sx=1.4,
   sy=1.4,
   screenSpace = true,
