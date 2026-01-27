@@ -82,6 +82,20 @@ system.on("@draw", function ()
 
   system.render(100, function ()
     love.graphics.draw(system.getImage("selectTabIcon"), 140, infos.selectY, 0, 1.4, 1.4, 16, 16)
+
+    love.graphics.setLineWidth(5)
+    love.graphics.setColor(1, 1, 1, 0.4)
+    for i, ui in ipairs(tabBarUI) do
+      if i == 1 then
+        goto continue
+      end
+      local x = ui:getX()+ui:getWidth()/2
+      local y1 = tabBarUI[i-1]:getY() + ui:getHeight() + 15
+      local y2 = ui:getY() - 15
+      love.graphics.line(x, y1, x, y2)
+      
+      ::continue::
+    end
   end, true)
 end)
 
