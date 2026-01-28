@@ -14,10 +14,10 @@ end
 
 local function openTab(tab)
   if currentTab then
-    tabs[currentTab].unload(currentTab)
+    tabs[currentTab].close(currentTab)
   end
   currentTab = tab
-  tabs[tab].load(tab)
+  tabs[tab].open(tab)
 end
 
 local function deleteAll(args)
@@ -30,8 +30,11 @@ end
 
 local flux = system.getStorage("flux")
 main.defineScene("mainMenu", function ()
-  openTab(1)
   for i, tab in ipairs(tabs) do
+    if tab.load then
+      tab.load(i)
+    end
+
     local yIndex = i-(#tabs/2+0.5)
     local y1 = middleY+yIndex*infos.iconGap
     local y2 = middleY+yIndex*infos.barGap
@@ -43,11 +46,16 @@ main.defineScene("mainMenu", function ()
     table.insert(tabBarUI, ui)
   end
 
+  openTab(1)
+
   main.hideCharts()
 end, function ()
-  if currentTab then
-    tabs[currentTab].unload(currentTab)
+  for i, tab in ipairs(tabs) do
+    if tab.unload then
+      tab.unload(i)
+    end
   end
+
   currentTab = nil
 
   deleteAll(uis)
@@ -69,7 +77,7 @@ system.on("@update", function ()
   flux.to(infos, 0.3, infosToBeFluxed)
 
   for i, ui in ipairs(tabBarUI) do
-    local yDiff = (i-currentTab)*infos.barGap
+    local yDiff = (i-(currentTab or 1))*infos.barGap
     flux.to(ui, 0.3, {y=360+yDiff})
   end
 end)
@@ -186,15 +194,27 @@ defineTab({
   name = "Play",
   image = "playTabIcon",
   load = function (tab)
-    local t = main.ui.spawnUI("tabPlay:toRunSelect", {x=rightX, y=middleY+200})
-    t.x = t.x - t:getWidth()/2
-    table.insert(tabUI[tab], t)
+    local t = main.ui.spawnUI("tabPlay:toRunSelect", {x=1290, y=middleY+200})
+    tabUI[tab].play = t
   end,
   unload = function (tab)
-    for k, v in pairs(tabUI[tab]) do
-      v:delete()
+    for k, t in pairs(tabUI[tab]) do
+      t:delete()
     end
-  end
+    tabUI[tab] = nil
+  end,
+  open = function (tab)
+    local t = tabUI[tab].play
+    if t then
+      flux.to(t, 0.5, {x = rightX - t:getWidth()/2}):ease("backout")
+    end
+  end,
+  close = function (tab)
+    local t = tabUI[tab].play
+    if t then
+      flux.to(t, 0.5, {x = 1290}):ease("backin")
+    end
+  end,
 })
 
 -- metashop
@@ -205,6 +225,12 @@ defineTab({
     
   end,
   unload = function (tab)
+    
+  end,
+  open = function (tab)
+    
+  end,
+  close = function (tab)
     
   end
 })
@@ -218,6 +244,12 @@ defineTab({
   end,
   unload = function (tab)
     
+  end,
+  open = function (tab)
+    
+  end,
+  close = function (tab)
+    
   end
 })
 
@@ -229,6 +261,12 @@ defineTab({
     
   end,
   unload = function (tab)
+    
+  end,
+  open = function (tab)
+    
+  end,
+  close = function (tab)
     
   end
 })
