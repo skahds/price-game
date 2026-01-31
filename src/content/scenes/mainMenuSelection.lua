@@ -188,7 +188,11 @@ main.ui.defineButton("tabPlay:toRunSelect", {
   end
 })
 
+
+
+
 -- tabs
+
 -- play
 defineTab({
   name = "Play",
@@ -217,23 +221,110 @@ defineTab({
   end,
 })
 
+
+
 -- metashop
+local metashopY = 440
+local items = {}
+system.on("@load", function ()
+  local bag = {}
+  for k, ent in pairs(main.entities) do
+    if ent.definition and (ent.definition.isCard or ent.definition.isNews) then
+      table.insert(bag, ent.definition)
+    end
+  end
+
+  for i=1, 4 do
+    local rand = love.math.random(1, #bag)
+    local t = bag[rand]
+    table.insert(items, t)
+    table.remove(bag[rand])
+  end
+end)
+
+local function createItem(item, info)
+  if tabUI[info.tab].items == nil then
+    tabUI[info.tab] = {}
+  end
+
+  if item.isCard then
+    local c = main.createCard(item.id, {ignoreCardSelect=true}, "misc")
+    c.ui.renderLayer = 102
+    c.ui.x = 1350
+    c.ui.y = info.y
+    c.ui.ox = c.ui.width/2
+    c.ui.oy = c.ui.height/2
+    table.insert(tabUI[info.tab].items, c)
+  elseif item.isNews then
+    local n = main.spawnEntity(item.id, {x=1350, y=info.y})
+    n.ui.renderLayer = 102
+    n.ui.sx = 2
+    n.ui.sy = 2
+    n.ui.ox = n.ui.width/2
+    n.ui.oy = n.ui.height/2
+    n.ui.screenSpace = true
+    n.screenSpace = true
+    table.insert(tabUI[info.tab].items, n)
+  end
+end
+
 defineTab({
   name = "Shop",
   image = "shopTabIcon",
   load = function (tab)
-    
+    tabUI[tab].items = {}
+
+    local xIndex = 1
+    local yIndex = 1
+    local targetGap = 220
+    for e, item in ipairs(items) do
+      local y = metashopY + (yIndex-1.5)*targetGap
+      
+      xIndex = xIndex + 1
+      if xIndex > 2 then
+        xIndex = 1
+        yIndex = yIndex + 1
+      end
+
+      createItem(item, {tab=tab, y=y})
+    end
   end,
   unload = function (tab)
-    
+    for k, t in pairs(tabUI[items]) do
+      t:delete()
+    end
+    for k, t in pairs(tabUI[tab]) do
+      t:delete()
+    end
+
+    tabUI[tab] = nil
   end,
   open = function (tab)
-    
+    local xIndex = 1
+    local yIndex = 1
+    local spawnX = 1280-400
+    local targetGap = 220
+    for e, item in ipairs(tabUI[tab].items) do
+      local x = spawnX + (xIndex-1.5)*targetGap
+      local y = metashopY + (yIndex-1.5)*targetGap
+      
+
+      xIndex = xIndex + 1
+      if xIndex > 2 then
+        xIndex = 1
+        yIndex = yIndex + 1
+      end
+      flux.to(item.ui, 0.6, {x=x, y=y}):ease("backout")
+    end
   end,
   close = function (tab)
-    
+    for i, item in ipairs(tabUI[tab].items) do
+      flux.to(item.ui, 0.6, {x=1350, y=item.ui.y}):ease("backout")
+    end
   end
 })
+
+
 
 -- metastats?
 defineTab({
@@ -252,6 +343,8 @@ defineTab({
     
   end
 })
+
+
 
 -- exit?
 defineTab({
