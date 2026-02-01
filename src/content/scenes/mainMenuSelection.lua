@@ -72,6 +72,10 @@ system.on("@update", function ()
     local yIndex = currentTab-(#tabs/2+0.5)
     local y = middleY+yIndex*infos.iconGap
     infosToBeFluxed.selectY = y
+    
+    if tabs[currentTab].update then
+      tabs[currentTab].update(currentTab)
+    end
   end
 
   flux.to(infos, 0.3, infosToBeFluxed)
@@ -190,8 +194,10 @@ main.ui.defineButton("tabPlay:toRunSelect", {
 
 
 
-
+--
 -- tabs
+--
+
 
 -- play
 defineTab({
@@ -242,6 +248,23 @@ system.on("@load", function ()
   end
 end)
 
+local function clearExistingItem(t)
+  for i=#t, 1, -1 do
+    local item = t[i]
+    if item.isCard then
+      main.deleteCard(item)
+    elseif item.isNews then
+      item.ui:delete()
+      item:delete()
+    elseif item.isPatternsCard then
+      item.ui:delete()
+      item:delete()
+    end
+  end
+  
+  t = {}
+end
+
 local function createItem(item, info)
   if tabUI[info.tab].items == nil then
     tabUI[info.tab] = {}
@@ -288,13 +311,23 @@ defineTab({
 
       createItem(item, {tab=tab, y=y})
     end
+
+    local t = main.newRichText({
+      format = 0 .. " {creditIcon}",
+      x = 1500,
+      y= 100,
+      renderLayer = 100,
+    })
+    t.y = t.y - t.richText:getHeight()/2
+    tabUI[tab].credits = t
   end,
   unload = function (tab)
-    for k, t in pairs(tabUI[items]) do
-      t:delete()
-    end
+    clearExistingItem(tabUI[tab].items)
+
     for k, t in pairs(tabUI[tab]) do
-      t:delete()
+      if t.delete then
+        t:delete()
+      end
     end
 
     tabUI[tab] = nil
@@ -314,12 +347,21 @@ defineTab({
         xIndex = 1
         yIndex = yIndex + 1
       end
-      flux.to(item.ui, 0.6, {x=x, y=y}):ease("backout")
+      flux.to(item.ui, 0.5, {x=x, y=y}):ease("backout")
     end
+    local text = tabUI[tab].credits
+    flux.to(text, 0.5, {x=spawnX-text.richText:getWidth()/2}):ease("backout")
   end,
   close = function (tab)
     for i, item in ipairs(tabUI[tab].items) do
-      flux.to(item.ui, 0.6, {x=1350, y=item.ui.y}):ease("backout")
+      flux.to(item.ui, 0.5, {x=1350, y=item.ui.y}):ease("backin")
+    end
+    flux.to(tabUI[tab].credits, 0.5, {x=1500}):ease("backin")
+  end,
+  update = function (tab)
+    local credits = main.meta.getTable().credits
+    if credits and tabUI[tab].credits then
+      main.updateRichTextText(tabUI[tab].credits, credits .. " {creditIcon}")
     end
   end
 })
