@@ -1,7 +1,9 @@
+local flux = system.getStorage("flux")
 local uis = {}
 local tabBarUI = {}
 local tabs = {}
 local tabUI = {}
+local textGroup = {}
 local infos = {selectY = 360, iconGap=100, barGap=250} -- for fluxes/general magic number
 local currentTab
 local rightX = 1280*2/3
@@ -14,10 +16,45 @@ end
 
 local function openTab(tab)
   if currentTab then
+    if textGroup[currentTab] then
+      for i, text in ipairs(textGroup[currentTab].texts) do
+        flux.to(text, 0.5, {x=1500}):ease("backin")
+      end
+    end
     tabs[currentTab].close(currentTab)
   end
   currentTab = tab
   tabs[tab].open(tab)
+
+  if textGroup[tab] then
+    for i, text in ipairs(textGroup[tab].texts) do
+      flux.to(text, 0.5, {x=(textGroup[tab].x or (rightX))}):ease("backout")
+    end
+  end
+end
+
+-- just call on load, all other gets executed automatically
+local function createTextGroup(tab, info, t)
+  textGroup[tab] = {info=utils.deepCopy(info), texts={}}
+  local tbl = textGroup[tab]
+  local totalHeight = 0
+  for i, str in ipairs(t) do
+    local text = main.newRichText({
+      format = str,
+      x = 1500,
+      y = info.y or 360,
+      renderLayer = 100,
+    })
+    text.ox = text.richText:getWidth()/2
+    text.y = text.y + totalHeight
+    totalHeight = totalHeight + text.richText:getHeight()
+
+    table.insert(tbl.texts, text)
+  end
+
+  for i, text in ipairs(tbl.texts) do
+    text.y = text.y - totalHeight/2
+  end
 end
 
 local function deleteAll(args)
@@ -28,7 +65,6 @@ local function deleteAll(args)
   end
 end
 
-local flux = system.getStorage("flux")
 main.defineScene("mainMenu", function ()
   for i, tab in ipairs(tabs) do
     if tab.load then
@@ -42,7 +78,7 @@ main.defineScene("mainMenu", function ()
     local ui = main.ui.spawnUI("menuTabIndicator", {x=70, y=y1, image=tab.image, designatedTab=i})
     table.insert(uis, ui)
 
-    local ui = main.ui.spawnUI("menuTabBox", {x=300, y=y2, text=tab.name, designatedTab=i})
+    local ui = main.ui.spawnUI("menuTabBox", {x=360, y=y2, text=tab.name, designatedTab=i})
     table.insert(tabBarUI, ui)
   end
 
@@ -57,6 +93,13 @@ end, function ()
   end
 
   currentTab = nil
+
+  for k, v in pairs(textGroup) do
+    for i, text in ipairs(v.texts) do
+      text:delete()
+    end
+  end
+  textGroup = {}
 
   deleteAll(uis)
   deleteAll(tabBarUI)
@@ -174,6 +217,13 @@ main.ui.defineUI("menuTabIndicator", {
   end,
 })
 
+
+
+--
+-- tabs
+--
+
+
 -- play
 main.ui.defineButton("tabPlay:toRunSelect", {
   name = "Play",
@@ -192,20 +242,14 @@ main.ui.defineButton("tabPlay:toRunSelect", {
   end
 })
 
-
-
---
--- tabs
---
-
-
--- play
 defineTab({
   name = "Play",
   image = "playTabIcon",
   load = function (tab)
     local t = main.ui.spawnUI("tabPlay:toRunSelect", {x=1290, y=middleY+200})
     tabUI[tab].play = t
+
+    createTextGroup(tab, {}, {"oo here's some text", "and another {greenColor}ay{/greenColor}", "boo", "balbalb"})
   end,
   unload = function (tab)
     for k, t in pairs(tabUI[tab]) do
@@ -335,7 +379,7 @@ defineTab({
   open = function (tab)
     local xIndex = 1
     local yIndex = 1
-    local spawnX = 1280-400
+    local spawnX = rightX
     local targetGap = 220
     for e, item in ipairs(tabUI[tab].items) do
       local x = spawnX + (xIndex-1.5)*targetGap
