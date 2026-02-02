@@ -249,7 +249,7 @@ defineTab({
     local t = main.ui.spawnUI("tabPlay:toRunSelect", {x=1290, y=middleY+200})
     tabUI[tab].play = t
 
-    createTextGroup(tab, {}, {"oo here's some text", "and another {greenColor}ay{/greenColor}", "boo", "balbalb"})
+    createTextGroup(tab, {}, {"PLAY", "Start a", "new run!"})
   end,
   unload = function (tab)
     for k, t in pairs(tabUI[tab]) do
@@ -415,7 +415,7 @@ defineTab({
 -- metastats?
 defineTab({
   name = "Stats",
-  image = "shopTabIcon",
+  image = "statsTabIcon",
   load = function (tab)
     
   end,
@@ -435,7 +435,7 @@ defineTab({
 -- exit?
 defineTab({
   name = "Exit",
-  image = "shopTabIcon",
+  image = "exitTabIcon",
   load = function (tab)
     
   end,
