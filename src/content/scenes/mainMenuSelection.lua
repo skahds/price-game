@@ -138,6 +138,8 @@ end, function ()
 
   deleteAll(uis)
   deleteAll(tabBarUI)
+  uis = {}
+  tabBarUI = {}
 end)
 
 system.on("@update", function ()
@@ -293,7 +295,7 @@ defineTab({
     for k, t in pairs(tabUI[tab]) do
       t:delete()
     end
-    tabUI[tab] = nil
+    tabUI[tab] = {}
   end,
   open = function (tab)
     local t = tabUI[tab].play
@@ -412,7 +414,7 @@ defineTab({
       end
     end
 
-    tabUI[tab] = nil
+    tabUI[tab] = {}
   end,
   open = function (tab)
     local xIndex = 1
@@ -455,7 +457,7 @@ defineTab({
   name = "Stats",
   image = "statsTabIcon",
   load = function (tab)
-
+    createTextGroup(tab, {cover=true, font={"defaultFont90"}}, {"STATS", "Run Played: 0", "Credits Earned: 0","Collection : 0/0" ,"Highest Score: 0"})
   end,
   unload = function (tab)
     
@@ -475,15 +477,20 @@ defineTab({
   name = "Exit",
   image = "exitTabIcon",
   load = function (tab)
-    
+    tabUI[tab].exit = main.ui.spawnUI("settingExit", {x=1500, y=720*3/5})
   end,
   unload = function (tab)
-    
+    deleteAll(tabUI[tab])
   end,
   open = function (tab)
-    
+
+    for k, ui in pairs(tabUI[tab]) do
+      flux.to(ui, 0.5, {x=rightX-ui:getWidth()/2}):ease("backout")
+    end
   end,
   close = function (tab)
-    
+    for k, ui in pairs(tabUI[tab]) do
+      flux.to(ui, 0.5, {x=1500}):ease("backin")
+    end
   end
 })

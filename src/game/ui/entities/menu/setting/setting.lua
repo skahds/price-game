@@ -170,7 +170,7 @@ main.defineUITab("settings", function ()
     renderLayer = 412,
   })
 
-  restart = main.ui.spawnUI("settingRestart", {
+  restart = main.ui.spawnUI("settingMenu", {
     x=dimension.w/2-width/3-75,
     y=dimension.h/2-140,
     renderLayer = 412,
@@ -366,13 +366,13 @@ local function restartGame()
   main.playScene("mainMenu")
 end
 
-main.ui.defineButton("settingRestart", {
+main.ui.defineButton("settingMenu", {
   width = 200,
   height = 80,
   color = {0.5, 0.7, 0.6},
   renderLayer = 101,
   screenSpace = true,
-  text = "RESTART",
+  text = "MENU",
   audio = "breaker",
   onButtonClicked = function (ent)
     restartGame()
