@@ -20,6 +20,10 @@ local function openTab(tab)
       for i, text in ipairs(textGroup[currentTab].texts) do
         flux.to(text, 0.5, {x=1500}):ease("backin")
       end
+
+      if textGroup[currentTab].cover then
+        flux.to(textGroup[currentTab].cover, 0.5, {x=1500}):ease("backin")
+      end
     end
     tabs[currentTab].close(currentTab)
   end
@@ -28,32 +32,60 @@ local function openTab(tab)
 
   if textGroup[tab] then
     for i, text in ipairs(textGroup[tab].texts) do
-      flux.to(text, 0.5, {x=(textGroup[tab].x or (rightX))}):ease("backout")
+      flux.to(text, 0.5, {x=(textGroup[tab].info.x or (rightX))}):ease("backout")
+    end
+
+    if textGroup[tab].cover then
+      flux.to(textGroup[tab].cover, 0.5, {x=(textGroup[tab].info.x or (rightX))}):ease("backout")
     end
   end
 end
 
 -- just call on load, all other gets executed automatically
 local function createTextGroup(tab, info, t)
-  textGroup[tab] = {info=utils.deepCopy(info), texts={}}
+  textGroup[tab] = {info=utils.deepCopy(info), texts={}, uis={},}
   local tbl = textGroup[tab]
   local totalHeight = 0
+  local maxWidth = 0
   for i, str in ipairs(t) do
+    local font = system.getFont("defaultFont60")
+    if info.font and info.font[i] then
+      font = system.getFont(info.font[i])
+    end
     local text = main.newRichText({
       format = str,
       x = 1500,
       y = info.y or 360,
       renderLayer = 100,
+      font=font,
     })
     text.ox = text.richText:getWidth()/2
     text.y = text.y + totalHeight
     totalHeight = totalHeight + text.richText:getHeight()
+    maxWidth = math.max(text.richText:getWidth(), maxWidth)
 
     table.insert(tbl.texts, text)
   end
 
   for i, text in ipairs(tbl.texts) do
     text.y = text.y - totalHeight/2
+  end
+
+  if info.cover == true then
+    tbl.cover = main.ui.spawnUI("cover", {
+      x=1500,
+      y=(info.y or 360),
+      width = maxWidth+30,
+      height = totalHeight+30,
+      color = {0.6, 0.6, 0.6},
+      outline = 10,
+      ox = (maxWidth+30)/2,
+      oy = (totalHeight+30)/2,
+      rx=10,
+      ry=10,
+      outlineColor = {0.4, 0.4, 0.4},
+      ignoreUIChecks = false,
+      renderLayer = 98})
   end
 end
 
@@ -97,6 +129,9 @@ end, function ()
   for k, v in pairs(textGroup) do
     for i, text in ipairs(v.texts) do
       text:delete()
+    end
+    if v.cover then
+      v.cover:delete()
     end
   end
   textGroup = {}
@@ -155,6 +190,9 @@ system.on("@draw", function ()
 end)
 
 system.on("@mouse:wheelmoved", function (t)
+  if system.getStorage("main:currentScene") ~= "mainMenu" or currentTab == nil then
+    return
+  end
   local y=t.y
   if y < 0 and currentTab < #tabs then
     openTab(currentTab + 1)
@@ -249,7 +287,7 @@ defineTab({
     local t = main.ui.spawnUI("tabPlay:toRunSelect", {x=1290, y=middleY+200})
     tabUI[tab].play = t
 
-    createTextGroup(tab, {}, {"PLAY", "Start a", "new run!"})
+    createTextGroup(tab, {cover=true, font={"defaultFont90"}, y=270}, {"PLAY", "Start a brand", "new run and","earn credits!"})
   end,
   unload = function (tab)
     for k, t in pairs(tabUI[tab]) do
@@ -343,7 +381,7 @@ defineTab({
 
     local xIndex = 1
     local yIndex = 1
-    local targetGap = 220
+    local targetGap = 180
     for e, item in ipairs(items) do
       local y = metashopY + (yIndex-1.5)*targetGap
       
@@ -417,7 +455,7 @@ defineTab({
   name = "Stats",
   image = "statsTabIcon",
   load = function (tab)
-    
+
   end,
   unload = function (tab)
     
