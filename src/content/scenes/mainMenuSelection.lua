@@ -5,6 +5,7 @@ local tabs = {}
 local tabUI = {}
 local textGroup = {}
 local infos = {selectY = 360, iconGap=100, barGap=250} -- for fluxes/general magic number
+local waitInfos = {time = 0}
 local currentTab
 local rightX = 1280*2/3
 local middleY = 360
@@ -14,20 +15,7 @@ local function defineTab(eType)
   table.insert(tabUI, {})
 end
 
-local function openTab(tab)
-  if currentTab then
-    if textGroup[currentTab] then
-      for i, text in ipairs(textGroup[currentTab].texts) do
-        flux.to(text, 0.5, {x=1500}):ease("backin")
-      end
-
-      if textGroup[currentTab].cover then
-        flux.to(textGroup[currentTab].cover, 0.5, {x=1500}):ease("backin")
-      end
-    end
-    tabs[currentTab].close(currentTab)
-  end
-  currentTab = tab
+local function animationOpenTab(tab)
   tabs[tab].open(tab)
 
   if textGroup[tab] then
@@ -40,6 +28,33 @@ local function openTab(tab)
     end
   end
 end
+
+local function openTab(tab)
+  if currentTab and waitInfos.tab == nil then
+    if textGroup[currentTab] then
+      for i, text in ipairs(textGroup[currentTab].texts) do
+        flux.to(text, 0.5, {x=1500}):ease("backin")
+      end
+
+      if textGroup[currentTab].cover then
+        flux.to(textGroup[currentTab].cover, 0.5, {x=1500}):ease("backin")
+      end
+    end
+    tabs[currentTab].close(currentTab)
+
+    waitInfos.tab = tab
+    waitInfos.time = 0.3
+  elseif currentTab and waitInfos.tab then
+    waitInfos.tab = tab
+    waitInfos.time = 0.3
+  else
+    animationOpenTab(tab)
+  end
+
+  currentTab = tab
+end
+--current open 1, 2, 1
+-- unload 1, wait 0.3, load 2, if cancelled and go back to 1 then
 
 -- just call on load, all other gets executed automatically
 local function createTextGroup(tab, info, t)
@@ -145,6 +160,15 @@ end)
 system.on("@update", function ()
   if system.getStorage("main:currentScene") ~= "mainMenu" then
     return
+  end
+
+  if waitInfos.time > 0 then
+    waitInfos.time = waitInfos.time - system.getStorage("dt")
+    if waitInfos.time <= 0 and waitInfos.tab then
+      animationOpenTab(waitInfos.tab)
+      waitInfos.time = 0
+      waitInfos.tab = nil
+    end
   end
 
   local infosToBeFluxed = {}
@@ -477,7 +501,7 @@ defineTab({
   name = "Exit",
   image = "exitTabIcon",
   load = function (tab)
-    tabUI[tab].exit = main.ui.spawnUI("settingExit", {x=1500, y=720*3/5})
+    tabUI[tab].exit = main.ui.spawnUI("settingExit", {x=1500, y=720/2})
   end,
   unload = function (tab)
     deleteAll(tabUI[tab])
