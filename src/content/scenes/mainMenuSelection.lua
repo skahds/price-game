@@ -396,7 +396,6 @@ local function createItem(item, info)
   if tabUI[info.tab].items == nil then
     tabUI[info.tab].items = {}
   end
-
   
   local index = #tabUI[info.tab].items
   local yIndex = math.floor(index/2+1)
@@ -413,6 +412,7 @@ local function createItem(item, info)
     table.insert(tabUI[info.tab].items, c)
   elseif item.isNews then
     local n = main.spawnEntity(item.id, {x=1350, y=y, tab=info.tab})
+    n.isMetaShop = true
     n.ui.renderLayer = 102
     n.ui.sx = 2
     n.ui.sy = 2
@@ -437,7 +437,7 @@ local function unlockItem(ent, tab)
 
   for i, item in ipairs(tabUI[tab].items) do
     if item == ent then
-      tabUI[tab].items = nil
+      table.remove(tabUI[tab].items, i)
     end
   end
 
@@ -466,6 +466,25 @@ system.on("main:cardClicked", function (ent, button)
   end
 
   if ent.ownerShip == "metashop" and canClick then
+    canClick = false
+    unlockItem(ent, ent.tab)
+  end
+end)
+
+system.on("main:newsClicked", function (ent, button)
+  if button ~= 1 then
+    return
+  end
+
+  if ent == nil then
+    return
+  end
+
+  if ent.isMetaShop ~= true then
+    return
+  end
+
+  if canClick then
     canClick = false
     unlockItem(ent, ent.tab)
   end
