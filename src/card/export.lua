@@ -11,8 +11,8 @@ main.card = {
   reward = {},
   -- to be used in upgrade
   upgrade = {},
-  --to be used in editPatterns
-  patterns = {},
+  --to be used in metashop
+  metashop = {},
   -- to be used anywhere for visual
   misc = {},
 }

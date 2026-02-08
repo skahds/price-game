@@ -53,8 +53,6 @@ local function openTab(tab)
 
   currentTab = tab
 end
---current open 1, 2, 1
--- unload 1, wait 0.3, load 2, if cancelled and go back to 1 then
 
 -- just call on load, all other gets executed automatically
 local function createTextGroup(tab, info, t)
@@ -340,8 +338,8 @@ defineTab({
 -- metashop
 local metashopY = 440
 local items = {}
+local bag = {}
 system.on("@load", function ()
-  local bag = {}
   for k, ent in pairs(main.entities) do
     if ent.definition and (ent.definition.isCard or ent.definition.isNews) then
       table.insert(bag, ent.definition)
@@ -356,38 +354,65 @@ system.on("@load", function ()
   end
 end)
 
+local function deleteItem(item)
+  if item.isCard then
+    main.deleteCard(item)
+  elseif item.isNews then
+    item.ui:delete()
+    item:delete()
+  elseif item.isPatternsCard then
+    item.ui:delete()
+    item:delete()
+  end
+end
+
 local function clearExistingItem(t)
   for i=#t, 1, -1 do
     local item = t[i]
-    if item.isCard then
-      main.deleteCard(item)
-    elseif item.isNews then
-      item.ui:delete()
-      item:delete()
-    elseif item.isPatternsCard then
-      item.ui:delete()
-      item:delete()
-    end
+    deleteItem(item)
   end
   
   t = {}
 end
 
+local function putItemInPlace(tab)
+  local xIndex = 1
+  local yIndex = 1
+  local targetGap = 220
+  for e, item in ipairs(tabUI[tab].items) do
+    local x = rightX + (xIndex-1.5)*targetGap
+    local y = metashopY + (yIndex-1.5)*targetGap
+    
+    xIndex = xIndex + 1
+    if xIndex > 2 then
+      xIndex = 1
+      yIndex = yIndex + 1
+    end
+    flux.to(item.ui, 0.5, {x=x, y=y}):ease("backout")
+  end
+end
+
 local function createItem(item, info)
   if tabUI[info.tab].items == nil then
-    tabUI[info.tab] = {}
+    tabUI[info.tab].items = {}
   end
 
+  
+  local index = #tabUI[info.tab].items
+  local yIndex = math.floor(index/2+1)
+  local targetGap = 180
+  local y = metashopY + (yIndex-1.5)*targetGap
+
   if item.isCard then
-    local c = main.createCard(item.id, {ignoreCardSelect=true}, "misc")
+    local c = main.createCard(item.id, {ignoreCardSelect=true, tab=info.tab}, "metashop")
     c.ui.renderLayer = 102
     c.ui.x = 1350
-    c.ui.y = info.y
+    c.ui.y = y
     c.ui.ox = c.ui.width/2
     c.ui.oy = c.ui.height/2
     table.insert(tabUI[info.tab].items, c)
   elseif item.isNews then
-    local n = main.spawnEntity(item.id, {x=1350, y=info.y})
+    local n = main.spawnEntity(item.id, {x=1350, y=y, tab=info.tab})
     n.ui.renderLayer = 102
     n.ui.sx = 2
     n.ui.sy = 2
@@ -399,25 +424,61 @@ local function createItem(item, info)
   end
 end
 
+local canClick = true
+local function unlockItem(ent, tab)
+  if ent.alreadyChosen == true then
+    return
+  end
+  ent.alreadyChosen = true
+
+  main.wait(1, function ()
+    canClick=true
+  end)
+
+  for i, item in ipairs(tabUI[tab].items) do
+    if item == ent then
+      tabUI[tab].items = nil
+    end
+  end
+
+  local rand = love.math.random(1, #bag)
+  local item = bag[rand]
+  table.remove(bag[rand])
+  createItem(item, {tab=tab})
+
+  local ui = ent.ui
+  flux.to(ui, 0.5, {x=640, y=360})
+  main.wait(0.8, function ()
+    putItemInPlace(tab)
+    flux.to(ui, 0.5, {x=640, y=1400}):ease("backin"):oncomplete(function ()
+      deleteItem(ent)
+    end)
+  end)
+end
+
+system.on("main:cardClicked", function (ent, button)
+  if button ~= 1 then
+    return
+  end
+
+  if ent == nil then
+    return
+  end
+
+  if ent.ownerShip == "metashop" and canClick then
+    canClick = false
+    unlockItem(ent, ent.tab)
+  end
+end)
+
 defineTab({
   name = "Shop",
   image = "shopTabIcon",
   load = function (tab)
     tabUI[tab].items = {}
 
-    local xIndex = 1
-    local yIndex = 1
-    local targetGap = 180
     for e, item in ipairs(items) do
-      local y = metashopY + (yIndex-1.5)*targetGap
-      
-      xIndex = xIndex + 1
-      if xIndex > 2 then
-        xIndex = 1
-        yIndex = yIndex + 1
-      end
-
-      createItem(item, {tab=tab, y=y})
+      createItem(item, {tab=tab})
     end
 
     local t = main.newRichText({
@@ -441,24 +502,9 @@ defineTab({
     tabUI[tab] = {}
   end,
   open = function (tab)
-    local xIndex = 1
-    local yIndex = 1
-    local spawnX = rightX
-    local targetGap = 220
-    for e, item in ipairs(tabUI[tab].items) do
-      local x = spawnX + (xIndex-1.5)*targetGap
-      local y = metashopY + (yIndex-1.5)*targetGap
-      
-
-      xIndex = xIndex + 1
-      if xIndex > 2 then
-        xIndex = 1
-        yIndex = yIndex + 1
-      end
-      flux.to(item.ui, 0.5, {x=x, y=y}):ease("backout")
-    end
+    putItemInPlace(tab)
     local text = tabUI[tab].credits
-    flux.to(text, 0.5, {x=spawnX-text.richText:getWidth()/2}):ease("backout")
+    flux.to(text, 0.5, {x=rightX-text.richText:getWidth()/2}):ease("backout")
   end,
   close = function (tab)
     for i, item in ipairs(tabUI[tab].items) do
