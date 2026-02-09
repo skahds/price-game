@@ -58,3 +58,36 @@ function main.meta.giveAchievement(name)
   Steam.userStats.setAchievement(name)
   stats.achievement[name] = true
 end
+
+
+-- to attach to entity, ie; card.unlock = {type="metashop"}
+
+function main.meta.getLockedEntities(info)
+  local t = {}
+  for k, ent in pairs(main.entities) do
+    local def = ent.definition
+    local success = true
+    if def == nil or def.unlock == nil then
+      goto continue
+    end
+    if info.type and def.unlock and info.type == def.unlock.type then
+      
+    else
+      success = false
+    end
+
+    if success == true then
+      table.insert(t, ent)
+    end
+
+    ::continue::
+  end
+
+  return t
+end
+
+system.on("@load", function ()
+  for k, v in pairs(main.meta.getLockedEntities({type="metashop"})) do
+    print("metashop", v.definition.id)
+  end
+end)

@@ -127,6 +127,7 @@ main.defineCard("secondPlan", {
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "RARE",
+  unlock = {type="metashop"},
   onActivate = function ()
     main.discardCurrentCardsInHand()
   end
@@ -207,6 +208,7 @@ main.defineCard("parachute", {
   energy=0,
   price = 3,
   rarity  = "RARE",
+  unlock = {type="metashop"},
   onActivate = function (ent)
     local mult = system.getStorage("main:mult")
     main.addMult(math.floor(mult/2+0.5))
@@ -266,6 +268,7 @@ main.defineCard("spirit", {
   energy=0,
   price = 3,
   rarity = "RARE",
+  unlock = {type="metashop"},
   defaultDrawCard=2,
 
   filter = function (ent)
@@ -283,6 +286,7 @@ main.defineCard("mitosis", {
   energy=0,
   price = 3,
   rarity = "RARE",
+  unlock = {type="metashop"},
   defaultPriceGain=-10,
 
   onActivate = function (ent)
@@ -320,6 +324,7 @@ main.defineCard("portableGenerator", {
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "EPIC",
+  unlock = {type="metashop"},
 
   filter = function (ent)
     local target = main.getCardBesides(ent, 1)

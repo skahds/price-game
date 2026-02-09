@@ -7,7 +7,7 @@ main.definePlaceableNewsCard("expound", {
 }, {
   image = "expoundNews",
   trigger = {"ROUND"},
-  description="For each news,\ngive {multColor}+2 MULT{/multColor}",
+  description="For each news in area,\ngive {multColor}+2 MULT{/multColor}",
   target={
     shape = {w=3, h=3},
     onActivate = function (ent, targetEnt)

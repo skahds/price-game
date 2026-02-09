@@ -90,7 +90,8 @@ main.defineNews("allOut", {
   defaultDrawCard = 2,
   defaultEnergyGain = 1,
   isRelic = true,
-  rarity = "RARE"
+  rarity = "RARE",
+  unlock = {type="metashop"},
 })
 
 main.defineNews("recycle", {
@@ -100,6 +101,7 @@ main.defineNews("recycle", {
   trigger = {"EACHTURN"},
   isRelic = true,
   rarity = "COMMON",
+  unlock = {type="metashop"},
   onActivate = function ()
     main.shuffleDiscardToDraw()
   end
@@ -147,6 +149,7 @@ main.defineNews("battery", {
   trigger = {"ENCOUNTER"},
   isRelic = true,
   rarity = "COMMON",
+  unlock = {type="metashop"},
   onActivate = function ()
     local card = main.basicSpawnCard("junk", {}, nil, "hand")
     main.changeEntityComponent(card, "repeatActivation", 7, combiner.ADD)
@@ -185,6 +188,7 @@ main.defineNews("doppelganger", {
   trigger = {"OBTAIN"},
   isRelic = true,
   rarity = "COMMON",
+  unlock = {type="metashop"},
   onActivate = function ()
     local card = main.getCardInOrder(1)
     if card then
@@ -202,6 +206,7 @@ main.defineNews("surplus", {
   trigger = {"OBTAIN"},
   isRelic = true,
   rarity = "COMMON",
+  unlock = {type="metashop"},
   onActivate = function ()
     system.updateStorage("shop:maxCardAmount", system.getStorage("shop:maxCardAmount")+2)
   end
@@ -234,6 +239,7 @@ main.defineNews("chickenGame", {
   temporary=5,
   isRelic = true,
   rarity = "RARE",
+  unlock = {type="metashop"},
   onActivate = function (ent, card)
     if card then
       main.basicSpawnCard(card.id, main.getAllComponentsFromEntity(card), nil, "hand")
@@ -264,6 +270,7 @@ main.defineNews("seedOfLight", {
   trigger = {"ENCOUNTER"},
   isRelic = true,
   rarity = "RARE",
+  unlock = {type="metashop"},
   onActivate = function ()
     local card = main.getRandomCard("discard", "draw", "hand")
     if card then
@@ -275,7 +282,7 @@ main.defineNews("seedOfLight", {
 
 main.defineNews("sceptre", {
   name = "Sceptre",
-  description = "{multColor}X MULT{/multColor} by {multColor}0.5{/multColor} for each\ncards in hand",
+  description = "{multColor}X? MULT{/multColor}, ? is {multColor}1 + 0.5{/multColor} for\neach cards in hand",
   image = "sceptreNews",
   trigger = {"ROUND"},
   isRelic = true,

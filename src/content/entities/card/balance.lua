@@ -14,6 +14,7 @@ main.defineCard("scale", {
     end
   end,
   rarity = "COMMON",
+  unlock = {type="metashop"},
 })
 
 main.defineCard("flag", {
@@ -86,4 +87,5 @@ main.defineCard("stalemartyr", {
     end
   end,
   rarity = "COMMON",
+  unlock = {type="metashop"},
 })

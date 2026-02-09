@@ -31,7 +31,8 @@ main.definePlaceableNewsCard("veil", {
   image = "veil",
   trigger= {"DEPLOY"},
   price=3,
-  rarity = "RARE"
+  rarity = "RARE",
+  unlock = {type="metashop"},
 }, {
   image = "veilNews",
   trigger = {"CARDTRIGGER"},
@@ -68,6 +69,7 @@ main.definePlaceableNewsCard("decomposite", {
   trigger= {"DEPLOY"},
   price=3,
   rarity = "RARE",
+  unlock = {type="metashop"},
 }, {
   image = "decompositeNews",
   trigger = {"CARDTRIGGER"},
