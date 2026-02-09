@@ -144,6 +144,9 @@ local function updateContent()
     local y = math.floor((i-1)/contentHorizontal)
     if item.isCard then
       local c = main.createCard(item.id, {ignoreCardSelect=true}, "misc")
+      if main.meta.isEntityLocked(item.id) == false then
+        c.ui.image = "lockedCard"
+      end
       c.ui.renderLayer = renderLayer+2
       c.ui.x=middleX
       flux.to(c.ui, 0.2, {x=640+(x-1.5)*800/contentHorizontal}):ease("backout")
@@ -153,6 +156,9 @@ local function updateContent()
       table.insert(existingItems, c)
     elseif item.isNews then
       local n = main.spawnEntity(item.id, {x=middleX, y=340+(y-1)*130})
+      if main.meta.isEntityLocked(item.id) == false then
+        n.ui.image = "lockedNews"
+      end
       flux.to(n.ui, 0.2, {x=640+(x-1.5)*800/contentHorizontal}):ease("backout")
       n.ui.renderLayer = renderLayer+2
       n.ui.sx = 2

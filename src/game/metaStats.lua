@@ -86,6 +86,19 @@ function main.meta.getLockedEntities(info)
   return t
 end
 
+function main.meta.isEntityLocked(entID)
+  local ent = main.entities[entID]
+  if ent.definition and ent.definition.unlock then
+    if stats.unlocks[entID] == true then
+      return true
+    else
+      return false
+    end
+  else
+    return true
+  end
+end
+
 system.on("@load", function ()
   for k, v in pairs(main.meta.getLockedEntities({type="metashop"})) do
     print("metashop", v.definition.id)
