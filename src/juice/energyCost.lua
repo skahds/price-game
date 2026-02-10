@@ -8,6 +8,10 @@ end
 system.on("@draw", function ()
   for i, stack in ipairs(stacks) do
     for i, card in ipairs(stack) do
+      if card.dontDrawEnergy then
+        goto continue
+      end
+
       local ui = card.ui
       local realAmount = card.overrideEnergy
       local oldAmount = card.energy
@@ -32,6 +36,8 @@ system.on("@draw", function ()
           end
         end
       end, true)
+
+      ::continue::
     end
   end
 end)

@@ -68,6 +68,9 @@ local function combine(str, str2)
 end
 
 main.addDescriptionType(60, function (ent)
+  if ent.dontShowBottomDescription then
+    return
+  end
   local text = ""
   -- if ent.price then
   --   text = text .. "{moneyColor}$" .. ent.price .. "{/moneyColor} "

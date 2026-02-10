@@ -324,7 +324,6 @@ main.defineCard("portableGenerator", {
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "EPIC",
-  unlock = {type="metashop"},
 
   filter = function (ent)
     local target = main.getCardBesides(ent, 1)
@@ -423,6 +422,7 @@ main.defineCard("fracture", {
   energy=1,
   price = 4,
   rarity = "EPIC",
+  unlock = {type="metashop"},
 
   filter = function (ent)
     if #main.card.draw > #main.card.discard then
