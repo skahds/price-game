@@ -385,6 +385,21 @@ main.defineCard("cargo", {
   end
 })
 
+main.defineCard("algae", {
+  name = "Algae",
+  description = "Discard a random\ncard in hand",
+  defaultPriceGain = 30,
+  image = "algae",
+  trigger = {"DEPLOY"},
+  price = 3,
+  onActivate = function (ent)
+    local card = main.getRandomCard()
+    if card then
+      main.discardCard(card)
+    end
+  end
+})
+
 -- main.defineCard("cell", {
 --   name = "Cell",
 --   image = "cell",
