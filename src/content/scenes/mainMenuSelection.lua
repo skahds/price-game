@@ -445,6 +445,12 @@ local function unlockItem(ent, tab)
   table.remove(bag, rand)
   createItem(item, {tab=tab})
 
+  local cover = main.ui.spawnUI("cover", {x=640-110, y=720, width=220, height=730,
+    renderLayer=102,
+    color = {0.7, 0.96, 1},
+    outlineColor = {0.4, 0.8, 0.88}, outline=20})
+  flux.to(cover, 0.5, {y=-5})
+
   local ui = ent.ui
   ui.renderLayer = 104
   flux.to(ui, 0.5, {x=640, y=360})
@@ -452,6 +458,9 @@ local function unlockItem(ent, tab)
     putItemInPlace(tab)
     flux.to(ui, 0.5, {x=640, y=1400}):ease("backin"):oncomplete(function ()
       deleteItem(ent)
+    end)
+    flux.to(cover, 0.7, {y=-730}):oncomplete(function ()
+      cover:delete()
     end)
   end)
 
