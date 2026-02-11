@@ -46,7 +46,7 @@ system.on("main:currentPriceChanged", function (change)
     flux.to(text, 0.7, {r=text.r+randomSpin})
     flux.to(text, 0.6, {sx=size+randomSizeIncrease, sy=size+randomSizeIncrease})
 
-    main.waitWithMult(0.35, function ()
+    main.wait(0.35, function ()
       text:delete()
     end)
   end
@@ -75,7 +75,7 @@ system.on("main:multChanged", function (change)
     flux.to(text, 0.7, {r=text.r+randomSpin})
     flux.to(text, 0.6, {sx=size+randomSizeIncrease, sy=size+randomSizeIncrease})
 
-    main.waitWithMult(0.35, function ()
+    main.wait(0.35, function ()
       text:delete()
     end)
   end

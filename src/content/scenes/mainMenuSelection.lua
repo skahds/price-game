@@ -340,17 +340,16 @@ local metashopY = 440
 local items = {}
 local bag = {}
 system.on("@load", function ()
-  for k, ent in pairs(main.entities) do
-    if ent.definition and (ent.definition.isCard or ent.definition.isNews) then
-      table.insert(bag, ent.definition)
-    end
+  local t = main.meta.getLockedEntities{type="metashop"}
+  for k, ent in pairs(t) do
+    table.insert(bag, ent.definition)
   end
 
   for i=1, 4 do
     local rand = love.math.random(1, #bag)
     local t = bag[rand]
     table.insert(items, t)
-    table.remove(bag[rand])
+    table.remove(bag, rand)
   end
 end)
 
@@ -423,7 +422,7 @@ local function createItem(item, info)
     table.insert(tabUI[info.tab].items, n)
   end
 end
-
+--todo: ofc fix bug where if you unlock enough and no more item in bag it crash
 local canClick = true
 local function unlockItem(ent, tab)
   if ent.alreadyChosen == true then
@@ -443,10 +442,11 @@ local function unlockItem(ent, tab)
 
   local rand = love.math.random(1, #bag)
   local item = bag[rand]
-  table.remove(bag[rand])
+  table.remove(bag, rand)
   createItem(item, {tab=tab})
 
   local ui = ent.ui
+  ui.renderLayer = 104
   flux.to(ui, 0.5, {x=640, y=360})
   main.wait(0.8, function ()
     putItemInPlace(tab)
@@ -454,6 +454,9 @@ local function unlockItem(ent, tab)
       deleteItem(ent)
     end)
   end)
+
+  main.createPopupText({text={"ITEM"}, lifetime=1.5, timeMomentaryStill=0.35, x=640, startY=-200, targetY=360-130, outline=true, outlineColor={0, 0, 0}, renderLayer=105,})
+  main.createPopupText({text={"UNLOCKED!"}, lifetime=1.5, timeMomentaryStill=0.35, x=640, startY=720+200, targetY=360+90, outline=true, outlineColor={0, 0, 0}, renderLayer=105})
 end
 
 system.on("main:cardClicked", function (ent, button)

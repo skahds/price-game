@@ -98,9 +98,3 @@ function main.meta.isEntityLocked(entID)
     return true
   end
 end
-
-system.on("@load", function ()
-  for k, v in pairs(main.meta.getLockedEntities({type="metashop"})) do
-    print("metashop", v.definition.id)
-  end
-end)
