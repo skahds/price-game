@@ -174,9 +174,11 @@ system.on("@update", function ()
     local yIndex = currentTab-(#tabs/2+0.5)
     local y = middleY+yIndex*infos.iconGap
     infosToBeFluxed.selectY = y
-    
-    if tabs[currentTab].update then
-      tabs[currentTab].update(currentTab)
+  end
+
+  for i, tab in ipairs(tabs) do
+    if tab.update then
+      tab.update(i)
     end
   end
 
@@ -192,7 +194,6 @@ system.on("@draw", function ()
   if system.getStorage("main:currentScene") ~= "mainMenu" then
     return
   end
-
 
   system.render(100, function ()
     love.graphics.draw(system.getImage("selectTabIcon"), 140, infos.selectY, 0, 1.4, 1.4, 16, 16)
@@ -308,7 +309,7 @@ defineTab({
   name = "Play",
   image = "playTabIcon",
   load = function (tab)
-    local t = main.ui.spawnUI("tabPlay:toRunSelect", {x=1290, y=middleY+200})
+    local t = main.ui.spawnUI("tabPlay:toRunSelect", {x=1290, y=middleY+120})
     tabUI[tab].play = t
 
     createTextGroup(tab, {cover=true, font={"defaultFont90"}, y=270}, {"PLAY", "Start a brand", "new run and","earn credits!"})
@@ -401,18 +402,20 @@ local function createItem(item, info)
   local targetGap = 180
   local y = metashopY + (yIndex-1.5)*targetGap
 
+  local t
   if item.isCard then
     local c = main.createCard(item.id, {ignoreCardSelect=true, tab=info.tab}, "metashop")
-    c.ui.renderLayer = 102
+    c.ui.renderLayer = 98
     c.ui.x = 1350
     c.ui.y = y
     c.ui.ox = c.ui.width/2
     c.ui.oy = c.ui.height/2
     table.insert(tabUI[info.tab].items, c)
+    t=c
   elseif item.isNews then
     local n = main.spawnEntity(item.id, {x=1350, y=y, tab=info.tab})
     n.isMetaShop = true
-    n.ui.renderLayer = 102
+    n.ui.renderLayer = 98
     n.ui.sx = 2
     n.ui.sy = 2
     n.ui.ox = n.ui.width/2
@@ -420,6 +423,7 @@ local function createItem(item, info)
     n.ui.screenSpace = true
     n.screenSpace = true
     table.insert(tabUI[info.tab].items, n)
+    t=n
   end
 end
 --todo: ofc fix bug where if you unlock enough and no more item in bag it crash
@@ -517,6 +521,8 @@ defineTab({
       x = 1500,
       y= 100,
       renderLayer = 100,
+      outline = true,
+      outlineColor={0,0,0},
     })
     t.y = t.y - t.richText:getHeight()/2
     tabUI[tab].credits = t
@@ -548,7 +554,24 @@ defineTab({
     if credits and tabUI[tab].credits then
       main.updateRichTextText(tabUI[tab].credits, credits .. " {creditIcon}")
     end
-  end
+
+    for i, item in ipairs(tabUI[tab].items) do
+      local ui = item.ui
+      local x = system.ask("ui:getUIX", combiner.ADD, ui)
+      local y = system.ask("ui:getUIY", combiner.ADD, ui)
+
+      local text = main.printRichText({
+        format = "30 {creditIcon}",
+        x=x,
+        y=y+ui:getHeight()/2+15,
+        outline = true,
+        outlineColor={0,0,0},
+        renderLayer=99
+      })
+      text.x = text.x - text.richText:getWidth()/2
+      text.y = text.y - text.richText:getHeight()/2
+    end
+  end,
 })
 
 
