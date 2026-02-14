@@ -36,8 +36,8 @@ main.defineRunMode({
   onActivate = function (ent, card)
     if card then
       local bag = system.getStorage("rarity:bag")
-      local c = bag:getRandomCard()
-      main.basicSpawnCard(c, {}, card, "hand")
+      local c = bag:getRandomCardWithInfo()
+      main.basicSpawnCard(c[1], {}, card, "hand")
       main.deleteCard(card)
     end
   end

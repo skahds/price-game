@@ -76,11 +76,16 @@ function bag:getRandomCard(filter)
 end
 
 function bag:getRandomCardWithInfo(info)
+  info = info or {}
   local amount = info.amount or 1
   local result = {}
 
   for i=1, amount do
     local c = self:getRandomCard(function (t)
+      if info.ignoreIsUnlocked ~= true and main.meta.isEntityUnlocked(t.card) == false then
+        return false
+      end
+
       if info.rarity then
         if t.rarity.chanceWeight == self:getRarity(info.rarity).chanceWeight then
           

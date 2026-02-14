@@ -174,11 +174,11 @@ system.on("@update", function ()
     local yIndex = currentTab-(#tabs/2+0.5)
     local y = middleY+yIndex*infos.iconGap
     infosToBeFluxed.selectY = y
-  end
 
-  for i, tab in ipairs(tabs) do
-    if tab.update then
-      tab.update(i)
+    for i, tab in ipairs(tabs) do
+      if tab.update then
+        tab.update(i)
+      end
     end
   end
 
@@ -449,7 +449,9 @@ local function unlockItem(ent, tab)
   local rand = love.math.random(1, #bag)
   local item = bag[rand]
   table.remove(bag, rand)
-  createItem(item, {tab=tab})
+  if item then
+    createItem(item, {tab=tab})
+  end
 
   local cover = main.ui.spawnUI("cover", {x=640-110, y=720, width=220, height=730,
     renderLayer=102,
