@@ -70,6 +70,9 @@ function main.meta.getLockedEntities(info)
     if def == nil or def.unlock == nil then
       goto continue
     end
+    if main.meta.isEntityUnlocked(def.id) then
+      goto continue
+    end
     if info.type and def.unlock and info.type == def.unlock.type then
       
     else
@@ -86,7 +89,7 @@ function main.meta.getLockedEntities(info)
   return t
 end
 
-function main.meta.isEntityLocked(entID)
+function main.meta.isEntityUnlocked(entID)
   local ent = main.entities[entID]
   if ent.definition and ent.definition.unlock then
     if stats.unlocks[entID] == true then

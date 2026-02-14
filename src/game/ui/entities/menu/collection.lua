@@ -144,7 +144,7 @@ local function updateContent()
     local y = math.floor((i-1)/contentHorizontal)
     if item.isCard then
       local cardID = item.id
-      if main.meta.isEntityLocked(item.id) == false then
+      if main.meta.isEntityUnlocked(item.id) == false then
         cardID = "lockedCard"
       end
       local c = main.createCard(cardID, {ignoreCardSelect=true}, "misc")
@@ -158,7 +158,7 @@ local function updateContent()
       table.insert(existingItems, c)
     elseif item.isNews then
       local cardID = item.id
-      if main.meta.isEntityLocked(item.id) == false then
+      if main.meta.isEntityUnlocked(item.id) == false then
         cardID = "lockedNews"
       end
       local n = main.spawnEntity(cardID, {x=middleX, y=340+(y-1)*130})

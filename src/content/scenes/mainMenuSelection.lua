@@ -434,6 +434,8 @@ local function unlockItem(ent, tab)
   end
   ent.alreadyChosen = true
 
+  main.meta.unlock(ent.id)
+
   main.wait(1, function ()
     canClick=true
   end)
