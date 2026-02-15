@@ -28,6 +28,10 @@ function main.meta.getTable()
   return stats
 end
 
+function main.meta.getCredits()
+  return stats.credits
+end
+
 function main.meta.giveCredits(n)
   stats.credits = stats.credits + n
   main.meta.saveMetaStats()

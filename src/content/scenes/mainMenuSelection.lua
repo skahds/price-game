@@ -30,7 +30,7 @@ local function animationOpenTab(tab)
 end
 
 local function openTab(tab)
-  if currentTab and waitInfos.tab == nil then
+  if currentTab and waitInfos.tab == nil and currentTab ~= tab then
     if textGroup[currentTab] then
       for i, text in ipairs(textGroup[currentTab].texts) do
         flux.to(text, 0.5, {x=1500}):ease("backin")
@@ -193,6 +193,12 @@ end)
 system.on("@draw", function ()
   if system.getStorage("main:currentScene") ~= "mainMenu" then
     return
+  end
+
+  for i, tab in ipairs(tabs) do
+    if tab.draw then
+      tab.draw(i)
+    end
   end
 
   system.render(100, function ()
@@ -405,6 +411,7 @@ local function createItem(item, info)
   local t
   if item.isCard then
     local c = main.createCard(item.id, {ignoreCardSelect=true, tab=info.tab}, "metashop")
+    c.creditCost = 30
     c.ui.renderLayer = 98
     c.ui.x = 1350
     c.ui.y = y
@@ -415,6 +422,7 @@ local function createItem(item, info)
   elseif item.isNews then
     local n = main.spawnEntity(item.id, {x=1350, y=y, tab=info.tab})
     n.isMetaShop = true
+    n.creditCost = 30
     n.ui.renderLayer = 98
     n.ui.sx = 2
     n.ui.sy = 2
@@ -432,6 +440,13 @@ local function unlockItem(ent, tab)
   if ent.alreadyChosen == true then
     return
   end
+
+  if main.meta.getCredits() >= ent.creditCost then
+    main.meta.giveCredits(-ent.creditCost)
+  else
+    return
+  end
+
   ent.alreadyChosen = true
 
   main.meta.unlock(ent.id)
@@ -558,14 +573,15 @@ defineTab({
     if credits and tabUI[tab].credits then
       main.updateRichTextText(tabUI[tab].credits, credits .. " {creditIcon}")
     end
-
+  end,
+  draw = function (tab)
     for i, item in ipairs(tabUI[tab].items) do
       local ui = item.ui
       local x = system.ask("ui:getUIX", combiner.ADD, ui)
       local y = system.ask("ui:getUIY", combiner.ADD, ui)
 
       local text = main.printRichText({
-        format = "30 {creditIcon}",
+        format = item.creditCost .. " {creditIcon}",
         x=x,
         y=y+ui:getHeight()/2+15,
         outline = true,
@@ -575,7 +591,7 @@ defineTab({
       text.x = text.x - text.richText:getWidth()/2
       text.y = text.y - text.richText:getHeight()/2
     end
-  end,
+  end
 })
 
 
