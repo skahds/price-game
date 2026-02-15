@@ -302,6 +302,16 @@ function main.getPatternsTable()
   return patterns
 end
 
+function main.getPattern(id)
+  for k, v in pairs(patterns) do
+    print(v, v.id)
+    if v.id == id then
+      return v
+    end
+  end
+  return nil
+end
+
 main.definePatternsCard("anypositive", {
   name = "Any Positive",
   image= "patternsAnyPositive",
