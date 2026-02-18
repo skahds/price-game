@@ -304,7 +304,6 @@ end
 
 function main.getPattern(id)
   for k, v in pairs(patterns) do
-    print(v, v.id)
     if v.id == id then
       return v
     end
