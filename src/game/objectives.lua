@@ -1,13 +1,21 @@
 main.objectives = {
-  definitions = {},
-  rewards = {}
+  objective = {},
+  rewards = {},
+  active = {}
 }
 -- difficulty and reward randomised based on difficulty
 -- reward is claimed at levelEnd claims 
 
+function main.objectives.createReward(id, args)
+  args = args or {}
+  args.difficulty = args.difficulty or main.objectives.rewards[id].definition.minimumDifficulty
+  local obj = main.objectives.rewards[id]:new(args)
+  return obj
+end
+
 function main.objectives.createRandomReward(difficulty)
   local options = {}
-  for i, reward in ipairs(main.objectives.rewards) do
+  for k, reward in pairs(main.objectives.rewards) do
     if (reward.minimumDifficulty or 0) <= difficulty and difficulty <= (reward.maximumDifficulty or math.huge) then
       table.insert(options, reward)
     end
@@ -16,8 +24,10 @@ function main.objectives.createRandomReward(difficulty)
   return reward:new({difficulty=difficulty})
 end
 
-function main.objectives.defineObjective(oType)
+function main.objectives.defineObjective(id, oType)
   local obj = class()
+  oType.id = id
+  obj.id = id
   function obj:init(args)
     for k, v in pairs(oType) do
       self[k] = utils.deepCopy(v)
@@ -32,12 +42,15 @@ function main.objectives.defineObjective(oType)
     local diff = self.difficulty or 1
     self.reward = main.objectives.createRandomReward(diff)
   end
+  obj.definition = oType
   
-  table.insert(main.objectives.definitions, obj)
+  main.objectives.objective[id] = obj
 end
 
-function main.objectives.defineReward(rType)
+function main.objectives.defineReward(id, rType)
   local obj = class()
+  rType.id = id
+  obj.id = id
   function obj:init(args)
     for k, v in pairs(rType) do
       self[k] = utils.deepCopy(v)
@@ -53,15 +66,28 @@ function main.objectives.defineReward(rType)
       self:update()
     end
   end
+  obj.definition = rType
   
-  table.insert(main.objectives.rewards, obj)
+  main.objectives.rewards[id] = obj
 end
 
-function main.objectives.createRandomObjective()
-  local def = main.objectives.definitions[love.math.random(1, #main.objectives.definitions)]
-  local obj = def:new({})
+function main.objectives.createObjective(id, args)
+  args = args or {}
+  local obj = main.objectives.objective[id]:new(args)
   return obj
 end
+
+function main.objectives.createRandomObjective(args)
+  args = args or {}
+  local bag = {}
+  for k, v in pairs(main.objectives.objective) do
+    table.insert(bag, v)
+  end
+  local def = bag[love.math.random(1, bag)]
+  local obj = def:new(args)
+  return obj
+end
+
 
 --[[
 todo: when defining reward, have a "minimum difficulty" var
@@ -70,10 +96,10 @@ so the defineReward.load would take (difficulty) and set itself up a reward to c
 
 
 --
--- REWARDS DEFINITIONS
+-- REWARDS DEFINITION
 --
 -- Give $
-main.objectives.defineReward({
+main.objectives.defineReward("money", {
   minimumDifficulty = 3,
   update = function (obj)
     obj.description = "Gives {moneyColor}$" .. obj.difficulty-1
@@ -84,7 +110,7 @@ main.objectives.defineReward({
 })
 
 -- Adds perma mult
-main.objectives.defineReward({
+main.objectives.defineReward("permamult", {
   minimumDifficulty=2,
   maximumDifficulty=6,
   update = function (obj)
@@ -97,7 +123,7 @@ main.objectives.defineReward({
 
 
 --
--- OBJECTIVE DEFINITIONS
+-- OBJECTIVE DEFINITION
 --
 -- make X pattern N times
 --ex, 2 star=6, 3 upReversal=5, 2 crows = 3 
@@ -112,7 +138,7 @@ local patternDiffList = {
   {id="downEngulf", diff=3, increment=1},
 }
 
-main.objectives.defineObjective({
+main.objectives.defineObjective("pattern", {
   description = "",
   load = function (obj)
     local pattern = patternDiffList[love.math.random(1, #patternDiffList)]
