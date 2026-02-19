@@ -74,6 +74,7 @@ end
 function main.objectives.createObjective(id, args)
   args = args or {}
   local obj = main.objectives.objective[id]:new(args)
+  table.insert(main.objectives.active, obj)
   return obj
 end
 
@@ -85,6 +86,7 @@ function main.objectives.createRandomObjective(args)
   end
   local def = bag[love.math.random(1, bag)]
   local obj = def:new(args)
+  table.insert(main.objectives.active, obj)
   return obj
 end
 
@@ -155,8 +157,12 @@ main.objectives.defineObjective("pattern", {
     obj.amount = amount
     obj.difficulty = difficulty
     obj.description = "Create " .. name .. " pattern " .. amount .. " times"
-  end
+  end,
+  getProgress = function (obj)
+    return "0/" .. obj.amount
+  end,
 })
+
 
 -- use less than X card
 

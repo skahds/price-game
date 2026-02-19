@@ -315,27 +315,39 @@ defineTab({
   name = "Play",
   image = "playTabIcon",
   load = function (tab)
-    local t = main.ui.spawnUI("tabPlay:toRunSelect", {x=1290, y=middleY+120})
-    tabUI[tab].play = t
+    tabUI[tab].ui = {}
+    if love.filesystem.getInfo("save.sav") then
+      table.insert(tabUI[tab].ui, main.ui.spawnUI("tabPlay:toRunSelect", {x=1420+120, y=middleY+120}))
+      table.insert(tabUI[tab].ui, main.ui.spawnUI("loadGame", {x=1420-120, y=middleY+120, width=200, height=100}))
+    else
+      table.insert(tabUI[tab].ui, main.ui.spawnUI("tabPlay:toRunSelect", {x=1420, y=middleY+120}))
+    end
 
     createTextGroup(tab, {cover=true, font={"defaultFont90"}, y=270}, {"PLAY", "Start a brand", "new run and","earn credits!"})
   end,
   unload = function (tab)
-    for k, t in pairs(tabUI[tab]) do
+    for k, t in pairs(tabUI[tab].ui) do
       t:delete()
+    end
+    for k, t in pairs(tabUI[tab]) do
+      if t.delete then
+        t:delete()
+      end
     end
     tabUI[tab] = {}
   end,
   open = function (tab)
-    local t = tabUI[tab].play
-    if t then
-      flux.to(t, 0.5, {x = rightX - t:getWidth()/2}):ease("backout")
+    for i, t in ipairs(tabUI[tab].ui) do
+      local xOffset = (i-1.5)*240
+      if #tabUI[tab].ui == 1 then xOffset=0 end
+      flux.to(t, 0.5, {x = rightX - t:getWidth()/2+xOffset}):ease("backout")
     end
   end,
   close = function (tab)
-    local t = tabUI[tab].play
-    if t then
-      flux.to(t, 0.5, {x = 1290}):ease("backin")
+    for i, t in ipairs(tabUI[tab].ui) do
+      local xOffset = (i-1.5)*240
+      if #tabUI[tab].ui == 1 then xOffset=0 end
+      flux.to(t, 0.5, {x = 1420+xOffset}):ease("backin")
     end
   end,
 })
@@ -575,6 +587,10 @@ defineTab({
     end
   end,
   draw = function (tab)
+    if tabUI[tab].items == nil then
+      return
+    end
+    
     for i, item in ipairs(tabUI[tab].items) do
       local ui = item.ui
       local x = system.ask("ui:getUIX", combiner.ADD, ui)
