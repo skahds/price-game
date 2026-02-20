@@ -14,8 +14,6 @@ local rightCoverx = 1280-350
 local listOfTrackIndicator = {}
 local currentNodeHovered = ""
 
-local currentLevelHovered
-
 local levelSelectSize = 64
 local scoreRequired
 
@@ -140,7 +138,7 @@ local function generateReward(index)
   return t
 end
 
-local firstName = {"XYZ", "Hyper", "Prime", "Quantum", "Zenith", "Clockwork", "Stasis", "Solar", "Lunar", "Elysian", "Aether", "Sigma", "Alpha"}
+local firstName = {"XYZ", "Hyper", "Prime", "Quantum", "Zenith", "Clockwork", "Stasis", "Solar", "Lunar", "Elysian", "Aether", "Alpha"}
 local lastName = {"network", "market", "exchange", "grid", "nexus", "artery", "chain", "protocol", "platform", "route", "link", "community"}
 local function generateNodeName()
   local front = firstName[love.math.random(1, #firstName)]
@@ -180,11 +178,11 @@ main.defineScene("levelSelect", function ()
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
-  -- table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
-  --   rx=20, ry=20,
-  --   renderLayer=93,
-  --   color = {0.6, 0.6, 0.6},
-  --   outlineColor = {0.4, 0.4, 0.4}, outline=10}))
+  table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
+    rx=20, ry=20,
+    renderLayer=93,
+    color = {0.6, 0.6, 0.6},
+    outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
   currentNodeHovered = currentTrack.id
   local gap = 32
@@ -239,7 +237,7 @@ main.defineScene("levelSelect", function ()
     enemy = currentTrack.enemy[love.math.random(1, #currentTrack.enemy)]
   end
 
-  --todo: change
+  --todo: save this so returning to the game doesn't reset the routes
   for i, level in ipairs(levels) do
     local x = level.x
     local y = level.y
@@ -294,7 +292,18 @@ main.defineScene("levelSelect", function ()
     end
   end
 
-  currentLevelHovered = nil
+  main.objectives.createRandomObjective()
+  main.objectives.createRandomObjective()
+  for i, obj in ipairs(main.objectives.active) do
+    for k, v in pairs(obj) do
+      print(k, v)
+    end
+    for a, d in pairs(obj.reward) do
+      print(a, d)
+    end
+  end
+  
+  local texts = main.objectives.createObjectiveRichtext({x=120,y=400})
 
   main.hideCharts()
 end, function ()
@@ -302,7 +311,6 @@ end, function ()
     main.clearTutorial()
   end
 
-  currentLevelHovered = nil
 
   deleteAll(existingUI)
   existingUI = {}
@@ -316,10 +324,6 @@ end)
 
 --juice
 local juiceInfo={s=1, r=0}
-
-local function getBobY(x)
-  return math.sin((x+juiceInfo.r*100)/100)*3
-end
 
 system.answer("ui:getUIY", function (ent)
   if ent.id == "levelTrackIndicator" then

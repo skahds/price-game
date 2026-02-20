@@ -159,3 +159,15 @@ end
 function utils.insertString(originalStr, pos, insertStr)
   return string.sub(originalStr, 1, pos-1) .. insertStr .. string.sub(originalStr, pos)
 end
+
+function utils.createEvenlySpacedPosition(n)
+  if n <= 1 then
+    return {0}
+  end
+
+  local t = {}
+  for i=1, n do
+    table.insert(t, -n/2 + i - 0.5)
+  end
+  return t
+end

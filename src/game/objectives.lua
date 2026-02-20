@@ -84,12 +84,41 @@ function main.objectives.createRandomObjective(args)
   for k, v in pairs(main.objectives.objective) do
     table.insert(bag, v)
   end
-  local def = bag[love.math.random(1, bag)]
+  local def = bag[love.math.random(1, #bag)]
   local obj = def:new(args)
   table.insert(main.objectives.active, obj)
   return obj
 end
 
+--arg={showProgress=bool, x,y}
+function main.objectives.createObjectiveRichtext(arg)
+  local listOfText = {}
+  for i, obj in ipairs(main.objectives.active) do
+    local listOfFormat = {obj.description, obj.reward.description}
+    for e, form in ipairs(listOfFormat) do
+      local t = main.newRichText({
+        format = form,
+        x=arg.x,
+        y=arg.y,
+        renderLayer=arg.renderLayer or 100,
+        outline=arg.outline or true,
+        outlineColor={0,0,0,1},
+      })
+      local h = t.richText:getHeight()
+      if e == 1 then t.y = t.y - h*0.5 else t.y = t.y + h*0.5 end
+      table.insert(listOfText, t)
+    end
+  end
+  for i, v in ipairs(utils.createEvenlySpacedPosition(#main.objectives.active)) do
+    local text1 = listOfText[i*2-1]
+    local text2 = listOfText[i*2]
+    local height = text1.richText:getHeight()
+    text1.y = text1.y + height * v * 2 * 1.1
+    text2.y = text2.y + height * v * 2 * 1.1
+  end
+
+  return listOfText
+end
 
 --[[
 todo: when defining reward, have a "minimum difficulty" var
@@ -122,6 +151,8 @@ main.objectives.defineReward("permamult", {
     main.spawnNews("multNews", {isRelic=true,defaultMultGain=math.floor((obj.difficulty)/2)})
   end
 })
+
+-- todo: add patternUpgrade, cardUpgrade etc
 
 
 --
