@@ -1,5 +1,7 @@
 local pipeline = main.getPipeline("main")
 local cover
+local objectiveCover
+local objectiveText
 -- local ownSlider
 local scaleYSlider
 local startTurn
@@ -20,10 +22,17 @@ end
 
 system.on("@update", function ()
   tutorialInfos = system.getStorage("main:tutorialInfos")
+
+  if objectiveText then
+    main.objectives.updateObjectiveRichtext(objectiveText)
+  end
 end)
 
 main.defineScene("play", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=360,
+    color = {0.5, 0.5, 0.5},
+    outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
+  objectiveCover = main.ui.spawnUI("cover", {x=1280-350, y=-20, width=370, height=360,
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
   
@@ -69,6 +78,8 @@ main.defineScene("play", function ()
     end
   end
 
+  objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=60,font=system.getFont("defaultFont30"), showProgress=true})
+
   main.showCharts()
 end, function ()
   local chart = system.getStorage("main:chart")
@@ -78,7 +89,9 @@ end, function ()
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)
-  deleteAll({cover, scaleYSlider, startTurn, setting, drawPile, discardPile, settings})
+  deleteAll({cover, scaleYSlider, startTurn, setting, drawPile, discardPile, settings, objectiveCover})
+  deleteAll(objectiveText)
+  objectiveText = {}
   chart:clear()
 
   local bar = main.spawnBar()

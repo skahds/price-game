@@ -25,6 +25,9 @@ function main.objectives.createRandomReward(difficulty)
 end
 
 function main.objectives.defineObjective(id, oType)
+  oType.failFromPass = oType.failFromPass or false -- ie: 'don't use x card' would use true since if it's used the objective fails
+  oType.passed = false
+
   local obj = class()
   oType.id = id
   obj.id = id
@@ -95,6 +98,9 @@ function main.objectives.createObjectiveRichtext(arg)
   local listOfText = {}
   for i, obj in ipairs(main.objectives.active) do
     local listOfFormat = {obj.description, obj.reward.description}
+    if arg.showProgress then
+      listOfFormat[1] = listOfFormat[1] .. " [" .. obj:getProgress() .. "]"
+    end
     for e, form in ipairs(listOfFormat) do
       local t = main.newRichText({
         format = form,
@@ -102,9 +108,10 @@ function main.objectives.createObjectiveRichtext(arg)
         y=arg.y,
         renderLayer=arg.renderLayer or 100,
         outline=arg.outline or true,
+        font=arg.font,
         outlineColor={0,0,0,1},
       })
-      local h = t.richText:getHeight()
+      local h = t.richText:getHeight()*0.8
       if e == 1 then t.y = t.y - h*0.5 else t.y = t.y + h*0.5 end
       table.insert(listOfText, t)
     end
@@ -113,16 +120,28 @@ function main.objectives.createObjectiveRichtext(arg)
     local text1 = listOfText[i*2-1]
     local text2 = listOfText[i*2]
     local height = text1.richText:getHeight()
-    text1.y = text1.y + height * v * 2 * 1.1
-    text2.y = text2.y + height * v * 2 * 1.1
+    text1.y = text1.y + height * v * 2 * 1.2
+    text2.y = text2.y + height * v * 2 * 1.2
   end
 
   return listOfText
 end
 
+--call this when u updating the objective richtext in the scene to keep track of it's progress
+function main.objectives.updateObjectiveRichtext(listOfText)
+  
+end
+
+function main.objectives.progressObjective(id, ...)
+  for i, obj in ipairs(main.objectives.active) do
+    if obj.id == id then
+      obj:progress(...)
+    end
+  end
+end
+
 --[[
-todo: when defining reward, have a "minimum difficulty" var
-so the defineReward.load would take (difficulty) and set itself up a reward to claim and description
+todo:
 ]]
 
 
@@ -185,22 +204,38 @@ main.objectives.defineObjective("pattern", {
     local difficulty = pattern.diff + pattern.increment*(amount-1)
     local name = main.getPattern(pattern.id).name
     obj.pattern = pattern.id
+    obj.currentAmount = 0
     obj.amount = amount
     obj.difficulty = difficulty
-    obj.description = "Create " .. name .. " pattern " .. amount .. " times"
+    obj.description = "Create " .. amount .. "x " .. name
   end,
   getProgress = function (obj)
-    return "0/" .. obj.amount
+    return obj.currentAmount .. "/" .. obj.amount
   end,
+  progress = function (obj, id)
+    if obj.pattern == id then
+      obj.currentAmount = obj.currentAmount + 1
+
+      if obj.currentAmount >= obj.amount then
+        obj.passed = true
+      end
+    end
+  end
 })
+
+system.on("main:patternActivated", function (pattern)
+  main.objectives.progressObjective("pattern", pattern.id)
+end)
 
 
 -- use less than X card
 
 -- take less than X turn
 
--- get a N combo
+-- get a N combo, FIX COMBO FIRST
 
--- don't use X card
+-- don't use X card, eh sounds boring
+
+--
 
 -- use X card less/more than Y times 

@@ -296,6 +296,7 @@ function main.activatePattern(pattern)
       card:onActivate()
     end
   end
+  system.call("main:patternActivated", pattern)
 end
 
 function main.getPatternsTable()

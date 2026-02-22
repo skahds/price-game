@@ -17,6 +17,8 @@ local currentNodeHovered = ""
 local levelSelectSize = 64
 local scoreRequired
 
+local objectiveText
+
 --
 --level select things
 --
@@ -303,7 +305,7 @@ main.defineScene("levelSelect", function ()
     end
   end
   
-  local texts = main.objectives.createObjectiveRichtext({x=120,y=400})
+  objectiveText = main.objectives.createObjectiveRichtext({x=leftCoverX+10,y=400,font=system.getFont("defaultFont30")})
 
   main.hideCharts()
 end, function ()
@@ -311,13 +313,14 @@ end, function ()
     main.clearTutorial()
   end
 
-
   deleteAll(existingUI)
   existingUI = {}
   deleteAll(listOfTrackIndicator)
   listOfTrackIndicator = {}
   deleteAll(activeRouteUI)
   activeRouteUI = {}
+  deleteAll(objectiveText)
+  objectiveText = {}
 
   levels = {}
 end)
