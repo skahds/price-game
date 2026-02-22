@@ -78,7 +78,7 @@ main.defineScene("play", function ()
     end
   end
 
-  objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=60,font=system.getFont("defaultFont30"), showProgress=true})
+  objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=120,font=system.getFont("defaultFont30"), showProgress=true})
 
   main.showCharts()
 end, function ()

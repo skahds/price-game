@@ -124,12 +124,23 @@ function main.objectives.createObjectiveRichtext(arg)
     text2.y = text2.y + height * v * 2 * 1.2
   end
 
+  listOfText.showProgress = arg.showProgress
   return listOfText
 end
 
 --call this when u updating the objective richtext in the scene to keep track of it's progress
 function main.objectives.updateObjectiveRichtext(listOfText)
-  
+  -- perhaps i should check edgecases where listOfText doesn't have as many text as there is active objective, but i think that shouldn't happen
+  for i, obj in ipairs(main.objectives.active) do
+    local listOfFormat = {obj.description, obj.reward.description}
+    if listOfText.showProgress then
+      listOfFormat[1] = listOfFormat[1] .. " [" .. obj:getProgress() .. "]"
+    end
+    for e, form in ipairs(listOfFormat) do
+      local text = listOfText[(i-1)*2+e]
+      main.updateRichTextText(text, form)
+    end
+  end
 end
 
 function main.objectives.progressObjective(id, ...)
