@@ -120,8 +120,8 @@ function main.objectives.createObjectiveRichtext(arg)
     local text1 = listOfText[i*2-1]
     local text2 = listOfText[i*2]
     local height = text1.richText:getHeight()
-    text1.y = text1.y + height * v * 2 * 1.2
-    text2.y = text2.y + height * v * 2 * 1.2
+    text1.y = text1.y + height * (v+0.5) * 2 * 1.2
+    text2.y = text2.y + height * (v+0.5) * 2 * 1.2
   end
 
   listOfText.showProgress = arg.showProgress

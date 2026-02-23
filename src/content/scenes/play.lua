@@ -32,7 +32,7 @@ main.defineScene("play", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=360,
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
-  objectiveCover = main.ui.spawnUI("cover", {x=1280-350, y=-20, width=370, height=360,
+  objectiveCover = main.ui.spawnUI("cover", {x=1280-350, y=100, width=370, height=240,
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
   
@@ -78,7 +78,7 @@ main.defineScene("play", function ()
     end
   end
 
-  objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=120,font=system.getFont("defaultFont30"), showProgress=true})
+  objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=130,font=system.getFont("defaultFont30"), showProgress=true})
 
   main.showCharts()
 end, function ()
