@@ -24,6 +24,14 @@ function main.objectives.createRandomReward(difficulty)
   return reward:new({difficulty=difficulty})
 end
 
+function main.objectives.canBeClaimed(obj)
+  if (obj.failFromPass and obj:isPass() == false)
+  or (obj.failFromPass ~= true and obj:isPass()) then
+    return true
+  end
+  return false
+end
+
 function main.objectives.defineObjective(id, oType)
   oType.failFromPass = oType.failFromPass or false -- ie: 'don't use x card' would use true since if it's used the objective fails
   oType.passed = false
@@ -162,6 +170,29 @@ function main.objectives.progressObjective(id, ...)
   end
 end
 
+--include listOfText so i can animate it
+function main.objectives.claimObjectives(listOfText)
+  for i, obj in ipairs(main.objectives.active) do
+    if obj.isClaimed ~= true then
+      if main.objectives.canBeClaimed(obj) then
+        obj.isClaimed = true
+        obj.reward:claim()
+        return
+      end
+    end
+  end
+end
+
+function main.objectives.areThereClaimableObjectives()
+  for i, obj in ipairs(main.objectives.active) do
+    if obj.isClaimed ~= true then
+      if main.objectives.canBeClaimed(obj) then
+        return true
+      end
+    end
+  end
+end
+
 --[[
 todo:
 ]]
@@ -189,7 +220,7 @@ main.objectives.defineReward("permamult", {
     obj.description = "Gives permanent {multColor}+" .. math.floor((obj.difficulty)/2) .. " MULT"
   end,
   claim = function (obj)
-    main.spawnNews("multNews", {isRelic=true,defaultMultGain=math.floor((obj.difficulty)/2)})
+    main.spawnNews("multNews", {isRelic=true,defaultMultGain=math.floor((obj.difficulty)/2),x=0,y=0})
   end
 })
 
@@ -244,10 +275,11 @@ main.objectives.defineObjective("pattern", {
     end
   end,
   isPass = function (obj)
-    if obj.currentAmount >= obj.amount then
-      return true
-    end
-    return false
+    return true
+    -- if obj.currentAmount >= obj.amount then
+    --   return true
+    -- end
+    -- return false
   end
 })
 

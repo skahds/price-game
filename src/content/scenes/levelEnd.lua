@@ -4,6 +4,7 @@ local flux = system.getStorage("flux")
 local font = system.getFont("defaultFont60")
 local cover
 local levelEndContinue
+local objectiveText
 local stats = {}
 
 local function deleteAll(args)
@@ -37,6 +38,31 @@ local function continueAction()
     table.remove(reward, 1)
     return
   end
+
+  if main.objectives.areThereClaimableObjectives() and objectiveText == nil then
+    objectiveText = main.objectives.createObjectiveRichtext({x=640-150,y=-200,font=system.getFont("defaultFont30"), showProgress=true})--todo center xy
+    for i, text in ipairs(objectiveText) do
+      flux.to(text, 0.5, {y=text.y+640})
+    end
+    return
+  end
+
+  -- todo: claim reward automatically sequentially
+  if main.objectives.areThereClaimableObjectives() then
+    main.objectives.claimObjectives()
+    if main.objectives.areThereClaimableObjectives() == false then
+      for i, text in ipairs(objectiveText) do
+        flux.to(text, 0.5, {y=text.y-640})
+      end
+      main.wait(0.6, function ()
+        deleteAll(objectiveText)
+        objectiveText=nil
+      end)
+    end
+    return
+  end
+
+  
 
   if #main.card.reward > 0 then
     main.clearRewardOptions()
@@ -130,6 +156,12 @@ main.ui.defineButton("levelEndContinue", {
     continueAction()
   end
 })
+
+system.on("@update", function ()
+  if objectiveText then
+    main.objectives.updateObjectiveRichtext(objectiveText)
+  end
+end)
 
 system.on("@draw", function ()
   local scene = system.getStorage("main:currentScene")
