@@ -8,11 +8,12 @@ local stats = {}
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
-    if ent.delete then
+    if type(ent) == "table" and ent.delete then
       ent:delete()
     end
   end
 end
+
 
 local function continueAction()
   local pipeline = main.getPipeline("main")

@@ -128,16 +128,27 @@ function main.objectives.createObjectiveRichtext(arg)
   return listOfText
 end
 
+local white, green, red = {1,1,1}, {0.6, 1, 0.6}, {1, 0.3, 0.3}
 --call this when u updating the objective richtext in the scene to keep track of it's progress
 function main.objectives.updateObjectiveRichtext(listOfText)
   -- perhaps i should check edgecases where listOfText doesn't have as many text as there is active objective, but i think that shouldn't happen
   for i, obj in ipairs(main.objectives.active) do
+    local color = white
+    if obj:isPass() then
+      if obj.failFromPass then
+        color = red
+      else
+        color = green
+      end
+    end
+
     local listOfFormat = {obj.description, obj.reward.description}
     if listOfText.showProgress then
       listOfFormat[1] = listOfFormat[1] .. " [" .. obj:getProgress() .. "]"
     end
     for e, form in ipairs(listOfFormat) do
       local text = listOfText[(i-1)*2+e]
+      if e==1 then text.color = color end
       main.updateRichTextText(text, form)
     end
   end
@@ -231,6 +242,12 @@ main.objectives.defineObjective("pattern", {
         obj.passed = true
       end
     end
+  end,
+  isPass = function (obj)
+    if obj.currentAmount >= obj.amount then
+      return true
+    end
+    return false
   end
 })
 

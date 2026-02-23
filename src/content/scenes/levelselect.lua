@@ -24,7 +24,7 @@ local objectiveText
 --
 local function deleteAll(args)
   for k, ent in pairs(args) do
-    if ent.delete then
+    if type(ent) == "table" and ent.delete then
       ent:delete()
     end
   end
@@ -320,7 +320,6 @@ end, function ()
   deleteAll(activeRouteUI)
   activeRouteUI = {}
   deleteAll(objectiveText)
-  objectiveText = {}
 
   levels = {}
 end)

@@ -14,7 +14,7 @@ local tutorialInfos = system.getStorage("main:tutorialInfos")
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
-    if ent.delete then
+    if type(ent) == "table" and ent.delete then
       ent:delete()
     end
   end
@@ -91,7 +91,7 @@ end, function ()
   system.updateStorage("main:endLevelStats", endStats)
   deleteAll({cover, scaleYSlider, startTurn, setting, drawPile, discardPile, settings, objectiveCover})
   deleteAll(objectiveText)
-  objectiveText = {}
+  objectiveText = nil
   chart:clear()
 
   local bar = main.spawnBar()
