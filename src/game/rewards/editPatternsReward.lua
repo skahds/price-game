@@ -140,7 +140,8 @@ system.on("@update", function ()
     renderLayer = renderLayer+1,
     x=textPos.topText.x,
     y=textPos.topText.y,
-    outline=true
+    outline=true,
+    outlineColor={0,0,0,1}
   })
   t.x = t.x - t.richText:getWidth()/2
 
@@ -149,7 +150,8 @@ system.on("@update", function ()
     renderLayer = renderLayer+1,
     x=textPos.nameText.x,
     y=textPos.nameText.y,
-    outline=true
+    outline=true,
+    outlineColor={0,0,0,1}
   })
   t.x = t.x - t.richText:getWidth()/2
   local t = main.printRichText({
@@ -157,7 +159,8 @@ system.on("@update", function ()
     renderLayer = renderLayer+1,
     x=textPos.nameText.x,
     y=textPos.nameText.y,
-    outline=true
+    outline=true,
+    outlineColor={0,0,0,1}
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y + t.richText:getHeight()

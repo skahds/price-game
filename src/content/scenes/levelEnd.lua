@@ -158,6 +158,7 @@ main.defineScene("levelEnd", function ()
   system.call("main:scoreChanged", 0)
   main.showCharts()
 end, function ()
+  main.objectives.clearObjectives()
 
   deleteAll({cover, levelEndContinue})
   deleteAll(stats)

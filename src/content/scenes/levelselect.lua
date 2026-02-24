@@ -294,10 +294,12 @@ main.defineScene("levelSelect", function ()
     end
   end
 
-  main.objectives.createRandomObjective()
-  main.objectives.createRandomObjective()
-  
-  objectiveText = main.objectives.createObjectiveRichtext({x=leftCoverX+10,y=400,font=system.getFont("defaultFont30")})
+  if currentTrack.id == "PLAY" then
+    main.objectives.createRandomObjective()
+    main.objectives.createRandomObjective()
+    
+    objectiveText = main.objectives.createObjectiveRichtext({x=leftCoverX+10,y=400,font=system.getFont("defaultFont30")})
+  end
 
   main.hideCharts()
 end, function ()

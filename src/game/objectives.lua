@@ -192,6 +192,10 @@ function main.objectives.areThereClaimableObjectives()
   end
 end
 
+function main.objectives.clearObjectives()
+  main.objectives.active = {}
+end
+
 --[[
 todo:
 ]]
