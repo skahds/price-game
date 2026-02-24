@@ -138,9 +138,7 @@ end
 
 local white, green, red = {1,1,1}, {0.6, 1, 0.6}, {1, 0.3, 0.3}
 --call this when u updating the objective richtext in the scene to keep track of it's progress
-function main.objectives.updateObjectiveRichtext(listOfText)
-  -- perhaps i should check edgecases where listOfText doesn't have as many text as there is active objective, but i think that shouldn't happen
-  for i, obj in ipairs(main.objectives.active) do
+function main.objectives.updateObjectiveRichtext(listOfText)  for i, obj in ipairs(main.objectives.active) do
     local color = white
     if obj:isPass() then
       if obj.failFromPass then
@@ -156,8 +154,10 @@ function main.objectives.updateObjectiveRichtext(listOfText)
     end
     for e, form in ipairs(listOfFormat) do
       local text = listOfText[(i-1)*2+e]
-      if e==1 then text.color = color end
-      main.updateRichTextText(text, form)
+      if text then
+        if e==1 then text.color = color end
+        main.updateRichTextText(text, form)
+      end
     end
   end
 end
@@ -170,8 +170,7 @@ function main.objectives.progressObjective(id, ...)
   end
 end
 
---include listOfText so i can animate it
-function main.objectives.claimObjectives(listOfText)
+function main.objectives.claimObjectives()
   for i, obj in ipairs(main.objectives.active) do
     if obj.isClaimed ~= true then
       if main.objectives.canBeClaimed(obj) then

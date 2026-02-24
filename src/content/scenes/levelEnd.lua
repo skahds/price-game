@@ -7,6 +7,12 @@ local levelEndContinue
 local objectiveText
 local stats = {}
 
+local middleY = 280
+
+main.newPipeline("levelEnd")
+local pipeline = main.getPipeline("levelEnd")
+pipeline.ignoreGameSpeed = true
+
 local function deleteAll(args)
   for k, ent in pairs(args) do
     if type(ent) == "table" and ent.delete then
@@ -17,7 +23,6 @@ end
 
 
 local function continueAction()
-  local pipeline = main.getPipeline("main")
   if #pipeline.pipeline > 0 then
     return
   end
@@ -26,10 +31,20 @@ local function continueAction()
     for i, text in ipairs(stats) do
       flux.to(text, 0.3, {y=-100})
     end
-    main.wait(0.2, function ()
+    main.wait(0.4, function ()
       deleteAll(stats)
     end)
     stats = {}
+
+    for i, text in ipairs(objectiveText) do
+      flux.to(text, 0.3, {y=text.y-360})
+    end
+    main.wait(0.4, function ()
+      for i, text in ipairs(objectiveText) do
+        text:delete()
+      end
+      objectiveText=nil
+    end)
   end
 
   local reward = system.getStorage("main:endLevelReward")
@@ -39,28 +54,17 @@ local function continueAction()
     return
   end
 
-  if main.objectives.areThereClaimableObjectives() and objectiveText == nil then
-    objectiveText = main.objectives.createObjectiveRichtext({x=640-150,y=-200,font=system.getFont("defaultFont30"), showProgress=true})--todo center xy
-    for i, text in ipairs(objectiveText) do
-      flux.to(text, 0.5, {y=text.y+640})
-    end
-    return
-  end
-
   -- todo: claim reward automatically sequentially
-  if main.objectives.areThereClaimableObjectives() then
-    main.objectives.claimObjectives()
-    if main.objectives.areThereClaimableObjectives() == false then
-      for i, text in ipairs(objectiveText) do
-        flux.to(text, 0.5, {y=text.y-640})
-      end
-      main.wait(0.6, function ()
-        deleteAll(objectiveText)
-        objectiveText=nil
-      end)
-    end
-    return
-  end
+  -- if main.objectives.areThereClaimableObjectives() then
+  --   for i, objective in ipairs(main.objectives.active) do
+      
+  --   end
+  --   main.objectives.claimObjectives()
+  --   if main.objectives.areThereClaimableObjectives() == false then
+
+  --   end
+  --   return
+  -- end
 
   
 
@@ -75,15 +79,14 @@ local function continueAction()
   main.clearRewardUpgrade()
   main.clearRewardEditPattern()
 
-  local pipeline = main.getPipeline("scene")
-  if #pipeline.pipeline == 0 then
+  local scenePipeline = main.getPipeline("scene")
+  if #scenePipeline.pipeline == 0 then
     main.playScene("levelSelect")
   end
 end
 
 main.defineScene("levelEnd", function ()
   local reward = system.getStorage("main:endLevelReward")
-  local pipeline = main.getPipeline("main")
   levelEndContinue = main.ui.spawnUI("levelEndContinue", {x=640-150, y=430})
 
   local finalStats = system.getStorage("main:endLevelStats")
@@ -103,12 +106,13 @@ main.defineScene("levelEnd", function ()
 
   local height = font:getHeight()
 
+  local spacing = utils.createEvenlySpacedPosition(#t)
   for i, format in ipairs(t) do
-    pipeline:add(0.2, function ()
+    pipeline:add(0.15, function ()
       local t = main.newRichText({
         format = format,
-        x=640,
-        y=200+height*(i-1),
+        x=1280*1/4,
+        y=middleY+height*(spacing[i]),
         renderLayer=102,
         font=font,
         sx=0.8,
@@ -116,6 +120,7 @@ main.defineScene("levelEnd", function ()
       })
       local ox = t.richText:getWidth()/2
       t.ox = ox
+      t.oy = t.richText:getHeight()/2
       table.insert(stats, t)
       -- t.x = t.x - t.richText:getWidth()/2
       flux.to(t, 0.4, {sx=1, sy=1}):ease("backinout")
@@ -129,6 +134,25 @@ main.defineScene("levelEnd", function ()
 
   main.addMoney(money)
   main.addMoney(roundsRemaining)
+
+  objectiveText = main.objectives.createObjectiveRichtext({x=1280*3/4,y=-400,font=system.getFont("defaultFont50"), showProgress=true, renderLayer=105})
+  local highY, lowY = objectiveText[1].y, objectiveText[#objectiveText].y+objectiveText[#objectiveText].richText:getHeight()
+  local middleOfText = highY+((lowY-highY)/2)
+  local gapToMiddle = middleY-(middleOfText)
+  for i, text in ipairs(objectiveText) do
+    local ox = text.richText:getWidth()/2
+    text.ox = ox
+    text.sx=0.8
+    text.sy=0.8
+    pipeline:add(0.15, function ()
+      text.y = text.y + gapToMiddle
+      flux.to(text, 0.4, {sx=1, sy=1}):ease("backinout")
+
+      if i%2 == 0 then
+        main.objectives.claimObjectives()
+      end
+    end)
+  end
 
   system.updateStorage("main:score", 0)
   system.call("main:scoreChanged", 0)

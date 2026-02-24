@@ -296,14 +296,6 @@ main.defineScene("levelSelect", function ()
 
   main.objectives.createRandomObjective()
   main.objectives.createRandomObjective()
-  for i, obj in ipairs(main.objectives.active) do
-    for k, v in pairs(obj) do
-      print(k, v)
-    end
-    for a, d in pairs(obj.reward) do
-      print(a, d)
-    end
-  end
   
   objectiveText = main.objectives.createObjectiveRichtext({x=leftCoverX+10,y=400,font=system.getFont("defaultFont30")})
 

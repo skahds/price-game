@@ -14,7 +14,6 @@ function main.createPopupText(info)
     })
     local yOffset = t.richText:getHeight()*((i-0.5)-#info.text/2)
     local xOffset = -t.richText:getWidth()/2
-    print(yOffset)
     t.y = t.y + yOffset
     t.x = t.x + xOffset
     
