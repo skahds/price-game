@@ -20,11 +20,22 @@ local function deleteAll(args)
   end
 end
 
+local gap = 30
 system.on("@update", function ()
   tutorialInfos = system.getStorage("main:tutorialInfos")
 
   if objectiveText then
     main.objectives.updateObjectiveRichtext(objectiveText)
+  end
+  if objectiveCover and objectiveText then
+    local maxWidth = 0
+    for i, text in ipairs(objectiveText) do
+      maxWidth = math.max(maxWidth, text.richText:getWidth())
+    end
+    local highY, lowY = objectiveText[1].y, objectiveText[#objectiveText].y+objectiveText[#objectiveText].richText:getHeight()
+    local height = lowY-highY
+    objectiveCover.width = maxWidth+gap*2
+    objectiveCover.height = height+gap*2
   end
 end)
 
@@ -32,9 +43,9 @@ main.defineScene("play", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=360,
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
-  objectiveCover = main.ui.spawnUI("cover", {x=1280-350, y=100, width=370, height=240,
-    color = {0.5, 0.5, 0.5},
-    outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
+  objectiveCover = main.ui.spawnUI("cover", {x=1280-350, y=140, width=370, height=100,
+    color = {0.1, 0.1, 0.1, 0.2},
+    outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
   
   startTurn = main.ui.spawnUI("startTurn", {x=640-100, y=30})
   drawPile = main.ui.spawnUI("drawPile", {x=1280-60, y=720-60})
@@ -78,7 +89,7 @@ main.defineScene("play", function ()
     end
   end
 
-  objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=130,font=system.getFont("defaultFont30"), showProgress=true})
+  objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=170,font=system.getFont("defaultFont30"), showProgress=true})
 
   main.showCharts()
 end, function ()
@@ -106,6 +117,21 @@ end, function ()
     end
   end
 end)
+
+
+-- objective uis
+main.ui.defineUI("objectiveCover", {
+  defaultWidth = 100,
+  defaultHeight = 100,
+  screenSpace = true,
+  renderLayer = 50,
+  ignoreUIChecks = true,
+  color = {0.1, 0.1, 0.1, 0.3},
+  outline = 10,
+  outlineColor = {0.8, 0.8, 0.8, 1},
+})
+
+
 
 --tutorial
 system.on("main:cardClicked", function (ent)
