@@ -446,7 +446,7 @@ local function createItem(item, info)
     t=n
   end
 end
---todo: ofc fix bug where if you unlock enough and no more item in bag it crash
+
 local canClick = true
 local function unlockItem(ent, tab)
   if ent.alreadyChosen == true then

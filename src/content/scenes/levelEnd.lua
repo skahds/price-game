@@ -135,17 +135,16 @@ main.defineScene("levelEnd", function ()
   main.addMoney(money)
   main.addMoney(roundsRemaining)
 
-  objectiveText = main.objectives.createObjectiveRichtext({x=1280*3/4,y=-400,font=system.getFont("defaultFont50"), showProgress=true, renderLayer=105})
+  objectiveText = main.objectives.createObjectiveRichtext({x=1280*3/4,y=-400,font=system.getFont("defaultFont50"), showProgress=true, renderLayer=105, centerX=true})
   local highY, lowY = objectiveText[1].y, objectiveText[#objectiveText].y+objectiveText[#objectiveText].richText:getHeight()
   local middleOfText = highY+((lowY-highY)/2)
   local gapToMiddle = middleY-(middleOfText)
   for i, text in ipairs(objectiveText) do
-    local ox = text.richText:getWidth()/2
-    text.ox = ox
     text.sx=0.8
     text.sy=0.8
     pipeline:add(0.15, function ()
       text.y = text.y + gapToMiddle
+      text.y = middleY
       flux.to(text, 0.4, {sx=1, sy=1}):ease("backinout")
 
       if i%2 == 0 then

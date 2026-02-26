@@ -1,3 +1,4 @@
+local flux = system.getStorage("flux")
 main.objectives = {
   objective = {},
   rewards = {},
@@ -131,9 +132,59 @@ function main.objectives.createObjectiveRichtext(arg)
     text1.y = text1.y + height * (v+0.5) * 2 * 1.2
     text2.y = text2.y + height * (v+0.5) * 2 * 1.2
   end
+  if arg.centerY then
+    local highY = listOfText[1].y
+    local lowY = listOfText[#listOfText].y + listOfText[#listOfText].richText:getHeight()
+    local middleY = (lowY+highY)/2
+    local gap = arg.y - middleY
+    for i, text in ipairs(listOfText) do
+      text.y = text.y + gap
+    end
+  end
+  if arg.centerX then
+    for i, text in ipairs(listOfText) do
+      local ox = text.richText:getWidth()/2
+      text.ox = ox
+    end
+  end
 
   listOfText.showProgress = arg.showProgress
   return listOfText
+end
+
+function main.objectives.fluxObjectiveText(listOfText, arg)
+  local thingToFlux = {}
+  for i=1, #listOfText do
+    thingToFlux[i] = {}
+  end
+
+  if arg.y then
+    local startY = listOfText[1].y
+    local targetY = arg.y
+    if arg.centerY then
+      local highY = listOfText[1].y
+      local lowY = listOfText[#listOfText].y + listOfText[#listOfText].richText:getHeight()
+      local height = (lowY-highY)/2
+      startY = startY + height
+    end
+    local finishY = targetY-startY
+    for i, text in ipairs(listOfText) do
+      thingToFlux[i].y = text.y + finishY
+    end
+  end
+
+  if arg.x then
+    local startX = listOfText[1].x
+    local targetX = arg.x
+    local finishX = targetX-startX
+    for i, text in ipairs(listOfText) do
+      thingToFlux[i].x = text.x + finishX
+    end
+  end
+
+  for i, text in ipairs(listOfText) do
+    flux.to(text, arg.time, thingToFlux[i])
+  end
 end
 
 local white, green, red = {1,1,1}, {0.6, 1, 0.6}, {1, 0.3, 0.3}
@@ -278,11 +329,10 @@ main.objectives.defineObjective("pattern", {
     end
   end,
   isPass = function (obj)
-    return true
-    -- if obj.currentAmount >= obj.amount then
-    --   return true
-    -- end
-    -- return false
+    if obj.currentAmount >= obj.amount then
+      return true
+    end
+    return false
   end
 })
 

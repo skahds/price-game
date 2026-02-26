@@ -298,7 +298,7 @@ main.defineScene("levelSelect", function ()
     main.objectives.createRandomObjective()
     main.objectives.createRandomObjective()
     
-    objectiveText = main.objectives.createObjectiveRichtext({x=leftCoverX+10,y=400,font=system.getFont("defaultFont30")})
+    objectiveText = main.objectives.createObjectiveRichtext({x=leftCoverX+10,y=900,font=system.getFont("defaultFont30"), centerY=true})
   end
 
   main.hideCharts()
@@ -351,6 +351,7 @@ system.on("@draw", function ()
   end
 
   system.render(3, function ()
+    
     for i, ui in ipairs(activeRouteUI) do
       love.graphics.setColor(1, 1, 1, 0.2)
       love.graphics.setLineWidth(4)
