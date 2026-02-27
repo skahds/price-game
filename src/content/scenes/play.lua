@@ -1,6 +1,7 @@
+local flux = system.getStorage("flux")
 local pipeline = main.getPipeline("main")
 local cover
-local objectiveCover
+local objectiveCover, objectiveArrow
 local objectiveText
 -- local ownSlider
 local scaleYSlider
@@ -11,6 +12,8 @@ local drawPile, discardPile
 
 --tutorial, stage kinda like a rocketship :)
 local tutorialInfos = system.getStorage("main:tutorialInfos")
+
+local isObjectiveClosed = false
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -26,16 +29,26 @@ system.on("@update", function ()
 
   if objectiveText then
     main.objectives.updateObjectiveRichtext(objectiveText)
-  end
-  if objectiveCover and objectiveText then
     local maxWidth = 0
     for i, text in ipairs(objectiveText) do
       maxWidth = math.max(maxWidth, text.richText:getWidth())
+      text.x = objectiveCover.x + gap
     end
     local highY, lowY = objectiveText[1].y, objectiveText[#objectiveText].y+objectiveText[#objectiveText].richText:getHeight()
     local height = lowY-highY
     objectiveCover.width = maxWidth+gap*2
     objectiveCover.height = height+gap*2
+
+    objectiveArrow.x = objectiveCover.x - 50
+    objectiveArrow.y = objectiveCover.y + objectiveCover.height/2 - 32
+
+    if isObjectiveClosed then
+      flux.to(objectiveCover, 0.3, {x=1285})
+      objectiveArrow.image = "objectivePanelArrowLeft"
+    else
+      flux.to(objectiveCover, 0.3, {x=1280-350})
+      objectiveArrow.image = "objectivePanelArrowRight"
+    end
   end
 end)
 
@@ -44,8 +57,9 @@ main.defineScene("play", function ()
     color = {0.5, 0.5, 0.5},
     outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
   objectiveCover = main.ui.spawnUI("cover", {x=1280-350, y=140, width=370, height=100,
-    color = {0.1, 0.1, 0.1, 0.2},
+    color = {0.1, 0.1, 0.1, 0.4},
     outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
+  objectiveArrow = main.ui.spawnUI("objectivePanelArrow", {x=1280-480, y=140+100/2-100/2})
   
   startTurn = main.ui.spawnUI("startTurn", {x=640-100, y=30})
   drawPile = main.ui.spawnUI("drawPile", {x=1280-60, y=720-60})
@@ -100,7 +114,7 @@ end, function ()
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)
-  deleteAll({cover, scaleYSlider, startTurn, setting, drawPile, discardPile, settings, objectiveCover})
+  deleteAll({cover, scaleYSlider, startTurn, setting, drawPile, discardPile, settings, objectiveCover, objectiveArrow})
   deleteAll(objectiveText)
   objectiveText = nil
   chart:clear()
@@ -120,15 +134,19 @@ end)
 
 
 -- objective uis
-main.ui.defineUI("objectiveCover", {
-  defaultWidth = 100,
+main.ui.defineUI("objectivePanelArrow", {
+  defaultWidth = 50,
   defaultHeight = 100,
+  image = "objectivePanelArrowRight",
   screenSpace = true,
   renderLayer = 50,
-  ignoreUIChecks = true,
-  color = {0.1, 0.1, 0.1, 0.3},
-  outline = 10,
-  outlineColor = {0.8, 0.8, 0.8, 1},
+  onMouseReleased = function (ent, button)
+    if isObjectiveClosed then
+      isObjectiveClosed = false
+    else
+      isObjectiveClosed = true
+    end
+  end,
 })
 
 
