@@ -7,6 +7,9 @@ main.ui.defineButton("loadGame", {
   text = "CONTINUE",
   audio = "breaker",
   onButtonClicked = function (ent)
-    system.loadGame()
+    local pipeline = main.getPipeline("scene")
+    if #pipeline.pipeline == 0 then
+      system.loadGame()
+    end
   end
 })

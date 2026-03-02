@@ -8,7 +8,7 @@ local currentRoute = 1
 local currentCycle = 1
 
 local existingUI = {}
-local leftCoverX = 20
+local leftCoverX = 60
 local coverWidth = 330
 local rightCoverx = 1280-350
 local listOfTrackIndicator = {}
@@ -174,17 +174,21 @@ main.defineScene("levelSelect", function ()
 
   local currentTrack = route[currentCycle][currentRoute]
 
-  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=-20, width=330, height=800,
+  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=-20, width=330, height=320,
     rx=20, ry=20,
     renderLayer=93,
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
-  table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
-    rx=20, ry=20,
-    renderLayer=93,
-    color = {0.6, 0.6, 0.6},
-    outlineColor = {0.4, 0.4, 0.4}, outline=10}))
+  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=350, width=330, height=300,
+    color = {0.1, 0.1, 0.1, 0.4},
+    outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20}))
+
+  -- table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
+  --   rx=20, ry=20,
+  --   renderLayer=93,
+  --   color = {0.6, 0.6, 0.6},
+  --   outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
   currentNodeHovered = currentTrack.id
   local gap = 32
@@ -286,7 +290,7 @@ main.defineScene("levelSelect", function ()
     end
   end
 
-  main.tweenCamera(0.2, {x=0, y=0, zoom=1})
+  main.tweenCamera(0.2, {x=-160, y=0, zoom=1})
 
   if system.getStorage("main:isDoingTutorial") then
     if currentRoute == 1 and currentCycle == 1 then
@@ -298,7 +302,7 @@ main.defineScene("levelSelect", function ()
     main.objectives.createRandomObjective()
     main.objectives.createRandomObjective()
     
-    objectiveText = main.objectives.createObjectiveRichtext({x=leftCoverX+10,y=900,font=system.getFont("defaultFont30"), centerY=true})
+    objectiveText = main.objectives.createObjectiveRichtext({x=leftCoverX+330/2,y=380,font=system.getFont("defaultFont30"), centerX=true})
   end
 
   main.hideCharts()
