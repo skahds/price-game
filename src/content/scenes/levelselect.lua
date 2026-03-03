@@ -18,6 +18,7 @@ local levelSelectSize = 64
 local scoreRequired
 
 local objectiveText
+local objectiveCover
 
 --
 --level select things
@@ -180,9 +181,9 @@ main.defineScene("levelSelect", function ()
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
-  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=350, width=330, height=300,
+  objectiveCover = main.ui.spawnUI("cover", {x=-30, y=350, width=30+leftCoverX+330, height=300,
     color = {0.1, 0.1, 0.1, 0.4},
-    outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20}))
+    outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
 
   -- table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
   --   rx=20, ry=20,
@@ -318,6 +319,8 @@ end, function ()
   deleteAll(activeRouteUI)
   activeRouteUI = {}
   deleteAll(objectiveText)
+
+  deleteAll({objectiveCover})
 
   levels = {}
 end)

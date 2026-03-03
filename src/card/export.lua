@@ -25,6 +25,17 @@ function main.getAllVisiblePiles()
   return {main.card.hand, main.card.shop, main.card.reward, main.card.upgrade, main.card.misc}
 end
 
+local pilesInDeck = {"hand", "discard", "draw"}
+function main.getDeckCards()
+  local t={}
+  for i, pile in ipairs(pilesInDeck) do
+    for i, card in ipairs(main.card[pile]) do
+      table.insert(t, card)
+    end
+  end
+  return t
+end
+
 local function fixCardOrderOnStack(ownerShip)
   local stack = main.card[ownerShip]
   for i, card in ipairs(stack) do

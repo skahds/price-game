@@ -46,7 +46,7 @@ system.on("@update", function ()
       flux.to(objectiveCover, 0.3, {x=1285})
       objectiveArrow.image = "objectivePanelArrowLeft"
     else
-      flux.to(objectiveCover, 0.3, {x=1280-350})
+      flux.to(objectiveCover, 0.3, {x=1280-maxWidth-gap*2})
       objectiveArrow.image = "objectivePanelArrowRight"
     end
   end

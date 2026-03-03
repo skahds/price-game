@@ -94,7 +94,11 @@ function main.objectives.createRandomObjective(args)
   args = args or {}
   local bag = {}
   for k, v in pairs(main.objectives.objective) do
-    table.insert(bag, v)
+    if v.filter and v.filter() == false then
+      
+    else
+      table.insert(bag, v)
+    end
   end
   local def = bag[love.math.random(1, #bag)]
   local obj = def:new(args)
@@ -125,12 +129,18 @@ function main.objectives.createObjectiveRichtext(arg)
       table.insert(listOfText, t)
     end
   end
-  for i, v in ipairs(utils.createEvenlySpacedPosition(#main.objectives.active)) do
+  local spacings = utils.createEvenlySpacedPosition(#main.objectives.active)
+  for i, v in ipairs(spacings) do
     local text1 = listOfText[i*2-1]
     local text2 = listOfText[i*2]
     local height = text1.richText:getHeight()
-    text1.y = text1.y + height * (v+0.5) * 2 * 1.2
-    text2.y = text2.y + height * (v+0.5) * 2 * 1.2
+    if arg.centerY then
+      text1.y = text1.y + height * (v) * 2 * 1.2
+      text2.y = text2.y + height * (v) * 2 * 1.2
+    else
+      text1.y = text1.y + height * (v-spacings[1]) * 2 * 1.2
+      text2.y = text2.y + height * (v-spacings[1]) * 2 * 1.2
+    end
   end
   if arg.centerY then
     local highY = listOfText[1].y
@@ -351,4 +361,57 @@ end)
 
 --
 
--- use X card less/more than Y times 
+-- use X card less/more than Y times
+-- ok so scale the Y with amount of cards in deck
+-- scale with amount of cards in deck, scale by amount of that card, disable for cards with temporary, maybe i should have a "check" to see if it's even possible with deck incase there's a case in which there's no card available
+main.objectives.defineObjective("cardUsage", {
+  description = "",
+  failFromPass=true,
+  filter = function ()
+    print("there are " .. #main.getDeckCards())
+    for i, card in ipairs(main.getDeckCards()) do
+      if card.temporary == math.huge then
+        return true
+      end
+    end
+    return false
+  end,
+  load = function (obj)
+    local card = main.getRandomCard("hand", "discard", "draw", function (card)
+      if card.temporary == math.huge then
+        return true
+      end
+      return false
+    end)
+
+    obj.card = card.id
+    obj.currentAmount = 0
+    obj.amount = 2
+    obj.difficulty = 3
+    obj.description = "Activate " .. card.name .. " less than " .. obj.amount .. "x"
+  end,
+  getProgress = function (obj)
+    return obj.currentAmount .. "/" .. obj.amount
+  end,
+  progress = function (obj, id)
+    if obj.card == id then
+      obj.currentAmount = obj.currentAmount + 1
+
+      if obj.currentAmount >= obj.amount then
+        obj.passed = true
+      end
+    end
+  end,
+  isPass = function (obj)
+    if obj.currentAmount >= obj.amount then
+      return true
+    end
+    return false
+  end
+})
+
+system.on("main:entityTriggered", function (ent)
+  if ent.isCard then
+    main.objectives.progressObjective("cardUsage", ent.id)
+  end
+end)
