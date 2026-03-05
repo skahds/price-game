@@ -54,18 +54,6 @@ local function continueAction()
     return
   end
 
-  -- todo: claim reward automatically sequentially
-  -- if main.objectives.areThereClaimableObjectives() then
-  --   for i, objective in ipairs(main.objectives.active) do
-      
-  --   end
-  --   main.objectives.claimObjectives()
-  --   if main.objectives.areThereClaimableObjectives() == false then
-
-  --   end
-  --   return
-  -- end
-
   
 
   if #main.card.reward > 0 then

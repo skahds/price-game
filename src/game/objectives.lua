@@ -324,7 +324,7 @@ main.objectives.defineObjective("pattern", {
     obj.currentAmount = 0
     obj.amount = amount
     obj.difficulty = difficulty
-    obj.description = "Create " .. amount .. "x " .. name
+    obj.description = "Create " .. amount .. "x " .. name .. " pattern"
   end,
   getProgress = function (obj)
     return obj.currentAmount .. "/" .. obj.amount
@@ -377,18 +377,33 @@ main.objectives.defineObjective("cardUsage", {
     return false
   end,
   load = function (obj)
+    local factor = 1
     local card = main.getRandomCard("hand", "discard", "draw", function (card)
       if card.temporary == math.huge then
         return true
       end
       return false
     end)
+    local amountOfCardInDeck = 0
+    for i, c in ipairs(main.getDeckCards()) do
+      if c.id == card.id then
+        amountOfCardInDeck = amountOfCardInDeck + 1
+      end
+    end
+
+    factor = factor * (1.12^(amountOfCardInDeck-1))
+    local totalCardInDeck = #main.getDeckCards()
+    factor = factor * (0.95^(totalCardInDeck-1))
+    local extraDiff = love.math.random(8, 12)/10
+    factor = factor * extraDiff
+    local amountOfCardThreshold = 5 * (factor^1.5)
+    amountOfCardThreshold = math.floor(amountOfCardThreshold+0.5)
 
     obj.card = card.id
     obj.currentAmount = 0
-    obj.amount = 2
-    obj.difficulty = 3
-    obj.description = "Activate " .. card.name .. " less than " .. obj.amount .. "x"
+    obj.amount = amountOfCardThreshold
+    obj.difficulty = math.floor(6/extraDiff+0.5)
+    obj.description = "Trigger " .. card.name .. " less than " .. obj.amount .. " times"
   end,
   getProgress = function (obj)
     return obj.currentAmount .. "/" .. obj.amount

@@ -49,22 +49,18 @@ local function getscoreRequirement(i, difficulty)
   return s
 end
 
-local function clamp(n)
-  if n > 0 then
-    return math.max(110, n)
-  else
-    return math.min(-110, n)
-  end
-end
-
 local function generateLevelMap(amount)
-  local xo, yo = clamp(love.math.random(-140, 140)), clamp(love.math.random(-140, 140))
-  
+  local radius = 180  -- adjust as needed
+
   for i=1, amount do
-    table.insert(levels, {x=xo-levelSelectSize/2, y=yo-levelSelectSize/2})
-    xo, yo = utils.rotatePoint(xo, yo, 360/amount, 0, 0)
-    xo=clamp(xo+love.math.random(-20, 20))
-    yo=clamp(yo+love.math.random(-20, 20))
+    local baseAngle = (2 * math.pi / amount) * (i - 1)
+    local jitter = (love.math.random() - 0.5) * (2 * math.pi / amount) * 0.2
+
+    local angle = baseAngle + jitter
+    local x = radius * math.cos(angle)
+    local y = radius * math.sin(angle)
+
+    table.insert(levels, {x=x - levelSelectSize/2, y=y - levelSelectSize/2})
   end
 end
 
@@ -180,11 +176,6 @@ main.defineScene("levelSelect", function ()
     renderLayer=93,
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10}))
-
-  objectiveCover = main.ui.spawnUI("cover", {x=-30, y=350, width=30+leftCoverX+330, height=300,
-    color = {0.1, 0.1, 0.1, 0.4},
-    outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
-
   -- table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
   --   rx=20, ry=20,
   --   renderLayer=93,
@@ -291,7 +282,7 @@ main.defineScene("levelSelect", function ()
     end
   end
 
-  main.tweenCamera(0.2, {x=-160, y=0, zoom=1})
+  main.tweenCamera(0.2, {x=0, y=-80, zoom=1})
 
   if system.getStorage("main:isDoingTutorial") then
     if currentRoute == 1 and currentCycle == 1 then
@@ -300,10 +291,38 @@ main.defineScene("levelSelect", function ()
   end
 
   if currentTrack.id == "PLAY" then
-    main.objectives.createRandomObjective()
-    main.objectives.createRandomObjective()
+    for i=1, 2 do
+      main.objectives.createRandomObjective()
+      main.objectives.createRandomObjective()
+    end
+    objectiveCover = main.ui.spawnUI("cover", {x=0, y=30, width=1, height=1,
+      color = {0.1, 0.1, 0.1, 0.4},
+      outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
     
-    objectiveText = main.objectives.createObjectiveRichtext({x=leftCoverX+330/2,y=380,font=system.getFont("defaultFont30"), centerX=true})
+    -- local header = main.newRichText({
+    --   format = "OBJECTIVES",
+    --   x = leftCoverX+330/2,
+    --   y = 350,
+    --   renderLayer=100,
+    --   outline = true,
+    --   outlineColor={0,0,0}
+    -- })
+    -- table.insert(existingUI, header)
+    -- header.x = header.x - header.richText:getWidth()/2
+    
+    objectiveText = main.objectives.createObjectiveRichtext({x=1280,y=60,font=system.getFont("defaultFont30"), centerX=true})
+    local maxwidth = 0
+    for i, text in ipairs(objectiveText) do
+      maxwidth = math.max(maxwidth, text.richText:getWidth())
+    end
+    for i, text in ipairs(objectiveText) do
+      text.x = text.x - maxwidth/2 - 60
+    end
+
+    local highY, lowY = objectiveText[1].y, objectiveText[#objectiveText].y + objectiveText[#objectiveText].richText:getHeight()
+    objectiveCover.x = 1280-maxwidth-90
+    objectiveCover.height = lowY-highY+60
+    objectiveCover.width = maxwidth + 30 * 2
   end
 
   main.hideCharts()

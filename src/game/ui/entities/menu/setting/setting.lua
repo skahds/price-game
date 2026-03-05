@@ -358,6 +358,7 @@ local function restartGame()
   main.clearRewardUpgrade()
   main.clearRewardEditPattern()
   main.resetStats()
+  main.objectives.clearObjectives()
 
   if system.getStorage("main:currentScene") == "play" then
     system.updateStorage("main:currentDay", 0)
