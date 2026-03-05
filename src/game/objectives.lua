@@ -268,7 +268,7 @@ todo:
 -- Give $
 main.objectives.defineReward("money", {
   minimumDifficulty = 3,
-  update = function (obj)
+  load = function (obj)
     obj.description = "Gives {moneyColor}$" .. obj.difficulty-1
   end,
   claim = function (obj)
@@ -280,7 +280,7 @@ main.objectives.defineReward("money", {
 main.objectives.defineReward("permamult", {
   minimumDifficulty=2,
   maximumDifficulty=6,
-  update = function (obj)
+  load = function (obj)
     obj.description = "Gives permanent {multColor}+" .. math.floor((obj.difficulty)/2) .. " MULT"
   end,
   claim = function (obj)
@@ -288,7 +288,48 @@ main.objectives.defineReward("permamult", {
   end
 })
 
--- todo: add patternUpgrade, cardUpgrade etc
+-- get an extra card
+local rewardList = {
+  {claim=function ()
+    local bag = system.getStorage("rarity:bag")
+    local t = bag:getRandomCardWithInfo({minimumRarity="COMMON", amount=3})
+    main.createRewardsOptions(t, {rewardType="card"})
+  end,
+  description="Choose a {commonColor}COMMON+{/commonColor} card!"},
+
+  {claim=function ()
+    local bag = system.getStorage("rarity:bag")
+    local t = bag:getRandomCardWithInfo({minimumRarity="RARE", amount=3})
+    main.createRewardsOptions(t, {rewardType="card"})
+  end,
+  description="Choose a {rareColor}RARE+{/rareColor} card!"}
+}
+
+local function chooseRarity(diff)
+  if diff <= 5 then
+    return rewardList[1]
+  else
+    return rewardList[2]
+  end
+end
+
+main.objectives.defineReward("card", {
+  minimumDifficulty=4,
+  maximumDifficulty=8,
+  cardReward = nil,
+  load = function (obj)
+    obj.cardReward = chooseRarity(obj.difficulty)
+    obj.description = obj.cardReward.description
+  end,
+  claim = function (obj)
+    if obj.cardReward then
+      local reward = system.getStorage("main:endLevelReward")
+      table.insert(reward, obj.cardReward)
+    end
+  end
+})
+
+-- todo: add patternUpgrade, cardUpgrade etc?
 
 
 --
