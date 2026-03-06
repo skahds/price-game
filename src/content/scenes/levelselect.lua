@@ -290,27 +290,16 @@ main.defineScene("levelSelect", function ()
     end
   end
 
+  --objectives
   if currentTrack.id == "PLAY" then
     for i=1, 2 do
-      main.objectives.createRandomObjective()
       main.objectives.createRandomObjective()
     end
     objectiveCover = main.ui.spawnUI("cover", {x=0, y=30, width=1, height=1,
       color = {0.1, 0.1, 0.1, 0.4},
       outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
     
-    -- local header = main.newRichText({
-    --   format = "OBJECTIVES",
-    --   x = leftCoverX+330/2,
-    --   y = 350,
-    --   renderLayer=100,
-    --   outline = true,
-    --   outlineColor={0,0,0}
-    -- })
-    -- table.insert(existingUI, header)
-    -- header.x = header.x - header.richText:getWidth()/2
-    
-    objectiveText = main.objectives.createObjectiveRichtext({x=1280,y=60,font=system.getFont("defaultFont30"), centerX=true})
+    objectiveText = main.objectives.createObjectiveRichtext({x=1280,y=120,font=system.getFont("defaultFont30"), centerX=true})
     local maxwidth = 0
     for i, text in ipairs(objectiveText) do
       maxwidth = math.max(maxwidth, text.richText:getWidth())
@@ -319,9 +308,21 @@ main.defineScene("levelSelect", function ()
       text.x = text.x - maxwidth/2 - 60
     end
 
-    local highY, lowY = objectiveText[1].y, objectiveText[#objectiveText].y + objectiveText[#objectiveText].richText:getHeight()
+    local header = main.newRichText({
+      format = "OBJECTIVES",
+      x = 1280,
+      y = 50,
+      renderLayer=100,
+      outline = true,
+      outlineColor={0,0,0}
+    })
+    table.insert(existingUI, header)
+    header.x = header.x - header.richText:getWidth()/2
+    header.x = header.x - maxwidth/2 - 60
+
+    local highY, lowY = 30, objectiveText[#objectiveText].y + objectiveText[#objectiveText].richText:getHeight()
     objectiveCover.x = 1280-maxwidth-90
-    objectiveCover.height = lowY-highY+60
+    objectiveCover.height = lowY-highY+30
     objectiveCover.width = maxwidth + 30 * 2
   end
 
@@ -337,7 +338,9 @@ end, function ()
   listOfTrackIndicator = {}
   deleteAll(activeRouteUI)
   activeRouteUI = {}
-  deleteAll(objectiveText)
+  if objectiveText then
+    deleteAll(objectiveText)
+  end
 
   deleteAll({objectiveCover})
 

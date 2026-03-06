@@ -380,10 +380,11 @@ main.objectives.defineObjective("pattern", {
     end
   end,
   isPass = function (obj)
-    if obj.currentAmount >= obj.amount then
-      return true
-    end
-    return false
+    return true
+  --   if obj.currentAmount >= obj.amount then
+  --     return true
+  --   end
+  --   return false
   end
 })
 
@@ -459,10 +460,11 @@ main.objectives.defineObjective("cardUsage", {
     end
   end,
   isPass = function (obj)
-    if obj.currentAmount >= obj.amount then
-      return true
-    end
-    return false
+    return true
+    -- if obj.currentAmount >= obj.amount then
+    --   return true
+    -- end
+    -- return false
   end
 })
 
