@@ -121,7 +121,7 @@ local function generateReward(index)
     elseif index == 2 then
       t = utils.deepCopy(pickRandom{rewardList[3], rewardList[5], rewardList[6], rewardList[7]})
     else
-      t = t.utils.deepCopy(rewardList[1])
+      t = utils.deepCopy(rewardList[1])
     end
   elseif #levels == 3 then
     if index == 1 then
@@ -131,10 +131,10 @@ local function generateReward(index)
     elseif index == 3 then
       t = utils.deepCopy(pickRandom{rewardList[5], rewardList[6], rewardList[7]})
     else
-      t = t.utils.deepCopy(rewardList[1])
+      t = utils.deepCopy(rewardList[1])
     end
   else
-    t = t.utils.deepCopy(rewardList[1])
+    t = utils.deepCopy(rewardList[1])
   end
   t.difficulty = index
   return t
@@ -184,11 +184,6 @@ main.defineScene("levelSelect", function ()
     renderLayer=93,
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.4, 0.4, 0.4}, outline=10}))
-  -- table.insert(existingUI, main.ui.spawnUI("cover", {x=rightCoverx, y=-20, width=330, height=800,
-  --   rx=20, ry=20,
-  --   renderLayer=93,
-  --   color = {0.6, 0.6, 0.6},
-  --   outlineColor = {0.4, 0.4, 0.4}, outline=10}))
 
   currentNodeHovered = currentTrack.id
   local gap = 32
@@ -226,6 +221,7 @@ main.defineScene("levelSelect", function ()
   end
 
   local amountOfNode
+
   if type(currentTrack.node) == "table" then
     amountOfNode = currentTrack.node[love.math.random(1, #currentTrack.node)]
   else
@@ -262,11 +258,13 @@ main.defineScene("levelSelect", function ()
       ui.moneyReward = ui.reward.money or 3
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward
       if ui.reward.description then ui.description = ui.description .. "\nRewards: " .. ui.reward.description end
-      if enemy then
-        ui.enemy = main.enemies.getEnemy(enemy)
-        ui.description = ui.description .. "\nhas Enemy: " .. ui.enemy.name
-        ui.descriptionTagEntity = ui.enemy.id
-      end
+      -- if enemy then
+      --   ui.enemy = main.enemies.getEnemy(enemy)
+      --   ui.description = ui.description .. "\nhas Enemy: " .. ui.enemy.name
+      --   ui.descriptionTagEntity = ui.enemy.id
+      -- end
+      ui.enemy = main.enemies.getRandomEnemy({isBoss=false})
+
       local color = ""
       if ui.reward.difficulty == 2 then
         color = "{rareColor}"
@@ -294,6 +292,7 @@ main.defineScene("levelSelect", function ()
 
   if system.getStorage("main:isDoingTutorial") then
     if currentRoute == 1 and currentCycle == 1 then
+      --todo fix this
       main.addEntityToTutorial(activeRouteUI[1], "Click here to begin\nyour encounter!")
     end
   end
@@ -366,7 +365,7 @@ end, function ()
     deleteAll(objectiveText)
   end
 
-  deleteAll({objectiveCover})
+  deleteAll({objectiveCover, enemyCover})
 
   levels = {}
 end)
@@ -483,6 +482,9 @@ system.on("@draw", function ()
   if currentTrack and enemyCover then
     if lastLevelHovered then
       flux.to(enemyCover, 0.3, {y=720-340})
+      if lastLevelHovered.enemy then
+        print("yo fr")
+      end
     else
       flux.to(enemyCover, 0.3, {y=740})
     end

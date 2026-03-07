@@ -4,29 +4,28 @@ local basicRoute = {
     {id="PLAY", node={2, 3}},
     {id="PLAY", node={2, 3}},
     {id="SHOP", node=2},
-    {id="PLAY", node=2}, -- add boss here
+    {id="PLAY", node=1}, -- add boss here
   },
 
   {
     {id="PLAY", node=3},
-    {id="PLAY", node={2, 3}, enemy={"oracle", "regulator"}},
-    {id="PLAY", node={2, 3}, enemy={"straw"}},
+    {id="PLAY", node={2, 3}},
+    {id="PLAY", node={2, 3}},
     {id="SHOP", node=2},
-    {id="PLAY", node=2}, -- add boss here
+    {id="PLAY", node=1}, -- add boss here
   },
 
   {
     {id="PLAY", node=3},
-    {id="PLAY", node={2, 3}, enemy={"trap"}},
-    {id="PLAY", node={2, 3}, enemey={"fog"}},
+    {id="PLAY", node={2, 3}},
+    {id="PLAY", node={2, 3}},
     {id="SHOP", node=2},
-    {id="PLAY", node=1, enemy={"machine"}},
+    {id="PLAY", node=1},
   }
 
   -- TOBE IMPLEMENTED
 }
 
--- change this, so it's per cycle blabhblah
 local basicScoreRequired = {{
   changeInCycle = 0.4, --1x, 1.4x, 1.8x, 2.5x 3.5x
   bossScore = 2.5,
@@ -39,7 +38,7 @@ local basicScoreRequired = {{
   changeInCycle = 0.8, --1x, 1.8x, 2.6x, 4x, 5x?
   bossScore = 4,
   cycles = {400, 2000, 10000, 50000, 250000},
-}}
+}} -- change this, it's very unfair
 
 main.defineRunStarter({
   name = "Tutorial",
