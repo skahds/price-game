@@ -13,12 +13,15 @@ local coverWidth = 330
 local rightCoverx = 1280-350
 local listOfTrackIndicator = {}
 local currentNodeHovered = ""
+local lastLevelHovered
 
 local levelSelectSize = 64
 local scoreRequired
 
 local objectiveText
 local objectiveCover
+
+local enemyCover
 
 --
 --level select things
@@ -150,6 +153,11 @@ system.on("@update", function ()
   currentRoute = system.getStorage("main:currentRoute") or 1
   currentCycle = system.getStorage("main:currentCycle") or 1
   scoreRequired =  system.getStorage("main:scoreRequirementList")
+
+
+  -- if system.getStorage("main:currentScene") ~= "levelSelect" then
+  --   return
+  -- end
 end)
 
 
@@ -282,7 +290,7 @@ main.defineScene("levelSelect", function ()
     end
   end
 
-  main.tweenCamera(0.2, {x=0, y=-80, zoom=1})
+  main.tweenCamera(0.2, {x=-180, y=-120, zoom=1})
 
   if system.getStorage("main:isDoingTutorial") then
     if currentRoute == 1 and currentCycle == 1 then
@@ -326,8 +334,24 @@ main.defineScene("levelSelect", function ()
     objectiveCover.width = maxwidth + 30 * 2
   end
 
+
+  --enemy
+  if currentTrack.enemy or true then
+    enemyCover = main.ui.spawnUI("cover", {x=leftCoverX, y=740, width=330, height=360,
+      rx=20, ry=20,
+      renderLayer=93,
+      color = {0.6, 0.6, 0.6},
+      outlineColor = {0.4, 0.4, 0.4}, outline=10})
+
+    
+  end
+
   main.hideCharts()
 end, function ()
+  lastLevelHovered = nil
+  main.wait(1, function ()
+    lastLevelHovered = nil
+  end)
   if system.getStorage("main:isDoingTutorial") then
     main.clearTutorial()
   end
@@ -454,6 +478,15 @@ system.on("@draw", function ()
       love.graphics.draw(system.getImage("currentNode"), currentNode.x, y, juiceInfo.r, 1.4, 1.4, 24, 24)
     end, true)
   end
+
+  local currentTrack = route[currentCycle][currentRoute]
+  if currentTrack and enemyCover then
+    if lastLevelHovered then
+      flux.to(enemyCover, 0.3, {y=720-340})
+    else
+      flux.to(enemyCover, 0.3, {y=740})
+    end
+  end
 end)
 
 main.ui.defineUI("levelSelect", {
@@ -479,6 +512,7 @@ main.ui.defineUI("levelSelect", {
       ent.tween = flux.to(ent, 0.3, {sx=2, sy=2}):ease("backinout")
       ent.isTweening=true
     end
+    lastLevelHovered = ent
   end,
   notHovered = function (ent)
     if ent.isTweening == true then
