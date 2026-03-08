@@ -22,6 +22,7 @@ local objectiveText
 local objectiveCover
 
 local enemyCover
+local enemyNews = {}
 
 --
 --level select things
@@ -234,16 +235,12 @@ main.defineScene("levelSelect", function ()
     levels[1].y = -100
   end
 
-  local enemy
-  if currentTrack.enemy then
-    enemy = currentTrack.enemy[love.math.random(1, #currentTrack.enemy)]
-  end
-
   --todo: save this so returning to the game doesn't reset the routes
   for i, level in ipairs(levels) do
     local x = level.x
     local y = level.y
     local ui = main.ui.spawnUI("levelSelect", {x=x, y=y})
+    ui.levelIndex = i
     if currentTrack.id == "PLAY" then
       local difficulty = i
       activeRouteUI[i] = ui
@@ -263,7 +260,7 @@ main.defineScene("levelSelect", function ()
       --   ui.description = ui.description .. "\nhas Enemy: " .. ui.enemy.name
       --   ui.descriptionTagEntity = ui.enemy.id
       -- end
-      ui.enemy = main.enemies.getRandomEnemy({isBoss=false})
+      ui.enemy = {main.enemies.getRandomEnemy({isBoss=false})}
 
       local color = ""
       if ui.reward.difficulty == 2 then
@@ -335,14 +332,29 @@ main.defineScene("levelSelect", function ()
 
 
   --enemy
-  if currentTrack.enemy or true then
-    enemyCover = main.ui.spawnUI("cover", {x=leftCoverX, y=740, width=330, height=360,
-      rx=20, ry=20,
-      renderLayer=93,
-      color = {0.6, 0.6, 0.6},
-      outlineColor = {0.4, 0.4, 0.4}, outline=10})
+  enemyCover = main.ui.spawnUI("cover", {x=leftCoverX, y=740, width=330, height=360,
+    rx=20, ry=20,
+    renderLayer=93,
+    color = {0.6, 0.6, 0.6},
+    outlineColor = {0.4, 0.4, 0.4}, outline=10})
 
-    
+  for k, ui in ipairs(activeRouteUI) do
+    enemyNews[k] = {}
+    if ui.enemy then
+      local spacing = utils.createEvenlySpacedPosition(#ui.enemy)
+      for i, enemy in ipairs(ui.enemy) do
+        local id = enemy.id
+        local n = main.spawnEntity(id, {x=leftCoverX+330/2 + 90*spacing[i], y=800})
+        n.ui.renderLayer = 102
+        n.ui.sx = 2
+        n.ui.sy = 2
+        n.ui.ox = n.ui.width/2
+        n.ui.oy = n.ui.height/2
+        n.ui.screenSpace = true
+        n.screenSpace = true
+        table.insert(enemyNews[k], n)
+      end
+    end
   end
 
   main.hideCharts()
@@ -364,6 +376,14 @@ end, function ()
   if objectiveText then
     deleteAll(objectiveText)
   end
+
+  for k, t in pairs(enemyNews) do
+    for i, item in pairs(t) do
+      item.ui:delete()
+      item:delete()
+    end
+  end
+  enemyNews={}
 
   deleteAll({objectiveCover, enemyCover})
 
@@ -480,11 +500,22 @@ system.on("@draw", function ()
 
   local currentTrack = route[currentCycle][currentRoute]
   if currentTrack and enemyCover then
+    for i, ui in ipairs(activeRouteUI) do
+      if ui.enemy then
+        if lastLevelHovered ~= ui then
+          for e, enemy in ipairs(enemyNews[ui.levelIndex]) do
+            flux.to(enemy.ui, 0.3, {y=800})
+          end
+        else
+          for e, enemy in ipairs(enemyNews[ui.levelIndex]) do
+            flux.to(enemy.ui, 0.3, {y=720-340/2})
+          end
+        end
+      end
+    end
+
     if lastLevelHovered then
       flux.to(enemyCover, 0.3, {y=720-340})
-      if lastLevelHovered.enemy then
-        print("yo fr")
-      end
     else
       flux.to(enemyCover, 0.3, {y=740})
     end
@@ -535,8 +566,10 @@ main.ui.defineUI("levelSelect", {
       end
 
       if ent.enemy then
-        local e = main.spawnNews(ent.enemy.id, {x=0,y=0})
-        e.ui.isVisible = false 
+        for i, enemy in ipairs(ent.enemy) do
+          local e = main.spawnNews(enemy.id, {x=0,y=0})
+          e.ui.isVisible = false
+        end
       end
 
       local currentRoute = system.getStorage("main:currentRoute")
