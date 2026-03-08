@@ -86,6 +86,8 @@ main.defineEnemy("autonomy", {
       local energy = (card.overrideEnergy or card.energy)
       main.addEnergy(-energy)
       main.triggerEnt(card, "DEPLOY")
+      main.discardCard(card)
+      card.overrideEnergy = card.energy
     end
   end
 })

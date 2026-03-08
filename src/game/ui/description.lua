@@ -97,8 +97,8 @@ local function setPositionToBeInScreen(location, descriptionTable, maxWidth, ext
   if gap ~= 0 then
     gap = gap - totalHeight
   end
-  local fixX = math.max(math.min(location.x+maxWidth, screenW-spacing*2)-maxWidth, spacing*2)
-  local fixY = math.max(math.min(location.y+totalHeight, screenH-spacing*2-gap)-totalHeight, spacing*2)
+  local fixX = math.min(location.x+maxWidth, screenW-spacing*2)-maxWidth
+  local fixY = math.min(location.y+totalHeight, screenH-spacing*2-gap)-totalHeight
   for i, richtext in ipairs(descriptionTable) do
     richtext.x = fixX
     richtext.y = fixY + (i-1)*(height)

@@ -21,6 +21,7 @@ local scoreRequired
 local objectiveText
 local objectiveCover
 
+local enemyText
 local enemyCover
 local enemyNews = {}
 
@@ -332,6 +333,14 @@ main.defineScene("levelSelect", function ()
 
 
   --enemy
+  enemyText = main.newRichText({
+      format = "ENEMY",
+      x = leftCoverX+330/2,
+      y = 770,
+      renderLayer=100,
+    })
+  enemyText.x = enemyText.x - enemyText.richText:getWidth()/2
+
   enemyCover = main.ui.spawnUI("cover", {x=leftCoverX, y=740, width=330, height=360,
     rx=20, ry=20,
     renderLayer=93,
@@ -385,7 +394,7 @@ end, function ()
   end
   enemyNews={}
 
-  deleteAll({objectiveCover, enemyCover})
+  deleteAll({objectiveCover, enemyCover, enemyText})
 
   levels = {}
 end)
@@ -514,10 +523,18 @@ system.on("@draw", function ()
       end
     end
 
+    system.render(100, function ()
+      love.graphics.setLineWidth(5)
+      local y = enemyText.y + enemyText.richText:getHeight() + 15
+      love.graphics.line(enemyCover.x+40, y, enemyCover.x+330-40, y)
+    end, true)
+
     if lastLevelHovered then
       flux.to(enemyCover, 0.3, {y=720-340})
+      flux.to(enemyText, 0.3, {y=720-340+30})
     else
       flux.to(enemyCover, 0.3, {y=740})
+      flux.to(enemyText, 0.3, {y=720+30})
     end
   end
 end)
