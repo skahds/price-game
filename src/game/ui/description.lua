@@ -97,7 +97,7 @@ local function setPositionToBeInScreen(location, descriptionTable, maxWidth, ext
   if gap ~= 0 then
     gap = gap - totalHeight
   end
-  local fixX = math.min(location.x+maxWidth, screenW-spacing*2)-maxWidth
+  local fixX = math.min(location.x+maxWidth, screenW-spacing*4)-maxWidth
   local fixY = math.min(location.y+totalHeight, screenH-spacing*2-gap)-totalHeight
   for i, richtext in ipairs(descriptionTable) do
     richtext.x = fixX
@@ -162,6 +162,32 @@ local function drawDescription(descriptionTable, location, activeDescriptionInde
   activeDescriptions[activeDescriptionIndex] = t
 end
 
+local function fixPositionForLeftTag(activeDescriptionIndex)
+  local activeTags = getAllTagsIndexOfDescription(activeDescriptionIndex)
+  local tagMaxWidth = 0
+  local tagMinX = 0
+  for i, index in ipairs(activeTags) do
+    local tag = activeDescriptions[index]
+    tagMaxWidth = math.max(tagMaxWidth, maxWidth[index])
+    for k, text in ipairs(tag) do
+      tagMinX = math.min(text.x, tagMinX)
+    end
+  end
+
+  if tagMinX < spacing*2 then
+    local gap = tagMinX*-1 + spacing*2
+    for k, text in ipairs(activeDescriptions[activeDescriptionIndex]) do
+      text.x = text.x + gap
+    end
+    for i, index in ipairs(activeTags) do
+      local tag = activeDescriptions[index]
+      for k, text in ipairs(tag) do
+        text.x = text.x + gap
+      end
+    end
+  end
+end
+
 local function drawCompleteDescription(ent, location, activeDescriptionIndex)
   removeCompleteDescription(activeDescriptionIndex)
 
@@ -199,6 +225,8 @@ local function drawCompleteDescription(ent, location, activeDescriptionIndex)
     {totalHeightAdded=totalHeightAdded, currentHeight=currentHeightAdded})
     currentHeightAdded = currentHeightAdded + font:getHeight() * #tag + spacing*2
   end
+
+  fixPositionForLeftTag(activeDescriptionIndex)
 end
 
 local currentHeldCard
