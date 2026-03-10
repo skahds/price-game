@@ -2,6 +2,7 @@ local flux = system.getStorage("flux")
 
 local levels = {}
 local activeRouteUI = {}
+local savedRouteUI
 -- routes: "PLAY", "SHOP"
 local route
 local currentRoute = 1
@@ -119,24 +120,24 @@ local function generateReward(index)
   local t
   if #levels == 2 then
     if index == 1 then
-      t = utils.deepCopy(pickRandom{rewardList[1], rewardList[2]})
+      t = pickRandom{rewardList[1], rewardList[2]}
     elseif index == 2 then
-      t = utils.deepCopy(pickRandom{rewardList[3], rewardList[5], rewardList[6], rewardList[7]})
+      t = pickRandom{rewardList[3], rewardList[5], rewardList[6], rewardList[7]}
     else
-      t = utils.deepCopy(rewardList[1])
+      t = rewardList[1]
     end
   elseif #levels == 3 then
     if index == 1 then
-      t = utils.deepCopy(rewardList[1])
+      t = rewardList[1]
     elseif index == 2 then
-      t = utils.deepCopy(rewardList[2])
+      t = rewardList[2]
     elseif index == 3 then
-      t = utils.deepCopy(pickRandom{rewardList[5], rewardList[6], rewardList[7]})
+      t = pickRandom{rewardList[5], rewardList[6], rewardList[7]}
     else
-      t = utils.deepCopy(rewardList[1])
+      t = rewardList[1]
     end
   else
-    t = utils.deepCopy(rewardList[1])
+    t = rewardList[1]
   end
   t.difficulty = index
   return t
@@ -171,14 +172,53 @@ end)
 
 
 
+---
+---save systems
+---
+
+-- store level, reward, objectives..?
+system.register("levelSelect", 26, function ()
+  local t = {
+    uiInfos = {}
+  }
+  if system.getStorage("main:currentScene") ~= "levelSelect" then
+    return false
+  end
+
+  for i, ui in ipairs(activeRouteUI) do
+    t.uiInfos[i] = {}
+    if ui.reward then
+      local rewardIndex
+      for e, reward in ipairs(rewardList) do
+        if reward == ui.reward then
+          rewardIndex = e
+        end
+      end
+      if rewardIndex == nil then
+        error("Reward failed to save")
+      end
+      t.uiInfos[i].rewardIndex = rewardIndex
+    end
+    if ui.name then
+      t.uiInfos[i].name = ui.name
+    end
+  end
+  
+  return t
+end, function (t)
+  if t == false then
+    return
+  end
+
+
+  savedRouteUI = t
+end)
+
+
 --
 -- scene definition
 --
 main.defineScene("levelSelect", function ()
-  main.wait(0.1, function ()
-    system.saveGame()
-  end)
-
   local currentTrack = route[currentCycle][currentRoute]
 
   table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=-20, width=330, height=320,
@@ -246,7 +286,7 @@ main.defineScene("levelSelect", function ()
       local difficulty = i
       activeRouteUI[i] = ui
       if currentTrack.reward and currentTrack.reward[i] then
-        ui.reward=utils.deepCopy(rewardList[currentTrack.reward[i]])
+        ui.reward=rewardList[currentTrack.reward[i]]
         ui.reward.difficulty=i
       else
         ui.reward = generateReward(difficulty)
@@ -284,6 +324,22 @@ main.defineScene("levelSelect", function ()
         main.updateRichTextText(ui.richtext, "{redColor}$")
       end
     end
+  end
+
+  if savedRouteUI then
+    print("yeah")
+    for i, ui in pairs(savedRouteUI.uiInfos) do
+      print("this")
+      local currentUI = activeRouteUI[i]
+      if ui.rewardIndex then
+        currentUI.reward = rewardList[ui.rewardIndex]
+      end
+      if ui.name then
+        currentUI.name = ui.name
+      end
+    end
+
+    savedRouteUI = nil
   end
 
   main.tweenCamera(0.2, {x=-180, y=-120, zoom=1})
@@ -367,6 +423,11 @@ main.defineScene("levelSelect", function ()
   end
 
   main.hideCharts()
+
+
+  main.wait(0.1, function ()
+    system.saveGame()
+  end)
 end, function ()
   lastLevelHovered = nil
   main.wait(1, function ()

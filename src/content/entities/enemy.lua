@@ -106,6 +106,23 @@ main.defineEnemy("regulator", {
   end,
 })
 
+main.defineEnemy("straw", {
+  name = "The Straw",
+  image = "strawNews",
+  description = "Every 2nd activation:\nLose {moneyColor}$1{/moneyColor}",
+  difficulty=6,
+  trigger = {"CARDTRIGGER"},
+  strawCounter = 2,
+  onActivate = function (ent)
+    ent.strawCounter = ent.strawCounter - 1
+    if ent.strawCounter == 0 then
+      main.addMoney(-1)
+      ent.strawCounter = 2
+    end
+    ent.description = "Every 2nd activation:\nLose {moneyColor}$1{/moneyColor}\n(" .. ent.strawCounter .. " activation left)"
+  end,
+})
+
 main.defineEnemy("fog", {
   name = "The Fog",
   image = "fogNews",
@@ -150,23 +167,10 @@ main.defineEnemy("machine", {
   end,
 })
 
-main.defineEnemy("straw", {
-  name = "The Straw",
-  image = "strawNews",
-  description = "Every 2nd activation:\nLose {moneyColor}$1{/moneyColor}",
-  difficulty=6,
-  trigger = {"CARDTRIGGER"},
-  strawCounter = 2,
-  onActivate = function (ent)
-    ent.strawCounter = ent.strawCounter - 1
-    if ent.strawCounter == 0 then
-      main.addMoney(-1)
-      ent.strawCounter = 2
-    end
-    ent.description = "Every 2nd activation:\nLose {moneyColor}$1{/moneyColor}\n(" .. ent.strawCounter .. " activation left)"
-  end,
-})
 
+-- idea, only bosses gets "the", normal enemy just have their normal names
+-- nameideas: the miracle, the doors, the vestige, the clock, the prophet, the source
+-- 
 
 --[[
 probably will get up some "boss" enemies that get selected in the select screen like:
