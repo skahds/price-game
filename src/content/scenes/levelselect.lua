@@ -366,9 +366,12 @@ main.defineScene("levelSelect", function ()
 
   --objectives
   if currentTrack.id == "PLAY" then
-    for i=1, 2 do
-      main.objectives.createRandomObjective()
+    if #main.objectives.active == 0 then
+      for i=1, 2 do
+        main.objectives.createRandomObjective()
+      end
     end
+
     objectiveCover = main.ui.spawnUI("cover", {x=0, y=30, width=1, height=1,
       color = {0.1, 0.1, 0.1, 0.4},
       outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})

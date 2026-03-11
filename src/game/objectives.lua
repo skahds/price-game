@@ -48,11 +48,13 @@ function main.objectives.defineObjective(id, oType)
       self[k] = utils.deepCopy(v)
     end
 
-    if self.load then
-      self:load()
+    if args.ignoreLoad ~= true then
+      if self.load then
+        self:load()
+      end
     end
     local diff = self.difficulty or 1
-    self.reward = main.objectives.createRandomReward(diff)
+    self.reward = self.reward or main.objectives.createRandomReward(diff)
   end
   obj.definition = oType
   
@@ -256,6 +258,36 @@ end
 function main.objectives.clearObjectives()
   main.objectives.active = {}
 end
+
+system.register("objectives", 24, function ()
+  local t = {
+    obj = {},
+  }
+
+  for i, obj in ipairs(main.objectives.active) do
+    t.obj[i] = {
+      id=obj.id,
+      comps = {},
+      reward=obj.reward.id,
+    }
+    for k, v in pairs(obj) do
+      if type(v) ~= "table" and type(v) ~= "function" then
+        t.obj[i].comps[k] = v
+      end
+    end
+  end
+
+  return t
+end, function (t)
+  main.objectives.clearObjectives()
+
+  for i, obj in ipairs(t.obj) do
+    obj.comps.reward = main.objectives.createReward(obj.reward, {difficulty=obj.comps.difficulty})
+    obj.comps.ignoreLoad = true
+    main.objectives.createObjective(obj.id, obj.comps)
+    obj.comps.ignoreLoad = false
+  end
+end)
 
 --[[
 todo:
