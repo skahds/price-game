@@ -202,6 +202,12 @@ system.register("levelSelect", 26, function ()
     if ui.name then
       t.uiInfos[i].name = ui.name
     end
+    if ui.enemy then
+      t.uiInfos[i].enemy = {}
+      for e, enemy in ipairs(ui.enemy) do
+        table.insert(t.uiInfos[i].enemy, enemy.id)
+      end
+    end
   end
   
   return t
@@ -326,16 +332,23 @@ main.defineScene("levelSelect", function ()
     end
   end
 
+  
+  -- save system
   if savedRouteUI then
-    print("yeah")
     for i, ui in pairs(savedRouteUI.uiInfos) do
-      print("this")
       local currentUI = activeRouteUI[i]
       if ui.rewardIndex then
         currentUI.reward = rewardList[ui.rewardIndex]
       end
       if ui.name then
         currentUI.name = ui.name
+      end
+      if ui.enemy then
+        local t = {}
+        for e, enemy in ipairs(ui.enemy) do
+          table.insert(t, main.enemies.getEnemy(enemy))
+        end
+        currentUI.enemy = t
       end
     end
 
