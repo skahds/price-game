@@ -38,7 +38,7 @@ local basicScoreRequired = {{
   changeInCycle = 0.8, --1x, 1.8x, 2.6x, 4x, 5x?
   bossScore = 4,
   cycles = {400, 2000, 10000, 50000, 250000},
-}} -- change this, it's very unfair
+}} -- change this, it's very unfair?
 
 main.defineRunStarter({
   name = "Tutorial",

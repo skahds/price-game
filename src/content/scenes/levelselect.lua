@@ -302,12 +302,8 @@ main.defineScene("levelSelect", function ()
       ui.moneyReward = ui.reward.money or 3
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward
       if ui.reward.description then ui.description = ui.description .. "\nRewards: " .. ui.reward.description end
-      -- if enemy then
-      --   ui.enemy = main.enemies.getEnemy(enemy)
-      --   ui.description = ui.description .. "\nhas Enemy: " .. ui.enemy.name
-      --   ui.descriptionTagEntity = ui.enemy.id
-      -- end
-      ui.enemy = {main.enemies.getRandomEnemy({isBoss=false})}
+
+      ui.enemy = {main.enemies.getRandomEnemy({enemyType="elite"})}
 
       local color = ""
       if ui.reward.difficulty == 2 then

@@ -1,7 +1,6 @@
 main.defineCard("add", {
   name = "Add",
   image = "basicAdd",
-  descriptionTagEntity = "grassBow",
   trigger = {"DEPLOY"},
   defaultPriceGain = 10,
   price = 1,

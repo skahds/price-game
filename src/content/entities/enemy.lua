@@ -7,9 +7,7 @@ function main.enemies.getRandomEnemy(arg)
   arg.usedEnt = arg.usedEnt or {}
   local bag = {}
   for i, ent in ipairs(main.enemies.entities) do
-    if arg.isBoss and ent.isBoss ~= true then
-      goto continue
-    elseif arg.isBoss ~= true and ent.isBoss then
+    if arg.enemyType and ent.enemyType ~= arg.enemyType then
       goto continue
     end
 
@@ -43,11 +41,13 @@ function main.defineEnemy(id, t)
   main.defineNews(id, t)
 end
 
+-- enemy is divided by 3, "normal", "elite" and "boss"
+
 main.defineEnemy("oracle", {
   name = "The Oracle",
   image = "oracleEnemy",
   description = "Discard a random card",
-  difficulty=5,
+  enemyType = "elite",
   trigger = {"EACHTURN"},
   onActivate = function (ent)
     local card = main.getRandomCard()
@@ -62,7 +62,7 @@ main.defineEnemy("trail", {
   image = "trailNews",
   description = "Creates a Junk in\nthe draw pile",
   descriptionTagEntity = "junk",
-  difficulty=4,
+  enemyType = "elite",
   trigger = {"EACHTURN"},
   onActivate = function ()
     main.basicSpawnCard("junk", {}, nil, "draw")
@@ -73,7 +73,7 @@ main.defineEnemy("autonomy", {
   name = "The Autonomy",
   image = "autonomyNews",
   description = "Use a random card in hand",
-  difficulty = 6,
+  enemyType = "elite",
   trigger = {"EACHTURN"},
   onActivate = function ()
     local card = main.getRandomCard(function (card)
@@ -96,7 +96,7 @@ main.defineEnemy("regulator", {
   name = "The Regulator",
   image = "regulatorNews",
   description = "Make a random card cost {energyColor}+1 ENERGY",
-  difficulty=5,
+  enemyType = "elite",
   trigger = {"EACHTURN"},
   onActivate = function (ent)
     local card = main.getRandomCard()
@@ -110,7 +110,7 @@ main.defineEnemy("straw", {
   name = "The Straw",
   image = "strawNews",
   description = "Every 2nd activation:\nLose {moneyColor}$1{/moneyColor}",
-  difficulty=6,
+  enemyType = "elite",
   trigger = {"CARDTRIGGER"},
   strawCounter = 2,
   onActivate = function (ent)
@@ -128,8 +128,7 @@ main.defineEnemy("fog", {
   image = "fogNews",
   description = "Creates 11 Junk in\nthe draw pile",
   descriptionTagEntity = "junk",
-  difficulty=8,
-  isBoss = true,
+  enemyType = "boss",
   trigger = {"ENCOUNTER"},
   onActivate = function ()
     for i=1, 11 do
@@ -142,8 +141,7 @@ main.defineEnemy("trap", {
   name = "The Trap",
   image = "trapNews",
   description = "Destroy a random card",
-  difficulty=8,
-  isBoss = true,
+  enemyType = "boss",
   trigger = {"ROUND"},
   onActivate = function ()
     local card = main.getRandomCard()
@@ -155,8 +153,7 @@ main.defineEnemy("machine", {
   name = "The Machine",
   image = "machineNews",
   description = "Discard a random card",
-  difficulty=10,
-  isBoss = true,
+  enemyType = "boss",
   trigger = {"CARDTRIGGER"},
   rarity = "UNIQUE",
   onActivate = function (ent)
