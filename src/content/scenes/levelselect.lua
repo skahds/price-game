@@ -25,6 +25,7 @@ local objectiveCover
 local enemyText
 local enemyCover
 local enemyNews = {}
+local enemyTiers = {normal=1, elite=2, boss=3}
 
 --
 --level select things
@@ -303,7 +304,7 @@ main.defineScene("levelSelect", function ()
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward
       if ui.reward.description then ui.description = ui.description .. "\nRewards: " .. ui.reward.description end
 
-      ui.enemy = {main.enemies.getRandomEnemy({enemyType="elite"})}
+      ui.enemy = {main.enemies.getRandomEnemy({enemyType="elite"}), main.enemies.getRandomEnemy({enemyType="boss"})}
 
       local color = ""
       if ui.reward.difficulty == 2 then
@@ -421,7 +422,7 @@ main.defineScene("levelSelect", function ()
       local spacing = utils.createEvenlySpacedPosition(#ui.enemy)
       for i, enemy in ipairs(ui.enemy) do
         local id = enemy.id
-        local n = main.spawnEntity(id, {x=leftCoverX+330/2 + 90*spacing[i], y=800})
+        local n = main.spawnEntity(id, {x=0, y=800})
         n.ui.renderLayer = 102
         n.ui.sx = 2
         n.ui.sy = 2
@@ -493,6 +494,32 @@ local function scaleChange()
 end
 
 scaleChange()
+
+local function sortEnemiesIntoATable(level)
+  local enemies = {}
+
+  for _, enemy in ipairs(enemyNews[level.levelIndex]) do
+    local tier = enemyTiers[enemy.enemyType]
+    enemies[tier] = enemies[tier] or {}
+    table.insert(enemies[tier], enemy)
+  end
+
+  local usedTiers = {}
+  for tier, e in pairs(enemies) do
+    table.insert(usedTiers, tier)
+  end
+  table.sort(usedTiers)
+
+  local returnTable = {}
+  for i, tier in ipairs(usedTiers) do
+    returnTable[i] = {}
+    for _, enemy in ipairs(enemies[tier]) do
+      table.insert(returnTable[i], enemy)
+    end
+  end
+
+  return returnTable
+end
 
 system.on("@draw", function ()
   if system.getStorage("main:currentScene") ~= "levelSelect" then
@@ -582,15 +609,22 @@ system.on("@draw", function ()
 
   local currentTrack = route[currentCycle][currentRoute]
   if currentTrack and enemyCover then
+    local tierGap = 80
     for i, ui in ipairs(activeRouteUI) do
       if ui.enemy then
         if lastLevelHovered ~= ui then
-          for e, enemy in ipairs(enemyNews[ui.levelIndex]) do
-            flux.to(enemy.ui, 0.3, {y=800})
+          for e, tier in ipairs(sortEnemiesIntoATable(ui)) do
+            local xGap = utils.createEvenlySpacedPosition(#tier)
+            for k, enemy in ipairs(tier) do
+              flux.to(enemy.ui, 0.3, {y=800+tierGap*(e-1), x=leftCoverX+330/2 + 90*xGap[k]})
+            end
           end
         else
-          for e, enemy in ipairs(enemyNews[ui.levelIndex]) do
-            flux.to(enemy.ui, 0.3, {y=720-340/2})
+          for e, tier in ipairs(sortEnemiesIntoATable(ui)) do
+            local xGap = utils.createEvenlySpacedPosition(#tier)
+            for k, enemy in ipairs(tier) do
+              flux.to(enemy.ui, 0.3, {y=720-340/2+tierGap*(e-1), x=leftCoverX+330/2 + 90*xGap[k]})
+            end
           end
         end
       end
