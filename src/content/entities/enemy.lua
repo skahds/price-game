@@ -155,7 +155,6 @@ main.defineEnemy("machine", {
   description = "Discard a random card",
   enemyType = "boss",
   trigger = {"CARDTRIGGER"},
-  rarity = "UNIQUE",
   onActivate = function (ent)
     local card = main.getRandomCard()
     if card then
@@ -164,9 +163,77 @@ main.defineEnemy("machine", {
   end,
 })
 
+-- main.defineEnemy("miracle", {
+--   name = "The Miracle",
+--   image = "miracleNews",
+--   description = "IDK",
+--   descriptionTagEntity = "junk",
+--   enemyType = "boss",
+--   trigger = {"ROUND"},
+--   rarity = "UNIQUE",
+--   onActivate = function (ent, card)
+--     main.basicSpawnCard("junk", {}, nil, "draw")
+--   end,
+-- })
+
+-- do a check, if deck has atleast 1 of these cards that are permanent then it can spawn.
+-- the "block" cards
+main.defineEnemy("source", {
+  name = "The Source",
+  image = "sourceNews",
+  description = "Disable STARTER cards",
+  descriptionTagEntity = "junk",
+  enemyType = "boss",
+  trigger = {},
+})
+
+main.defineEnemy("outcast", {
+  name = "The Outcast",
+  image = "outcastNews",
+  description = "Disable {commonColor}COMMON{/commonColor} cards",
+  descriptionTagEntity = "junk",
+  enemyType = "boss",
+  trigger = {},
+})
+
+main.defineEnemy("flow", {
+  name = "The Flow",
+  image = "flowNews",
+  description = "{rareColor}RARE{/rareColor}",
+  descriptionTagEntity = "junk",
+  enemyType = "boss",
+  trigger = {},
+})
+
+main.defineEnemy("vestige", {
+  name = "The Vestige",
+  image = "vestigeNews",
+  description = "Disable {epicColor}EPIC{/epicColor} cards",
+  descriptionTagEntity = "junk",
+  enemyType = "boss",
+  trigger = {},
+})
+
+local blockTable = {
+  source="STARTER",
+  outcast="COMMON",
+  flow="RARE",
+  vestige="EPIC"
+}
+system.answer("main:isEntityDisabled", function (ent)
+  local chart = system.getStorage("main:chart")
+  local result = false
+  chart:forAllNews(function (news)
+    if blockTable[news.id] == ent.rarity.id then
+      result = true
+    end
+  end)
+  return result
+end)
+
 
 -- idea, only bosses gets "the", normal enemy just have their normal names
--- nameideas: the miracle, the doors, the vestige, the clock, the prophet, the source
+-- nameideas: the doors, the vestige, the clock, the prophet
 -- 
 
 --[[

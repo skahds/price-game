@@ -21,11 +21,11 @@ main.defineScene("gameEnd", function ()
   local t = {}
   if system.getStorage("main:gameResult") == "LOSE" then
     table.insert(t, "You have lost!")
+    table.insert(t, "You reached cycle " .. (system.getStorage("main:currentCycle") or 1) .. " day " .. (system.getStorage("main:currentRoute") or 1))
   else
     table.insert(t, "You have won!")
   end
   
-  table.insert(t, "Total score: " .. finalStats.finalScore)
 
   restart = main.ui.spawnUI("settingMenu", {x=540, y=400, renderLayer=102})
 
@@ -42,8 +42,7 @@ main.defineScene("gameEnd", function ()
         sx=0.8,
         sy=0.8,
       })
-      local ox = t.richText:getWidth()/2
-      t.ox = ox
+      t.x = t.x - t.richText:getWidth()/2
       table.insert(stats, t)
       flux.to(t, 0.4, {sx=1, sy=1}):ease("backinout")
     end)

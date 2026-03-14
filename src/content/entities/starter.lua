@@ -95,7 +95,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Firm",
   image="vision",
-  description="NOT IMPLEMENTED",
+  description="DEMO: UNAVAILABLE",
   isNotImplemented = true,
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
@@ -112,7 +112,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Enterprise",
   image="sigil",
-  description="NOT IMPLEMENTED",
+  description="DEMO: UNAVAILABLE",
   isNotImplemented = true,
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
@@ -129,7 +129,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Association",
   image="radar",
-  description="NOT IMPLEMENTED",
+  description="DEMO: UNAVAILABLE",
   isNotImplemented = true,
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,

@@ -11,7 +11,12 @@ end
 
 function main.canTriggerFullCheck(ent, trigger)
   if main.canTrigger(ent, trigger) then
-    if ent.filter and ent:filter() ~= true then
+    local disabled = system.ask("main:isEntityDisabled", combiner.OR, ent)
+    if disabled then
+      return false
+    end
+
+    if (ent.filter and ent:filter() ~= true) then
       return false
     end
     return true

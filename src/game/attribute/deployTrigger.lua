@@ -33,9 +33,13 @@ system.on("main:cardUIReleased", function (uiEnt, button)
       if system.getStorage("main:energy") >= energy then
         if main.canTriggerFullCheck(ent, "DEPLOY") then
           main.addEnergy(-energy)
+          main.triggerEnt(ent, "DEPLOY")
+          success = true
+        else
+          success = false
         end
 
-        success = main.triggerEnt(ent, "DEPLOY")
+        
       end
     end)
     pipline:add(0, function ()

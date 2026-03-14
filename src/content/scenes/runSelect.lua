@@ -564,7 +564,7 @@ end, function (t)
     if selection.route then
       system.updateStorage("main:route", selection.route)
     end
-
+    
     if selection.scoreWithDifficulty then
       system.updateStorage("main:scoreRequirementList", selection.scoreWithDifficulty[t.difficultySelected])
     end
