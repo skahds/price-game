@@ -16,6 +16,10 @@ function main.enemies.getRandomEnemy(arg)
         goto continue
       end
     end
+    
+    if arg.ignoreSpawnFilter ~= true and ent.spawnFilter and ent.spawnFilter() == false then
+      goto continue
+    end
 
     table.insert(bag, ent)
 
@@ -178,11 +182,22 @@ main.defineEnemy("machine", {
 
 -- do a check, if deck has atleast 1 of these cards that are permanent then it can spawn.
 -- the "block" cards
+local function specificRarityCheck(rarityID)
+  return function ()
+    for i, card in ipairs(main.card.getDeckCards()) do
+      if card.rarity.id == rarityID and card.temporary == math.huge then
+        return true
+      end
+    end
+    return false
+  end
+end
+
 main.defineEnemy("source", {
   name = "The Source",
   image = "sourceNews",
   description = "Disable STARTER cards",
-  descriptionTagEntity = "junk",
+  spawnFilter=specificRarityCheck("STARTER"),
   enemyType = "boss",
   trigger = {},
 })
@@ -191,7 +206,7 @@ main.defineEnemy("outcast", {
   name = "The Outcast",
   image = "outcastNews",
   description = "Disable {commonColor}COMMON{/commonColor} cards",
-  descriptionTagEntity = "junk",
+  spawnFilter=specificRarityCheck("COMMON"),
   enemyType = "boss",
   trigger = {},
 })
@@ -200,7 +215,7 @@ main.defineEnemy("flow", {
   name = "The Flow",
   image = "flowNews",
   description = "{rareColor}RARE{/rareColor}",
-  descriptionTagEntity = "junk",
+  spawnFilter=specificRarityCheck("RARE"),
   enemyType = "boss",
   trigger = {},
 })
@@ -209,7 +224,7 @@ main.defineEnemy("vestige", {
   name = "The Vestige",
   image = "vestigeNews",
   description = "Disable {epicColor}EPIC{/epicColor} cards",
-  descriptionTagEntity = "junk",
+  spawnFilter=specificRarityCheck("EPIC"),
   enemyType = "boss",
   trigger = {},
 })
