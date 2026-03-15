@@ -3,24 +3,24 @@ local basicRoute = {
     {id="PLAY", node=3},
     {id="PLAY", node={2, 3}},
     {id="PLAY", node={2, 3}},
-    {id="SHOP", node=2},
-    {id="PLAY", node=1}, -- add boss here
+    {id="SHOP", node=2, enemy="elite"},
+    {id="PLAY", node=1, enemy="boss"},
   },
 
   {
     {id="PLAY", node=3},
     {id="PLAY", node={2, 3}},
     {id="PLAY", node={2, 3}},
-    {id="SHOP", node=2},
-    {id="PLAY", node=1}, -- add boss here
+    {id="SHOP", node=2, enemy="elite"},
+    {id="PLAY", node=1, enemy="boss"},
   },
 
   {
     {id="PLAY", node=3},
     {id="PLAY", node={2, 3}},
     {id="PLAY", node={2, 3}},
-    {id="SHOP", node=2},
-    {id="PLAY", node=1},
+    {id="SHOP", node=2, enemy="elite"},
+    {id="PLAY", node=1, enemy="boss"},
   }
 
   -- TOBE IMPLEMENTED

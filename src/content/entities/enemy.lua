@@ -21,6 +21,15 @@ function main.enemies.getRandomEnemy(arg)
       goto continue
     end
 
+    --ignoredEnt is just an id of the enemy
+    if arg.ignoreBag then
+      for i, ignoredEnt in ipairs(arg.ignoreBag) do
+        if ignoredEnt == ent.id then
+          goto continue
+        end
+      end
+    end
+
     table.insert(bag, ent)
 
     ::continue::
@@ -184,7 +193,7 @@ main.defineEnemy("machine", {
 -- the "block" cards
 local function specificRarityCheck(rarityID)
   return function ()
-    for i, card in ipairs(main.card.getDeckCards()) do
+    for i, card in ipairs(main.getDeckCards()) do
       if card.rarity.id == rarityID and card.temporary == math.huge then
         return true
       end
@@ -214,7 +223,7 @@ main.defineEnemy("outcast", {
 main.defineEnemy("flow", {
   name = "The Flow",
   image = "flowNews",
-  description = "{rareColor}RARE{/rareColor}",
+  description = "Disable {rareColor}RARE{/rareColor} cards",
   spawnFilter=specificRarityCheck("RARE"),
   enemyType = "boss",
   trigger = {},

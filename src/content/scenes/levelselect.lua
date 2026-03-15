@@ -276,6 +276,9 @@ main.defineScene("levelSelect", function ()
   else
     amountOfNode = currentTrack.node
   end
+  if savedRouteUI then
+    amountOfNode = #savedRouteUI.uiInfos
+  end
 
   generateLevelMap(amountOfNode)
   if system.getStorage("main:isDoingTutorial") and currentRoute == 1 and currentCycle == 1 then
@@ -305,7 +308,10 @@ main.defineScene("levelSelect", function ()
       if ui.reward.description then ui.description = ui.description .. "\nRewards: " .. ui.reward.description end
 
       -- ui.enemy = {main.enemies.getRandomEnemy({enemyType="elite"}), main.enemies.getRandomEnemy({enemyType="boss"})}
-      ui.enemy = {main.enemies.getEnemy("flow")}
+      -- ui.enemy = {main.enemies.getEnemy("flow")}
+      if currentTrack.enemy then
+        ui.enemy = {main.enemies.getRandomEnemy({enemyType=currentTrack.enemy})}
+      end
 
       local color = ""
       if ui.reward.difficulty == 2 then
@@ -333,7 +339,7 @@ main.defineScene("levelSelect", function ()
   
   -- save system
   if savedRouteUI then
-    for i, ui in pairs(savedRouteUI.uiInfos) do
+    for i, ui in ipairs(savedRouteUI.uiInfos) do
       local currentUI = activeRouteUI[i]
       if ui.rewardIndex then
         currentUI.reward = rewardList[ui.rewardIndex]
@@ -352,8 +358,6 @@ main.defineScene("levelSelect", function ()
 
     savedRouteUI = nil
   end
-
-  main.tweenCamera(0.2, {x=-180, y=-120, zoom=1})
 
   if system.getStorage("main:isDoingTutorial") then
     if currentRoute == 1 and currentCycle == 1 then
@@ -434,6 +438,13 @@ main.defineScene("levelSelect", function ()
         table.insert(enemyNews[k], n)
       end
     end
+  end
+
+
+  if #enemyNews[1] > 0 then
+    main.tweenCamera(0.2, {x=-180, y=-120, zoom=1})
+  else
+    main.tweenCamera(0.2, {x=0, y=-120, zoom=1})
   end
 
   main.hideCharts()
@@ -612,7 +623,7 @@ system.on("@draw", function ()
   if currentTrack and enemyCover then
     local tierGap = 80
     for i, ui in ipairs(activeRouteUI) do
-      if ui.enemy then
+      if ui.enemy and #ui.enemy > 0 then
         if lastLevelHovered ~= ui then
           for e, tier in ipairs(sortEnemiesIntoATable(ui)) do
             local xGap = utils.createEvenlySpacedPosition(#tier)
@@ -637,7 +648,7 @@ system.on("@draw", function ()
       love.graphics.line(enemyCover.x+40, y, enemyCover.x+330-40, y)
     end, true)
 
-    if lastLevelHovered then
+    if lastLevelHovered and lastLevelHovered.enemy and #lastLevelHovered.enemy > 0 then
       flux.to(enemyCover, 0.3, {y=720-340})
       flux.to(enemyText, 0.3, {y=720-340+30})
     else
