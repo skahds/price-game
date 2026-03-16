@@ -6,20 +6,8 @@ local scoreText = main.newRichText({format="Score: " ..  math.floor(score+0.5) .
   x=70,
   renderLayer = 200,})
 
-local money = main.getMoney()
-
--- local energyText = main.newRichText({format="0",
---   y=130,
---   x=70,
---   renderLayer = 200,})
-
 local roundsRemainingText = main.newRichText({format="Turn left: 0",
   y=130,
-  x=70,
-  renderLayer = 200,})
-
-local moneyText = main.newRichText({format="{moneyColor}$" .. money .. "{/moneyColor}",
-  y=180,
   x=70,
   renderLayer = 200,})
 
@@ -110,29 +98,6 @@ system.on("main:sceneChanged", function()
     local scoreRequired = system.getStorage("main:scoreRequirement")
     main.updateRichTextText(scoreText, "Score: " .. math.floor(score+0.5) .. "/" .. scoreRequired)
     scoreText.x = 70
-  end
-end)
-
---money text
-system.on("@update", function ()
-  local money = main.getMoney()
-  main.updateRichTextText(moneyText, "{moneyColor}$" .. math.floor(money) .. "{/moneyColor}")
-end)
-
-system.on("main:sceneChanged", function()
-  local scene = system.getStorage("main:currentScene")
-  if utils.isEInTable(scene, {"play", "shop"}) then
-    moneyText.x = 70
-  else
-    moneyText.x = -2000
-  end
-
-  if scene == "play" then
-    moneyText.y = 180
-    moneyText.sx = 1
-    moneyText.sy = 1
-  elseif scene == "shop" then
-    moneyText.y = 160
   end
 end)
 
@@ -296,7 +261,7 @@ system.on("@draw", function ()
 
 
   system.render(199, function ()
-    love.graphics.setColor(0.4, 0.4, 0.4, 1)
+    love.graphics.setColor(0.5, 0.5, 0.5, 1)
     love.graphics.rectangle("fill", 55, 250, 340, 90)
     -- love.graphics.setColor(0.45, 0.45, 0.45, 1)
     -- love.graphics.rectangle("fill", 60, 350, 330/2-10, 100)

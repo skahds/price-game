@@ -13,8 +13,8 @@ end
 
 main.defineScene("shop", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=400, height=1500,
-    color = {0.5, 0.5, 0.5},
-    outlineColor = {0.4, 0.4, 0.4}, outline=20})
+    color = {0.6, 0.6, 0.6},
+    outlineColor = {0.5, 0.5, 0.5}, outline=20})
   reroll = main.ui.spawnUI("rerollButton", {x=70, y=250})
   continue = main.ui.spawnUI("continueButton", {x=70, y=400})
   main.shop.spawnCards()
@@ -31,7 +31,10 @@ main.defineScene("shop", function ()
   end
   main.showCharts()
   main.card.updateAllCardPositionBackToOriginalPosition()
+
+  main.showTopTab()
 end, function ()
+  main.hideTopTab()
 
   deleteAll({cover, reroll, continue})
   for i=#main.card.shop, 1, -1 do

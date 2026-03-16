@@ -6,8 +6,6 @@ local objectiveText
 -- local ownSlider
 local scaleYSlider
 local startTurn
-local settings
-local setting
 local drawPile, discardPile
 
 --tutorial, stage kinda like a rocketship :)
@@ -54,18 +52,16 @@ end)
 
 main.defineScene("play", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=360,
-    color = {0.5, 0.5, 0.5},
-    outlineColor = {0.4, 0.4, 0.4}, outline=10, rx=20, ry=20})
+    color = {0.6, 0.6, 0.6},
+    outlineColor = {0.5, 0.5, 0.5}, outline=10, rx=20, ry=20})
   objectiveCover = main.ui.spawnUI("cover", {x=1280-350, y=140, width=370, height=100,
     color = {0.1, 0.1, 0.1, 0.4},
     outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
   objectiveArrow = main.ui.spawnUI("objectivePanelArrow", {x=1280-480, y=140+100/2-100/2})
   
-  startTurn = main.ui.spawnUI("startTurn", {x=640-100, y=30})
+  startTurn = main.ui.spawnUI("startTurn", {x=640-100, y=90})
   drawPile = main.ui.spawnUI("drawPile", {x=1280-60, y=720-60})
   discardPile = main.ui.spawnUI("discardPile", {x=60, y=720-60})
-  settings = main.ui.spawnUI("openSetting", {x=1280-30-60, y=30, width=60, height=60, color={0.8, 0.8, 0.8}})
-  main.updateRichTextText(settings.richtext, "=")
 
   if system.getStorage("main:isDoingTutorial") and tutorialInfos.stage == 1 then
     main.drawCard()
@@ -106,7 +102,10 @@ main.defineScene("play", function ()
   objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=170,font=system.getFont("defaultFont30"), showProgress=true})
 
   main.showCharts()
+  main.showTopTab()
 end, function ()
+  main.hideTopTab()
+  
   local chart = system.getStorage("main:chart")
   system.updateStorage("main:currentDay", system.getStorage("main:currentDay")+1)
   local endStats = {
@@ -114,7 +113,7 @@ end, function ()
     barsTaken = #chart.bars
   }
   system.updateStorage("main:endLevelStats", endStats)
-  deleteAll({cover, scaleYSlider, startTurn, setting, drawPile, discardPile, settings, objectiveCover, objectiveArrow})
+  deleteAll({cover, scaleYSlider, startTurn, drawPile, discardPile, objectiveCover, objectiveArrow})
   deleteAll(objectiveText)
   objectiveText = nil
   chart:clear()

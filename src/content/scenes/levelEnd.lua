@@ -143,7 +143,10 @@ main.defineScene("levelEnd", function ()
   system.updateStorage("main:score", 0)
   system.call("main:scoreChanged", 0)
   main.showCharts()
+  main.showTopTab()
 end, function ()
+  main.hideTopTab()
+  
   main.objectives.clearObjectives()
 
   deleteAll({cover, levelEndContinue})

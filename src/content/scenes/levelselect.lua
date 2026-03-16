@@ -232,7 +232,7 @@ main.defineScene("levelSelect", function ()
     rx=20, ry=20,
     renderLayer=93,
     color = {0.6, 0.6, 0.6},
-    outlineColor = {0.4, 0.4, 0.4}, outline=10}))
+    outlineColor = {0.5, 0.5, 0.5}, outline=10}))
 
   currentNodeHovered = currentTrack.id
   local gap = 32
@@ -374,11 +374,11 @@ main.defineScene("levelSelect", function ()
       end
     end
 
-    objectiveCover = main.ui.spawnUI("cover", {x=0, y=30, width=1, height=1,
+    objectiveCover = main.ui.spawnUI("cover", {x=0, y=80, width=1, height=1,
       color = {0.1, 0.1, 0.1, 0.4},
       outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
     
-    objectiveText = main.objectives.createObjectiveRichtext({x=1280,y=120,font=system.getFont("defaultFont30"), centerX=true})
+    objectiveText = main.objectives.createObjectiveRichtext({x=1280,y=170,font=system.getFont("defaultFont30"), centerX=true})
     local maxwidth = 0
     for i, text in ipairs(objectiveText) do
       maxwidth = math.max(maxwidth, text.richText:getWidth())
@@ -390,7 +390,7 @@ main.defineScene("levelSelect", function ()
     local header = main.newRichText({
       format = "OBJECTIVES",
       x = 1280,
-      y = 50,
+      y = 100,
       renderLayer=100,
       outline = true,
       outlineColor={0,0,0}
@@ -399,7 +399,7 @@ main.defineScene("levelSelect", function ()
     header.x = header.x - header.richText:getWidth()/2
     header.x = header.x - maxwidth/2 - 60
 
-    local highY, lowY = 30, objectiveText[#objectiveText].y + objectiveText[#objectiveText].richText:getHeight()
+    local highY, lowY = 80, objectiveText[#objectiveText].y + objectiveText[#objectiveText].richText:getHeight()
     objectiveCover.x = 1280-maxwidth-90
     objectiveCover.height = lowY-highY+30
     objectiveCover.width = maxwidth + 30 * 2
@@ -453,7 +453,11 @@ main.defineScene("levelSelect", function ()
   main.wait(0.1, function ()
     system.saveGame()
   end)
+
+  main.showTopTab()
 end, function ()
+  main.hideTopTab()
+  
   lastLevelHovered = nil
   main.wait(1, function ()
     lastLevelHovered = nil

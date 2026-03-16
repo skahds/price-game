@@ -47,7 +47,11 @@ main.defineScene("treasureRoom", function ()
   main.card.updateAllCardPositionBackToOriginalPosition()
   main.showCharts()
   continue = main.ui.spawnUI("treasureRoomContinue", {x=640-150, y=430})
+
+  main.showTopTab()
 end, function ()
+  main.hideTopTab()
+  
   for i=#main.card.hand, 1, -1 do
     local card = main.card.hand[i]
     main.addCardToDraw(card)
