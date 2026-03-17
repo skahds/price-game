@@ -41,37 +41,56 @@ main.ui.defineUI("topTab", {
   end
 })
 
-main.ui.defineUI("topTab:openSetting", {
-  width = 48,
-  height = 48,
-  ox=24,
-  oy=24,
+local function defineTopTabButton(arg)
+  main.ui.defineUI(arg.id, {
+    width = 48,
+    height = 48,
+    ox=24,
+    oy=24,
+    image=arg.image,
+    renderLayer = 603,
+    screenSpace = true,
+    isTweening=false,
+    onHover = function (ent)
+      if ent.isTweening == false then
+        ent.tween = flux.to(ent, 0.3, {sx=1.4, sy=1.4}):ease("backinout")
+        ent.isTweening=true
+      end
+    end,
+    notHovered = function (ent)
+      if ent.isTweening == true then
+        ent.tween = flux.to(ent, 0.3, {sx=1, sy=1}):ease("backinout")
+        ent.isTweening=false
+      end
+    end,
+    onMouseReleased = arg.onMouseReleased
+  })
+end
+
+defineTopTabButton({
+  id="topTab:openSetting",
   image="gearIcon",
-  renderLayer = 101,
-  screenSpace = true,
-  isTweening=false,
-  onHover = function (ent)
-    if ent.isTweening == false then
-      ent.tween = flux.to(ent, 0.3, {sx=1.4, sy=1.4}):ease("backinout")
-      ent.isTweening=true
-    end
-  end,
-  notHovered = function (ent)
-    if ent.isTweening == true then
-      ent.tween = flux.to(ent, 0.3, {sx=1, sy=1}):ease("backinout")
-      ent.isTweening=false
-    end
-  end,
-  onMouseReleased = function (ent)
+  onMouseReleased = function ()
     main.openUITab("settings")
   end
 })
+
+defineTopTabButton({
+  id="topTab:openRunInfo",
+  image="topTabStatsIcon",
+  onMouseReleased = function ()
+    -- main.openUITab("settings")
+  end
+})
+
+
 
 system.on("@load", function ()
   uis.topTab = main.ui.spawnUI("topTab", {x=640-width/2, y=-30})
   uis.rightText = main.newRichText({format="a",
     y=5, x=0, renderLayer = 603, outline=true, outlineColor={0,0,0}})
-  uis.setting = main.ui.spawnUI("topTab:openSetting", {x=1280-50, y=height/2, renderLayer=603})
+  uis.setting = main.ui.spawnUI("topTab:openSetting", {x=1280-60, y=height/2})
+  uis.setting = main.ui.spawnUI("topTab:openRunInfo", {x=1280-120, y=height/2})
 
   main.hideTopTab()
 end)
