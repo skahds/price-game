@@ -87,10 +87,18 @@ defineTopTabButton({
 
 system.on("@load", function ()
   uis.topTab = main.ui.spawnUI("topTab", {x=640-width/2, y=-30})
+
+  local gapPerIcon = 10
+  local iconSize = 48
+  local totalGapForIcon = gapPerIcon+iconSize
+  local heightGapForIcon = (height-iconSize)/2
+  local startX = 1280-iconSize/2-heightGapForIcon
+
+  uis.setting = main.ui.spawnUI("topTab:openSetting", {x=startX, y=height/2})
+  uis.stats = main.ui.spawnUI("topTab:openRunInfo", {x=startX-totalGapForIcon, y=height/2})
+
   uis.rightText = main.newRichText({format="a",
     y=5, x=0, renderLayer = 603, outline=true, outlineColor={0,0,0}})
-  uis.setting = main.ui.spawnUI("topTab:openSetting", {x=1280-60, y=height/2})
-  uis.setting = main.ui.spawnUI("topTab:openRunInfo", {x=1280-120, y=height/2})
 
   main.hideTopTab()
 end)
