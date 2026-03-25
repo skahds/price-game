@@ -6,6 +6,14 @@ local midX = 640
 local width = 1300
 local height=60
 
+local function deleteAll(args)
+  for k, ent in pairs(args) do
+    if type(ent) == "table" and ent.delete then
+      ent:delete()
+    end
+  end
+end
+
 function main.showTopTab()
   isVisible = true
   for i, ui in pairs(uis) do
@@ -75,11 +83,30 @@ defineTopTabButton({
   end
 })
 
+local runStatsUI = {}
+local coverWidth, coverHeight = 700, 400
+main.defineUITab("runStats", function ()
+  runStatsUI.cover = main.ui.spawnUI("cover", {
+    x=640-coverWidth/2,
+    y=360-coverHeight/2,
+    width = coverWidth,
+    height = coverHeight,
+    color = {0.6, 0.6, 0.6},
+    outline = 10,
+    rx=20,
+    ry=20,
+    outlineColor = {0.4, 0.4, 0.4},
+    ignoreUIChecks = false,
+    renderLayer = 570})
+end, function ()
+  deleteAll(runStatsUI)
+end)
+
 defineTopTabButton({
   id="topTab:openRunInfo",
   image="topTabStatsIcon",
   onMouseReleased = function ()
-    -- main.openUITab("settings")
+    main.openUITab("runStats")
   end
 })
 
