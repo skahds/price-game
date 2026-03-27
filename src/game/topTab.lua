@@ -184,9 +184,11 @@ local function spawnItems()
       c.ui.x=middleX
       local targetX = (utils.createEvenlySpacedPosition(amountInCol)[x+1]*600) / amountInCol
       flux.to(c.ui, 0.2, {x=640+targetX}):ease("backout")
-      c.ui.y=360+(y-1)*90
+      c.ui.y=360+15+(y-1)*90
       c.ui.ox = c.ui.width/2
       c.ui.oy = c.ui.height/2
+      c.ui.sx = 1.3
+      c.ui.sy = 1.3
       table.insert(runStatsItems, c)
     elseif item.isNews then
       local cardID = item.id
@@ -194,7 +196,7 @@ local function spawnItems()
         cardID = "lockedNews"
       end
       local targetX = (utils.createEvenlySpacedPosition(amountInCol)[x+1]*600) / amountInCol
-      local n = main.spawnEntity(cardID, {x=middleX, y=360+(y-1)*90})
+      local n = main.spawnEntity(cardID, {x=middleX, y=360+15+(y-1)*90})
       flux.to(n.ui, 0.2, {x=640+targetX}):ease("backout")
       n.ui.renderLayer = renderLayer+2
       n.ui.sx = 2
@@ -221,6 +223,14 @@ main.defineUITab("runStats", function ()
     outlineColor = {0.4, 0.4, 0.4},
     ignoreUIChecks = false,
     renderLayer = 570})
+
+  runStatsUI.topText = main.newRichText({
+    x=640,
+    y=360-coverHeight/2+15,
+    format = "RUN INFO",
+    renderLayer = renderLayer+2
+  })
+  runStatsUI.topText.x = runStatsUI.topText.x - runStatsUI.topText.richText:getWidth()/2
 
   spawnItems()
 end, function ()
