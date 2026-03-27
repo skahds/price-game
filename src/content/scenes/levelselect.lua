@@ -110,7 +110,7 @@ local rewardList = {
   end,
   description="Upgrade a pattern!"},
 
-  {money = 20},
+  {money = 15},
 }
 
 local function pickRandom(t)

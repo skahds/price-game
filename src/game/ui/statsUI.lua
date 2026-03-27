@@ -1,23 +1,35 @@
 local biggerFont = system.getFont("defaultFont100")
 local flux = system.getStorage("flux")
 local score = system.getStorage("main:score")
-local scoreText = main.newRichText({format="Score: " ..  math.floor(score+0.5) .. "",
+
+local roundsRemainingText = main.newRichText({format="Turn left: 0",
   y=80,
   x=70,
   renderLayer = 200,})
 
-local roundsRemainingText = main.newRichText({format="Turn left: 0",
+local scoreHeaderText = main.newRichText({format="Score",
   y=130,
   x=70,
   renderLayer = 200,})
+
+local scoreText = main.newRichText({format="0",
+  y=180,
+  x=70,
+  renderLayer = 200,
+  sx=1,
+  sy=1,
+  ox=0,
+  oy=0,
+  r=0,
+  })
 
 local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) .. "{/priceColor}",
   y=300,
   x=0,
   sx=1,
   sy=1,
-  ox=1,
-  oy=1,
+  ox=0,
+  oy=0,
   r=0,
   outline=true,
   renderLayer = 200,
@@ -28,8 +40,8 @@ local multText = main.newRichText({format="{multColor}X" ..  math.floor(0+0.5) .
   x=0,
   sx=1,
   sy=1,
-  ox=1,
-  oy=1,
+  ox=0,
+  oy=0,
   r=0,
   outline=true,
   renderLayer = 200,
@@ -41,8 +53,8 @@ local cardHeldText = main.newRichText({format=0 .. "/" .. system.getStorage("mai
   x=0,
   sx=1,
   sy=1,
-  ox=1,
-  oy=1,
+  ox=0,
+  oy=0,
   r=0,
   renderLayer = 200,})
 
@@ -72,7 +84,8 @@ end)
 system.on("@update", function ()
   local score = system.getStorage("main:score")
   local scoreRequired = system.getStorage("main:scoreRequirement")
-  main.updateRichTextText(scoreText, "Score: " .. math.floor(scoreInfos.score+0.5) .. "/" .. scoreRequired)
+  main.updateRichTextText(scoreText, "" .. math.floor(scoreInfos.score+0.5) .. "/" .. scoreRequired)
+  scoreText.ox = scoreText.richText:getWidth()/2
   if scoreInfos.scoreToClaim ~= 0 then
     local t = main.printRichText({
       format=math.floor(scoreInfos.scoreToClaim+0.5),
@@ -80,24 +93,34 @@ system.on("@update", function ()
       x=50+350*2/4,
       sx=1,
       sy=1,
-      ox=1,
-      oy=1,
+      ox=0,
+      oy=0,
       r=0,
       renderLayer = 200,
       font = biggerFont})
     t.x, t.y = t.x - t.richText:getWidth()/2, t.y - t.richText:getHeight()/2
+  end
+
+  if system.getStorage("main:currentScene") == "play" then
+    system.render(200, function ()
+      local y = scoreHeaderText.y + scoreHeaderText.richText:getHeight()
+      love.graphics.setLineWidth(5)
+      love.graphics.line(50+20, y, 50+350-20, y)
+    end, true)
   end
 end)
 
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
   if scene ~= "play" then
+    scoreHeaderText.x = -2000
     scoreText.x = -2000
   end
   if scene == "play" then
+    scoreHeaderText.x = 50+350/2 - scoreHeaderText.richText:getWidth()/2
     local scoreRequired = system.getStorage("main:scoreRequirement")
     main.updateRichTextText(scoreText, "Score: " .. math.floor(score+0.5) .. "/" .. scoreRequired)
-    scoreText.x = 70
+    scoreText.x = 50+350/2
   end
 end)
 
@@ -189,13 +212,14 @@ system.on("@update", function ()
   local roundsRemaining = system.getStorage("main:roundsRemaining")
   if roundsRemaining then
     main.updateRichTextText(roundsRemainingText, "Turn left: " .. roundsRemaining)
+    roundsRemainingText.ox = roundsRemainingText.richText:getWidth()/2
   end
 end)
 
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
   if utils.isEInTable(scene, {"play"}) then
-    roundsRemainingText.x = 70
+    roundsRemainingText.x = 50+350/2
   else
     roundsRemainingText.x = -2000
   end
@@ -249,8 +273,8 @@ system.on("@draw", function ()
       x=50+350*2/4,
       sx=1,
       sy=1,
-      ox=1,
-      oy=1,
+      ox=0,
+      oy=0,
       r=0,
       outline=true,
       renderLayer = 200,
