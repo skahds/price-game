@@ -12,11 +12,11 @@ local function deleteAll(args)
 end
 
 main.defineScene("shop", function ()
-  cover = main.ui.spawnUI("cover", {x=50, y=-20, width=400, height=1500,
-    color = {0.6, 0.6, 0.6},
-    outlineColor = {0.5, 0.5, 0.5}, outline=20})
-  reroll = main.ui.spawnUI("rerollButton", {x=70, y=250})
-  continue = main.ui.spawnUI("continueButton", {x=70, y=400})
+  -- cover = main.ui.spawnUI("cover", {x=50, y=-20, width=400, height=1500,
+  --   color = {0.6, 0.6, 0.6},
+  --   outlineColor = {0.5, 0.5, 0.5}, outline=20})
+  reroll = main.ui.spawnUI("rerollButton", {x=70, y=250, width=250})
+  continue = main.ui.spawnUI("continueButton", {x=70, y=400, width=250})
   main.shop.spawnCards()
   main.drawCardTillMaxCapacity()
 

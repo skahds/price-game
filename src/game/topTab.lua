@@ -201,6 +201,10 @@ local function spawnItems()
       n.ui.renderLayer = renderLayer+2
       n.ui.sx = 2
       n.ui.sy = 2
+      if n.ui:getWidth() > 96 then
+        n.ui.sx = 96 / n.ui.width
+        n.ui.sy = 96 / n.ui.height
+      end
       n.ui.ox = n.ui.width/2
       n.ui.oy = n.ui.height/2
       n.ui.screenSpace = true

@@ -1,3 +1,4 @@
+local cardYPos = 140
 main.shop = {}
 
 function main.tryReroll(price, rerollButton)
@@ -36,13 +37,13 @@ function main.shop.spawnCards()
   local pipeline = main.getPipeline("main")
   pipeline:add(0.15, function ()
     main.createCard("void", {}, "shop")
-    main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=120}})
+    main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=cardYPos}})
   end)
   local cards = bag:getRandomCardWithInfo({amount=shopCardAmount})
   for i, card in ipairs(cards) do
     pipeline:add(0.15, function ()
       main.createCard(card, {}, "shop")
-      main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=120}})
+      main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=cardYPos}})
     end)
   end
 end
@@ -71,7 +72,7 @@ system.on("main:cardClicked", function (ent, button)
     end
   end
   
-  main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=120}})
+  main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=cardYPos}})
 end)
 
 system.on("@draw", function ()
