@@ -247,11 +247,13 @@ local blockTable = {
 system.answer("main:isEntityDisabled", function (ent)
   local chart = system.getStorage("main:chart")
   local result = false
-  chart:forAllNews(function (news)
-    if blockTable[news.id] == ent.rarity.id then
-      result = true
-    end
-  end)
+  if chart then
+    chart:forAllNews(function (news)
+      if blockTable[news.id] == ent.rarity.id then
+        result = true
+      end
+    end)
+  end
   return result
 end)
 

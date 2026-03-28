@@ -199,6 +199,20 @@ main.defineNews("doppelganger", {
   end
 })
 
+--todo: make images
+main.defineNews("frame", {
+  name = "Frame",
+  image = "frameNews",
+  description = "Increase turn per day by 1",
+  trigger = {"OBTAIN"},
+  isRelic = true,
+  rarity = "RARE",
+  onActivate = function ()
+    system.updateStorage("main:roundsPerDay", system.getStorage("main:roundsPerDay"))
+    system.updateStorage("main:roundsRemaining", system.getStorage("main:roundsRemaining"))
+  end
+})
+
 main.defineNews("surplus", {
   name = "Surplus",
   image = "surplusNews",
