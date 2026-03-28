@@ -4,8 +4,8 @@ local patternsUI
 local existingUI = {}
 local leftStartX = 640-300
 local textPos = {
-  topText = {x=650, y=30},
-  nameText = {x=leftStartX, y=100},
+  topText = {x=650, y=80},
+  nameText = {x=leftStartX, y=150},
 }
 local patternSelected
 local cardOptionsUI = {}
@@ -47,7 +47,7 @@ function main.createRewardsEditPattern()
     local ui = main.createPatternsUIForCard(card)
     table.insert(cardOptionsUI, ui)
     ui.toBeChosen = true
-    ui.x = 640+400
+    ui.x = 1280*3/4
     ui.y = 360+(i-2)*150-ui:getWidth()/2
   end
 
@@ -55,8 +55,8 @@ function main.createRewardsEditPattern()
     topText = {x=650, y=30-150},
     nameText = {x=leftStartX, y=100-300},
   }
-  flux.to(textPos.topText, 0.4, {y=30})
-  flux.to(textPos.nameText, 0.4, {y=100})
+  flux.to(textPos.topText, 0.4, {y=80})
+  flux.to(textPos.nameText, 0.4, {y=150})
 
   setRandomPattern()
 end

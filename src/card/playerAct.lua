@@ -15,6 +15,7 @@ system.on("@update", function ()
     uiEnt.tween = flux.to(uiEnt, 0.2, { x = mouse.x-uiEnt:getWidth()/2, y = math.max(mouse.y-uiEnt:getHeight()/2, 570)})
     uiEnt.renderLayer = math.max(300, uiEnt.renderLayer)
   else
+    main.card.updateAllCardPositionBackToOriginalPosition()
     system.updateStorage("main:currentSelectedCard", nil)
   end
 end)

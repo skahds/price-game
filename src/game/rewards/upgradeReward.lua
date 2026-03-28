@@ -88,9 +88,6 @@ end
 
 system.on("@update", function ()
   if cardSelected == nil then
-    if #existingUI > 0 then
-      main.card.updateAllCardPositionBackToOriginalPosition()
-    end
     return
   end
   local ui = cardSelected.ui
@@ -99,24 +96,15 @@ system.on("@update", function ()
     x=640-ui:getWidth()/2,
     y=y-ui:getHeight()/2
   })
-  main.card.updateAllCardPositionBackToOriginalPosition()
-
-  local t = main.printRichText({
-    format = "{moneyColor}$" .. main.getMoney(),
-      x=640-350,
-      y=y+100,
-      renderLayer = 140,
-      font = system.getFont("defaultFont80"),
-      outline = true
-    })
-  t.x = t.x - t.richText:getWidth()/2
 
   if currentUpgrade then
     local t = main.printRichText({
       format = currentUpgrade.description,
       x=640,
-      y=50,
+      y=80,
       renderLayer = 140,
+      outline = true,
+      outlineColor={0,0,0}
     })
     t.x = t.x - t.richText:getWidth()/2
   end

@@ -102,11 +102,13 @@ local rewardList = {
 
   {claim=function ()
     main.createRewardsUpgrade()
+    print("claimed card")
   end,
   description="Upgrade a card!"},
 
   {claim=function ()
     main.createRewardsEditPattern()
+    print("claimed relic")
   end,
   description="Upgrade a pattern!"},
 
@@ -354,6 +356,9 @@ main.defineScene("levelSelect", function ()
         end
         currentUI.enemy = t
       end
+
+      currentUI.description = "Score Required: {priceColor}" .. currentUI.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. currentUI.moneyReward
+      if currentUI.reward.description then currentUI.description = currentUI.description .. "\nRewards: " .. currentUI.reward.description end
     end
 
     savedRouteUI = nil

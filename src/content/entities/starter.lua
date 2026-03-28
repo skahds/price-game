@@ -29,7 +29,7 @@ local basicRoute = {
 local basicScoreRequired = {{
   changeInCycle = 0.4, --1x, 1.4x, 1.8x, 2.5x 3.5x
   bossScore = 2.5,
-  cycles = {400, 1500, 5000, 20000, 80000}, -- approx 3-4x per cycle
+  cycles = {4, 1500, 5000, 20000, 80000}, -- approx 3-4x per cycle
 },{
   changeInCycle = 0.6, --1x, 1.6x, 2.2x, 3x, 4x?
   bossScore = 3,
