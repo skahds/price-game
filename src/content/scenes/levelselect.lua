@@ -24,6 +24,7 @@ local objectiveCover
 
 local enemyText
 local enemyCover
+local cycleBossInfo = {}
 local enemyNews = {}
 local usedEnemies = {}
 local enemyTiers = {normal=1, elite=2, boss=3}
@@ -183,6 +184,7 @@ system.register("levelSelect", 26, function ()
   local t = {
     uiInfos = {},
     usedEnemies=usedEnemies,
+    cycleBossInfo=cycleBossInfo,
   }
   if system.getStorage("main:currentScene") ~= "levelSelect" then
     return false
@@ -287,7 +289,6 @@ main.defineScene("levelSelect", function ()
     levels[1].y = -100
   end
 
-  --todo: save this so returning to the game doesn't reset the routes
   for i, level in ipairs(levels) do
     local x = level.x
     local y = level.y
@@ -310,9 +311,13 @@ main.defineScene("levelSelect", function ()
 
       -- ui.enemy = {main.enemies.getRandomEnemy({enemyType="elite"}), main.enemies.getRandomEnemy({enemyType="boss"})}
       -- ui.enemy = {main.enemies.getEnemy("flow")}
-      if currentTrack.enemy then
+      if currentTrack.enemy and currentTrack.enemy ~= "boss" then
         ui.enemy = {main.enemies.getRandomEnemy({enemyType=currentTrack.enemy, usedEnt=usedEnemies})}
-        table.insert(usedEnemies, ui.enemy.id)
+        for _, enemy in ipairs(ui.enemy) do
+          table.insert(usedEnemies, enemy.id)
+        end
+      elseif currentTrack.enemy == "boss" then
+        ui.enemy = {main.enemies.getEnemy(cycleBossInfo[currentCycle])}
       end
 
       local color = ""
@@ -343,6 +348,7 @@ main.defineScene("levelSelect", function ()
   if savedRouteUI then
     if savedRouteUI.usedEnemies then
       usedEnemies = savedRouteUI.usedEnemies
+      cycleBossInfo = savedRouteUI.cycleBossInfo
     end
     for i, ui in ipairs(savedRouteUI.uiInfos) do
       local currentUI = activeRouteUI[i]
@@ -415,6 +421,30 @@ main.defineScene("levelSelect", function ()
 
 
   --enemy
+  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=270, width=330, height=90+30,
+    rx=20, ry=20,
+    renderLayer=90,
+    color = {0.6, 0.6, 0.6},
+    outlineColor = {0.5, 0.5, 0.5}, outline=10}))
+
+  local formatForText = {"Cycle " .. currentCycle .. "'s", "Boss"}
+  for i=1, 2 do
+    local t = main.newRichText({
+      format = formatForText[i],
+      x = leftCoverX+20,
+      y = 300+45,
+      renderLayer=100,
+      font = system.getFont("defaultFont35"),
+    })
+    t.y = t.y - t.richText:getHeight()/2
+    t.y = t.y + (i-1.5)*45/2
+    table.insert(existingUI, t)
+  end
+
+  if cycleBossInfo[currentCycle] == nil then
+    cycleBossInfo[currentCycle] = main.enemies.getRandomEnemy({enemyType="boss", usedEnt=cycleBossInfo}).id
+  end
+
   enemyText = main.newRichText({
       format = "ENEMY",
       x = leftCoverX+330/2,
