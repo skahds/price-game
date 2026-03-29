@@ -445,16 +445,19 @@ main.defineScene("levelSelect", function ()
   if cycleBossInfo[currentCycle] == nil then
     cycleBossInfo[currentCycle] = main.enemies.getRandomEnemy({enemyType="boss", usedEnt=cycleBossInfo}).id
   end
+  system.updateStorage("main:cycleBossInfo", cycleBossInfo)
 
-  local n = main.spawnEntity(cycleBossInfo[currentCycle], {x=leftCoverX+330-90/2-100, y=300+45})
-  n.ui.renderLayer = 102
-  n.ui.sx = 2
-  n.ui.sy = 2
-  n.ui.ox = n.ui.width/2
-  n.ui.oy = n.ui.height/2
-  n.ui.screenSpace = true
-  n.screenSpace = true
-  cycleBossNews = n
+  if cycleBossInfo[currentCycle] then
+    local n = main.spawnEntity(cycleBossInfo[currentCycle], {x=leftCoverX+330-90/2-100, y=300+45})
+    n.ui.renderLayer = 102
+    n.ui.sx = 2
+    n.ui.sy = 2
+    n.ui.ox = n.ui.width/2
+    n.ui.oy = n.ui.height/2
+    n.ui.screenSpace = true
+    n.screenSpace = true
+    cycleBossNews = n
+  end
 
   enemyText = main.newRichText({
       format = "ENEMY",

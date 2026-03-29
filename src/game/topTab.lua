@@ -215,6 +215,8 @@ local function spawnItems()
 end
 
 main.defineUITab("runStats", function ()
+  local rightX = 640+coverWidth/2
+  local y = 360-coverHeight/2
   runStatsUI.cover = main.ui.spawnUI("cover", {
     x=640-coverWidth/2,
     y=360-coverHeight/2,
@@ -237,8 +239,55 @@ main.defineUITab("runStats", function ()
   runStatsUI.topText.x = runStatsUI.topText.x - runStatsUI.topText.richText:getWidth()/2
 
   spawnItems()
+
+
+  --cycle boss
+  local currentCycle = system.getStorage("main:currentCycle") or 1
+  local cycleBossInfo = system.getStorage("main:cycleBossInfo") or {}
+
+  if cycleBossInfo[currentCycle] ~= nil then
+  table.insert(runStatsUI, main.ui.spawnUI("cover", {x=rightX, y=y, width=150, height=160,
+    rx=20, ry=20,
+    renderLayer=570,
+    color = {0.6, 0.6, 0.6},
+    outlineColor = {0.4, 0.4, 0.4}, outline=10}))
+
+  local formatForText = {"Cycle " .. currentCycle .. "'s", "Boss"}
+  for i=1, 2 do
+    local t = main.newRichText({
+      format = formatForText[i],
+      x = rightX+75,
+      y = y+40,
+      renderLayer=renderLayer+1,
+      font = system.getFont("defaultFont40"),
+    })
+    t.x = t.x - t.richText:getWidth()/2
+    t.y = t.y - t.richText:getHeight()/2
+    t.y = t.y + (i-1.5)*45/2
+    table.insert(runStatsUI, t)
+  end
+
+  if cycleBossInfo[currentCycle] then
+    local n = main.spawnEntity(cycleBossInfo[currentCycle], {x=rightX+75, y=y+160-50})
+    n.ui.renderLayer = renderLayer+2
+    n.ui.sx = 2
+    n.ui.sy = 2
+    n.ui.ox = n.ui.width/2
+    n.ui.oy = n.ui.height/2
+    n.ui.screenSpace = true
+    n.screenSpace = true
+    runStatsUI.bossNews = n
+  end
+  end
+
 end, function ()
   clearExistingItem()
+
+  if runStatsUI.bossNews then
+    runStatsUI.bossNews.ui:delete()
+    runStatsUI.bossNews:delete()
+  end
+
   deleteAll(runStatsUI)
 end)
 
