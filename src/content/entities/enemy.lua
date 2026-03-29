@@ -5,36 +5,46 @@ main.enemies = {
 
 function main.enemies.getRandomEnemy(arg)
   arg.usedEnt = arg.usedEnt or {}
-  local bag = {}
-  for i, ent in ipairs(main.enemies.entities) do
-    if arg.enemyType and ent.enemyType ~= arg.enemyType then
-      goto continue
-    end
 
-    for e, usedEnt in ipairs(arg.usedEnt) do
-      if usedEnt == arg.id then
+  local function buildBag(ignoreUsed)
+    local bag = {}
+    for _, ent in ipairs(main.enemies.entities) do
+      if arg.enemyType and ent.enemyType ~= arg.enemyType then
         goto continue
       end
-    end
-    
-    if arg.ignoreSpawnFilter ~= true and ent.spawnFilter and ent.spawnFilter() == false then
-      goto continue
-    end
 
-    --ignoredEnt is just an id of the enemy
-    if arg.ignoreBag then
-      for i, ignoredEnt in ipairs(arg.ignoreBag) do
-        if ignoredEnt == ent.id then
-          goto continue
+      if ignoreUsed then
+        for _, usedId in ipairs(arg.usedEnt) do
+          if usedId == ent.id then
+            goto continue
+          end
         end
       end
+
+      if arg.ignoreSpawnFilter ~= true and ent.spawnFilter and ent.spawnFilter() == false then
+        goto continue
+      end
+
+      if arg.ignoreBag then
+        for _, ignoredId in ipairs(arg.ignoreBag) do
+          if ignoredId == ent.id then
+            goto continue
+          end
+        end
+      end
+
+      table.insert(bag, ent)
+      ::continue::
     end
-
-    table.insert(bag, ent)
-
-    ::continue::
+    return bag
   end
 
+  local bag = buildBag(true)
+  if #bag == 0 then
+    bag = buildBag(false)
+  end
+
+  if #bag == 0 then return nil end
   return bag[love.math.random(1, #bag)]
 end
 

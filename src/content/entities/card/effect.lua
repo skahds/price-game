@@ -372,6 +372,22 @@ main.defineCard("ray", {
   end,
 })
 
+main.defineCard("ripples", {
+  name = "Ripples",
+  image = "ripples",
+  description = "Give {multColor}+3 MULT{/multColor} for each\ncards in the draw pile",
+  energy=1,
+  trigger = {"DEPLOY"},
+  price = 3,
+  
+  onActivate = function (ent)
+    local cards = #main.cards.draw
+    if cards and cards > 0 then
+      main.addMult(cards*3)
+    end
+  end,
+})
+
 main.defineCard("cargo", {
   name = "Cargo",
   description = "Creates a Junk in\nthe draw pile",

@@ -25,6 +25,7 @@ local objectiveCover
 local enemyText
 local enemyCover
 local enemyNews = {}
+local usedEnemies = {}
 local enemyTiers = {normal=1, elite=2, boss=3}
 
 --
@@ -102,13 +103,11 @@ local rewardList = {
 
   {claim=function ()
     main.createRewardsUpgrade()
-    print("claimed card")
   end,
   description="Upgrade a card!"},
 
   {claim=function ()
     main.createRewardsEditPattern()
-    print("claimed relic")
   end,
   description="Upgrade a pattern!"},
 
@@ -182,7 +181,8 @@ end)
 -- store level, reward, objectives..?
 system.register("levelSelect", 26, function ()
   local t = {
-    uiInfos = {}
+    uiInfos = {},
+    usedEnemies=usedEnemies,
   }
   if system.getStorage("main:currentScene") ~= "levelSelect" then
     return false
@@ -218,7 +218,6 @@ end, function (t)
   if t == false then
     return
   end
-
 
   savedRouteUI = t
 end)
@@ -312,7 +311,8 @@ main.defineScene("levelSelect", function ()
       -- ui.enemy = {main.enemies.getRandomEnemy({enemyType="elite"}), main.enemies.getRandomEnemy({enemyType="boss"})}
       -- ui.enemy = {main.enemies.getEnemy("flow")}
       if currentTrack.enemy then
-        ui.enemy = {main.enemies.getRandomEnemy({enemyType=currentTrack.enemy})}
+        ui.enemy = {main.enemies.getRandomEnemy({enemyType=currentTrack.enemy, usedEnt=usedEnemies})}
+        table.insert(usedEnemies, ui.enemy.id)
       end
 
       local color = ""
@@ -341,6 +341,9 @@ main.defineScene("levelSelect", function ()
   
   -- save system
   if savedRouteUI then
+    if savedRouteUI.usedEnemies then
+      usedEnemies = savedRouteUI.usedEnemies
+    end
     for i, ui in ipairs(savedRouteUI.uiInfos) do
       local currentUI = activeRouteUI[i]
       if ui.rewardIndex then
