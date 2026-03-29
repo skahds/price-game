@@ -26,6 +26,7 @@ local enemyText
 local enemyCover
 local cycleBossInfo = {}
 local enemyNews = {}
+local cycleBossNews
 local usedEnemies = {}
 local enemyTiers = {normal=1, elite=2, boss=3}
 
@@ -421,7 +422,7 @@ main.defineScene("levelSelect", function ()
 
 
   --enemy
-  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=270, width=330, height=90+30,
+  table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=270, width=330-100, height=90+30,
     rx=20, ry=20,
     renderLayer=90,
     color = {0.6, 0.6, 0.6},
@@ -434,7 +435,7 @@ main.defineScene("levelSelect", function ()
       x = leftCoverX+20,
       y = 300+45,
       renderLayer=100,
-      font = system.getFont("defaultFont35"),
+      font = system.getFont("defaultFont40"),
     })
     t.y = t.y - t.richText:getHeight()/2
     t.y = t.y + (i-1.5)*45/2
@@ -444,6 +445,16 @@ main.defineScene("levelSelect", function ()
   if cycleBossInfo[currentCycle] == nil then
     cycleBossInfo[currentCycle] = main.enemies.getRandomEnemy({enemyType="boss", usedEnt=cycleBossInfo}).id
   end
+
+  local n = main.spawnEntity(cycleBossInfo[currentCycle], {x=leftCoverX+330-90/2-100, y=300+45})
+  n.ui.renderLayer = 102
+  n.ui.sx = 2
+  n.ui.sy = 2
+  n.ui.ox = n.ui.width/2
+  n.ui.oy = n.ui.height/2
+  n.ui.screenSpace = true
+  n.screenSpace = true
+  cycleBossNews = n
 
   enemyText = main.newRichText({
       format = "ENEMY",
@@ -519,6 +530,10 @@ end, function ()
       item.ui:delete()
       item:delete()
     end
+  end
+  if cycleBossNews then
+    cycleBossNews.ui:delete()
+    cycleBossNews:delete()
   end
   enemyNews={}
 
