@@ -156,6 +156,8 @@ end, function ()
     local card = main.card.hand[i]
     main.addCardToDraw(card)
   end
+
+  main.incrementDay()
 end)
 
 main.ui.defineButton("levelEndContinue", {

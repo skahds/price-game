@@ -316,12 +316,19 @@ system.on("@load", function ()
   uis.rightText = main.newRichText({format="a",
     y=5, x=0, renderLayer = 603, outline=true, outlineColor={0,0,0}})
 
+  uis.leftText = main.newRichText({format="a",
+    y=5, x=20, renderLayer = 603, outline=true, outlineColor={0,0,0}})
+
   main.hideTopTab()
 end)
 
 system.on("@update", function ()
   local money = main.getMoney()
   main.updateRichTextText(uis.rightText, "{moneyColor}$" .. math.floor(money) .. "{/moneyColor}")
+
+  local currentDay = system.getStorage("main:currentRoute") or 1
+  local currentCycle = system.getStorage("main:currentCycle") or 1
+  main.updateRichTextText(uis.leftText, "Cycle " .. currentCycle .. " | Day " .. currentDay)
 
   uis.rightText.x = 1280-160 - uis.rightText.richText:getWidth()
 end)

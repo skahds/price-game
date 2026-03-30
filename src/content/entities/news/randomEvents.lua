@@ -23,7 +23,8 @@ main.defineNews("randomEvents", {
         yoffset = -love.math.random(0, 40)
       end
 
-      local day = system.getStorage("main:currentDay")-1 or 0
+      -- todo: change this :skull:
+      local day = system.getStorage("main:currentRoute")-1 or 0
       local change
       if news == "goodNews" then
         change = 5+day

@@ -230,6 +230,13 @@ end)
 -- scene definition
 --
 main.defineScene("levelSelect", function ()
+  route = system.getStorage("main:route")
+  currentRoute = system.getStorage("main:currentRoute") or 1
+  currentCycle = system.getStorage("main:currentCycle") or 1
+  scoreRequired =  system.getStorage("main:scoreRequirementList")
+
+  print(currentCycle, currentRoute)
+
   local currentTrack = route[currentCycle][currentRoute]
 
   table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=-20, width=330, height=320,
@@ -305,7 +312,14 @@ main.defineScene("levelSelect", function ()
         ui.reward = generateReward(difficulty)
       end
       ui.name = generateNodeName()
-      ui.scoreRequirement = getscoreRequirement(system.getStorage("main:currentDay"), difficulty)
+
+      local amountOfPlay = 0
+      for e=1, system.getStorage("main:currentRoute") do
+        local track = route[currentCycle][e]
+        if track.id == "PLAY" then amountOfPlay = amountOfPlay + 1 end
+      end
+      ui.scoreRequirement = getscoreRequirement(amountOfPlay, difficulty)
+
       ui.moneyReward = ui.reward.money or 3
       ui.description = "Score Required: {priceColor}" .. ui.scoreRequirement .. "{/priceColor}\nGives {moneyColor}$" .. ui.moneyReward
       if ui.reward.description then ui.description = ui.description .. "\nRewards: " .. ui.reward.description end
@@ -471,7 +485,7 @@ main.defineScene("levelSelect", function ()
     rx=20, ry=20,
     renderLayer=93,
     color = {0.6, 0.6, 0.6},
-    outlineColor = {0.4, 0.4, 0.4}, outline=10})
+    outlineColor = {0.5, 0.5, 0.5}, outline=10})
 
   for k, ui in ipairs(activeRouteUI) do
     enemyNews[k] = {}
@@ -639,7 +653,7 @@ system.on("@draw", function ()
       end
     end
   end
-  local leftStats = {"CYCLE: " .. currentCycle, "DAY: " .. system.getStorage("main:currentDay") .. "/" .. amountOfDay}
+  local leftStats = {"CYCLE: " .. currentCycle, "DAY: " .. system.getStorage("main:currentRoute") .. "/" .. amountOfDay}
 
   for i, stat in ipairs(leftStats) do
     local t = main.printRichText({
@@ -679,6 +693,7 @@ system.on("@draw", function ()
     end, true)
   end
 
+  local extraGap = 70
   local currentTrack = route[currentCycle][currentRoute]
   if currentTrack and enemyCover then
     local tierGap = 80
@@ -688,14 +703,14 @@ system.on("@draw", function ()
           for e, tier in ipairs(sortEnemiesIntoATable(ui)) do
             local xGap = utils.createEvenlySpacedPosition(#tier)
             for k, enemy in ipairs(tier) do
-              flux.to(enemy.ui, 0.3, {y=800+tierGap*(e-1), x=leftCoverX+330/2 + 90*xGap[k]})
+              flux.to(enemy.ui, 0.3, {y=800+extraGap+tierGap*(e-1), x=leftCoverX+330/2 + 90*xGap[k]})
             end
           end
         else
           for e, tier in ipairs(sortEnemiesIntoATable(ui)) do
             local xGap = utils.createEvenlySpacedPosition(#tier)
             for k, enemy in ipairs(tier) do
-              flux.to(enemy.ui, 0.3, {y=720-340/2+tierGap*(e-1), x=leftCoverX+330/2 + 90*xGap[k]})
+              flux.to(enemy.ui, 0.3, {y=720+extraGap-340/2+tierGap*(e-1), x=leftCoverX+330/2 + 90*xGap[k]})
             end
           end
         end
@@ -709,11 +724,11 @@ system.on("@draw", function ()
     end, true)
 
     if lastLevelHovered and lastLevelHovered.enemy and #lastLevelHovered.enemy > 0 then
-      flux.to(enemyCover, 0.3, {y=720-340})
-      flux.to(enemyText, 0.3, {y=720-340+30})
+      flux.to(enemyCover, 0.3, {y=720-340+extraGap})
+      flux.to(enemyText, 0.3, {y=720-340+30+extraGap})
     else
-      flux.to(enemyCover, 0.3, {y=740})
-      flux.to(enemyText, 0.3, {y=720+30})
+      flux.to(enemyCover, 0.3, {y=740+extraGap})
+      flux.to(enemyText, 0.3, {y=720+30+extraGap})
     end
   end
 end)
@@ -766,15 +781,6 @@ main.ui.defineUI("levelSelect", {
           local e = main.spawnNews(enemy.id, {x=0,y=0})
           e.ui.isVisible = false
         end
-      end
-
-      local currentRoute = system.getStorage("main:currentRoute")
-      local cycle = system.getStorage("main:currentCycle")
-      system.updateStorage("main:currentRoute", currentRoute + 1)
-      if currentRoute == #system.getStorage("main:route")[cycle] then
-        system.updateStorage("main:currentRoute", 1)
-        system.updateStorage("main:currentCycle", cycle + 1)
-        system.updateStorage("main:currentDay", 0)
       end
     end
   end,

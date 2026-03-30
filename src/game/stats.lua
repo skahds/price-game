@@ -12,7 +12,6 @@ function main.resetStats()
   system.updateStorage("main:scoreRequirement", 0)
   system.updateStorage("main:currentRoute", 1)
   system.updateStorage("main:currentCycle", 1)
-  system.updateStorage("main:currentDay", 1)
   system.updateStorage("main:isOnTurn", false)
   system.updateStorage("main:isDoingTutorial", false)
   system.updateStorage("main:tutorialInfos", {stage=1})
@@ -20,7 +19,7 @@ end
 
 main.resetStats()
 
-local stats = {"main:score", "main:mult", "main:energyPerTurn", "main:energy", "main:money", "shop:maxCardAmount", "main:maxCardAmount", "main:roundsPerDay", "main:roundsRemaining", "main:currentDay", "main:scoreRequirement", "main:currentRoute", "main:currentCycle", "main:currentDay",
+local stats = {"main:score", "main:mult", "main:energyPerTurn", "main:energy", "main:money", "shop:maxCardAmount", "main:maxCardAmount", "main:roundsPerDay", "main:roundsRemaining", "main:scoreRequirement", "main:currentRoute", "main:currentCycle"
 }
 
 system.register("stats", 10, function ()
@@ -34,3 +33,15 @@ end, function (t)
     system.updateStorage(k, v)
   end
 end)
+
+
+function main.incrementDay()
+  local day = "main:currentRoute"
+  local cycle = "main:currentCycle"
+
+  system.updateStorage(day, system.getStorage(day)+1)
+  if system.getStorage(day)-1 == #system.getStorage("main:route")[system.getStorage(cycle)] then
+    system.updateStorage(cycle, system.getStorage(cycle)+1)
+    system.updateStorage(day, 1)
+  end
+end

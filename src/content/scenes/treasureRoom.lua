@@ -58,6 +58,8 @@ end, function ()
   end
 
   deleteAll({continue})
+
+  main.incrementDay()
 end)
 
 main.ui.defineButton("treasureRoomContinue", {

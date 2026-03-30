@@ -360,9 +360,9 @@ local function restartGame()
   main.resetStats()
   main.objectives.clearObjectives()
 
-  if system.getStorage("main:currentScene") == "play" then
-    system.updateStorage("main:currentDay", 0)
-  end
+  -- if system.getStorage("main:currentScene") == "levelEnd" then
+  --   system.updateStorage("main:currentRoute", 0)
+  -- end
 
   main.playScene("mainMenu")
 end

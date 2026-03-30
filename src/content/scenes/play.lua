@@ -107,7 +107,6 @@ end, function ()
   main.hideTopTab()
   
   local chart = system.getStorage("main:chart")
-  system.updateStorage("main:currentDay", system.getStorage("main:currentDay")+1)
   local endStats = {
     finalScore = system.getStorage("main:score"),
     barsTaken = #chart.bars
