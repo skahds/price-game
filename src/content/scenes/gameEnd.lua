@@ -13,7 +13,6 @@ local function deleteAll(args)
   end
 end
 
-
 main.defineScene("gameEnd", function ()
   local pipeline = main.getPipeline("main")
 
@@ -25,7 +24,21 @@ main.defineScene("gameEnd", function ()
   else
     table.insert(t, "You have won!")
   end
+
+  local cycle = system.getStorage("main:currentCycle")
+  local day = system.getStorage("main:currentRoute")
   
+  local amountCycle = (cycle-1)*50
+  if cycle > 1 then
+    table.insert(t, "50 {creditIcon} per cleared cycle :" .. amountCycle .." {creditIcon}")
+  end
+
+  local amountDay = (day-1)*5
+  if day > 1 then
+    table.insert(t, "5 {creditIcon} per day: " .. amountDay .. " {creditIcon}")
+  end
+
+  main.giveCredits(amountCycle+amountDay)
 
   restart = main.ui.spawnUI("settingMenu", {x=540, y=400, renderLayer=102})
 
@@ -41,6 +54,8 @@ main.defineScene("gameEnd", function ()
         font=font,
         sx=0.8,
         sy=0.8,
+        outline=true,
+        outlineColor={0,0,0}
       })
       t.x = t.x - t.richText:getWidth()/2
       table.insert(stats, t)
@@ -55,10 +70,14 @@ main.defineScene("gameEnd", function ()
   system.updateStorage("main:score", 0)
   main.showCharts()
 
+  main.showTopTab()
+
   -- if love.filesystem.getInfo("save.sav") then
   --   love.filesystem.remove("save.sav")
   -- end
 end, function ()
+
+  main.hideTopTab()
 
   deleteAll({cover, restart})
   deleteAll(stats)

@@ -410,6 +410,12 @@ local function putItemInPlace(tab)
   end
 end
 
+local costTable = {COMMON=30,RARE=50,EPIC=100}
+local function getCreditCost(ent)
+  local rarity = ent.rarity.id
+  return costTable[rarity] or 30
+end
+
 local function createItem(item, info)
   if tabUI[info.tab].items == nil then
     tabUI[info.tab].items = {}
@@ -423,7 +429,7 @@ local function createItem(item, info)
   local t
   if item.isCard then
     local c = main.createCard(item.id, {ignoreCardSelect=true, tab=info.tab}, "metashop")
-    c.creditCost = 30
+    c.creditCost = getCreditCost(c)
     c.ui.renderLayer = 98
     c.ui.x = 1350
     c.ui.y = y
@@ -434,7 +440,7 @@ local function createItem(item, info)
   elseif item.isNews then
     local n = main.spawnEntity(item.id, {x=1350, y=y, tab=info.tab})
     n.isMetaShop = true
-    n.creditCost = 30
+    n.creditCost = getCreditCost(n)
     n.ui.renderLayer = 98
     n.ui.sx = 2
     n.ui.sy = 2
