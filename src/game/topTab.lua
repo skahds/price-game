@@ -6,6 +6,10 @@ local midX = 640
 local width = 1300
 local renderLayer = 600
 local height=60
+local gapPerIcon = 10
+local iconSize = 48
+local totalGapForIcon = gapPerIcon+iconSize
+local heightGapForIcon = (height-iconSize)/2
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -304,10 +308,6 @@ defineTopTabButton({
 system.on("@load", function ()
   uis.topTab = main.ui.spawnUI("topTab", {x=640-width/2, y=-30})
 
-  local gapPerIcon = 10
-  local iconSize = 48
-  local totalGapForIcon = gapPerIcon+iconSize
-  local heightGapForIcon = (height-iconSize)/2
   local startX = 1280-iconSize/2-heightGapForIcon
 
   uis.setting = main.ui.spawnUI("topTab:openSetting", {x=startX, y=height/2})
@@ -324,11 +324,11 @@ end)
 
 system.on("@update", function ()
   local money = main.getMoney()
-  main.updateRichTextText(uis.rightText, "{moneyColor}$" .. math.floor(money) .. "{/moneyColor}")
+  local credits = main.meta.getCredits()
+  main.updateRichTextText(uis.rightText, credits .. " {creditIcon}   {moneyColor}$" .. math.floor(money) .. "{/moneyColor}")
+  uis.rightText.x = 1280-iconSize/2-heightGapForIcon-totalGapForIcon-40 - uis.rightText.richText:getWidth()
 
   local currentDay = system.getStorage("main:currentRoute") or 1
   local currentCycle = system.getStorage("main:currentCycle") or 1
   main.updateRichTextText(uis.leftText, "Cycle " .. currentCycle .. " | Day " .. currentDay)
-
-  uis.rightText.x = 1280-160 - uis.rightText.richText:getWidth()
 end)
