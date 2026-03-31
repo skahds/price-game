@@ -25,20 +25,26 @@ function main.tryReroll(price, rerollButton)
   end
 
   pipeline:add(0.15, function ()
-    main.shop.spawnCards()
+    main.shop.spawnCards(false)
   end)
 
   system.call("shop:reroll")
 end
 
-function main.shop.spawnCards()
+function main.shop.spawnCards(firstSpawn)
+  firstSpawn = firstSpawn or false
   local bag = system.getStorage("rarity:bag")
   local shopCardAmount = system.getStorage("shop:maxCardAmount")
   local pipeline = main.getPipeline("main")
-  pipeline:add(0.15, function ()
-    main.createCard("void", {}, "shop")
-    main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=cardYPos}})
-  end)
+
+  if firstSpawn then
+    shopCardAmount = shopCardAmount - 1
+    pipeline:add(0.15, function ()
+      main.createCard("void", {}, "shop")
+      main.card.updateAllCardPositionBackToOriginalPosition("shop", {pos={x=640, y=cardYPos}})
+    end)
+  end
+
   local cards = bag:getRandomCardWithInfo({amount=shopCardAmount})
   for i, card in ipairs(cards) do
     pipeline:add(0.15, function ()

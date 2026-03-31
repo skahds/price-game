@@ -180,6 +180,39 @@ function main.getRandomCard(...)
   return validCards[love.math.random(1, #validCards)]
 end
 
+function main.advancedGetRandomCard(arg)
+  arg.piles = arg.piles or {"hand"}
+  local filter = arg.filter
+
+
+  local validCards = {}
+  for i, e in ipairs(arg.piles) do
+    if type(e) == "string" then
+      for _, card in ipairs(main.card[e]) do
+        if not filter or filter(card) then
+          table.insert(validCards, card)
+        end
+      end
+    end
+  end
+
+  if #validCards == 0 then
+    return nil
+  end
+
+  if arg.amount then
+    local pickedCards = {}
+    for i=1, math.min(arg.amount, #validCards) do
+      local randI = love.math.random(1, #validCards)
+      table.insert(pickedCards, validCards[randI])
+      table.remove(validCards, randI)
+    end
+    return pickedCards
+  else
+    return validCards[love.math.random(1, #validCards)]
+  end
+end
+
 function main.getCardBesides(ent, cardOrder)
   return main.getCardInOrder(ent.cardOrder+cardOrder)
 end

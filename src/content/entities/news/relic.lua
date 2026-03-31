@@ -159,22 +159,25 @@ main.defineNews("battery", {
 main.defineNews("bluePill", {
   name = "Blue Pill",
   image = "bluePillNews",
-  description = "Destroy all {priceColor}PRICE{/priceColor} STARTER cards in\ndeck and create 4 random {rareColor}COMMON+{/rareColor} card",
+  description = "Destroy 2 STARTER cards in deck\nand create 2 random {rareColor}RARE{/rareColor} card",
   trigger = {"OBTAIN"},
   isRelic = true,
   rarity = "RARE",
   onActivate = function ()
-    for k, pile in ipairs(main.getAllPiles()) do
-      for i=#pile, 1, -1 do
-        local card = pile[i]
-        if card.rarity.id == "STARTER" and (card.id == "add" or card.id == "subtract") then
-          main.deleteCard(card)
-        end
+    local cards = main.advancedGetRandomCard{piles={"hand", "discard", "draw"}, amount=2, filter=function (card)
+      if card.rarity.id == "STARTER" then
+        return true
+      end
+    end}
+
+    if cards and type(cards) == "string" then
+      for i, card in ipairs(cards) do
+        main.deleteCard(card)
       end
     end
 
     local bag = system.getStorage("rarity:bag")
-    local t = bag:getRandomCardWithInfo({minimumRarity="COMMON", amount=4})
+    local t = bag:getRandomCardWithInfo({minimumRarity="COMMON", amount=2})
     for k, card in ipairs(t) do
       main.basicSpawnCard(card, {}, nil, "hand")
     end

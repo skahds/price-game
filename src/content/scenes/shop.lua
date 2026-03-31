@@ -17,7 +17,7 @@ main.defineScene("shop", function ()
   --   outlineColor = {0.5, 0.5, 0.5}, outline=20})
   reroll = main.ui.spawnUI("rerollButton", {x=70, y=250, width=250})
   continue = main.ui.spawnUI("continueButton", {x=70, y=400, width=250})
-  main.shop.spawnCards()
+  main.shop.spawnCards(true)
   main.drawCardTillMaxCapacity()
 
   local roundsPerDay = system.getStorage("main:roundsPerDay")
