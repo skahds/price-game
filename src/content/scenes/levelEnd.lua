@@ -123,7 +123,7 @@ main.defineScene("levelEnd", function ()
   main.addMoney(money)
   main.addMoney(roundsRemaining)
 
-  objectiveText = main.objectives.createObjectiveRichtext({x=1280*3/4,y=-400,font=system.getFont("defaultFont40"), showProgress=true, renderLayer=105, centerX=true, centerY=true})
+  objectiveText = main.objectives.createObjectiveRichtext({x=1280*3/4,y=-400,font=system.getFont("defaultFont40"), showProgress=true, renderLayer=105, centerX=true, centerY=true, showForClaim=true})
   local highY, lowY = objectiveText[1].y, objectiveText[#objectiveText].y+objectiveText[#objectiveText].richText:getHeight()
   local middleOfText = highY+((lowY-highY)/2)
   local gapToMiddle = middleY-(middleOfText)

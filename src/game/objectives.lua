@@ -161,6 +161,7 @@ function main.objectives.createObjectiveRichtext(arg)
   end
 
   listOfText.showProgress = arg.showProgress
+  listOfText.showForClaim = arg.showForClaim
   return listOfText
 end
 
@@ -201,13 +202,20 @@ end
 
 local white, green, red = {1,1,1}, {0.6, 1, 0.6}, {1, 0.3, 0.3}
 --call this when u updating the objective richtext in the scene to keep track of it's progress
-function main.objectives.updateObjectiveRichtext(listOfText)  for i, obj in ipairs(main.objectives.active) do
+function main.objectives.updateObjectiveRichtext(listOfText)
+  for i, obj in ipairs(main.objectives.active) do
     local color = white
     if obj:isPass() then
       if obj.failFromPass then
         color = red
       else
         color = green
+      end
+    elseif listOfText.showForClaim then
+      if obj.failFromPass then
+        color = green
+      else
+        color = red
       end
     end
 

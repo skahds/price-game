@@ -208,6 +208,9 @@ system.register("levelSelect", 26, function ()
     if ui.name then
       t.uiInfos[i].name = ui.name
     end
+    if ui.moneyReward then
+      t.uiInfos[i].moneyReward = ui.moneyReward
+    end
     if ui.enemy then
       t.uiInfos[i].enemy = {}
       for e, enemy in ipairs(ui.enemy) do
@@ -372,6 +375,9 @@ main.defineScene("levelSelect", function ()
       end
       if ui.name then
         currentUI.name = ui.name
+      end
+      if ui.moneyReward then
+        currentUI.moneyReward = ui.moneyReward
       end
       if ui.enemy then
         local t = {}
