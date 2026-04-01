@@ -14,6 +14,7 @@ local modifierButton
 local isModifierOpen = false
 local modifierUIS = {}
 local modifierValues = {}
+system.updateStorage("main:modifierValues", modifierValues)
 
 local function deleteAll(args)
   for k, ent in pairs(args) do
@@ -24,76 +25,74 @@ local function deleteAll(args)
 end
 
 local function formatNum(value, modifierScoreEffect)
-  return "x" .. 1 + (value * modifierScoreEffect)/100 .. " moola"
+  return "x" .. 1 - (value * modifierScoreEffect)/100 .. " {creditIcon} CREDITS"
 end
 
-local function openModifier(action)
-  if isModifierOpen == false and action ~= "close" then
-    table.insert(modifierUIS, main.ui.spawnUI("cover", {
-      x=640-800/2,
-      y=80,
-      width = 800,
-      height = 450,
-      color = {0.6, 0.6, 0.6},
-      outline = 10,
-      rx=10,
-      ry=10,
-      outlineColor = {0.4, 0.4, 0.4},
-      ignoreUIChecks = false,
-      renderLayer = 100}))
+main.defineUITab("modifier", function ()
+  table.insert(modifierUIS, main.ui.spawnUI("cover", {
+    x=640-800/2,
+    y=80,
+    width = 800,
+    height = 350,
+    color = {0.6, 0.6, 0.6},
+    outline = 10,
+    rx=10,
+    ry=10,
+    outlineColor = {0.4, 0.4, 0.4},
+    ignoreUIChecks = false,
+    renderLayer = 100}))
 
-      local yGap = 80
-      for i, modifier in ipairs(main.runModifiers) do
-        local amount = modifier.range[2]-modifier.range[1]
-        local totalWidth = 50*amount
-        local ui = main.ui.spawnUI("modifierSlider", {
-          attachedModifier=i,
-          x=640-200,
-          y=130+(i-1)*yGap,
-          width = totalWidth,
-          increment = amount,
-          slideAmount = 1*(-modifier.range[1]+(modifierValues[i] or 0))/amount
-        })
-        ui.x = ui.x - ui:getWidth()/2
-        ui.y = ui.y - ui:getHeight()/2
-        table.insert(modifierUIS, ui)
+  local yGap = 80
+  for i, modifier in ipairs(main.runModifiers) do
+    local y = 80+350/2+(i-1-1)*yGap
+    local amount = modifier.range[2]-modifier.range[1]
+    local totalWidth = 50*amount
+    local ui = main.ui.spawnUI("modifierSlider", {
+      attachedModifier=i,
+      x=640-200,
+      y=y,
+      width = totalWidth,
+      increment = amount,
+      slideAmount = 1*(-modifier.range[1]+(modifierValues[i] or 0))/amount
+    })
+    ui.x = ui.x - ui:getWidth()/2
+    ui.y = ui.y - ui:getHeight()/2
+    table.insert(modifierUIS, ui)
 
-        local text = main.newRichText({
-          attachedModifier = i,
-          usage = "description",
-          format = modifier.updateDescription(modifierValues[i] or 0),
-          renderLayer = 200,
-          x=640,
-          y=130+(i-1)*yGap,
-          font = system.getFont("defaultFont40"),
-        })
-        text.y = text.y - text.richText:getHeight()/2
-        table.insert(modifierUIS, text)
+    local text = main.newRichText({
+      attachedModifier = i,
+      usage = "description",
+      format = modifier.updateDescription(modifierValues[i] or 0),
+      renderLayer = 200,
+      x=640,
+      y=y,
+      font = system.getFont("defaultFont40"),
+      outline=true,
+      outlineColor={0,0,0}
+    })
+    text.y = text.y - text.richText:getHeight()/2
+    table.insert(modifierUIS, text)
 
-        local scoreResult = main.newRichText({
-          attachedModifier = i,
-          usage = "scoreEffect",
-          format = formatNum(modifierValues[ui.attachedModifier] or 0, modifier.scoreEffect),
-          renderLayer = 200,
-          x=640+150,
-          y=130+(i-1)*yGap,
-          font = system.getFont("defaultFont40"),
-        })
-        text.y = text.y - text.richText:getHeight()/2
-        table.insert(modifierUIS, scoreResult)
-      end
-
-
-    isModifierOpen = true
-  else
-    for i=#modifierUIS, 1, -1 do
-      local ui = modifierUIS[i]
-      ui:delete()
-    end
-
-    isModifierOpen = false
+    local scoreResult = main.newRichText({
+      attachedModifier = i,
+      usage = "scoreEffect",
+      format = formatNum(modifierValues[ui.attachedModifier] or 0, modifier.scoreEffect),
+      renderLayer = 200,
+      x=640+150,
+      y=y,
+      font = system.getFont("defaultFont40"),
+      outline=true,
+      outlineColor={0,0,0}
+    })
+    text.y = text.y - text.richText:getHeight()/2
+    table.insert(modifierUIS, scoreResult)
   end
-end
+end, function()
+  for i=#modifierUIS, 1, -1 do
+    local ui = modifierUIS[i]
+    ui:delete()
+  end
+end)
 
 local function updateModifier()
   for i, ui in ipairs(modifierUIS) do
@@ -179,7 +178,7 @@ main.defineScene("runSelect", function ()
   main.hideCharts()
 end, function ()
   starters = {}
-  openModifier("close")
+  main.openUITab("modifier", false)
   for k, v in pairs(modifierValues) do
     if v ~= 0 then
       main.runModifiers[k].effect(v)
@@ -300,7 +299,7 @@ main.ui.defineButton("openModifier", {
   text = "MODIFIER",
   audio = "breaker",
   onButtonClicked = function (ent)
-    openModifier()
+    main.openUITab("modifier")
   end
 })
 
@@ -348,6 +347,8 @@ main.ui.defineSlider("modifierSlider", {
 })
 
 system.on("@update", function ()
+  system.updateStorage("main:modifierValues", modifierValues)
+
   if system.getStorage("main:currentScene") ~= "runSelect" then
     return
   end
@@ -436,6 +437,18 @@ system.on("@draw", function ()
       t.x = t.x - t.richText:getWidth()/2
     end
   end
+
+  local total = math.floor(main.getTotalModifierEffect()*100+0.5)/100
+  local t = main.printRichText({
+    format = "x" .. total .. " {creditIcon}",
+    x = modifierButton.x+modifierButton:getWidth()/2,
+    y = modifierButton.y,
+    renderLayer=100,
+    outline=true,
+    outlineColor={0,0,0}
+  })
+  t.x = t.x - t.richText:getWidth()/2
+  t.y = t.y - t.richText:getHeight() - 10
 
   system.render(82, function ()
     love.graphics.setColor(1, 1, 1, 0.5)

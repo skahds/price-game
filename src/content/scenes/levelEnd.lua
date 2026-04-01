@@ -47,15 +47,6 @@ local function continueAction()
     end)
   end
 
-  local reward = system.getStorage("main:endLevelReward")
-  if reward ~= nil and #reward > 0 then
-    reward[1].claim()
-    table.remove(reward, 1)
-    return
-  end
-
-  
-
   if #main.card.reward > 0 then
     main.clearRewardOptions()
   end
@@ -66,6 +57,13 @@ local function continueAction()
 
   main.clearRewardUpgrade()
   main.clearRewardEditPattern()
+
+  local reward = system.getStorage("main:endLevelReward")
+  if reward ~= nil and #reward > 0 then
+    reward[1].claim()
+    table.remove(reward, 1)
+    return
+  end
 
   local scenePipeline = main.getPipeline("scene")
   if #scenePipeline.pipeline == 0 then

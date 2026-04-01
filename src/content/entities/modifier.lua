@@ -7,7 +7,7 @@ local function format(n)
 end
 
 main.defineModifiers({
-  description = "{energyColor}+0 MAX ENERGY",
+  description = "{energyColor}+0 MAX {energyIcon}ENERGY",
   range = {-1, 1},
   scoreEffect = 30,
   effect = function (amount)

@@ -35,10 +35,10 @@ main.defineScene("gameEnd", function ()
 
   local amountDay = (day-1)*5
   if day > 1 then
-    table.insert(t, "5 {creditIcon} per day: " .. amountDay .. " {creditIcon}")
+    table.insert(t, "5 {creditIcon} per cleared day: " .. amountDay .. " {creditIcon}")
   end
 
-  main.giveCredits(amountCycle+amountDay)
+  main.meta.giveCredits(amountCycle+amountDay)
 
   restart = main.ui.spawnUI("settingMenu", {x=540, y=400, renderLayer=102})
 
@@ -57,7 +57,9 @@ main.defineScene("gameEnd", function ()
         outline=true,
         outlineColor={0,0,0}
       })
-      t.x = t.x - t.richText:getWidth()/2
+      local ox = t.richText:getWidth()/2
+      t.ox = ox
+      t.oy = t.richText:getHeight()/2
       table.insert(stats, t)
       flux.to(t, 0.4, {sx=1, sy=1}):ease("backinout")
     end)
