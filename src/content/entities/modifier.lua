@@ -39,6 +39,6 @@ main.defineModifiers({
     system.updateStorage("main:roundsPerDay", system.getStorage("main:roundsPerDay")+amount)
   end,
   updateDescription = function (amount)
-    return format(amount) .. " turn per"
+    return format(amount) .. " turn per day"
   end
 })

@@ -1,10 +1,16 @@
+-- local flux = system.getStorage("flux")
 -- local t = main.newRichText({
 --   x=30,
 --   y=120,
 --   screenSpace=true,
 --   renderLayer=300,
---   format = "inline images {img i=particleOrb}aaa"
+--   sx=1,
+--   sy=1,
+--   ox=-100,
+--   oy=-100,
+--   format = "inline images {creditIcon} aaa"
 -- })
+-- flux.to(t, 5, {sx=2, sy=2,ox=-500, oy=-200})
 
 -- local t = main.newRichText({
 --   x=30,

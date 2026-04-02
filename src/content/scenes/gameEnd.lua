@@ -38,7 +38,13 @@ main.defineScene("gameEnd", function ()
     table.insert(t, "5 {creditIcon} per cleared day: " .. amountDay .. " {creditIcon}")
   end
 
-  main.meta.giveCredits(amountCycle+amountDay)
+  local creditMult = main.getTotalModifierEffect()
+  table.insert(t, "{creditIcon} multiplier: " .. math.floor(creditMult*100+0.5)/100 .. " {creditIcon}")
+
+  local total = math.floor((amountCycle+amountCycle)*creditMult+0.5)
+  table.insert(t, "Total {creditIcon} earned: " .. total .. " {creditIcon}")
+
+  main.meta.giveCredits(total)
 
   restart = main.ui.spawnUI("settingMenu", {x=540, y=400, renderLayer=102})
 

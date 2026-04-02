@@ -278,19 +278,31 @@ function RichText:update()
   self.height = maxHeight
 end
 
-function RichText:draw(x, y, ...)
+function RichText:draw(x, y, r, sx, sy, ox, oy, kx, ky)
   x = x or 0
   y = y or 0
+  r = r or 0
+  sx = sx or 1
+  sy = sy or 1
+  ox = ox or 0
+  oy = oy or 0
+  kx = kx or 0
+  ky = ky or 0
   
-  -- Draw text batch
-  love.graphics.draw(self.text, x, y, ...)
+  love.graphics.draw(self.text, x, y, r, sx, sy, ox, oy, kx, ky)
   
-  -- Draw images
   for _, drawable in ipairs(self.drawables) do
     if drawable.type == "image" then
       local scaleX = drawable.width / drawable.image:getWidth()
       local scaleY = drawable.height / drawable.image:getHeight()
-      love.graphics.draw(drawable.image, x + drawable.x, y + drawable.y, 0, scaleX, scaleY)
+      love.graphics.draw(
+        drawable.image,
+        x + (drawable.x - ox) * sx,
+        y + (drawable.y - oy) * sy,
+        r,
+        scaleX * sx,
+        scaleY * sy
+      )
     end
   end
 end
