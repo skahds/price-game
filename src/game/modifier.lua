@@ -14,3 +14,10 @@ function main.getTotalModifierEffect()
   end
   return totalValue
 end
+
+system.register("modifier", 17, function ()
+  local modifierValues = system.getStorage("main:modifierValues") or {}
+  return modifierValues
+end, function (t)
+  system.updateStorage("main:modifierValues", t or {})
+end)

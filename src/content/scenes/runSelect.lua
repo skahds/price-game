@@ -347,8 +347,6 @@ main.ui.defineSlider("modifierSlider", {
 })
 
 system.on("@update", function ()
-  system.updateStorage("main:modifierValues", modifierValues)
-
   if system.getStorage("main:currentScene") ~= "runSelect" then
     return
   end
