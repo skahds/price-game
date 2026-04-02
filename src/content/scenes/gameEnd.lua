@@ -39,23 +39,24 @@ main.defineScene("gameEnd", function ()
   end
 
   local creditMult = main.getTotalModifierEffect()
-  table.insert(t, "{creditIcon} multiplier: " .. math.floor(creditMult*100+0.5)/100 .. " {creditIcon}")
+  table.insert(t, "{creditIcon} multiplier: x" .. math.floor(creditMult*100+0.5)/100 .. " {creditIcon}")
 
   local total = math.floor((amountCycle+amountCycle)*creditMult+0.5)
   table.insert(t, "Total {creditIcon} earned: " .. total .. " {creditIcon}")
 
   main.meta.giveCredits(total)
 
-  restart = main.ui.spawnUI("settingMenu", {x=540, y=400, renderLayer=102})
+  restart = main.ui.spawnUI("settingMenu", {x=540, y=460, renderLayer=102})
 
   local height = font:getHeight()
 
+  local space = utils.createEvenlySpacedPosition(#t)
   for i, format in ipairs(t) do
     pipeline:add(0.2, function ()
       local t = main.newRichText({
         format = format,
         x=640,
-        y=200+height*(i-1),
+        y=(460-50)/2+50+height*space[i],
         renderLayer=102,
         font=font,
         sx=0.8,

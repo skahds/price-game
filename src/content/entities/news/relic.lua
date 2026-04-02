@@ -32,7 +32,9 @@ main.defineNews("refine", {
   isRelic = true,
   onActivate = function (ent)
     local card = main.getCardInOrder(1)
-    main.changeEntityComponent(card, "repeatActivation", 1, combiner.ADD)
+    if card then
+      main.changeEntityComponent(card, "repeatActivation", 1, combiner.ADD)
+    end
   end,
   rarity = "COMMON"
 })
