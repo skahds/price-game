@@ -96,6 +96,7 @@ end)
 function main.addEntityToTutorial(ent, text)
   table.insert(targettedEnt, {entity=(ent.ui or ent), text=text, originalPosition={x=ent.x, y=ent.y}})
   local e = targettedEnt[#targettedEnt]
+  e.entity.ignoreRenderLayerChange = true
   e.originalRenderLayer = e.entity.renderLayer
 end
 
@@ -103,6 +104,7 @@ function main.removeEntityFromTutorial(ent)
   for i, t in ipairs(targettedEnt) do
     local s = false
     local e = t.entity
+    e.ignoreRenderLayerChange = false
     if e.isUI then
       if ent.isUI and e.index == ent.index then
         s = true

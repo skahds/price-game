@@ -318,7 +318,7 @@ local function orderBasedOnPosition(ownerShip, infos)
   end)
   for i, card in ipairs(stack) do
     card.cardOrder = i
-    if infos.ignoreCard and infos.ignoreCard.index then
+    if (infos.ignoreCard and infos.ignoreCard.index) or (card.ignoreRenderLayerChange or card.ui.ignoreRenderLayerChange) then
       
     else
       card.ui.renderLayer = 140+i

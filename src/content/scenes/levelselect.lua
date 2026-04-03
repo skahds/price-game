@@ -403,6 +403,10 @@ main.defineScene("levelSelect", function ()
 
   --objectives
   if currentTrack.id == "PLAY" then
+    if system.getStorage("main:isDoingTutorial") and currentRoute==1 and currentCycle==1 then
+      goto continue
+    end
+
     if #main.objectives.active == 0 then
       for i=1, 2 do
         main.objectives.createRandomObjective()
@@ -439,6 +443,8 @@ main.defineScene("levelSelect", function ()
     objectiveCover.height = lowY-highY+30
     objectiveCover.width = maxwidth + 30 * 2
   end
+
+  ::continue::
 
 
   --enemy
