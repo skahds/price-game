@@ -81,9 +81,9 @@ main.defineScene("gameEnd", function ()
 
   main.showTopTab()
 
-  -- if love.filesystem.getInfo("save.sav") then
-  --   love.filesystem.remove("save.sav")
-  -- end
+  if love.filesystem.getInfo("save.sav") then
+    love.filesystem.remove("save.sav")
+  end
 end, function ()
 
   main.hideTopTab()
