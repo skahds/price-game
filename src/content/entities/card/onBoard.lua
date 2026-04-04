@@ -6,7 +6,7 @@ main.definePlaceableNewsCard("expound", {
   rarity = "RARE"
 }, {
   image = "expoundNews",
-  trigger = {"ROUND"},
+  trigger = {"EACHTURN"},
   description="Give {multColor}+3 MULT{/multColor}",
   onActivate = function (ent, targetEnt)
     main.addMult(3)

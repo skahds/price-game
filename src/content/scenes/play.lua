@@ -54,10 +54,6 @@ main.defineScene("play", function ()
   cover = main.ui.spawnUI("cover", {x=50, y=-20, width=350, height=360,
     color = {0.6, 0.6, 0.6},
     outlineColor = {0.5, 0.5, 0.5}, outline=10, rx=20, ry=20})
-  objectiveCover = main.ui.spawnUI("cover", {x=1280-350, y=140, width=370, height=100,
-    color = {0.1, 0.1, 0.1, 0.4},
-    outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
-  objectiveArrow = main.ui.spawnUI("objectivePanelArrow", {x=1280-480, y=140+100/2-100/2})
   
   startTurn = main.ui.spawnUI("startTurn", {x=640-100, y=90})
   drawPile = main.ui.spawnUI("drawPile", {x=1280-60, y=720-60})
@@ -99,7 +95,19 @@ main.defineScene("play", function ()
     end
   end
 
-  objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=170,font=system.getFont("defaultFont30"), showProgress=true})
+  local currentRoute = system.getStorage("main:currentRoute") or 1
+  local currentCycle = system.getStorage("main:currentCycle") or 1
+
+  if system.getStorage("main:isDoingTutorial") and currentRoute==1 and currentCycle==1 then
+
+  else
+    objectiveCover = main.ui.spawnUI("cover", {x=1280-350, y=140, width=370, height=100,
+      color = {0.1, 0.1, 0.1, 0.4},
+      outlineColor = {0.9, 0.9, 0.9}, outline=10, rx=20, ry=20})
+    objectiveArrow = main.ui.spawnUI("objectivePanelArrow", {x=1280-480, y=140+100/2-100/2})
+
+    objectiveText = main.objectives.createObjectiveRichtext({x=1280-320,y=170,font=system.getFont ("defaultFont30"), showProgress=true})
+  end
 
   main.showCharts()
   main.showTopTab()

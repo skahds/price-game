@@ -657,14 +657,15 @@ system.on("@draw", function ()
     end
   end
 
-  local amountOfDay = 0
-  if route[currentCycle] then
-    for i, t in ipairs(route[currentCycle]) do
-      if t.id == "PLAY" then
-        amountOfDay = amountOfDay + 1
-      end
-    end
-  end
+  -- local amountOfDay = 0
+  -- if route[currentCycle] then
+  --   for i, t in ipairs(route[currentCycle]) do
+  --     if t.id == "PLAY" then
+  --       amountOfDay = amountOfDay + 1
+  --     end
+  --   end
+  -- end
+  local amountOfDay = #route[currentCycle]
   local leftStats = {"CYCLE: " .. currentCycle, "DAY: " .. system.getStorage("main:currentRoute") .. "/" .. amountOfDay}
 
   for i, stat in ipairs(leftStats) do

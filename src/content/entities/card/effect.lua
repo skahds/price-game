@@ -181,10 +181,6 @@ main.defineCard("doubleDown", {
   defaultPriceMultiplier = 2,
   price = 3,
   rarity  = "RARE",
-  onActivate = function (ent)
-    local prices = main.getPrice()
-    main.addPrice(prices)
-  end
 })
 
 main.defineCard("rift", {
@@ -194,10 +190,6 @@ main.defineCard("rift", {
   defaultMultMultiplier = 2,
   price = 3,
   rarity  = "RARE",
-  onActivate = function (ent)
-    local mult = system.getStorage("main:mult")
-    main.addMult(mult)
-  end
 })
 
 main.defineCard("parachute", {
@@ -381,7 +373,7 @@ main.defineCard("ripples", {
   price = 3,
   
   onActivate = function (ent)
-    local cards = #main.cards.draw
+    local cards = #main.card.draw
     if cards and cards > 0 then
       main.addMult(cards*3)
     end

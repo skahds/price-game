@@ -330,5 +330,6 @@ system.on("@update", function ()
 
   local currentDay = system.getStorage("main:currentRoute") or 1
   local currentCycle = system.getStorage("main:currentCycle") or 1
-  main.updateRichTextText(uis.leftText, "Cycle " .. currentCycle .. " | Day " .. currentDay)
+  local route = system.getStorage("main:route") or {}
+  main.updateRichTextText(uis.leftText, "Cycle " .. currentCycle .. "/" .. #route ..  " | Day " .. currentDay)
 end)

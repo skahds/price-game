@@ -5,7 +5,7 @@ system = {}
 main = {}
 defaultCanvas = love.graphics.newCanvas(1280, 720)
 
-require("steam")
+-- require("steam")
 require("errorHandler")
 require('broadcast')
 require('class')
@@ -24,7 +24,9 @@ function love.update(dt)
 
   system.call("@update")
 
-  Steam.runCallbacks()
+  if Steam then
+    Steam.runCallbacks()
+  end
 end
 
 function love.draw()

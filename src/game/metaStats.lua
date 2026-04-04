@@ -18,10 +18,12 @@ system.on("@load", function ()
     end
   end
   
-  for k, achievement in pairs(stats.achievement) do
-    Steam.userStats.setAchievement(achievement)
+  if Steam then
+    for k, achievement in pairs(stats.achievement) do
+      Steam.userStats.setAchievement(achievement)
+    end
+    Steam.userStats.storeStats()
   end
-  Steam.userStats.storeStats()
 end)
 
 function main.meta.getTable()
@@ -59,7 +61,9 @@ function main.meta.unlock(k)
 end
 
 function main.meta.giveAchievement(name)
-  Steam.userStats.setAchievement(name)
+  if Steam then
+    Steam.userStats.setAchievement(name)
+  end
   stats.achievement[name] = true
 end
 

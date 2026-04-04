@@ -1,6 +1,6 @@
 main.defineNews("multNews", {
   name = "Leverage",
   image = "multNews",
-  trigger = {"ROUND"},
+  trigger = {"EACHTURN"},
   defaultMultGain=2,
 })
