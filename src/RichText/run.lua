@@ -11,7 +11,7 @@ local function angleToVec2(angle)
   return math.cos(angle), math.sin(angle)
 end
 
-local function drawOutline(t)
+local function drawOutline(t, posX, posY)
   local fixed = true
   if t.screenSpace == false then
     fixed = false
@@ -20,8 +20,8 @@ local function drawOutline(t)
   local renderLayer = t.renderLayer or 50
   system.render(renderLayer, function ()
     local text = t.richText
-    local x = t.x or 0
-    local y = t.y or 0
+    local x = posX or 0
+    local y = posY or 0
     local r = t.r or 0
     local sx = t.sx or 1
     local sy = t.sy or 1
@@ -73,8 +73,11 @@ system.on("@draw", function ()
         fixed = false
       end
     
+      local posX = system.ask("richtext:getX", combiner.ADD, t)
+      local posY = system.ask("richtext:getY", combiner.ADD, t)
+
       if t.outline then
-        drawOutline(t)
+        drawOutline(t, posX, posY)
       end
 
       -- smoothens up so no double-draw
@@ -83,8 +86,8 @@ system.on("@draw", function ()
         system.render(t.renderLayer or 50, function ()
           
           local text = t.richText
-          local x = t.x or 0
-          local y = t.y or 0
+          local x = posX or 0
+          local y = posY or 0
           local r = t.r or 0
           local sx = t.sx or 1
           local sy = t.sy or 1
@@ -97,4 +100,26 @@ system.on("@draw", function ()
     end
   end
 
+end)
+
+system.answer("richtext:getX", function (t)
+  return t.x
+end)
+
+system.answer("richtext:getY", function (t)
+  return t.y
+end)
+
+
+local offsetX = math.pi
+system.on("@update", function ()
+  offsetX = offsetX + system.getStorage("dt")
+  if offsetX > math.pi*2 then
+    offsetX = 0
+  end
+end)
+
+system.answer("richtext:getY", function (t)
+  local x = (t.x or 0) - (t.ox or 0) * (t.sx or 1)
+  return math.sin((x+offsetX*100)/100)*2
 end)

@@ -311,6 +311,9 @@ main.defineScene("levelSelect", function ()
       if currentTrack.reward and currentTrack.reward[i] then
         ui.reward=rewardList[currentTrack.reward[i]]
         ui.reward.difficulty=i
+      elseif currentRoute == #route[currentCycle] then
+        ui.reward=rewardList[4]
+        ui.reward.difficulty = i
       else
         ui.reward = generateReward(difficulty)
       end

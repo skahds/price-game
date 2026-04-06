@@ -167,6 +167,7 @@ local function spawnItems()
   for i=1, #listOfItemsToCreate do
     local itemI = i
     local item = listOfItemsToCreate[itemI].definition
+    local itemInfo = main.getAllComponentsFromEntity(listOfItemsToCreate[itemI])
     local middleX = 640
     local x = (i - 1) % cols
     local y = math.floor((i - 1) / cols)
@@ -179,10 +180,8 @@ local function spawnItems()
 
     if item.isCard then
       local cardID = item.id
-      if main.meta.isEntityUnlocked(item.id) == false then
-        cardID = "lockedCard"
-      end
-      local c = main.createCard(cardID, {ignoreCardSelect=true}, "misc")
+      local c = main.createCard(cardID, itemInfo, "misc")
+      c.ignoreCardSelect = true
 
       c.ui.renderLayer = renderLayer+2
       c.ui.x=middleX
@@ -196,11 +195,11 @@ local function spawnItems()
       table.insert(runStatsItems, c)
     elseif item.isNews then
       local cardID = item.id
-      if main.meta.isEntityUnlocked(item.id) == false then
-        cardID = "lockedNews"
-      end
       local targetX = (utils.createEvenlySpacedPosition(amountInCol)[x+1]*600) / amountInCol
       local n = main.spawnEntity(cardID, {x=middleX, y=360+15+(y-1)*90})
+      for k, v in pairs(itemInfo) do
+        n[k] = utils.deepCopy(v)
+      end
       flux.to(n.ui, 0.2, {x=640+targetX}):ease("backout")
       n.ui.renderLayer = renderLayer+2
       n.ui.sx = 2

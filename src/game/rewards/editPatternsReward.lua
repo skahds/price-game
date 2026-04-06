@@ -32,17 +32,14 @@ local function setRandomPattern()
 
   patternSelected = newPattern
 
-  print("patternchanged")
   if patternsUI then
     main.hidePatterns(patternsUI)
   end
 
   patternsUI = main.showPatterns(patternSelected, {x=leftStartX, y=360, renderLayer=renderLayer, showAllCards=true})
-  -- print("showPatternUI")
 end
 
 function main.createRewardsEditPattern()
-  -- print("created")
   local cards = main.getRandomPatternsCard{amount=3, category="upgrade"}
   for i, cardT in ipairs(cards) do
     local card = main.spawnPatternsCard(cardT.id, {})

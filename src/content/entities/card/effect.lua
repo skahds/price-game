@@ -155,20 +155,26 @@ main.defineCard("grant", {
 main.defineCard("reap", {
   name = "Reap",
   image = "reap",
-  description = "Destroys card to the right and\ngain its {priceColor}PRICE",
+  description = "If there is a card to the right,\ndestroy it and gain {multColor}X0.5 MULT{/multColor}",
   energy = 1,
   trigger = {"DEPLOY"},
   price = 4,
   rarity = "EPIC",
 
-  onActivate = function (ent)
-    local leftCard = main.getCardBesides(ent, 1)
+  filter=function (ent)
+    local rightCard = main.getCardBesides(ent, 1)
+    if rightCard then
+      return true
+    end
+  end,
 
-    if leftCard then
-      local price = leftCard.defaultPriceGain
-      local success = main.tryDestroyEntity(leftCard)
+  onActivate = function (ent)
+    local rightCard = main.getCardBesides(ent, 1)
+
+    if rightCard then
+      local success = main.tryDestroyEntity(rightCard)
       if success then
-        main.changeEntityComponent(ent, "defaultPriceGain", price, combiner.ADD)
+        main.changeEntityComponent(ent, "defaultMultMultiplier", 0.5, combiner.ADD)
       end
     end
   end
