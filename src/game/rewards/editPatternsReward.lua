@@ -1,7 +1,6 @@
 local flux = system.getStorage("flux")
 local pipeline = main.getPipeline("main")
 local patternsUI
-local existingUI = {}
 local leftStartX = 640-300
 local textPos = {
   topText = {x=650, y=80},
@@ -33,14 +32,17 @@ local function setRandomPattern()
 
   patternSelected = newPattern
 
+  print("patternchanged")
   if patternsUI then
     main.hidePatterns(patternsUI)
   end
 
   patternsUI = main.showPatterns(patternSelected, {x=leftStartX, y=360, renderLayer=renderLayer, showAllCards=true})
+  -- print("showPatternUI")
 end
 
 function main.createRewardsEditPattern()
+  -- print("created")
   local cards = main.getRandomPatternsCard{amount=3, category="upgrade"}
   for i, cardT in ipairs(cards) do
     local card = main.spawnPatternsCard(cardT.id, {})
@@ -62,8 +64,8 @@ function main.createRewardsEditPattern()
 end
 
 function main.clearRewardEditPattern()
-  for i, ui in ipairs(existingUI) do
-    ui:delete()
+  if patternSelected == nil then
+    return
   end
 
   flux.to(textPos.topText, 0.4, {y=30-150}):ease("backin")
@@ -122,13 +124,10 @@ system.on("main:patterns_uiClicked", function (ent, button)
 end)
 
 system.on("@update", function ()
-  -- if patternsUI then
-  --   main.hidePatterns(patternsUI)
-  -- end
-
   if patternSelected == nil then
     if patternsUI then
       main.hidePatterns(patternsUI)
+      patternsUI = nil
     end
     return
   end

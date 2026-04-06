@@ -1,6 +1,6 @@
 local basicRoute = {
   {
-    {id="PLAY", node=3},
+    {id="PLAY", node=3, reward={6}},
     {id="PLAY", node={2, 3}},
     {id="PLAY", node={2, 3}, enemy="elite"},
     {id="SHOP", node=2},
@@ -51,7 +51,7 @@ local basicRoute = {
 local basicScoreRequired = {{
   changeInCycle = 0.3, --1x, 1.3x, 1.6x, 2.5x, 3.5x
   bossScore = 2.5,
-  cycles = {400, 1500, 5000, 20000, 80000, 300000}, -- approx 3-4x per cycle
+  cycles = {4, 1500, 5000, 20000, 80000, 300000}, -- approx 3-4x per cycle
 },{
   changeInCycle = 0.6, --1x, 1.6x, 2.2x, 3x, 4x?
   bossScore = 3,
