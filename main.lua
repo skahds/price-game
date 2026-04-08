@@ -5,7 +5,7 @@ system = {}
 main = {}
 defaultCanvas = love.graphics.newCanvas(1280, 720)
 
--- require("steam")
+require("steam")
 require("errorHandler")
 require('broadcast')
 require('class')

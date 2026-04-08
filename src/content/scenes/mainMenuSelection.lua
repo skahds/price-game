@@ -356,22 +356,9 @@ defineTab({
 
 -- metashop
 local metashopY = 440
-local items = {}
-local bag = {}
-system.on("@load", function ()
-  local t = main.meta.getLockedEntities{type="metashop"}
-  for k, ent in pairs(t) do
-    table.insert(bag, ent.definition)
-  end
 
-  for i=1, 4 do
-    local rand = love.math.random(1, #bag)
-    local t = bag[rand]
-    table.insert(items, t)
-    table.remove(bag, rand)
-  end
-end)
-
+--todo save items here so it doesnt reset when reset
+-- finish stats
 local function deleteItem(item)
   if item.isCard then
     main.deleteCard(item)
@@ -416,10 +403,11 @@ local function getCreditCost(ent)
   return costTable[rarity] or 30
 end
 
-local function createItem(item, info)
+local function createItem(itemID, info)
   if tabUI[info.tab].items == nil then
     tabUI[info.tab].items = {}
   end
+  local item = main.entities[itemID].definition
   
   local index = #tabUI[info.tab].items
   local yIndex = math.floor(index/2+1)
@@ -455,6 +443,12 @@ end
 
 local canClick = true
 local function unlockItem(ent, tab)
+  local bag = main.meta.getMetashopItems()
+
+  main.wait(1, function ()
+    canClick=true
+  end)
+
   if ent.alreadyChosen == true then
     return
   end
@@ -467,23 +461,25 @@ local function unlockItem(ent, tab)
 
   ent.alreadyChosen = true
 
-  main.meta.unlock(ent.id)
+  local itemsBefore = {}
+  for _, v in ipairs(tabUI[tab].items) do
+    itemsBefore[v.id] = true
+  end
 
-  main.wait(1, function ()
-    canClick=true
-  end)
+  main.meta.unlockItem(ent.id)
+
+  local itemsAfter = main.meta.getMetashopItems()
+  for _, id in ipairs(itemsAfter) do
+    if not itemsBefore[id] then
+      createItem(id, {tab = tab})
+      break
+    end
+  end
 
   for i, item in ipairs(tabUI[tab].items) do
     if item == ent then
       table.remove(tabUI[tab].items, i)
     end
-  end
-
-  local rand = love.math.random(1, #bag)
-  local item = bag[rand]
-  table.remove(bag, rand)
-  if item then
-    createItem(item, {tab=tab})
   end
 
   local cover = main.ui.spawnUI("cover", {x=640-110, y=720, width=220, height=730,
@@ -548,7 +544,7 @@ defineTab({
   image = "shopTabIcon",
   load = function (tab)
     tabUI[tab].items = {}
-
+    local items = main.meta.getMetashopItems()
     for e, item in ipairs(items) do
       createItem(item, {tab=tab})
     end

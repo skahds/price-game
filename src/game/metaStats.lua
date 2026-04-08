@@ -4,20 +4,85 @@ local stats = {
   credits = 0,
   unlocks = {},
   achievement = {},
+  metashopItems = {}
 }
+local amountOfMetaItem = 4
 
 function main.meta.saveMetaStats()
   system.writeFileTable("metastats", stats)
 end
 
-system.on("@load", function ()
+local bag = {}
+local function rebuildBag(exclude)
+  bag = {}
+  local t = main.meta.getLockedEntities{type="metashop"}
+  for _, ent in pairs(t) do
+    local id = ent.definition.id
+    local excluded = false
+    if exclude then
+      for _, ex in ipairs(exclude) do
+        if ex == id then
+          excluded = true
+          break
+        end
+      end
+    end
+    if not excluded then
+      table.insert(bag, id)
+    end
+  end
+end
+
+-- Picks up to n items from bag without duplicates, safe if bag has fewer than n
+local function drawFromBag(n)
+  local drawn = {}
+  local toDraw = math.min(n, #bag)
+  for i = 1, toDraw do
+    local rand = love.math.random(1, #bag)
+    table.insert(drawn, bag[rand])
+    table.remove(bag, rand)
+  end
+  return drawn
+end
+
+system.on("@load", function()
   local s = system.readFileTable("metastats")
   if s then
     for k, v in pairs(s) do
       stats[k] = v
     end
   end
-  
+
+  -- Remove any saved metashop items that have since been unlocked
+  if stats.metashopItems then
+    for i = #stats.metashopItems, 1, -1 do
+      if main.meta.isEntityUnlocked(stats.metashopItems[i]) then
+        table.remove(stats.metashopItems, i)
+      end
+    end
+  end
+
+  -- Build bag excluding items already in the shop
+  rebuildBag(stats.metashopItems)
+
+  local totalAvailable = #bag + #(stats.metashopItems or {})
+  local targetCount = math.min(amountOfMetaItem, totalAvailable)
+
+  -- Top up shop slots if needed (fresh save, or slots were consumed)
+  if stats.metashopItems == nil then
+    stats.metashopItems = {}
+  end
+
+  if #stats.metashopItems < targetCount then
+    local needed = targetCount - #stats.metashopItems
+    local drawn = drawFromBag(needed)
+    for _, id in ipairs(drawn) do
+      table.insert(stats.metashopItems, id)
+    end
+  end
+
+  main.meta.saveMetaStats()
+
   if Steam then
     for k, achievement in pairs(stats.achievement) do
       Steam.userStats.setAchievement(achievement)
@@ -25,6 +90,7 @@ system.on("@load", function ()
     Steam.userStats.storeStats()
   end
 end)
+
 
 function main.meta.getTable()
   return stats
@@ -55,10 +121,32 @@ function main.meta.checkIsUnlockedAchievement(f)
   end
 end
 
-function main.meta.unlock(k)
+function main.meta.unlockItem(k)
   stats.unlocks[k] = true
+
+  -- Remove from shop
+  for i, item in ipairs(stats.metashopItems) do
+    if item == k then
+      table.remove(stats.metashopItems, i)
+      break
+    end
+  end
+
+  -- Replenish bag if empty, excluding current shop contents
+  if #bag == 0 then
+    rebuildBag(stats.metashopItems)
+  end
+
+  -- Only draw a replacement if something is available
+  if #bag > 0 then
+    local rand = love.math.random(1, #bag)
+    table.insert(stats.metashopItems, bag[rand])
+    table.remove(bag, rand)
+  end
+
   main.meta.saveMetaStats()
 end
+
 
 function main.meta.giveAchievement(name)
   if Steam then
@@ -108,4 +196,14 @@ function main.meta.isEntityUnlocked(entID)
   else
     return true
   end
+end
+
+
+--metashop
+system.on("@load", function ()
+
+end)
+
+function main.meta.getMetashopItems()
+  return stats.metashopItems
 end
