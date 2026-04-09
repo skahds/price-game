@@ -311,6 +311,8 @@ system.on("@load", function ()
 
   uis.setting = main.ui.spawnUI("topTab:openSetting", {x=startX, y=height/2})
   uis.stats = main.ui.spawnUI("topTab:openRunInfo", {x=startX-totalGapForIcon, y=height/2})
+  uis.statsText = main.newRichText({format="a",
+    y=5, x=20, renderLayer = 604, outline=true, outlineColor={0,0,0}, font=system.getFont("defaultFont40")})
 
   uis.rightText = main.newRichText({format="a",
     y=5, x=0, renderLayer = 603, outline=true, outlineColor={0,0,0}})
@@ -326,6 +328,14 @@ system.on("@update", function ()
   local credits = main.meta.getCredits()
   main.updateRichTextText(uis.rightText, credits .. " {creditIcon}   {moneyColor}$" .. math.floor(money) .. "{/moneyColor}")
   uis.rightText.x = 1280-iconSize/2-heightGapForIcon-totalGapForIcon-40 - uis.rightText.richText:getWidth()
+
+  if uis.statsText then
+    main.updateRichTextText(uis.statsText, #main.getDeckCards() or 0)
+    uis.statsText.x = uis.stats:getX()+uis.stats:getWidth()-15
+    uis.statsText.y = uis.stats:getY()+uis.stats:getHeight()-10
+    uis.statsText.ox = uis.statsText.richText:getWidth()/2
+    uis.statsText.oy = uis.statsText.richText:getHeight()/2
+  end
 
   local currentDay = system.getStorage("main:currentRoute") or 1
   local currentCycle = system.getStorage("main:currentCycle") or 1
