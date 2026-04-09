@@ -173,9 +173,9 @@ main.defineRunStarter({
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
     main.createCardToDraw("add", 5)
-    main.createCardToDraw("subtract", 5)
-    main.createCardToDraw("reap", 1)
-    -- main.createCardToDraw("multiply", 1)
+    main.createCardToDraw("thrive", 5)
+    main.createCardToDraw("holopot", 1)
+    main.createCardToDraw("highway", 1)
     -- main.createCardToDraw("drag", 1)
     -- main.createCardToDraw("relay", 1)
     -- main.createCardToDraw("decomposite", 1)

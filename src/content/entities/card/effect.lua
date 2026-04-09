@@ -66,7 +66,7 @@ main.defineCard("vision", {
   image = "vision",
   defaultDrawCard = 3,
   trigger = {"DEPLOY"},
-  price = 2,
+  price = 3,
   rarity = "RARE",
 })
 
@@ -467,6 +467,54 @@ main.defineCard("fracture", {
           main.drawCard()
         end)
       end
+    end
+  end
+})
+
+main.defineCard("highway", {
+  name = "Highway",
+  image = "highway",
+  description="Spend all energy,\ngain that many {moneyColor}$",
+  energy=0,
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity = "RARE",
+  onActivate = function ()
+    local energy = system.getStorage("main:energy")
+    main.addEnergy(-energy)
+    main.addMoney(energy)
+  end
+})
+
+main.defineCard("holopot", {
+  name = "Holopot",
+  image = "holopot",
+  trigger = {"DEPLOY"},
+  defaultDrawCard=2,
+  energy=0,
+  price = 2,
+  rarity = "COMMON",
+})
+
+main.defineCard("thrive", {
+  name = "Thrive",
+  image = "thrive",
+  description="Card to the right earns {moneyColor}+$1",
+  energy=3,
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity = "RARE",
+  filter = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      return true
+    end
+  end,
+  
+  onActivate = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      main.changeEntityComponent(target, "defaultMoneyGain", 1, combiner.ADD)
     end
   end
 })
