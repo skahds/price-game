@@ -4,7 +4,8 @@ local stats = {
   credits = 0,
   unlocks = {},
   achievement = {},
-  metashopItems = {}
+  metashopItems = {},
+  stats={}
 }
 local amountOfMetaItem = 4
 
@@ -96,12 +97,27 @@ function main.meta.getTable()
   return stats
 end
 
+function main.meta.getStats(id)
+  return stats.stats[id]
+end
+
+function main.meta.updateStats(id, newVar)
+  if type(id) ~= "string" then
+    error("id must be string " .. id)
+  end
+  
+  stats.stats[id] = newVar
+  main.meta.saveMetaStats()
+end
+
 function main.meta.getCredits()
   return stats.credits
 end
 
 function main.meta.giveCredits(n)
   stats.credits = stats.credits + n
+  local currentTotal = main.meta.getStats("totalCreditsEarned") or 0
+  main.meta.updateStats("totalCreditsEarned", currentTotal + n)
   main.meta.saveMetaStats()
 end
 

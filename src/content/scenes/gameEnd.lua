@@ -17,12 +17,16 @@ main.defineScene("gameEnd", function ()
   local pipeline = main.getPipeline("main")
 
   local finalStats = system.getStorage("main:endLevelStats")
+  local didWin
   local t = {}
   if system.getStorage("main:gameResult") == "LOSE" then
     table.insert(t, "You have lost!")
     table.insert(t, "You reached cycle " .. (system.getStorage("main:currentCycle") or 1) .. " day " .. (system.getStorage("main:currentRoute") or 1))
+    didWin = false
   else
     table.insert(t, "You have won!")
+    table.insert(t, "100 {creditIcon} win bonus!")
+    didWin=true
   end
 
   local cycle = system.getStorage("main:currentCycle")
@@ -42,6 +46,9 @@ main.defineScene("gameEnd", function ()
   table.insert(t, "{creditIcon} multiplier: x" .. math.floor(creditMult*100+0.5)/100 .. " {creditIcon}")
 
   local total = math.floor((amountDay+amountCycle)*creditMult+0.5)
+  if didWin then
+    total = total + 100
+  end
   table.insert(t, "Total {creditIcon} earned: " .. total .. " {creditIcon}")
 
   main.meta.giveCredits(total)
@@ -71,6 +78,14 @@ main.defineScene("gameEnd", function ()
       flux.to(t, 0.4, {sx=1, sy=1}):ease("backinout")
     end)
   end
+
+  local amountOfRun = main.meta.getStats("amountOfRun") or 0
+  main.meta.updateStats("amountOfRun", amountOfRun+1)
+  if didWin then
+    local amountOfWin = main.meta.getStats("amountOfWin") or 0
+    main.meta.updateStats("amountOfWin", amountOfWin+1)
+  end
+
 
   main.shuffleDiscardToDraw()
   while #main.card.draw > 0 do

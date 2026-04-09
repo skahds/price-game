@@ -165,25 +165,25 @@ main.defineRunStarter({
   end
 })
 
-main.defineRunStarter({
-  name = "TEST",
-  image="basicMultiply",
-  description="i need something!",
-  route = utils.deepCopy(basicRoute),
-  scoreWithDifficulty = basicScoreRequired,
-  onActivate = function ()
-    main.createCardToDraw("add", 5)
-    main.createCardToDraw("thrive", 5)
-    main.createCardToDraw("holopot", 1)
-    main.createCardToDraw("highway", 1)
-    -- main.createCardToDraw("drag", 1)
-    -- main.createCardToDraw("relay", 1)
-    -- main.createCardToDraw("decomposite", 1)
-    -- main.createCardToDraw("sigil", 1)
-    -- main.createCardToDraw("vision", 1)
-    -- main.createCardToDraw("chainReaction", 1)
-    -- main.createCardToDraw("amplifier", 2)
+-- main.defineRunStarter({
+--   name = "TEST",
+--   image="basicMultiply",
+--   description="i need something!",
+--   route = utils.deepCopy(basicRoute),
+--   scoreWithDifficulty = basicScoreRequired,
+--   onActivate = function ()
+--     main.createCardToDraw("add", 5)
+--     main.createCardToDraw("thrive", 1)
+--     main.createCardToDraw("holopot", 1)
+--     main.createCardToDraw("highway", 1)
+--     -- main.createCardToDraw("drag", 1)
+--     -- main.createCardToDraw("relay", 1)
+--     -- main.createCardToDraw("decomposite", 1)
+--     -- main.createCardToDraw("sigil", 1)
+--     -- main.createCardToDraw("vision", 1)
+--     -- main.createCardToDraw("chainReaction", 1)
+--     -- main.createCardToDraw("amplifier", 2)
 
-    main.shuffleDraw()
-  end
-})
+--     main.shuffleDraw()
+--   end
+-- })
