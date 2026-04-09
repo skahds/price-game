@@ -79,8 +79,6 @@ main.defineScene("gameEnd", function ()
     end)
   end
 
-  local amountOfRun = main.meta.getStats("amountOfRun") or 0
-  main.meta.updateStats("amountOfRun", amountOfRun+1)
   if didWin then
     local amountOfWin = main.meta.getStats("amountOfWin") or 0
     main.meta.updateStats("amountOfWin", amountOfWin+1)

@@ -615,11 +615,21 @@ defineTab({
 
 
 -- metastats?
+local amountOfItemsUnlockable = 0
+system.on("@load", function ()
+  for i, ent in pairs(main.entities) do
+    local def = ent.definition
+    if def and def.unlock then
+      amountOfItemsUnlockable = amountOfItemsUnlockable + 1
+    end
+  end
+end)
+
 defineTab({
   name = "Stats",
   image = "statsTabIcon",
   load = function (tab)
-    createTextGroup(tab, {cover=true, font={"defaultFont90"}}, {"STATS", "Run Played: 0", "Credits Earned: 0","Collection : 0/0" ,"Highest Score: 0"})
+    createTextGroup(tab, {cover=true, font={"defaultFont90"}}, {"STATS", "Run Played: 0", "Run Won: 0"," Earned : 0/0" ,"Collection: 0"})
   end,
   unload = function (tab)
     
@@ -629,7 +639,28 @@ defineTab({
   end,
   close = function (tab)
     
-  end
+  end,
+  update = function (tab)
+    local texts = textGroup[tab].texts
+    local locked = #main.meta.getLockedEntities{type="metashop"}
+    local updateList = {
+      "Run Played: " .. (main.meta.getStats("amountOfRun") or 0),
+      "Run Won: " .. (main.meta.getStats("amountOfWin") or 0),
+      "{creditIcon} Earned: " .. (main.meta.getStats("totalCreditsEarned") or 0),
+      "Collection: " .. amountOfItemsUnlockable-locked .. "/" .. amountOfItemsUnlockable
+    }
+    local maxWidth = 0
+    for i, text in ipairs(texts) do
+      if updateList[i-1] then
+        main.updateRichTextText(text, updateList[i-1])
+      end
+
+      maxWidth = math.max(text.richText:getWidth(), maxWidth)
+      text.ox = text.richText:getWidth()/2
+    end
+    textGroup[tab].cover.width = maxWidth+30
+    textGroup[tab].cover.ox = (maxWidth+30)/2
+  end,
 })
 
 

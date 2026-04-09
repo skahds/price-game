@@ -116,8 +116,12 @@ end
 
 function main.meta.giveCredits(n)
   stats.credits = stats.credits + n
-  local currentTotal = main.meta.getStats("totalCreditsEarned") or 0
-  main.meta.updateStats("totalCreditsEarned", currentTotal + n)
+  
+  if n > 0 then
+    local currentTotal = main.meta.getStats("totalCreditsEarned") or 0
+    main.meta.updateStats("totalCreditsEarned", currentTotal + n)
+  end
+
   main.meta.saveMetaStats()
 end
 

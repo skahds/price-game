@@ -258,6 +258,9 @@ main.ui.defineButton("toPlay", {
       return
     end
 
+    local amountOfRun = main.meta.getStats("amountOfRun") or 0
+    main.meta.updateStats("amountOfRun", amountOfRun+1)
+
     starterChosen = starterHovering
     selection.onActivate()
 
