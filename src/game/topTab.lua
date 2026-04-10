@@ -219,6 +219,7 @@ end
 
 main.defineUITab("runStats", function ()
   local rightX = 640+coverWidth/2
+  local leftX = 640-coverWidth/2
   local y = 360-coverHeight/2
   runStatsUI.cover = main.ui.spawnUI("cover", {
     x=640-coverWidth/2,
@@ -243,6 +244,25 @@ main.defineUITab("runStats", function ()
 
   spawnItems()
 
+  -- creditsMult
+  table.insert(runStatsUI, main.ui.spawnUI("cover", {x=leftX-180, y=y, width=180, height=80,
+    rx=20, ry=20,
+    renderLayer=570,
+    color = {0.6, 0.6, 0.6},
+    outlineColor = {0.4, 0.4, 0.4}, outline=10}))
+
+  local creditMult = main.getTotalCreditsMultilpier()
+  local text = "x" .. math.floor(creditMult*100+0.5)/100 .. " {creditIcon}"
+  local t = main.newRichText({
+    format = text,
+    x = leftX-90,
+    y = y+40,
+    renderLayer=renderLayer+1,
+    font = system.getFont("defaultFont50"),
+  })
+  t.x = t.x - t.richText:getWidth()/2
+  t.y = t.y - t.richText:getHeight()/2
+  table.insert(runStatsUI, t)
 
   --cycle boss
   local currentCycle = system.getStorage("main:currentCycle") or 1

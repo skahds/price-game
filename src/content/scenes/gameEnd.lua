@@ -42,7 +42,7 @@ main.defineScene("gameEnd", function ()
     table.insert(t, "5 {creditIcon} per cleared day: " .. amountDay .. " {creditIcon}")
   end
 
-  local creditMult = main.getTotalModifierEffect()
+  local creditMult = main.getTotalCreditsMultilpier()
   table.insert(t, "{creditIcon} multiplier: x" .. math.floor(creditMult*100+0.5)/100 .. " {creditIcon}")
 
   local total = math.floor((amountDay+amountCycle)*creditMult+0.5)

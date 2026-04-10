@@ -52,14 +52,17 @@ local basicScoreRequired = {{
   changeInCycle = 0.3, --1x, 1.3x, 1.6x, 2.5x, 3.5x
   bossScore = 2.5,
   cycles = {400, 1500, 5000, 20000, 80000, 300000}, -- approx 3-4x per cycle
+  creditMult = 1,
 },{
   changeInCycle = 0.6, --1x, 1.6x, 2.2x, 3x, 4x?
   bossScore = 3,
   cycles = {400, 1800, 7000, 30000, 150000, 1000000},
+  creditMult = 1.5,
 }, {
   changeInCycle = 0.8, --1x, 1.8x, 2.6x, 4x, 5x?
   bossScore = 4,
   cycles = {400, 2000, 10000, 50000, 250000, 100000000},
+  creditMult = 2,
 }} -- change this?
 
 main.defineRunStarter({

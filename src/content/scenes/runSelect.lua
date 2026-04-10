@@ -270,6 +270,7 @@ main.ui.defineButton("toPlay", {
 
     if selection.scoreWithDifficulty then
       system.updateStorage("main:scoreRequirementList", selection.scoreWithDifficulty[difficultySelected])
+      system.updateStorage("main:difficultyMultiplier", selection.scoreWithDifficulty[difficultySelected].creditMult or 1)
     end
 
     main.playScene("levelSelect")
@@ -534,6 +535,17 @@ system.on("@draw", function ()
       y=110+blockSpacing+(i-0.5)*(blockSpacing),
       renderLayer=97
     })
+    t.y = t.y - t.richText:getHeight()/2
+
+    local amount = difficulty.creditMult or 1
+    local t = main.printRichText({
+      format = "x" .. amount .. " {creditIcon}",
+      x = rightCoverX+330-30,
+      y = 110+blockSpacing+(i-0.5)*(blockSpacing),
+      renderLayer=98,
+      font = system.getFont("defaultFont40")
+    })
+    t.x = t.x - t.richText:getWidth()
     t.y = t.y - t.richText:getHeight()/2
   end
 
