@@ -241,7 +241,9 @@ main.defineUITab("collection", function ()
     x=640,
     y=590,
     format = "page " .. currentPage .. "/" .. amountOfPage,
-    renderLayer = renderLayer+2
+    renderLayer = renderLayer+2,
+    outline=true,
+    outlineColor={0,0,0},
   })
   currentPageText.x = currentPageText.x - currentPageText.richText:getWidth()/2
   currentPageText.y = currentPageText.y - currentPageText.richText:getHeight()/2
@@ -251,7 +253,9 @@ main.defineUITab("collection", function ()
     y=80,
     format = "Collection",
     renderLayer = renderLayer+1,
-    font = system.getFont("defaultFont80")
+    font = system.getFont("defaultFont80"),
+    outline=true,
+    outlineColor={0,0,0},
   })
   topText.x = topText.x - topText.richText:getWidth()/2
 

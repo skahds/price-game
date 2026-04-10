@@ -228,6 +228,8 @@ main.defineUITab("exitConfimation", function ()
       x=dimension.w/2,
       y=dimension.h/2-150,
       renderLayer = 412,
+      outline=true,
+      outlineColor={0,0,0},
     })
     t.x = t.x - t.richText:getWidth()/2
     t.y = t.y + t.richText:getHeight()*(i-1)

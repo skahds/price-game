@@ -238,8 +238,6 @@ main.defineScene("levelSelect", function ()
   currentCycle = system.getStorage("main:currentCycle") or 1
   scoreRequired =  system.getStorage("main:scoreRequirementList")
 
-  print(currentCycle, currentRoute)
-
   local currentTrack = route[currentCycle][currentRoute]
 
   table.insert(existingUI, main.ui.spawnUI("cover", {x=leftCoverX, y=-20, width=330, height=320,
@@ -465,6 +463,8 @@ main.defineScene("levelSelect", function ()
       y = 300+45,
       renderLayer=100,
       font = system.getFont("defaultFont40"),
+      outline=true,
+      outlineColor={0,0,0},
     })
     t.y = t.y - t.richText:getHeight()/2
     t.y = t.y + (i-1.5)*45/2
@@ -493,6 +493,8 @@ main.defineScene("levelSelect", function ()
       x = leftCoverX+330/2,
       y = 770,
       renderLayer=100,
+      outline=true,
+      outlineColor={0,0,0},
     })
   enemyText.x = enemyText.x - enemyText.richText:getWidth()/2
 
@@ -653,7 +655,9 @@ system.on("@draw", function ()
         y=ui:getY(),
         screenSpace = false,
         renderLayer = ui.renderLayer+1,
-        font=system.getFont("defaultFont30")
+        font=system.getFont("defaultFont30"),
+        outline=true,
+        outlineColor={0,0,0},
         })
       t.x = t.x - t.richText:getWidth()/2
       t.y = t.y - t.richText:getHeight()
@@ -678,6 +682,8 @@ system.on("@draw", function ()
       y=100,
       screenSpace = true,
       renderLayer = 95,
+      outline=true,
+      outlineColor={0,0,0},
       -- font=system.getFont("defaultFont80")
       })
     t.y = t.y + t.richText:getHeight() * (i-1)

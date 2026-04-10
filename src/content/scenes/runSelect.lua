@@ -435,7 +435,7 @@ system.on("@draw", function ()
       table.insert(texts, str)
     end
     for i, str in ipairs(texts) do
-      local t = main.printRichText({format=str, renderLayer=starter.renderLayer+1, x=starter.x+width/2, y=starter.y+100+i*60})
+      local t = main.printRichText({format=str, renderLayer=starter.renderLayer+1, x=starter.x+width/2, y=starter.y+100+i*60, outline = true, outlineColor={0,0,0},})
       t.x = t.x - t.richText:getWidth()/2
     end
   end
@@ -447,7 +447,7 @@ system.on("@draw", function ()
     y = modifierButton.y,
     renderLayer=100,
     outline=true,
-    outlineColor={0,0,0}
+    outlineColor={0,0,0},
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y - t.richText:getHeight() - 10
@@ -471,7 +471,9 @@ system.on("@draw", function ()
     format = "Modes",
     x=leftCoverMidX,
     y=70+(30+blockSpacing+10)/2,
-    renderLayer=97
+    renderLayer=97,
+    outline=true,
+    outlineColor={0,0,0},
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y - t.richText:getHeight()/2
@@ -485,7 +487,9 @@ system.on("@draw", function ()
       x=lastNews.ui:getX()+lastNews.ui:getWidth()+10,
       y=lastNews.ui:getY()+lastNews.ui:getHeight()/2,
       renderLayer=97,
-      font = system.getFont("defaultFont40")
+      font = system.getFont("defaultFont40"),
+      outline=true,
+      outlineColor={0,0,0},
     })
     t.y = t.y - t.richText:getHeight()/2
   end
@@ -522,7 +526,9 @@ system.on("@draw", function ()
     format = "Difficulty",
     x=rightCoverMidX,
     y=70+(30+blockSpacing+10)/2,
-    renderLayer=97
+    renderLayer=97,
+    outline=true,
+    outlineColor={0,0,0},
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y - t.richText:getHeight()/2
@@ -533,7 +539,9 @@ system.on("@draw", function ()
       format = difficulyNaming[i] or "NIL",
       x=rightCoverX+20,
       y=110+blockSpacing+(i-0.5)*(blockSpacing),
-      renderLayer=97
+      renderLayer=97,
+      outline=true,
+      outlineColor={0,0,0},
     })
     t.y = t.y - t.richText:getHeight()/2
 
@@ -543,7 +551,9 @@ system.on("@draw", function ()
       x = rightCoverX+330-30,
       y = 110+blockSpacing+(i-0.5)*(blockSpacing),
       renderLayer=98,
-      font = system.getFont("defaultFont40")
+      font = system.getFont("defaultFont40"),
+      outline=true,
+      outlineColor={0,0,0},
     })
     t.x = t.x - t.richText:getWidth()
     t.y = t.y - t.richText:getHeight()/2

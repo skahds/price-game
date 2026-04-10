@@ -66,6 +66,7 @@ local function updateContent()
         pattern = pattern.id,
         text = pattern.name .. " {priceColor}" .. format(pattern.price) .. "{priceIcon}{/priceColor} {multColor}" .. format(pattern.mult) .. "{multIcon}",
         textOutline=true,
+        textOutlineColor={0,0,0},
         renderLayer = renderLayer+1,
         font = system.getFont("defaultFont40")
       })
@@ -136,7 +137,8 @@ system.on("@update", function ()
     renderLayer = renderLayer+1,
     x=startX,
     y=160,
-    outline=true
+    outline=true,
+    outlineColor={0,0,0},
   })
   t.x = t.x - t.richText:getWidth()/2
   local t = main.printRichText({
@@ -144,7 +146,8 @@ system.on("@update", function ()
     renderLayer = renderLayer+1,
     x=startX,
     y=160,
-    outline=true
+    outline=true,
+    outlineColor={0,0,0},
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y + t.richText:getHeight()
@@ -172,7 +175,9 @@ main.defineUITab("patterns", function ()
     y=80,
     format = "Patterns",
     renderLayer = renderLayer+1,
-    font = system.getFont("defaultFont80")
+    font = system.getFont("defaultFont80"),
+    outline=true,
+    outlineColor={0,0,0},
   })
   topText.x = topText.x - topText.richText:getWidth()/2
 
@@ -217,16 +222,19 @@ main.ui.defineButton("patternsClose", {
   end
 })
 
-local normalColor = {0.6, 0.6, 0.6}
-local hoverColor = {0.7, 0.7, 0.7}
-local selectedColor = {0.8, 0.8, 0.8}
+-- local normalColor = {0.6, 0.6, 0.6}
+-- local hoverColor = {0.7, 0.7, 0.7}
+-- local selectedColor = {0.8, 0.8, 0.8}
+local normalColor = {0.7, 0.7, 0.7}
+local hoverColor = {0.8, 0.8, 0.8}
+local selectedColor = {0.9, 0.9, 0.9}
 main.ui.defineUI("patternsPlate", {
   width=360,
   height=80,
   overrideHitbox = {width=360, height=102, x=0, y=0},
   color = normalColor,
   outline=10,
-  outlineColor = {0.4, 0.4, 0.4},
+  outlineColor = {0.5, 0.5, 0.5},
   rx=20,
   ry=20,
   onHover = function (ent)

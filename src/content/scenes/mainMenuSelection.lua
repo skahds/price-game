@@ -71,6 +71,8 @@ local function createTextGroup(tab, info, t)
       y = info.y or 360,
       renderLayer = 100,
       font=font,
+      outline=true,
+      outlineColor={0,0,0},
     })
     text.ox = text.richText:getWidth()/2
     text.y = text.y + totalHeight

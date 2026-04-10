@@ -103,6 +103,8 @@ main.defineScene("levelEnd", function ()
         font=font,
         sx=0.8,
         sy=0.8,
+        outline=true,
+        outlineColor={0,0,0}
       })
       local ox = t.richText:getWidth()/2
       t.ox = ox
@@ -126,6 +128,8 @@ main.defineScene("levelEnd", function ()
   local middleOfText = highY+((lowY-highY)/2)
   local gapToMiddle = middleY-(middleOfText)
   for i, text in ipairs(objectiveText) do
+    text.outline = true
+    text.outlineColor = {0,0,0}
     text.sx=0.8
     text.sy=0.8
     pipeline:add(0.15, function ()

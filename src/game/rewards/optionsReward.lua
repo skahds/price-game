@@ -139,6 +139,8 @@ system.on("@draw", function ()
       format = "Pick a reward!",
       renderLayer=102,
       screenSpace=true,
+      outline=true,
+      outlineColor={0,0,0},
     })
     t.x = 640-t.richText:getWidth()/2
   end

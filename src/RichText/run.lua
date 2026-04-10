@@ -40,7 +40,7 @@ local function drawOutline(t, posX, posY)
     
     -- Calculate outline offset based on scale
     local defaultFont = system.getStorage("defaultFont")
-    local fontFactor = (t.richText.font:getWidth(t.format)/defaultFont:getWidth(t.format))^0.5
+    local fontFactor = (t.richText.font:getWidth(t.format)/defaultFont:getWidth(t.format))^0.7
     local o = 8*math.sqrt(math.max(sx, sy))*fontFactor
     o = math.min(o, 30)
 

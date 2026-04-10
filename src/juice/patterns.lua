@@ -46,8 +46,9 @@ system.on("@draw", function ()
     x=x+width/2,
     y=y-5,
     screenSpace = false,
-    font = system.getFont("defaultFont20"),
+    font = system.getFont("defaultFont25"),
     outline=true,
+    outlineColor={0,0,0}
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y - t.richText:getHeight()
@@ -71,8 +72,9 @@ system.on("@draw", function ()
       x=x+width/2,
       y=y+height+5,
       screenSpace = false,
-      font = system.getFont("defaultFont20"),
+      font = system.getFont("defaultFont25"),
       outline=true,
+      outlineColor={0,0,0}
     })
     t.x = t.x - t.richText:getWidth()/2
     t.y = t.y + t.richText:getHeight()*(i-1)

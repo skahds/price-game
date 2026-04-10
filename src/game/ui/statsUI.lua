@@ -5,12 +5,16 @@ local score = system.getStorage("main:score")
 local roundsRemainingText = main.newRichText({format="Turn left: 0",
   y=80,
   x=70,
-  renderLayer = 200,})
+  renderLayer = 200,
+  outline=true,
+  outlineColor={0,0,0},})
 
 local scoreHeaderText = main.newRichText({format="Score",
   y=130,
   x=70,
-  renderLayer = 200,})
+  renderLayer = 200,
+  outline=true,
+  outlineColor={0,0,0},})
 
 local scoreText = main.newRichText({format="0",
   y=180,
@@ -21,6 +25,8 @@ local scoreText = main.newRichText({format="0",
   ox=0,
   oy=0,
   r=0,
+  outline=true,
+  outlineColor={0,0,0},
   })
 
 local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) .. "{/priceColor}",
@@ -56,7 +62,9 @@ local cardHeldText = main.newRichText({format=0 .. "/" .. system.getStorage("mai
   ox=0,
   oy=0,
   r=0,
-  renderLayer = 200,})
+  renderLayer = 200,
+  outline=true,
+  outlineColor={0,0,0},})
 
 --score text
 local scoreInfos = {currentScore=0, score=0, scoreToClaim=0}
@@ -97,17 +105,19 @@ system.on("@update", function ()
       oy=0,
       r=0,
       renderLayer = 200,
-      font = biggerFont})
+      font = biggerFont,
+      outline=true,
+      outlineColor={0,0,0}})
     t.x, t.y = t.x - t.richText:getWidth()/2, t.y - t.richText:getHeight()/2
   end
 
-  if system.getStorage("main:currentScene") == "play" then
-    system.render(200, function ()
-      local y = scoreHeaderText.y + scoreHeaderText.richText:getHeight()
-      love.graphics.setLineWidth(5)
-      love.graphics.line(50+20, y, 50+350-20, y)
-    end, true)
-  end
+  -- if system.getStorage("main:currentScene") == "play" then
+  --   system.render(200, function ()
+  --     local y = scoreHeaderText.y + scoreHeaderText.richText:getHeight()
+  --     love.graphics.setLineWidth(5)
+  --     love.graphics.line(50+20, y, 50+350-20, y)
+  --   end, true)
+  -- end
 end)
 
 system.on("main:sceneChanged", function()
@@ -197,10 +207,11 @@ system.on("@draw", function ()
     local t=main.printRichText({
       x=330,
       y=420,
-      format="{energyColor g=0.9 b=0.5}+" .. energy-energyPerTurn,
+      format="{energyColor r=1 g=0.9 b=0.5}+" .. energy-energyPerTurn,
       renderLayer=201,
       font=biggerFont,
-      screenSpace = true
+      screenSpace = true,
+      outline=true,
     })
     t.x = t.x - t.richText:getWidth()/2
     t.y = t.y - t.richText:getHeight()/2

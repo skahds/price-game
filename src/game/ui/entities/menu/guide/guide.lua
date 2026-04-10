@@ -95,7 +95,9 @@ function main.ui.guidebook()
     number = main.newRichText({format="0",
       x=0,
       y=0,
-    renderLayer = 392,})
+      renderLayer = 392,
+      outline=true,
+      outlineColor={0,0,0},})
   else
     deleteAll({cover, back, guideSelectLeft, guideSelectRight, number})
     isShown = false

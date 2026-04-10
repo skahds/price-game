@@ -89,6 +89,8 @@ system.on("@draw", function ()
       renderLayer=200,
       format = "Left click: buy    Right click: select",
       font=system.getFont("defaultFont50"),
+      outline=true,
+      outlineColor={0,0,0},
     })
     t.x = t.x - t.richText:getWidth()/2
   end
