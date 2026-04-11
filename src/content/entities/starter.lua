@@ -103,7 +103,7 @@ main.defineRunStarter({
 
 main.defineRunStarter({
   name = "Venture",
-  image="basicMultiply",
+  image="amplifier",
   description="Normal deck",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
@@ -119,8 +119,9 @@ main.defineRunStarter({
 
 main.defineRunStarter({
   name = "Firm",
-  image="adder",
+  image="holopot",
   description="Draw deck",
+  unlock = {type="credits"},
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -135,15 +136,16 @@ main.defineRunStarter({
 
 main.defineRunStarter({
   name = "Enterprise",
-  image="sigil",
+  image="reserve",
   description="Energy deck",
+  unlock = {type="credits"},
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
     main.createCardToDraw("add", 3)
     main.createCardToDraw("subtract", 3)
     main.createCardToDraw("multiply", 3)
-    main.createCardToDraw("amplifier", 2)
+    main.createCardToDraw("reserve", 2)
 
     main.shuffleDraw()
   end

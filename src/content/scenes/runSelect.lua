@@ -258,6 +258,13 @@ main.ui.defineButton("toPlay", {
       return
     end
 
+    if selection.unlock then
+      local unlocked = main.meta.getStats("starterUnlocks") or {}
+      if unlocked[starterHovering] ~= true then
+        return
+      end
+    end
+
     local amountOfRun = main.meta.getStats("amountOfRun") or 0
     main.meta.updateStats("amountOfRun", amountOfRun+1)
 
