@@ -7,6 +7,8 @@ local virtualHeight = 720
 local scale = love.graphics.getDPIScale()
 system.updateStorage("screenDimension", {w=virtualWidth, h=virtualHeight})
 
+local pixelCanvas = love.graphics.newCanvas(virtualWidth, virtualHeight)
+
 system.render =  function (layer, func, fixed)
   fixed = fixed or false
   if renderTable[layer] == nil then
@@ -55,6 +57,23 @@ system.on("renderer:render", function ()
   end
   love.graphics.draw(defaultCanvas, offsetX, offsetY, 0, scale, scale)
   love.graphics.setShader()
+  -- -- Pass 1: defaultCanvas → pixelCanvas through pixelation shader
+  -- love.graphics.setCanvas(pixelCanvas)
+  -- love.graphics.clear()
+  -- local pixShader = system.getStorage("system:pixelShader")
+  -- if pixShader then
+  --   love.graphics.setShader(pixShader)
+  -- end
+  -- love.graphics.draw(defaultCanvas, 0, 0)
+  -- love.graphics.setShader()
+
+  -- -- Pass 2: pixelCanvas → screen through your existing shader
+  -- love.graphics.setCanvas()
+  -- if system.getStorage("system:shader") then
+  --   love.graphics.setShader(system.getStorage("system:shader"))
+  -- end
+  -- love.graphics.draw(pixelCanvas, offsetX, offsetY, 0, scale, scale)
+  -- love.graphics.setShader()
 
   if scaleX > scaleY then -- Pillarboxing (black bars on sides)
     love.graphics.setColor(0, 0, 0, 1)

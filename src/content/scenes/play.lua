@@ -121,7 +121,9 @@ end, function ()
   }
   system.updateStorage("main:endLevelStats", endStats)
   deleteAll({cover, scaleYSlider, startTurn, drawPile, discardPile, objectiveCover, objectiveArrow})
-  deleteAll(objectiveText)
+  if objectiveText then
+    deleteAll(objectiveText)
+  end
   objectiveText = nil
   chart:clear()
 

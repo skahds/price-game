@@ -25,6 +25,32 @@ main.defineCard("multiply", {
   rarity="STARTER"
 })
 
+main.defineCard("adder", {
+  name = "Adder",
+  image = "basicAdder",
+  description = "Gives {priceColor}+3 PRICE{/priceColor} for\neach card in hand",
+  trigger = {"DEPLOY"},
+  price = 1,
+  rarity="STARTER",
+  onActivate=function ()
+    local amount = #main.card.hand
+    main.addPrice(amount*3)
+  end
+})
+
+main.defineCard("subtracter", {
+  name = "Subtracter",
+  image = "basicSubtracter",
+  description = "Gives {priceColor}-3 PRICE{/priceColor} for\neach card in hand",
+  trigger = {"DEPLOY"},
+  price = 1,
+  rarity="STARTER",
+  onActivate=function ()
+    local amount = #main.card.hand
+    main.addPrice(-amount*3)
+  end
+})
+
 main.defineCard("goldenHex", {
   name = "Golden Hex",
   image = "goldenHex",

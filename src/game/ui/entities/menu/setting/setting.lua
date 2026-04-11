@@ -313,6 +313,8 @@ main.ui.defineUI("settingTab", {
   order = 1,
   color = {0.6, 0.6, 0.6},
   text="REPLACEME",
+  textOutline=true,
+  textOutlineColor={0,0,0},
   onUpdate = function (ent)
     if selectedTab ~= ent.order then
       ent.color = {0.45, 0.45, 0.45}

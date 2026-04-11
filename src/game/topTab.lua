@@ -238,7 +238,9 @@ main.defineUITab("runStats", function ()
     x=640,
     y=360-coverHeight/2+15,
     format = "RUN INFO",
-    renderLayer = renderLayer+2
+    renderLayer = renderLayer+2,
+    outline=true,
+    outlineColor={0,0,0},
   })
   runStatsUI.topText.x = runStatsUI.topText.x - runStatsUI.topText.richText:getWidth()/2
 
@@ -259,6 +261,8 @@ main.defineUITab("runStats", function ()
     y = y+40,
     renderLayer=renderLayer+1,
     font = system.getFont("defaultFont50"),
+    outline=true,
+    outlineColor={0,0,0},
   })
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y - t.richText:getHeight()/2
@@ -283,6 +287,8 @@ main.defineUITab("runStats", function ()
       y = y+40,
       renderLayer=renderLayer+1,
       font = system.getFont("defaultFont40"),
+      outline=true,
+      outlineColor={0,0,0},
     })
     t.x = t.x - t.richText:getWidth()/2
     t.y = t.y - t.richText:getHeight()/2

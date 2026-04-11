@@ -478,6 +478,26 @@ system.on("@draw", function ()
   t.x = t.x - t.richText:getWidth()/2
   t.y = t.y - t.richText:getHeight()/2
 
+  local isModeSelected = false
+  for k, v in pairs(runModeSelected) do if v == true then isModeSelected = true end end
+  if isModeSelected then
+    local form = {"Mode enabled:", "can't earn achievement"}
+    for i=1, 2 do
+      local t = main.printRichText({
+        format = form[i],
+        x=leftCoverMidX,
+        y=70+580-60,
+        renderLayer=97,
+        outline=true,
+        color = {1, 0.3, 0.3},
+        outlineColor={0,0,0},
+        font = system.getFont("defaultFont35")
+        })
+      t.x = t.x - t.richText:getWidth()/2
+      t.y = t.y - t.richText:getHeight()/2 - t.richText:getHeight()*(1.5-i)
+    end
+  end
+
   -- names
   local totalNews = 0
   for i, mode in ipairs(main.runModes) do

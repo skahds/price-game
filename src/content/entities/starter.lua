@@ -119,16 +119,15 @@ main.defineRunStarter({
 
 main.defineRunStarter({
   name = "Firm",
-  image="vision",
-  description="DEMO: UNAVAILABLE",
-  isNotImplemented = true,
+  image="adder",
+  description="Draw deck",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
-    main.createCardToDraw("add", 3)
-    main.createCardToDraw("subtract", 3)
+    main.createCardToDraw("adder", 3)
+    main.createCardToDraw("subtracter", 3)
     main.createCardToDraw("multiply", 3)
-    main.createCardToDraw("amplifier", 2)
+    main.createCardToDraw("holopot", 2)
 
     main.shuffleDraw()
   end
@@ -137,8 +136,7 @@ main.defineRunStarter({
 main.defineRunStarter({
   name = "Enterprise",
   image="sigil",
-  description="DEMO: UNAVAILABLE",
-  isNotImplemented = true,
+  description="Energy deck",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
@@ -168,26 +166,26 @@ main.defineRunStarter({
   end
 })
 
-main.defineRunStarter({
-  name = "TEST",
-  image="basicMultiply",
-  description="i need something!",
-  route = utils.deepCopy(basicRoute),
-  scoreWithDifficulty = basicScoreRequired,
-  onActivate = function ()
-    main.createCardToDraw("add", 5)
-    main.createCardToDraw("subtract", 5)
-    main.createCardToDraw("sigil", 5)
-    -- main.createCardToDraw("holopot", 1)
-    -- main.createCardToDraw("highway", 1)
-    -- main.createCardToDraw("drag", 1)
-    -- main.createCardToDraw("relay", 1)
-    -- main.createCardToDraw("decomposite", 1)
-    -- main.createCardToDraw("sigil", 1)
-    -- main.createCardToDraw("vision", 1)
-    -- main.createCardToDraw("chainReaction", 1)
-    -- main.createCardToDraw("amplifier", 2)
+-- main.defineRunStarter({
+--   name = "TEST",
+--   image="basicMultiply",
+--   description="i need something!",
+--   route = utils.deepCopy(basicRoute),
+--   scoreWithDifficulty = basicScoreRequired,
+--   onActivate = function ()
+--     main.createCardToDraw("add", 5)
+--     main.createCardToDraw("subtract", 5)
+--     main.createCardToDraw("sigil", 5)
+--     -- main.createCardToDraw("holopot", 1)
+--     -- main.createCardToDraw("highway", 1)
+--     -- main.createCardToDraw("drag", 1)
+--     -- main.createCardToDraw("relay", 1)
+--     -- main.createCardToDraw("decomposite", 1)
+--     -- main.createCardToDraw("sigil", 1)
+--     -- main.createCardToDraw("vision", 1)
+--     -- main.createCardToDraw("chainReaction", 1)
+--     -- main.createCardToDraw("amplifier", 2)
 
-    main.shuffleDraw()
-  end
-})
+--     main.shuffleDraw()
+--   end
+-- })

@@ -62,9 +62,30 @@ local shaderCode = [[
     }
 ]]
 
+local pixelShader = [[
+extern number pixel_size;   // e.g. 4.0 for "4x4 pixel blocks"
+extern vec2 screen_size;    // pass love.graphics.getDimensions()
+
+vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords) {
+    vec2 uv = texture_coords;
+
+    // Snap UV to nearest pixel-block boundary
+    vec2 blocks = screen_size / pixel_size;
+    uv = floor(uv * blocks) / blocks;
+
+    return Texel(tex, uv) * color;
+}
+]]
+
 -- Create and return the shader
 local shader = love.graphics.newShader(shaderCode)
 shader:send("strength", 0.2)
+
+local pixeler = love.graphics.newShader(pixelShader)
+pixeler:send("pixel_size", 1)
+pixeler:send("screen_size", {1280,720})
+system.updateStorage("system:pixelShader", pixeler)
+
 local timepass = 0
 system.on("@update", function ()
   shader:send("strength", system.getStorage("main:crtEffect") or 0.3)
