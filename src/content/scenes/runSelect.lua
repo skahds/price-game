@@ -1,5 +1,6 @@
 local flux = system.getStorage("flux")
 local starters = {}
+local unlockStarterUIS = {}
 local width, height = 400, 400
 local difficulyNaming = {"Easy", "Medium", "Hard"}
 local starterChosen
@@ -26,6 +27,14 @@ end
 
 local function formatNum(value, modifierScoreEffect)
   return "x" .. 1 - (value * modifierScoreEffect)/100 .. " {creditIcon} CREDITS"
+end
+
+local function checkIsStarterUnlocked(id)
+  local unlocked = main.meta.getStats("starterUnlocks") or {}
+  if unlocked[id] == true then
+    return true
+  end
+  return false
 end
 
 main.defineUITab("modifier", function ()
@@ -115,6 +124,10 @@ main.defineScene("runSelect", function ()
     t.x, t.y = 100+(width+100)*(i-1), 720/2-height/2-80
     t.renderLayer = 60
     table.insert(starters, t)
+
+    if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
+      table.insert(unlockStarterUIS, main.ui.spawnUI("unlockStarter", {x=0, y=360, renderLayer=102,assignedStarter=i}))
+    end
   end
 
   toPlay = main.ui.spawnUI("toPlay", {x=640-120-100, y=550, renderLayer=102})
@@ -187,6 +200,7 @@ end, function ()
 
   deleteAll({toPlay, coverLeft, coverRight, arrowLeft, arrowRight, modifierButton})
   deleteAll(pressableBoxes)
+  deleteAll(unlockStarterUIS)
   for _, t in pairs(existingNews) do
     for i=#t, 1, -1 do
       local news = t[i]
@@ -258,11 +272,8 @@ main.ui.defineButton("toPlay", {
       return
     end
 
-    if selection.unlock then
-      local unlocked = main.meta.getStats("starterUnlocks") or {}
-      if unlocked[starterHovering] ~= true then
-        return
-      end
+    if selection.unlock and checkIsStarterUnlocked(selection.id) == false then
+      return
     end
 
     local amountOfRun = main.meta.getStats("amountOfRun") or 0
@@ -296,6 +307,26 @@ main.ui.defineButton("toPlay", {
             end)
           end
         end
+      end
+    end
+  end
+})
+
+main.ui.defineButton("unlockStarter", {
+  width = 200,
+  height = 100,
+  color = {0.8, 0.8, 0.8},
+  renderLayer = 62,
+  screenSpace = true,
+  text = "UNLOCK",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    if ent.assignedStarter and ent.assignedStarter == starterHovering then
+      if main.meta.getCredits() >= 200 then
+        main.meta.giveCredits(-200)
+        local locked = main.meta.getStats("starterUnlocks") or {}
+        locked[starters[ent.assignedStarter].id] = true
+        main.meta.updateStats("starterUnlocks", locked)
       end
     end
   end
@@ -431,19 +462,35 @@ system.on("@draw", function ()
       love.graphics.setColor(0.4, 0.4, 0.4)
       love.graphics.rectangle("line", starter.x, starter.y, width, height, 10, 10)
 
-      love.graphics.setColor(1, 1, 1)
-      love.graphics.draw(system.getImage((starter.image or "placeholder")), starter.x+width/2-64, starter.y+100-64, 0, 2, 2)
+      if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
+
+      else
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.draw(system.getImage((starter.image or "placeholder")), starter.x+width/2-64, starter.y+100-64, 0, 2, 2)
+      end
     end, true)
 
-    local texts = {}
-    table.insert(texts, starter.name)
-    local lines = utils.seperateSlashN(starter.description)
-    for _, str in ipairs(lines) do
-      table.insert(texts, str)
+    if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
+      
+    else
+      local texts = {}
+      table.insert(texts, starter.name)
+      local lines = utils.seperateSlashN(starter.description)
+      for _, str in ipairs(lines) do
+        table.insert(texts, str)
+      end
+      for i, str in ipairs(texts) do
+        local t = main.printRichText({format=str, renderLayer=starter.renderLayer+1, x=starter.x+width/2, y=starter.y+100+i*60, outline = true, outlineColor={0,0,0},})
+        t.x = t.x - t.richText:getWidth()/2
+      end
     end
-    for i, str in ipairs(texts) do
-      local t = main.printRichText({format=str, renderLayer=starter.renderLayer+1, x=starter.x+width/2, y=starter.y+100+i*60, outline = true, outlineColor={0,0,0},})
-      t.x = t.x - t.richText:getWidth()/2
+  end
+
+  for i, ui in ipairs(unlockStarterUIS) do
+    if ui.assignedStarter and ui.onButtonClicked then
+      local starter = starters[ui.assignedStarter]
+      ui.renderLayer = starter.renderLayer+3
+      ui.x = starter.x + width/2 - ui:getWidth()/2
     end
   end
 

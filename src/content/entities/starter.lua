@@ -65,7 +65,7 @@ local basicScoreRequired = {{
   creditMult = 2,
 }} -- change this?
 
-main.defineRunStarter({
+main.defineRunStarter("tutorial", {
   name = "Tutorial",
   description="Quick guide!",
   image = "basicAdd",
@@ -101,7 +101,7 @@ main.defineRunStarter({
   end
 })
 
-main.defineRunStarter({
+main.defineRunStarter("venture", {
   name = "Venture",
   image="amplifier",
   description="Normal deck",
@@ -117,7 +117,7 @@ main.defineRunStarter({
   end
 })
 
-main.defineRunStarter({
+main.defineRunStarter("firm", {
   name = "Firm",
   image="holopot",
   description="Draw deck",
@@ -134,7 +134,7 @@ main.defineRunStarter({
   end
 })
 
-main.defineRunStarter({
+main.defineRunStarter("enterprise", {
   name = "Enterprise",
   image="reserve",
   description="Energy deck",
@@ -151,7 +151,7 @@ main.defineRunStarter({
   end
 })
 
-main.defineRunStarter({
+main.defineRunStarter("association", {
   name = "Association",
   image="radar",
   description="DEMO: UNAVAILABLE",

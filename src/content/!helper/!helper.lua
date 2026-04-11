@@ -8,7 +8,8 @@ end
 main.starters = {}
 main.runModes = {}
 
-function main.defineRunStarter(content)
+function main.defineRunStarter(id, content)
+  content.id = id
   table.insert(main.starters, content)
 end
 
