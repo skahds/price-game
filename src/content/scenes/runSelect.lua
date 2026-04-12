@@ -444,7 +444,7 @@ system.on("@update", function ()
     flux.to(starter, 0.3, {x=(width+100)*(i-1)-offsetX})
 
     if i == starterHovering then
-      starter.renderLayer = 90
+      starter.renderLayer = 80
     else
       starter.renderLayer = 60
     end
@@ -466,7 +466,7 @@ system.on("@draw", function ()
   end
 
   --bg overlayer to darken everything up
-  system.render(80, function ()
+  system.render(70, function ()
     love.graphics.setColor(0.03, 0.03, 0.03, 0.4)
     love.graphics.rectangle("fill", 0, 0, 1820, 720)
   end, true)

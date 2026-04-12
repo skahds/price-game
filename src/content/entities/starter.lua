@@ -145,7 +145,8 @@ main.defineRunStarter("enterprise", {
     main.createCardToDraw("add", 3)
     main.createCardToDraw("subtract", 3)
     main.createCardToDraw("multiply", 3)
-    main.createCardToDraw("reserve", 2)
+    main.createCardToDraw("reserve", 1)
+    main.createCardToDraw("shift", 1)
 
     main.shuffleDraw()
   end

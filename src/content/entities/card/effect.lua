@@ -518,3 +518,26 @@ main.defineCard("thrive", {
     end
   end
 })
+
+main.defineCard("shift", {
+  name = "Shift",
+  image = "shift",
+  description="For each energy owned,\ndraw 1 CARD",
+  energy=1,
+  trigger = {"DEPLOY"},
+  price = 3,
+  rarity = "RARE",
+  onActivate = function ()
+    local energy = system.getStorage("main:energy")
+    local pipeline=main.getPipeline("main")
+    for i=1, energy do
+      pipeline:add(0, function ()
+        if main.drawCard() then
+          pipeline:insert(0.25, 1, function ()
+            
+          end)
+        end
+      end)
+    end
+  end
+})

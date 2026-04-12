@@ -86,14 +86,14 @@ function main.ui.defineButton(id, eType)
     basicSetter(ent)
 
     local rl = ent.renderLayer
-    system.render(rl-1, function ()
+    system.render(rl, function ()
       love.graphics.setColor(ent.buttonDownColor)
       love.graphics.rectangle("fill", ent.x, ent.y+ent.height/6, ent.width, ent.height, ent.rx, ent.ry)
       love.graphics.setColor(ent.color)
       love.graphics.rectangle("fill", ent.x, ent.y+ent.buttonYOffset, ent.width, ent.height, ent.rx, ent.ry)
     end, ent.screenSpace)
 
-    system.render(rl, function ()
+    system.render(rl+1, function ()
       love.graphics.setColor(ent.color[1]*0.95, ent.color[2]*0.95, ent.color[3]*0.95)
       love.graphics.setLineWidth(10)
       love.graphics.rectangle("line", ent.x+4, ent.y+ent.buttonYOffset+4, ent.width-8, ent.height-8, ent.rx, ent.ry)
