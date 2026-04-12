@@ -128,7 +128,13 @@ main.defineScene("runSelect", function ()
     if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
       unlockStarterUIS[i] = {}
       unlockStarterUIS[i].button = main.ui.spawnUI("unlockStarter", {x=0, y=360-80+40, renderLayer=102,assignedStarter=i})
-      unlockStarterUIS[i].creditText = main.newRichText({format="a", renderLayer=102, x=0, y=360-80, outline = true, outlineColor={0,0,0},})
+      unlockStarterUIS[i].header = main.newRichText({format="LOCKED", renderLayer=102, x=0, y=360-80-150, outline = true, outlineColor={0,0,0}, font=system.getFont("defaultFont80")})
+      unlockStarterUIS[i].creditText = main.newRichText({format="a", renderLayer=102, x=0, y=360-80-40, outline = true, outlineColor={0,0,0},})
+      unlockStarterUIS[i].cover = main.ui.spawnUI("cover", {x=0, y=t.y, width=width, height=height,
+        rx=10, ry=10,
+        renderLayer=102,
+        color = {0.4, 0.4, 0.4},
+        outlineColor = {0.25, 0.25, 0.25}, outline=10})
     end
   end
 
@@ -331,12 +337,14 @@ main.ui.defineButton("unlockStarter", {
         locked[starters[ent.assignedStarter].id] = true
         main.meta.updateStats("starterUnlocks", locked)
 
-        flux.to(ent, 0.6, {y=740}):ease("backin")
-        main.wait(0.6, function ()
-          if ent then
-            ent:delete()
-          end
-        end)
+        for k, ui in pairs(unlockStarterUIS[starterHovering]) do
+          flux.to(ui, 0.6, {y=ent.y+360}):ease("backin")
+          main.wait(0.6, function ()
+            if ui then
+              ui:delete()
+            end
+          end)
+        end
       end
     end
   end
@@ -499,12 +507,19 @@ system.on("@draw", function ()
   --starterunlock
   for k, tbl in pairs (unlockStarterUIS) do
     local starter = starters[tbl.button.assignedStarter]
-    tbl.button.renderLayer = starter.renderLayer+3
+    tbl.button.renderLayer = starter.renderLayer+4
     tbl.button.x = starter.x + width/2 - tbl.button:getWidth()/2
+
     local credits = main.meta.getCredits()
     main.updateRichTextText(tbl.creditText, credits.."/200 {creditIcon}")
     tbl.creditText.x = starter.x + width/2 - tbl.creditText.richText:getWidth()/2
-    tbl.creditText.renderLayer = starter.renderLayer+2
+    tbl.creditText.renderLayer = starter.renderLayer+3
+
+    tbl.header.x = starter.x + width/2 - tbl.header.richText:getWidth()/2
+    tbl.header.renderLayer = starter.renderLayer+3
+
+    tbl.cover.renderLayer = starter.renderLayer+2
+    tbl.cover.x = starter.x
   end
 
   local total = math.floor(main.getTotalModifierEffect()*100+0.5)/100
