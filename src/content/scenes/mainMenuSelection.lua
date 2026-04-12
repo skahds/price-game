@@ -16,7 +16,9 @@ local function defineTab(eType)
 end
 
 local function animationOpenTab(tab)
-  tabs[tab].open(tab)
+  if #main.getPipeline("scene").pipeline == 0 then
+    tabs[tab].open(tab)
+  end
 
   if textGroup[tab] then
     for i, text in ipairs(textGroup[tab].texts) do

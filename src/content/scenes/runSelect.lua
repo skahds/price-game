@@ -126,7 +126,9 @@ main.defineScene("runSelect", function ()
     table.insert(starters, t)
 
     if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
-      table.insert(unlockStarterUIS, main.ui.spawnUI("unlockStarter", {x=0, y=360-80+40, renderLayer=102,assignedStarter=i}))
+      unlockStarterUIS[i] = {}
+      unlockStarterUIS[i].button = main.ui.spawnUI("unlockStarter", {x=0, y=360-80+40, renderLayer=102,assignedStarter=i})
+      unlockStarterUIS[i].creditText = main.newRichText({format="a", renderLayer=102, x=0, y=360-80, outline = true, outlineColor={0,0,0},})
     end
   end
 
@@ -329,8 +331,8 @@ main.ui.defineButton("unlockStarter", {
         locked[starters[ent.assignedStarter].id] = true
         main.meta.updateStats("starterUnlocks", locked)
 
-        flux.to(ent, 0.3, {originalY=740}):ease("backin")
-        main.wait(0.3, function ()
+        flux.to(ent, 0.6, {y=740}):ease("backin")
+        main.wait(0.6, function ()
           if ent then
             ent:delete()
           end
@@ -493,13 +495,16 @@ system.on("@draw", function ()
       end
     end
   end
---starterunlock
-  for i, ui in ipairs(unlockStarterUIS) do
-    if ui.assignedStarter and ui.onButtonClicked then
-      local starter = starters[ui.assignedStarter]
-      ui.renderLayer = starter.renderLayer+3
-      ui.x = starter.x + width/2 - ui:getWidth()/2
-    end
+
+  --starterunlock
+  for k, tbl in pairs (unlockStarterUIS) do
+    local starter = starters[tbl.button.assignedStarter]
+    tbl.button.renderLayer = starter.renderLayer+3
+    tbl.button.x = starter.x + width/2 - tbl.button:getWidth()/2
+    local credits = main.meta.getCredits()
+    main.updateRichTextText(tbl.creditText, credits.."/200 {creditIcon}")
+    tbl.creditText.x = starter.x + width/2 - tbl.creditText.richText:getWidth()/2
+    tbl.creditText.renderLayer = starter.renderLayer+2
   end
 
   local total = math.floor(main.getTotalModifierEffect()*100+0.5)/100

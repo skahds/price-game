@@ -2,9 +2,6 @@
 local flux = system.getStorage("flux")
 
 local function basicSetter(ent)
-  -- if ent.originalY == nil then
-  --   ent.originalY = ent.y
-  -- end
   if ent.buttonYOffset == nil then
     ent.buttonYOffset = 0
   end
