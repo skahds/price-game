@@ -37,7 +37,10 @@ function main.ui.defineUI(id, eType)
       self.screenSpace = true
     end
     self.isVisible = true
-    self.drawDefaultRectangle = true
+    if self.drawDefaultRectangle == nil then
+      self.drawDefaultRectangle = true
+    end
+    
     self.renderLayer = self.renderLayer or 100
   end
 

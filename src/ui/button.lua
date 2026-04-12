@@ -2,8 +2,11 @@
 local flux = system.getStorage("flux")
 
 local function basicSetter(ent)
-  if ent.originalY == nil then
-    ent.originalY = ent.y
+  -- if ent.originalY == nil then
+  --   ent.originalY = ent.y
+  -- end
+  if ent.buttonYOffset == nil then
+    ent.buttonYOffset = 0
   end
 
   if ent.buttonDownColor == nil then
@@ -22,7 +25,7 @@ local function buttonUp(ent)
   if ent.tween then
     ent.tween:stop()
   end
-  ent.tween = flux.to(ent, 0.1, {y=ent.originalY})
+  ent.tween = flux.to(ent, 0.1, {buttonYOffset=0})
 
   ent.isButtonDown = false
 end
@@ -36,13 +39,14 @@ local function buttonDown(ent)
   if ent.tween then
     ent.tween:stop()
   end
-  ent.tween = flux.to(ent, 0.1, {y=ent.originalY+ent.height/6})
+  ent.tween = flux.to(ent, 0.1, {buttonYOffset=ent.height/6})
 
   ent.isButtonDown = true
 end
 
 function main.ui.defineButton(id, eType)
   eType.isButtonDown = false
+  eType.drawDefaultRectangle = false
 
 
   if eType.width > eType.height then
@@ -87,13 +91,15 @@ function main.ui.defineButton(id, eType)
     local rl = ent.renderLayer
     system.render(rl-1, function ()
       love.graphics.setColor(ent.buttonDownColor)
-      love.graphics.rectangle("fill", ent.x, ent.originalY+ent.height/6, ent.width, ent.height, ent.rx, ent.ry)
+      love.graphics.rectangle("fill", ent.x, ent.y+ent.height/6, ent.width, ent.height, ent.rx, ent.ry)
+      love.graphics.setColor(ent.color)
+      love.graphics.rectangle("fill", ent.x, ent.y+ent.buttonYOffset, ent.width, ent.height, ent.rx, ent.ry)
     end, ent.screenSpace)
 
     system.render(rl, function ()
       love.graphics.setColor(ent.color[1]*0.95, ent.color[2]*0.95, ent.color[3]*0.95)
       love.graphics.setLineWidth(10)
-      love.graphics.rectangle("line", ent.x+4, ent.y+4, ent.width-8, ent.height-8, ent.rx, ent.ry)
+      love.graphics.rectangle("line", ent.x+4, ent.y+ent.buttonYOffset+4, ent.width-8, ent.height-8, ent.rx, ent.ry)
     end, ent.screenSpace)
   end
 

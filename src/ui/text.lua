@@ -15,7 +15,7 @@ local function richTextUpdate(ent)
   local textWidth = ent.richtext.richText:getWidth()
   local textHeight = ent.richtext.richText:getHeight()
   ent.richtext.x = ent.x-ent.ox*ent.sx+ent:getWidth()/2-textWidth/2*ent.sx
-  ent.richtext.y = ent.y-ent.oy*ent.sy+ent:getHeight()/2-textHeight/2*ent.sy
+  ent.richtext.y = ent.y-ent.oy*ent.sy+ent:getHeight()/2-textHeight/2*ent.sy+(ent.buttonYOffset or 0)
   ent.richtext.renderLayer = ent.renderLayer+1
 end
 

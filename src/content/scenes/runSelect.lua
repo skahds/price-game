@@ -126,7 +126,7 @@ main.defineScene("runSelect", function ()
     table.insert(starters, t)
 
     if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
-      table.insert(unlockStarterUIS, main.ui.spawnUI("unlockStarter", {x=0, y=360, renderLayer=102,assignedStarter=i}))
+      table.insert(unlockStarterUIS, main.ui.spawnUI("unlockStarter", {x=0, y=360-80+40, renderLayer=102,assignedStarter=i}))
     end
   end
 
@@ -321,12 +321,20 @@ main.ui.defineButton("unlockStarter", {
   text = "UNLOCK",
   audio = "breaker",
   onButtonClicked = function (ent)
-    if ent.assignedStarter and ent.assignedStarter == starterHovering then
+    if ent.assignedStarter and ent.assignedStarter == starterHovering and
+    checkIsStarterUnlocked(main.starters[ent.assignedStarter].id) == false then
       if main.meta.getCredits() >= 200 then
         main.meta.giveCredits(-200)
         local locked = main.meta.getStats("starterUnlocks") or {}
         locked[starters[ent.assignedStarter].id] = true
         main.meta.updateStats("starterUnlocks", locked)
+
+        flux.to(ent, 0.3, {originalY=740}):ease("backin")
+        main.wait(0.3, function ()
+          if ent then
+            ent:delete()
+          end
+        end)
       end
     end
   end
@@ -485,7 +493,7 @@ system.on("@draw", function ()
       end
     end
   end
-
+--starterunlock
   for i, ui in ipairs(unlockStarterUIS) do
     if ui.assignedStarter and ui.onButtonClicked then
       local starter = starters[ui.assignedStarter]
