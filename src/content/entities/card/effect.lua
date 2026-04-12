@@ -504,6 +504,7 @@ main.defineCard("thrive", {
   trigger = {"DEPLOY"},
   price = 3,
   rarity = "RARE",
+  unlock = {type="metashop"},
   filter = function (ent)
     local target = main.getCardBesides(ent, 1)
     if target then

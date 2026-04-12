@@ -154,9 +154,9 @@ main.defineRunStarter("enterprise", {
 
 main.defineRunStarter("association", {
   name = "Association",
-  image="radar",
-  description="DEMO: UNAVAILABLE",
-  isNotImplemented = true,
+  image="highway",
+  description="Money deck",
+  unlock = {type="credits"},
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()

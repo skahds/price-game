@@ -195,27 +195,39 @@ system.on("@draw", function ()
     end
     love.graphics.setStencilMode()
 
-    love.graphics.setColor(0.3, 0.3, 0.3, 0.4)
-    love.graphics.setLineWidth(10)
-    for i=1, (energyPerTurn-1) do
-      local x = 60+i*widthPerBar
-      love.graphics.line(x, 372, x, 468)
-    end
+    -- love.graphics.setColor(0.3, 0.3, 0.3, 0.4)
+    -- love.graphics.setLineWidth(10)
+    -- for i=1, (energyPerTurn-1) do
+    --   local x = 60+i*widthPerBar
+    --   love.graphics.line(x, 372, x, 468)
+    -- end
   end, true)
 
-  if energy > energyPerTurn then
-    local t=main.printRichText({
-      x=330,
-      y=420,
-      format="{energyColor r=1 g=0.9 b=0.5}+" .. energy-energyPerTurn,
-      renderLayer=201,
-      font=biggerFont,
-      screenSpace = true,
-      outline=true,
-    })
-    t.x = t.x - t.richText:getWidth()/2
-    t.y = t.y - t.richText:getHeight()/2
-  end
+  -- if energy > energyPerTurn then
+  --   local t=main.printRichText({
+  --     x=330,
+  --     y=420,
+  --     format="{energyColor r=1 g=0.9 b=0.5}+" .. energy-energyPerTurn,
+  --     renderLayer=201,
+  --     font=biggerFont,
+  --     screenSpace = true,
+  --     outline=true,
+  --   })
+  --   t.x = t.x - t.richText:getWidth()/2
+  --   t.y = t.y - t.richText:getHeight()/2
+  -- end
+
+  local t=main.printRichText({
+    x=225,
+    y=420,
+    format="{energyColor r=1 g=0.8 b=0.58}" .. energy .. "/" .. energyPerTurn,
+    renderLayer=201,
+    font=biggerFont,
+    screenSpace = true,
+    outline=true,
+  })
+  t.x = t.x - t.richText:getWidth()/2
+  t.y = t.y - t.richText:getHeight()/2
 end)
 
 -- roundsRemainingText

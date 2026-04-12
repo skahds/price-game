@@ -57,8 +57,8 @@ main.defineCard("goldenHex", {
   energy = 1,
   trigger = {"DEPLOY"},
   defaultMoneyGain = 1,
-  rarity="RARE",
-  price = 4,
+  rarity="COMMON",
+  price = 2,
 })
 
 main.defineCard("grassBow", {
