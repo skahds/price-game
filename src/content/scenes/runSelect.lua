@@ -299,6 +299,13 @@ main.ui.defineButton("toPlay", {
       system.updateStorage("main:difficultyMultiplier", selection.scoreWithDifficulty[difficultySelected].creditMult or 1)
     end
 
+    local storedStats = {
+      name=selection.name,
+      id=selection.id,
+      achievementID = selection.achievementID
+    }
+    system.updateStorage("main:runStats", storedStats)
+
     main.playScene("levelSelect")
 
     for k, v in pairs(runModeSelected) do
@@ -707,4 +714,11 @@ end, function (t)
       system.updateStorage("main:scoreRequirementList", selection.scoreWithDifficulty[t.difficultySelected])
     end
   end
+end)
+
+system.register("runStats", 10, function ()
+  local t = system.getStorage("main:runStats")
+  return t
+end, function (t)
+  system.updateStorage("main:runStats", t)
 end)

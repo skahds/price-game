@@ -97,6 +97,17 @@ main.defineScene("gameEnd", function ()
   if love.filesystem.getInfo("save.sav") then
     love.filesystem.remove("save.sav")
   end
+  
+  if didWin then
+    local runStats = system.getStorage("main:runStats")
+    if runStats.achievementID then
+      main.meta.giveAchievement(runStats.achievementID)
+    end
+  end
+
+  if Steam then
+    Steam.userStats.storeStats()
+  end
 end, function ()
 
   main.hideTopTab()

@@ -363,8 +363,10 @@ system.on("@update", function ()
     uis.statsText.oy = uis.statsText.richText:getHeight()/2
   end
 
+  local runStats = system.getStorage("main:runStats") or {}
+  local starterName = runStats.name or ""
   local currentDay = system.getStorage("main:currentRoute") or 1
   local currentCycle = system.getStorage("main:currentCycle") or 1
   local route = system.getStorage("main:route") or {}
-  main.updateRichTextText(uis.leftText, "Cycle " .. currentCycle .. "/" .. #route ..  " | Day " .. currentDay)
+  main.updateRichTextText(uis.leftText, starterName .. " - Cycle " .. currentCycle .. "/" .. #route ..  " | Day " .. currentDay)
 end)

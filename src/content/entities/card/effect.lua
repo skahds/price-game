@@ -24,7 +24,7 @@ main.defineCard("amplifier", {
 main.defineCard("whitewash", {
   name = "Whitewash",
   image = "whitewash",
-  description = "News in area gains {priceColor}+2 PRICE",
+  description = "News in hovered area gains {priceColor}+2 PRICE",
   trigger = {"DEPLOY"},
   price = 2,
   target = {
@@ -540,5 +540,31 @@ main.defineCard("shift", {
         end
       end)
     end
+  end
+})
+
+main.defineCard("greedEngine", {
+  name = "Greed Engine",
+  image = "greedEngine",
+  description = "For each {moneyColor}${/moneyColor} owned,\ngive {priceColor}+1 PRICE",
+  trigger = {"DEPLOY"},
+  price = 2,
+  rarity = "COMMON",
+  onActivate=function ()
+    local money = main.getMoney()
+    main.addPrice(money)
+  end
+})
+
+main.defineCard("fearEngine", {
+  name = "Fear Engine",
+  image = "fearEngine",
+  description = "For each {moneyColor}${/moneyColor} owned,\ngive {priceColor}-1 PRICE",
+  trigger = {"DEPLOY"},
+  price = 2,
+  rarity = "COMMON",
+  onActivate=function ()
+    local money = main.getMoney()
+    main.addPrice(-money)
   end
 })

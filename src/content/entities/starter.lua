@@ -104,6 +104,7 @@ main.defineRunStarter("tutorial", {
 main.defineRunStarter("venture", {
   name = "Venture",
   image="amplifier",
+  achievementID = "WIN_VENTURE",
   description="Normal deck",
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
@@ -120,6 +121,7 @@ main.defineRunStarter("venture", {
 main.defineRunStarter("firm", {
   name = "Firm",
   image="holopot",
+  achievementID = "WIN_FIRM",
   description="Draw deck",
   unlock = {type="credits"},
   route = utils.deepCopy(basicRoute),
@@ -137,6 +139,7 @@ main.defineRunStarter("firm", {
 main.defineRunStarter("enterprise", {
   name = "Enterprise",
   image="reserve",
+  achievementID = "WIN_ENTERPRISE",
   description="Energy deck",
   unlock = {type="credits"},
   route = utils.deepCopy(basicRoute),
@@ -155,16 +158,18 @@ main.defineRunStarter("enterprise", {
 main.defineRunStarter("association", {
   name = "Association",
   image="highway",
+  achievementID = "WIN_ASSOCIATION",
   description="Money deck",
   unlock = {type="credits"},
   route = utils.deepCopy(basicRoute),
   scoreWithDifficulty = basicScoreRequired,
   onActivate = function ()
-    main.createCardToDraw("add", 3)
-    main.createCardToDraw("subtract", 3)
+    main.createCardToDraw("add", 2)
+    main.createCardToDraw("subtract", 2)
     main.createCardToDraw("multiply", 3)
-    main.createCardToDraw("amplifier", 2)
-
+    main.createCardToDraw("highway", 2)
+    main.createCardToDraw("greedEngine", 1)
+    main.createCardToDraw("fearEngine", 1)
     main.shuffleDraw()
   end
 })
