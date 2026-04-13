@@ -568,3 +568,26 @@ main.defineCard("fearEngine", {
     main.addPrice(-money)
   end
 })
+
+main.defineCard("funnel", {
+  name = "Funnel",
+  image = "funnel",
+  description = "Discard all cards in hand,\ngain {multColor}0.2X MULT{/multColor} for each card in hand",
+  trigger = {"DEPLOY"},
+  price = 5,
+  rarity = "EPIC",
+  unlock = {type="metashop"},
+
+  filter = function (ent)
+    local target = main.getCardBesides(ent, 1)
+    if target then
+      return true
+    end
+  end,
+  
+  onActivate = function (ent)
+    local hand = #main.card.hand
+    main.changeEntityComponent(ent, "defaultMultMultiplier", 0.2*hand, combiner.ADD)
+    main.discardCurrentCardsInHand()
+  end
+})

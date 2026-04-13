@@ -208,7 +208,9 @@ end, function ()
 
   deleteAll({toPlay, coverLeft, coverRight, arrowLeft, arrowRight, modifierButton})
   deleteAll(pressableBoxes)
-  deleteAll(unlockStarterUIS)
+  for k, v in pairs(unlockStarterUIS) do
+    deleteAll(v)
+  end
   for _, t in pairs(existingNews) do
     for i=#t, 1, -1 do
       local news = t[i]

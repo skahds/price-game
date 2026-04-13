@@ -153,6 +153,8 @@ end, function ()
 
   deleteAll({cover, levelEndContinue})
   deleteAll(stats)
+  deleteAll(objectiveText)
+  objectiveText = nil
 
   for i=#main.card.hand, 1, -1 do
     local card = main.card.hand[i]

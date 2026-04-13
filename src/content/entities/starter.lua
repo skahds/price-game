@@ -174,7 +174,7 @@ main.defineRunStarter("association", {
   end
 })
 
--- main.defineRunStarter({
+-- main.defineRunStarter("test", {
 --   name = "TEST",
 --   image="basicMultiply",
 --   description="i need something!",
@@ -183,7 +183,7 @@ main.defineRunStarter("association", {
 --   onActivate = function ()
 --     main.createCardToDraw("add", 5)
 --     main.createCardToDraw("subtract", 5)
---     main.createCardToDraw("sigil", 5)
+--     main.createCardToDraw("funnel", 2)
 --     -- main.createCardToDraw("holopot", 1)
 --     -- main.createCardToDraw("highway", 1)
 --     -- main.createCardToDraw("drag", 1)
