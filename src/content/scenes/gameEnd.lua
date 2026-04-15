@@ -100,7 +100,13 @@ main.defineScene("gameEnd", function ()
   
   if didWin then
     local runStats = system.getStorage("main:runStats")
-    if runStats.achievementID then
+    local isModeActive = false
+    for k, v in pairs(runStats.modes) do
+      if v == true then
+        isModeActive = true
+      end
+    end
+    if runStats.achievementID and isModeActive == false then
       main.meta.giveAchievement(runStats.achievementID)
     end
   end

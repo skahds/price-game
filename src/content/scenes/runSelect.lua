@@ -304,7 +304,8 @@ main.ui.defineButton("toPlay", {
     local storedStats = {
       name=selection.name,
       id=selection.id,
-      achievementID = selection.achievementID
+      achievementID = selection.achievementID,
+      modes=runModeSelected,
     }
     system.updateStorage("main:runStats", storedStats)
 
