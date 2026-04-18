@@ -160,7 +160,9 @@ end, function ()
 
   deleteAll({cover, levelEndContinue})
   deleteAll(stats)
-  deleteAll(objectiveText)
+  if objectiveText then
+    deleteAll(objectiveText)
+  end
   objectiveText = nil
 
   for i=#main.card.hand, 1, -1 do

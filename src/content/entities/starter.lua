@@ -61,7 +61,7 @@ local basicScoreRequired = {{
 }, {
   changeInCycle = 0.8, --1x, 1.8x, 2.6x, 4x, 5x?
   bossScore = 4,
-  cycles = {400, 2000, 10000, 50000, 250000, 100000000},
+  cycles = {400, 2000, 10000, 50000, 250000, 2500000},
   creditMult = 2,
 }} -- change this?
 
