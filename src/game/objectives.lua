@@ -108,6 +108,13 @@ function main.objectives.createRandomObjective(args)
   return obj
 end
 
+function main.objectives.isThereObjectives()
+  if main.objectives.active and #main.objectives.active > 0 then
+    return true
+  end
+  return false
+end
+
 --arg={showProgress=bool, x,y}
 function main.objectives.createObjectiveRichtext(arg)
   local listOfText = {}

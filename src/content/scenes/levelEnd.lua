@@ -36,15 +36,17 @@ local function continueAction()
     end)
     stats = {}
 
-    for i, text in ipairs(objectiveText) do
-      flux.to(text, 0.3, {y=text.y-360})
-    end
-    main.wait(0.4, function ()
+    if objectiveText and #objectiveText > 0 then
       for i, text in ipairs(objectiveText) do
-        text:delete()
+        flux.to(text, 0.3, {y=text.y-360})
       end
-      objectiveText=nil
-    end)
+      main.wait(0.4, function ()
+        for i, text in ipairs(objectiveText) do
+          text:delete()
+        end
+        objectiveText=nil
+      end)
+    end
   end
 
   if #main.card.reward > 0 then
@@ -90,6 +92,7 @@ main.defineScene("levelEnd", function ()
   end
     
 
+  local spawnInfo = {x=1280*1/4}
   local height = font:getHeight()
 
   local spacing = utils.createEvenlySpacedPosition(#t)
@@ -97,7 +100,7 @@ main.defineScene("levelEnd", function ()
     pipeline:add(0.15, function ()
       local t = main.newRichText({
         format = format,
-        x=1280*1/4,
+        x=spawnInfo.x,
         y=middleY+height*(spacing[i]),
         renderLayer=102,
         font=font,
@@ -123,23 +126,27 @@ main.defineScene("levelEnd", function ()
   main.addMoney(money)
   main.addMoney(roundsRemaining)
 
-  objectiveText = main.objectives.createObjectiveRichtext({x=1280*3/4,y=-400,font=system.getFont("defaultFont40"), showProgress=true, renderLayer=105, centerX=true, centerY=true, showForClaim=true})
-  local highY, lowY = objectiveText[1].y, objectiveText[#objectiveText].y+objectiveText[#objectiveText].richText:getHeight()
-  local middleOfText = highY+((lowY-highY)/2)
-  local gapToMiddle = middleY-(middleOfText)
-  for i, text in ipairs(objectiveText) do
-    text.outline = true
-    text.outlineColor = {0,0,0}
-    text.sx=0.8
-    text.sy=0.8
-    pipeline:add(0.15, function ()
-      text.y = text.y + gapToMiddle
-      flux.to(text, 0.4, {sx=1, sy=1}):ease("backinout")
+  if main.objectives.isThereObjectives() then
+    objectiveText = main.objectives.createObjectiveRichtext({x=1280*3/4,y=-400,font=system.getFont("defaultFont40"), showProgress=true, renderLayer=105, centerX=true, centerY=true, showForClaim=true})
+    local highY, lowY = objectiveText[1].y, objectiveText[#objectiveText].y+objectiveText[#objectiveText].richText:getHeight()
+    local middleOfText = highY+((lowY-highY)/2)
+    local gapToMiddle = middleY-(middleOfText)
+    for i, text in ipairs(objectiveText) do
+      text.outline = true
+      text.outlineColor = {0,0,0}
+      text.sx=0.8
+      text.sy=0.8
+      pipeline:add(0.15, function ()
+        text.y = text.y + gapToMiddle
+        flux.to(text, 0.4, {sx=1, sy=1}):ease("backinout")
 
-      if i%2 == 0 then
-        main.objectives.claimObjectives()
-      end
-    end)
+        if i%2 == 0 then
+          main.objectives.claimObjectives()
+        end
+      end)
+    end
+  else
+    spawnInfo.x = 1280*1/2
   end
 
   system.updateStorage("main:score", 0)
