@@ -126,6 +126,7 @@ end
 function main.clearTutorial()
   for i, t in ipairs(targettedEnt) do
     t.entity.renderLayer = t.originalRenderLayer
+    t.entity.ignoreRenderLayerChange = false
   end
   targettedEnt = {}
 end

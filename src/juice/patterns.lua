@@ -94,7 +94,7 @@ system.on("main:entityTriggered", function (ent)
 
   local chart = system.getStorage("main:chart")
   if tutorialInfos.stage == 2 and tutorialInfos.patternsStage == nil then
-    main.addEntityToTutorial(chart:getBar(-1), "Based on the direction\nof the bar, you will\nfind and create patterns")
+    main.addEntityToTutorial(chart:getBar(-1), "Based on the direction\nof the bar(s), you will\nfind and create patterns!")
     renderLayer = 310
     tutorialInfos.patternsStage = 1
   end
@@ -110,31 +110,32 @@ system.on("@mouse:released", function ()
   elseif tutorialInfos.patternsStage == 2 then
     local chart = system.getStorage("main:chart")
     main.clearTutorial()
-    main.addEntityToTutorial(chart:getBar(-1), "These patterns gives\n{priceIcon}{priceColor}PRICE{/priceColor} and {multIcon}{multColor}MULT{/multColor}\nwhen the round starts")
+    main.addEntityToTutorial(chart:getBar(-1), "These patterns give\n{priceIcon}{priceColor}PRICE{/priceColor} and {multIcon}{multColor}MULT{/multColor}\nwhen the round starts.\nYou can find out more patterns\nthrough the menu (top right)")
     tutorialInfos.patternsStage = 3
   elseif tutorialInfos.patternsStage == 3 then
     renderLayer = 30
     main.clearTutorial()
     tutorialInfos.patternsStage = 4
-  elseif tutorialInfos.patternsStage == 5 then
-    tutorialInfos.patternsStage = 6
-  elseif tutorialInfos.patternsStage == 6 then
-    local chart = system.getStorage("main:chart")
-    tutorialInfos.patternsStage = 7
-    main.clearTutorial()
-    main.addEntityToTutorial(chart:getBar(-1), "You can find out more patterns\nthrough the menu (top right)!")
-  elseif tutorialInfos.patternsStage == 7 then
-    main.clearTutorial()
-    tutorialInfos.patternsStage = 8
-    renderLayer = 30
   end
+  -- elseif tutorialInfos.patternsStage == 5 then
+  --   tutorialInfos.patternsStage = 7
+  -- elseif tutorialInfos.patternsStage == 6 then
+  --   -- local chart = system.getStorage("main:chart")
+  --   -- tutorialInfos.patternsStage = 7
+  --   -- main.clearTutorial()
+  --   -- main.addEntityToTutorial(chart:getBar(-1), "You can find out more patterns\nthrough the menu (top right)!")
+  -- elseif tutorialInfos.patternsStage == 7 then
+  --   main.clearTutorial()
+  --   tutorialInfos.patternsStage = 8
+  --   renderLayer = 30
+  -- end
 end)
 
 system.on("main:currentPriceChanged", function ()
-  if tutorialInfos.patternsStage == 4 and tutorialInfos.stage > 5 then
-    tutorialInfos.patternsStage = 5
-    local chart = system.getStorage("main:chart")
-    main.addEntityToTutorial(chart:getBar(-1), "You have created a new pattern!")
-    renderLayer = 310
-  end
+  -- if tutorialInfos.patternsStage == 4 and tutorialInfos.stage > 5 then
+  --   tutorialInfos.patternsStage = 5
+  --   local chart = system.getStorage("main:chart")
+  --   main.addEntityToTutorial(chart:getBar(-1), "You have created a new pattern!")
+  --   renderLayer = 310
+  -- end
 end)
