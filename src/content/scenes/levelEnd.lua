@@ -14,6 +14,7 @@ local pipeline = main.getPipeline("levelEnd")
 pipeline.ignoreGameSpeed = true
 
 local function deleteAll(args)
+  if args == nil then return end
   for k, ent in pairs(args) do
     if type(ent) == "table" and ent.delete then
       ent:delete()
@@ -33,18 +34,20 @@ local function continueAction()
     end
     main.wait(0.4, function ()
       deleteAll(stats)
+      stats = {}
     end)
-    stats = {}
 
     if objectiveText and #objectiveText > 0 then
       for i, text in ipairs(objectiveText) do
         flux.to(text, 0.3, {y=text.y-360})
       end
       main.wait(0.4, function ()
-        for i, text in ipairs(objectiveText) do
-          text:delete()
+        if objectiveText then
+          for i, text in ipairs(objectiveText) do
+            text:delete()
+          end
+          objectiveText=nil
         end
-        objectiveText=nil
       end)
     end
   end

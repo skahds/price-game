@@ -34,6 +34,7 @@ local enemyTiers = {normal=1, elite=2, boss=3}
 --level select things
 --
 local function deleteAll(args)
+  if args == nil then return end
   for k, ent in pairs(args) do
     if type(ent) == "table" and ent.delete then
       ent:delete()

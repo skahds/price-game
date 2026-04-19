@@ -7,9 +7,12 @@ local selectedTab = 1
 
 system.updateStorage(crtStorage, 0.3)
 system.updateStorage(gameSpeedStorage, 0.1)
-local function deleteAll(arg)
-  for k, ent in ipairs(arg) do
-    ent:delete()
+local function deleteAll(args)
+  if args == nil then return end
+  for k, ent in pairs(args) do
+    if type(ent) == "table" and ent.delete then
+      ent:delete()
+    end
   end
 end
 

@@ -7,8 +7,9 @@ local continue
 local collection
 
 local function deleteAll(args)
+  if args == nil then return end
   for k, ent in pairs(args) do
-    if ent and ent.delete then
+    if type(ent) == "table" and ent.delete then
       ent:delete()
     end
   end

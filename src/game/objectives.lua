@@ -486,6 +486,7 @@ main.objectives.defineObjective("cardUsage", {
     factor = factor * extraDiff
     local amountOfCardThreshold = 5 * (factor^1.5)
     amountOfCardThreshold = math.floor(amountOfCardThreshold+0.5)
+    amountOfCardThreshold = math.max(1, amountOfCardThreshold)
 
     obj.card = card.id
     obj.currentAmount = 0

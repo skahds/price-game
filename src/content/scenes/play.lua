@@ -14,6 +14,7 @@ local tutorialInfos = system.getStorage("main:tutorialInfos")
 local isObjectiveClosed = false
 
 local function deleteAll(args)
+  if args == nil then return end
   for k, ent in pairs(args) do
     if type(ent) == "table" and ent.delete then
       ent:delete()

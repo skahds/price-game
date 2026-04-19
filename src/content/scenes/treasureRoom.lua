@@ -3,6 +3,7 @@ local font = system.getFont("defaultFont60")
 local continue
 
 local function deleteAll(args)
+  if args == nil then return end
   for k, ent in pairs(args) do
     if type(ent) == "table" and ent.delete then
       ent:delete()
