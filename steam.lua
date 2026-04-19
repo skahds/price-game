@@ -1,7 +1,8 @@
 Steam = require 'luasteam'
 
 if not Steam.init() then
-  error("Failed initializing steam")
+  love.event.quit()
+  return
 end
 
 function Steam.friends.onGameOverlayActivated(data)
