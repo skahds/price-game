@@ -34,6 +34,11 @@ end
 function background:update()
   -- no autonomous movement needed anymore;
   -- warping happens in draw based on camera position
+  local dt = system.getStorage("dt")
+  for i, obj in ipairs(self.objects) do
+    obj.x = obj.x - 5 * dt
+    obj.y = obj.y - 5 * dt
+  end
 end
 
 function background:draw()
