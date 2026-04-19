@@ -44,7 +44,6 @@ function background:draw()
   local currentColorMult = main.background.colorMult
 
   system.render(1, function ()
-    -- love.graphics.setColor(0.38, 0.86, 0.96)
     love.graphics.setColor(0.1*currentColorMult[1], 0.1*currentColorMult[2], 0.1*currentColorMult[3])
     love.graphics.rectangle("fill", 0, 0, 1280, 720)
     

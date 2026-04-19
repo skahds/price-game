@@ -1,4 +1,14 @@
-Steam = require 'luasteam'
+local success, luasteam = pcall(require, "luasteam")
+
+if success == false then
+  love.window.showMessageBox(
+    "Luasteam failed to initialize",
+    "Restarting the game might fix this issue"
+  )
+  return
+end
+
+Steam = luasteam
 
 if not Steam.init() then
   love.event.quit()
