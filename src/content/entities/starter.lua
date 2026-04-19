@@ -73,16 +73,16 @@ main.defineRunStarter("tutorial", {
     {
       {id="PLAY", node=1, reward={4}},
       {id="PLAY", node=3},
+      {id="PLAY", node=3, enemy="elite"},
       {id="SHOP", node=2},
-      {id="PLAY", node=3, enemy={"regulator"}},
-      {id="PLAY", node=1, enemy={"fog"}},
+      {id="PLAY", node=1, enemy="boss"},
     },
     {
       {id="PLAY", node=1, reward={4}},
       {id="PLAY", node=3},
+      {id="PLAY", node=3, enemy="elite"},
       {id="SHOP", node=2},
-      {id="PLAY", node=3, enemy={"regulator"}},
-      {id="PLAY", node=1, enemy={"fog"}},
+      {id="PLAY", node=1, enemy="boss"},
     }
   },
   scoreWithDifficulty = {{

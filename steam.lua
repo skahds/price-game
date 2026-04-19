@@ -1,10 +1,7 @@
 local success, luasteam = pcall(require, "luasteam")
 
 if success == false then
-  love.window.showMessageBox(
-    "Luasteam failed to initialize",
-    "Restarting the game might fix this issue"
-  )
+  print("Luasteam failed to load")
   return
 end
 
