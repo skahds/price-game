@@ -78,7 +78,7 @@ end
 function main.multiplyPrice(amount)
   local bar = system.getStorage("main:currentBar")
   if bar then
-    bar:changePrice(main.getPrice()*amount)
+    bar:changePrice(main.getPrice()*(amount-1))
   end
 end
 
@@ -93,7 +93,7 @@ function main.multiplyMult(amount)
   local mult = system.getStorage("main:mult")
   mult = mult * amount
   system.updateStorage("main:mult", mult)
-  system.call("main:multChanged", amount)
+  system.call("main:multChanged", mult*(amount-1))
 end
 
 function main.addEnergy(amount)

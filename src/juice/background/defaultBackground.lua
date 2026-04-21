@@ -6,10 +6,12 @@ function background:init()
   self.objects = {}
   self.distance = 200
 
-  -- parallax factor: 0 = doesn't move at all, 1 = moves with camera
-  self.parallaxFactor = 0.15
-  -- how much the zoom is dampened (0 = no zoom effect, 1 = full zoom)
-  self.zoomFactor = 0.08
+  self.parallax = main.parallaxClass:new({
+    parallaxFactor = 0.15,
+    zoomFactor     = 0.08,
+    tileW          = 51 * self.distance,
+    tileH          = 51 * self.distance,
+  })
 
   -- grid dimensions
   self.cols = 51
@@ -42,23 +44,7 @@ function background:update()
 end
 
 function background:draw()
-  local camera = main.getCamera()
   local currentColorMult = main.background.colorMult
-
-  -- parallax offset: background moves at a fraction of camera speed
-  local camOffsetX = -camera.x * self.parallaxFactor
-  local camOffsetY = -camera.y * self.parallaxFactor
-
-  -- parallax zoom: interpolate between 1 and camera.zoom
-  local parallaxZoom = 1 + (camera.zoom - 1) * self.zoomFactor
-
-  -- total grid size for wrapping
-  local gridW = self.cols * self.distance
-  local gridH = self.rows * self.distance
-
-  -- screen center (wrap anchor)
-  local screenW, screenH = love.graphics.getDimensions()
-  local cx, cy = screenW / 2, screenH / 2
 
   system.render(1, function()
     love.graphics.setColor(
@@ -66,23 +52,12 @@ function background:draw()
       0.1 * currentColorMult[2],
       0.1 * currentColorMult[3]
     )
-    love.graphics.rectangle("fill", 0, 0, screenW, screenH)
+    love.graphics.rectangle("fill", 0, 0, 1280, 720)
 
     for i, object in ipairs(self.objects) do
       local c1, c2, c3, a = unpack(object.color)
 
-      -- raw world position with parallax offset
-      local wx = object.x + camOffsetX
-      local wy = object.y + camOffsetY
-
-      -- wrap so the tile stays within one grid-width of screen center
-      wx = wx - math.floor((wx - cx) / gridW + 0.5) * gridW
-      wy = wy - math.floor((wy - cy) / gridH + 0.5) * gridH
-
-      -- apply parallax zoom around screen center
-      local sx = cx + (wx - cx) * parallaxZoom
-      local sy = cy + (wy - cy) * parallaxZoom
-      local scaledSize = object.size * parallaxZoom
+      local sx, sy, scale = self.parallax:project(object.x, object.y)
 
       love.graphics.setColor(
         c1 * currentColorMult[1],
@@ -90,7 +65,7 @@ function background:draw()
         c3 * currentColorMult[3],
         a * currentColorMult[4]
       )
-      love.graphics.rectangle("fill", sx, sy, scaledSize, scaledSize)
+      love.graphics.rectangle("fill", sx, sy, object.size * scale, object.size * scale)
     end
   end, true)
 end
