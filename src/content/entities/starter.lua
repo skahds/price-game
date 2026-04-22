@@ -174,28 +174,28 @@ main.defineRunStarter("association", {
   end
 })
 
-main.defineRunStarter("test", {
-  name = "TEST",
-  image="basicMultiply",
-  description="i need something!",
-  route = utils.deepCopy(basicRoute),
-  scoreWithDifficulty = basicScoreRequired,
-  onActivate = function ()
-    main.createCardToDraw("add", 1)
-    main.createCardToDraw("sigil", 3)
-    main.createCardToDraw("augment", 1)
-    main.createCardToDraw("doubleDown", 1)
-    main.createCardToDraw("holopot", 3)
-    -- main.createCardToDraw("holopot", 1)
-    -- main.createCardToDraw("highway", 1)
-    -- main.createCardToDraw("drag", 1)
-    -- main.createCardToDraw("relay", 1)
-    -- main.createCardToDraw("decomposite", 1)
-    -- main.createCardToDraw("sigil", 1)
-    -- main.createCardToDraw("vision", 1)
-    -- main.createCardToDraw("chainReaction", 1)
-    -- main.createCardToDraw("amplifier", 2)
+-- main.defineRunStarter("test", {
+--   name = "TEST",
+--   image="basicMultiply",
+--   description="i need something!",
+--   route = utils.deepCopy(basicRoute),
+--   scoreWithDifficulty = basicScoreRequired,
+--   onActivate = function ()
+--     main.createCardToDraw("add", 1)
+--     main.createCardToDraw("sigil", 3)
+--     main.createCardToDraw("augment", 1)
+--     main.createCardToDraw("doubleDown", 1)
+--     main.createCardToDraw("holopot", 3)
+--     -- main.createCardToDraw("holopot", 1)
+--     -- main.createCardToDraw("highway", 1)
+--     -- main.createCardToDraw("drag", 1)
+--     -- main.createCardToDraw("relay", 1)
+--     -- main.createCardToDraw("decomposite", 1)
+--     -- main.createCardToDraw("sigil", 1)
+--     -- main.createCardToDraw("vision", 1)
+--     -- main.createCardToDraw("chainReaction", 1)
+--     -- main.createCardToDraw("amplifier", 2)
 
-    main.shuffleDraw()
-  end
-})
+--     main.shuffleDraw()
+--   end
+-- })

@@ -49,9 +49,9 @@ end)
 
 system.on("@mouse:wheelmoved", function (t)
   local y=t.y
-  if y > 0 and playerCam.zoom < 3 then
+  if y > 0 and playerCam.zoom < 2.5 then
     playerCam.zoom = playerCam.zoom*1.2
-  elseif y < 0 and playerCam.zoom > 0.7 then
+  elseif y < 0 and playerCam.zoom > 0.5 then
     playerCam.zoom = playerCam.zoom/1.2
   end
 end)
@@ -105,5 +105,5 @@ function main.worldPositionToScreenSpace(worldX, worldY)
 end
 
 function main.getCamera()
-  return playerCam
+  return playerCam, infos
 end

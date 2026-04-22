@@ -30,7 +30,7 @@ local parallax = main.parallaxClass
 
 function parallax:init(options)
   options = options or {}
-  self.defaultParallaxFactor = options.defaultParallaxFactor or 0.15
+  self.defaultParallaxFactor = options.defaultParallaxFactor or 0.15 -- parallax factor: 0 = doesn't move at all, 1 = moves with camera
   self.defaultZoomFactor = options.defaultZoomFactor or self.defaultParallaxFactor
   self.tileW = options.tileW or 1000  -- logical "canvas" width to wrap within
   self.tileH = options.tileH or 1000  -- logical "canvas" height to wrap within
@@ -39,7 +39,7 @@ end
 -- Returns screen-space x, y and a scale multiplier for a given world-space object position.
 -- Call this per-object
 function parallax:project(objX, objY, _parallaxFactor, _zoomFactor)
-  local camera   = main.getCamera()
+  local camera, infos = main.getCamera()
   local sw, sh   = system.getStorage("screenDimension").w, system.getStorage("screenDimension").h
   local cx, cy   = sw / 2, sh / 2
 
@@ -54,8 +54,8 @@ function parallax:project(objX, objY, _parallaxFactor, _zoomFactor)
   wy = wy - math.floor((wy - cy) / self.tileH + 0.5) * self.tileH
 
   -- parallax zoom around screen centre
-  local zoom  = main.getCamera().zoom
-  local pzoom = 1 + (zoom - 1) * zoomFactor
+  local zoom  = infos.zoom
+  local pzoom = zoom ^ zoomFactor
   local sx    = cx + (wx - cx) * pzoom
   local sy    = cy + (wy - cy) * pzoom
 
@@ -108,4 +108,8 @@ system.on("@draw", function ()
   if bg.currentBackground.draw then
     bg.currentBackground:draw()
   end
+end)
+
+system.on("@load", function ()
+  main.playBackground("tranquil")
 end)

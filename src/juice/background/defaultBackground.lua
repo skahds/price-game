@@ -8,7 +8,6 @@ function background:init()
 
   self.parallax = main.parallaxClass:new({
     parallaxFactor = 0.15,
-    zoomFactor     = 0.08,
     tileW          = 51 * self.distance,
     tileH          = 51 * self.distance,
   })
@@ -71,5 +70,3 @@ function background:draw()
 end
 
 main.registerBackground("default", background)
-
-main.playBackground("default")
