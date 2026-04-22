@@ -2,15 +2,15 @@ local flux = system.getStorage("flux")
 local background = class()
 
 local colorLimit = {
-  {0.4, 0.8},
-  {0.7, 1},
-  {0.7, 1},
+  {0.3, 0.5},
+  {0.3, 0.5},
+  {0.3, 0.5},
 }
 local function getRandomColor()
   return {
-    love.math.random(colorLimit[1][1]*10, colorLimit[1][2]*10)/10,
-    love.math.random(colorLimit[2][1]*10, colorLimit[2][2]*10)/10,
-    love.math.random(colorLimit[3][1]*10, colorLimit[3][2]*10)/10,
+    love.math.random(colorLimit[1][1]*100, colorLimit[1][2]*100)/100,
+    love.math.random(colorLimit[2][1]*100, colorLimit[2][2]*100)/100,
+    love.math.random(colorLimit[3][1]*100, colorLimit[3][2]*100)/100,
     1
   }
 end
@@ -26,7 +26,7 @@ function background:init()
 
   local numberOfThings = 100
 
-  for i = 1, numberOfThings * 30 do
+  for i = 1, numberOfThings * 5 do
     local x = love.math.random(-2500, 2500)
     local y = love.math.random(-2500, 2500)
 
@@ -38,23 +38,7 @@ function background:init()
       layer=layer/10,
       size = size,
       color = getRandomColor(),
-      image = "light_12"
-    })
-  end
-
-  for i = 1, numberOfThings * 30 do
-    local x = love.math.random(-2500, 2500)
-    local y = love.math.random(-2500, 2500)
-
-    local layer = love.math.random(13, 19)/10
-    local size = (love.math.random(8, 12)/10) * (layer-0.6)
-    table.insert(self.objects, {
-      x = x,
-      y = y,
-      layer=layer/10,
-      size = size,
-      color = getRandomColor(),
-      image = "shine_12"
+      image = "light_64"
     })
   end
 
@@ -98,8 +82,8 @@ end
 function background:update()
   local dt = system.getStorage("dt")
   for i, obj in ipairs(self.objects) do
-    obj.x = obj.x - 5 * dt
-    obj.y = obj.y - 5 * dt
+    -- obj.x = obj.x - 5 * dt
+    obj.y = obj.y - 5 * dt * obj.layer*10
   end
 end
 
@@ -108,9 +92,9 @@ function background:draw()
 
   system.render(1, function()
     love.graphics.setColor(
-      0.04 * currentColorMult[1],
-      0.04 * currentColorMult[2],
-      0.12 * currentColorMult[3]
+      0.1 * currentColorMult[1],
+      0.1 * currentColorMult[2],
+      0.1 * currentColorMult[3]
     )
     love.graphics.rectangle("fill", 0, 0, 1280, 720)
 
@@ -130,4 +114,4 @@ function background:draw()
   end, true)
 end
 
-main.registerBackground("tranquil", background)
+main.registerBackground("atmospheric", background)

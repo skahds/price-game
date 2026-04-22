@@ -186,6 +186,7 @@ function bar:init(args)
   self.defaultWidth = 40
   self.defaultHeight = 0
   self.renderLayer = 9
+  self.outline=5
 
   local currentChart = system.getStorage("main:chart")
   local price = currentChart.price
@@ -224,7 +225,27 @@ function bar:update()
 end
 
 function bar:draw()
-  basicEnt.draw(self)
+  local renderLayer = self.renderLayer
+
+  system.render(renderLayer, function ()
+    if self.color then
+      love.graphics.setColor(self.color)
+    else
+      love.graphics.setColor(1, 1, 1)
+    end
+
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    if self.outline and self.height ~= 0 then
+      local color = {
+        self.color[1]*1.2,
+        self.color[2]*1.2,
+        self.color[3]*1.2,
+      }
+      love.graphics.setColor(color)
+      love.graphics.setLineWidth(self.outline)
+      love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+    end
+  end)
 end
 
 function bar:changePricePIP(pip)

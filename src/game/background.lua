@@ -111,5 +111,5 @@ system.on("@draw", function ()
 end)
 
 system.on("@load", function ()
-  main.playBackground("tranquil")
+  main.playBackground("atmospheric")
 end)
