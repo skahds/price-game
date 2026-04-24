@@ -2,9 +2,9 @@ local flux = system.getStorage("flux")
 local background = class()
 
 local colorLimit = {
-  {0.3, 0.5},
-  {0.3, 0.5},
-  {0.3, 0.5},
+  {0.2, 0.35},
+  {0.2, 0.35},
+  {0.2, 0.35},
 }
 local function getRandomColor()
   return {
@@ -26,7 +26,7 @@ function background:init()
 
   local numberOfThings = 100
 
-  for i = 1, numberOfThings * 5 do
+  for i = 1, numberOfThings * 8 do
     local x = love.math.random(-2500, 2500)
     local y = love.math.random(-2500, 2500)
 

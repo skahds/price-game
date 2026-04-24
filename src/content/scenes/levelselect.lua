@@ -525,11 +525,11 @@ main.defineScene("levelSelect", function ()
   end
 
 
-  if #enemyNews[1] > 0 then
-    main.tweenCamera(0.2, {x=-180, y=-120, zoom=1})
-  else
+  -- if #enemyNews[1] > 0 then
+  --   main.tweenCamera(0.2, {x=-180, y=-120, zoom=1})
+  -- else
     main.tweenCamera(0.2, {x=0, y=-120, zoom=1})
-  end
+  -- end
 
   main.hideCharts()
 

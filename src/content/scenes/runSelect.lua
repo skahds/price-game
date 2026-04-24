@@ -1,6 +1,7 @@
 local flux = system.getStorage("flux")
 local starters = {}
 local unlockStarterUIS = {}
+local demoUI = {}
 local width, height = 400, 400
 local difficulyNaming = {"Easy", "Medium", "Hard"}
 local starterChosen
@@ -125,8 +126,16 @@ main.defineScene("runSelect", function ()
     t.x, t.y = 100+(width+100)*(i-1), 720/2-height/2-80
     t.renderLayer = 60
     table.insert(starters, t)
-
-    if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
+    if isDemo and starter.demoLocked then
+      demoUI[i] = {assignedStarter=i}
+      demoUI[i].header = main.newRichText({format="DEMO LOCKED", renderLayer=102, x=0, y=360-80, outline = true, outlineColor={0,0,0}, font=system.getFont("defaultFont80")})
+      demoUI[i].header.y = demoUI[i].header.y - demoUI[i].header.richText:getHeight()/2
+      demoUI[i].cover = main.ui.spawnUI("cover", {x=0, y=t.y, width=width, height=height,
+        rx=10, ry=10,
+        renderLayer=102,
+        color = {0.4, 0.4, 0.4},
+        outlineColor = {0.25, 0.25, 0.25}, outline=10})
+    elseif starter.unlock and checkIsStarterUnlocked(starter.id) == false then
       unlockStarterUIS[i] = {}
       unlockStarterUIS[i].button = main.ui.spawnUI("unlockStarter", {x=0, y=360-80+40, renderLayer=102,assignedStarter=i})
       unlockStarterUIS[i].header = main.newRichText({format="LOCKED", renderLayer=102, x=0, y=360-80-150, outline = true, outlineColor={0,0,0}, font=system.getFont("defaultFont80")})
@@ -212,6 +221,9 @@ end, function ()
   for k, v in pairs(unlockStarterUIS) do
     deleteAll(v)
   end
+  for k, v in pairs(demoUI) do
+    deleteAll(v)
+  end
   for _, t in pairs(existingNews) do
     for i=#t, 1, -1 do
       local news = t[i]
@@ -284,6 +296,10 @@ main.ui.defineButton("toPlay", {
     end
 
     if selection.unlock and checkIsStarterUnlocked(selection.id) == false then
+      return
+    end
+
+    if isDemo and selection.demoLocked then
       return
     end
 
@@ -513,6 +529,16 @@ system.on("@draw", function ()
         t.x = t.x - t.richText:getWidth()/2
       end
     end
+  end
+
+  --demolock
+  for k, tbl in pairs (demoUI) do
+    local starter = starters[tbl.assignedStarter]
+    tbl.header.x = starter.x + width/2 - tbl.header.richText:getWidth()/2
+    tbl.header.renderLayer = starter.renderLayer+3
+
+    tbl.cover.renderLayer = starter.renderLayer+2
+    tbl.cover.x = starter.x
   end
 
   --starterunlock

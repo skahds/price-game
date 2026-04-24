@@ -121,6 +121,7 @@ main.defineRunStarter("venture", {
 main.defineRunStarter("firm", {
   name = "Firm",
   image="holopot",
+  demoLocked=true,
   achievementID = "WIN_FIRM",
   description="Draw deck",
   unlock = {type="credits"},
@@ -139,6 +140,7 @@ main.defineRunStarter("firm", {
 main.defineRunStarter("enterprise", {
   name = "Enterprise",
   image="reserve",
+  demoLocked=true,
   achievementID = "WIN_ENTERPRISE",
   description="Energy deck",
   unlock = {type="credits"},
@@ -158,6 +160,7 @@ main.defineRunStarter("enterprise", {
 main.defineRunStarter("association", {
   name = "Association",
   image="highway",
+  demoLocked=true,
   achievementID = "WIN_ASSOCIATION",
   description="Money deck",
   unlock = {type="credits"},
@@ -195,6 +198,44 @@ main.defineRunStarter("association", {
 --     -- main.createCardToDraw("vision", 1)
 --     -- main.createCardToDraw("chainReaction", 1)
 --     -- main.createCardToDraw("amplifier", 2)
+
+--     main.shuffleDraw()
+--   end
+-- })
+
+-- main.defineRunStarter("test", {
+--   name = "Enterprise",
+--   image="basicMultiply",
+--   description="i need something!",
+--   route = utils.deepCopy(basicRoute),
+--   scoreWithDifficulty =  {{
+--     changeInCycle = 0.8, --1x, 1.8x, 2.6x, 4x, 5x?
+--     bossScore = 4,
+--     cycles = {2, 2000, 10000, 50000, 250000, 2500000},
+--     creditMult = 2,
+--   }},
+--   onActivate = function ()
+--     main.spawnNews("discount", {x=0,y=0})
+--     main.spawnNews("nuclear", {x=0,y=0})
+--     main.addMoney(100)
+--     -- main.spawnNews("dream", {x=0,y=0})
+--     main.createCardToDraw("add", 1)
+--     main.createCardToDraw("subtract", 1)
+--     main.createCardToDraw("multiply", 2)
+--     main.createCardToDraw("shift", 1)
+--     main.createCardToDraw("reserve", 1)
+--     main.createCardToDraw("doubleDown", 1)
+--     main.createCardToDraw("augment", 1)
+--     main.createCardToDraw("holopot", 3)
+--     -- main.createCardToDraw("highway", 1)
+--     -- main.createCardToDraw("drag", 1)
+--     -- main.createCardToDraw("relay", 1)
+--     -- main.createCardToDraw("decomposite", 1)
+--     -- main.createCardToDraw("sigil", 1)
+--     -- main.createCardToDraw("vision", 1)
+--     -- main.createCardToDraw("chainReaction", 1)
+--     main.createCardToDraw("amplifier", 2)
+--     main.createCardToDraw("reap", 1)
 
 --     main.shuffleDraw()
 --   end

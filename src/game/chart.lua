@@ -224,6 +224,10 @@ function bar:update()
   end
 end
 
+local function sign(x)
+    return x > 0 and 1 or x < 0 and -1 or 0
+end
+
 function bar:draw()
   local renderLayer = self.renderLayer
 
@@ -243,7 +247,8 @@ function bar:draw()
       }
       love.graphics.setColor(color)
       love.graphics.setLineWidth(self.outline)
-      love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+      local p = sign(self.height)
+      love.graphics.rectangle("line", self.x+self.outline/2, self.y+self.outline/2*p, self.width-self.outline, self.height-self.outline*p)
     end
   end)
 end
