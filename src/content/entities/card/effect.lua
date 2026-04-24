@@ -284,7 +284,7 @@ main.defineCard("mitosis", {
   energy=0,
   price = 3,
   rarity = "RARE",
-  unlock = {type="metashop"},
+  unlock = {type="metashop", demoAvailable=true},
   defaultPriceGain=-10,
 
   onActivate = function (ent)
@@ -576,7 +576,7 @@ main.defineCard("funnel", {
   trigger = {"DEPLOY"},
   price = 5,
   rarity = "EPIC",
-  unlock = {type="metashop"},
+  unlock = {type="metashop", demoAvailable=true},
 
   filter = function (ent)
     local target = main.getCardBesides(ent, 1)

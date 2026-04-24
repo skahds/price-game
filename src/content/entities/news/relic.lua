@@ -93,7 +93,7 @@ main.defineNews("allOut", {
   defaultEnergyGain = 1,
   isRelic = true,
   rarity = "RARE",
-  unlock = {type="metashop"},
+  unlock = {type="metashop", demoAvailable=true},
 })
 
 main.defineNews("recycle", {
@@ -258,7 +258,7 @@ main.defineNews("chickenGame", {
   temporary=5,
   isRelic = true,
   rarity = "RARE",
-  unlock = {type="metashop"},
+  unlock = {type="metashop", demoAvailable=true},
   onActivate = function (ent, card)
     if card then
       main.basicSpawnCard(card.id, main.getAllComponentsFromEntity(card), nil, "hand")

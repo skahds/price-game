@@ -87,5 +87,5 @@ main.defineCard("stalemartyr", {
     end
   end,
   rarity = "COMMON",
-  unlock = {type="metashop"},
+  unlock = {type="metashop", demoAvailable=true},
 })

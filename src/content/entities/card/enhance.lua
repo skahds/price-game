@@ -32,7 +32,7 @@ main.definePlaceableNewsCard("veil", {
   trigger= {"DEPLOY"},
   price=3,
   rarity = "RARE",
-  unlock = {type="metashop"},
+  unlock = {type="metashop", demoAvailable=true},
 }, {
   image = "veilNews",
   trigger = {"CARDTRIGGER"},

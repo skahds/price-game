@@ -189,6 +189,9 @@ function main.meta.getLockedEntities(info)
     if main.meta.isEntityUnlocked(def.id) then
       goto continue
     end
+    if isDemo and def.unlock.demoAvailable ~= true  then
+      goto continue
+    end
     if info.type and def.unlock and info.type == def.unlock.type then
       
     else
@@ -208,6 +211,9 @@ end
 function main.meta.isEntityUnlocked(entID)
   local ent = main.entities[entID]
   if ent.definition and ent.definition.unlock then
+    if isDemo and ent.definition.unlock.demoAvailable ~= true then
+      return false
+    end
     if stats.unlocks[entID] == true then
       return true
     else
