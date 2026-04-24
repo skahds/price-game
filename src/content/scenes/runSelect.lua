@@ -2,6 +2,7 @@ local flux = system.getStorage("flux")
 local starters = {}
 local unlockStarterUIS = {}
 local demoUI = {}
+local demoNormalUI = {}
 local width, height = 400, 400
 local difficulyNaming = {"Easy", "Medium", "Hard"}
 local starterChosen
@@ -171,25 +172,32 @@ main.defineScene("runSelect", function ()
   local y = 100+blockSpacing+10
   for i, mode in ipairs(main.runModes) do
     existingNews[i] = {}
-    for e, news in ipairs(mode.news) do
-      local n = main.spawnEntity(news, {x=leftCoverX+10, y=y+blockSpacing*(i-0.5)})
-      n.ui.renderLayer = 140
-      n.ui.sx = 2
-      n.ui.sy = 2
-      n.ui.x = n.ui.x + (n.ui:getWidth()+10)*(e-1)
-      n.ui.y = n.ui.y - n.ui:getHeight()/2
-      n.ui.screenSpace = true
-      table.insert(existingNews[i], n)
+    if isDemo and mode.demoAvailable ~= true then
+      local t = main.newRichText({format="DEMO LOCKED", renderLayer=102, x=leftCoverX+330/2, y=y+blockSpacing*(i-0.5), outline = true, outlineColor={0,0,0}, font=system.getStorage("defaultFont30")})
+      t.x = t.x - t.richText:getWidth()/2
+      t.y = t.y - t.richText:getHeight()/2
+      table.insert(demoNormalUI, t)
+    else
+      for e, news in ipairs(mode.news) do
+        local n = main.spawnEntity(news, {x=leftCoverX+10, y=y+blockSpacing*(i-0.5)})
+        n.ui.renderLayer = 140
+        n.ui.sx = 2
+        n.ui.sy = 2
+        n.ui.x = n.ui.x + (n.ui:getWidth()+10)*(e-1)
+        n.ui.y = n.ui.y - n.ui:getHeight()/2
+        n.ui.screenSpace = true
+        table.insert(existingNews[i], n)
+      end
+
+      local ui = main.ui.spawnUI("pressableBox", {
+        x=leftCoverX,
+        y=y+blockSpacing*(i-1),
+        width=330,
+        height=blockSpacing,
+        modesOrder = i
+      })
+      table.insert(pressableBoxes, ui)
     end
-    
-    local ui = main.ui.spawnUI("pressableBox", {
-      x=leftCoverX,
-      y=y+blockSpacing*(i-1),
-      width=330,
-      height=blockSpacing,
-      modesOrder = i
-    })
-    table.insert(pressableBoxes, ui)
   end
 
   --kinda hacky? whatever; on @update, positions will be moved if the difficulty doesn't exist
@@ -224,6 +232,9 @@ end, function ()
   for k, v in pairs(demoUI) do
     deleteAll(v)
   end
+  demoUI = {}
+  deleteAll(demoNormalUI)
+  demoNormalUI = {}
   for _, t in pairs(existingNews) do
     for i=#t, 1, -1 do
       local news = t[i]
@@ -620,17 +631,21 @@ system.on("@draw", function ()
   -- names
   local totalNews = 0
   for i, mode in ipairs(main.runModes) do
-    local lastNews = existingNews[i][#existingNews[i]]
-    local t = main.printRichText({
-      format = mode.name,
-      x=lastNews.ui:getX()+lastNews.ui:getWidth()+10,
-      y=lastNews.ui:getY()+lastNews.ui:getHeight()/2,
-      renderLayer=97,
-      font = system.getFont("defaultFont40"),
-      outline=true,
-      outlineColor={0,0,0},
-    })
-    t.y = t.y - t.richText:getHeight()/2
+    if isDemo and mode.demoAvailable ~= true then
+      
+    else
+      local lastNews = existingNews[i][#existingNews[i]]
+      local t = main.printRichText({
+        format = mode.name,
+        x=lastNews.ui:getX()+lastNews.ui:getWidth()+10,
+        y=lastNews.ui:getY()+lastNews.ui:getHeight()/2,
+        renderLayer=97,
+        font = system.getFont("defaultFont40"),
+        outline=true,
+        outlineColor={0,0,0},
+      })
+      t.y = t.y - t.richText:getHeight()/2
+    end
   end
 
   -- lines

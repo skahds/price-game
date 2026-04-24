@@ -48,6 +48,11 @@ local basicRoute = {
   }
 }
 
+if isDemo then
+  table.remove(basicRoute, #basicRoute)
+  table.remove(basicRoute, #basicRoute)
+end
+
 local basicScoreRequired = {{
   changeInCycle = 0.3, --1x, 1.3x, 1.6x, 2.5x, 3.5x
   bossScore = 2.5,

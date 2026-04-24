@@ -1,6 +1,7 @@
 main.defineRunMode({
   definition={
   name = "Sealed eye",
+  demoAvailable=true,
   news = {"lock", "foresight"}
 }, lock={
   name = "Lock",

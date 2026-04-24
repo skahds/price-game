@@ -85,8 +85,10 @@ system.on("@load", function()
   main.meta.saveMetaStats()
 
   if Steam then
-    for k, achievement in pairs(stats.achievement) do
-      Steam.userStats.setAchievement(achievement)
+    if isDemo == false  then
+      for k, achievement in pairs(stats.achievement) do
+        Steam.userStats.setAchievement(achievement)
+      end
     end
     Steam.userStats.storeStats()
   end
@@ -169,7 +171,7 @@ end
 
 
 function main.meta.giveAchievement(name)
-  if Steam then
+  if Steam and isDemo == false then
     Steam.userStats.setAchievement(name)
   end
   stats.achievement[name] = true
