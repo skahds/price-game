@@ -138,7 +138,7 @@ main.defineScene("runSelect", function ()
         outlineColor = {0.25, 0.25, 0.25}, outline=10})
     elseif starter.unlock and checkIsStarterUnlocked(starter.id) == false then
       unlockStarterUIS[i] = {}
-      unlockStarterUIS[i].button = main.ui.spawnUI("unlockStarter", {x=0, y=360-80+70, renderLayer=102,assignedStarter=i})
+      unlockStarterUIS[i].button = main.ui.spawnUI("unlockStarter", {x=0, y=360-80+60, renderLayer=102,assignedStarter=i})
       unlockStarterUIS[i].header = main.newRichText({format="LOCKED", renderLayer=102, x=0, y=360-80-150, outline = true, outlineColor={0,0,0}, font=system.getFont("defaultFont80")})
       unlockStarterUIS[i].creditText = main.newRichText({format="a", renderLayer=102, x=0, y=360-80-40, outline = true, outlineColor={0,0,0},})
       unlockStarterUIS[i].cover = main.ui.spawnUI("cover", {x=0, y=t.y, width=width, height=height,
@@ -173,21 +173,18 @@ main.defineScene("runSelect", function ()
   for i, mode in ipairs(main.runModes) do
     existingNews[i] = {}
     if isDemo and mode.demoAvailable ~= true then
-      local t = main.newRichText({format="DEMO LOCKED", renderLayer=102, x=leftCoverX+330/2, y=y+blockSpacing*(i-0.5), outline = true, outlineColor={0,0,0}, font=system.getStorage("defaultFont30")})
+      local t = main.newRichText({format="DEMO LOCKED", renderLayer=145, x=leftCoverX+330/2, y=y+blockSpacing*(i-0.5), outline = true, outlineColor={0,0,0}, font=system.getStorage("defaultFont30")})
       t.x = t.x - t.richText:getWidth()/2
       t.y = t.y - t.richText:getHeight()/2
       table.insert(demoNormalUI, t)
+
+      local t = main.ui.spawnUI("cover", {x=leftCoverX, y=y+blockSpacing*(i-1), width=330, height=blockSpacing,
+      renderLayer=143,
+      color = {0.5, 0.5, 0.5, 0.6},
+      outlineColor = {0.4, 0.4, 0.4}, outline=10})
+      table.insert(demoNormalUI, t)
+      
     else
-      for e, news in ipairs(mode.news) do
-        local n = main.spawnEntity(news, {x=leftCoverX+10, y=y+blockSpacing*(i-0.5)})
-        n.ui.renderLayer = 140
-        n.ui.sx = 2
-        n.ui.sy = 2
-        n.ui.x = n.ui.x + (n.ui:getWidth()+10)*(e-1)
-        n.ui.y = n.ui.y - n.ui:getHeight()/2
-        n.ui.screenSpace = true
-        table.insert(existingNews[i], n)
-      end
 
       local ui = main.ui.spawnUI("pressableBox", {
         x=leftCoverX,
@@ -197,6 +194,17 @@ main.defineScene("runSelect", function ()
         modesOrder = i
       })
       table.insert(pressableBoxes, ui)
+    end
+
+    for e, news in ipairs(mode.news) do
+      local n = main.spawnEntity(news, {x=leftCoverX+10, y=y+blockSpacing*(i-0.5)})
+      n.ui.renderLayer = 140
+      n.ui.sx = 2
+      n.ui.sy = 2
+      n.ui.x = n.ui.x + (n.ui:getWidth()+10)*(e-1)
+      n.ui.y = n.ui.y - n.ui:getHeight()/2
+      n.ui.screenSpace = true
+      table.insert(existingNews[i], n)
     end
   end
 
