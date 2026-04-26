@@ -134,17 +134,17 @@ main.defineScene("runSelect", function ()
       demoUI[i].cover = main.ui.spawnUI("cover", {x=0, y=t.y, width=width, height=height,
         rx=10, ry=10,
         renderLayer=102,
-        color = {0.4, 0.4, 0.4},
+        color = {0.4, 0.4, 0.4, 0.8},
         outlineColor = {0.25, 0.25, 0.25}, outline=10})
     elseif starter.unlock and checkIsStarterUnlocked(starter.id) == false then
       unlockStarterUIS[i] = {}
-      unlockStarterUIS[i].button = main.ui.spawnUI("unlockStarter", {x=0, y=360-80+40, renderLayer=102,assignedStarter=i})
+      unlockStarterUIS[i].button = main.ui.spawnUI("unlockStarter", {x=0, y=360-80+70, renderLayer=102,assignedStarter=i})
       unlockStarterUIS[i].header = main.newRichText({format="LOCKED", renderLayer=102, x=0, y=360-80-150, outline = true, outlineColor={0,0,0}, font=system.getFont("defaultFont80")})
       unlockStarterUIS[i].creditText = main.newRichText({format="a", renderLayer=102, x=0, y=360-80-40, outline = true, outlineColor={0,0,0},})
       unlockStarterUIS[i].cover = main.ui.spawnUI("cover", {x=0, y=t.y, width=width, height=height,
         rx=10, ry=10,
         renderLayer=102,
-        color = {0.4, 0.4, 0.4},
+        color = {0.4, 0.4, 0.4, 0.8},
         outlineColor = {0.25, 0.25, 0.25}, outline=10})
     end
   end
@@ -518,17 +518,17 @@ system.on("@draw", function ()
       love.graphics.setColor(0.4, 0.4, 0.4)
       love.graphics.rectangle("line", starter.x, starter.y, width, height, 10, 10)
 
-      if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
+      -- if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
 
-      else
+      -- else
         love.graphics.setColor(1, 1, 1)
         love.graphics.draw(system.getImage((starter.image or "placeholder")), starter.x+width/2-64, starter.y+100-64, 0, 2, 2)
-      end
+      -- end
     end, true)
 
-    if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
+    -- if starter.unlock and checkIsStarterUnlocked(starter.id) == false then
       
-    else
+    -- else
       local texts = {}
       table.insert(texts, starter.name)
       local lines = utils.seperateSlashN(starter.description)
@@ -539,7 +539,7 @@ system.on("@draw", function ()
         local t = main.printRichText({format=str, renderLayer=starter.renderLayer+1, x=starter.x+width/2, y=starter.y+100+i*60, outline = true, outlineColor={0,0,0},})
         t.x = t.x - t.richText:getWidth()/2
       end
-    end
+    -- end
   end
 
   --demolock

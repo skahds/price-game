@@ -216,22 +216,26 @@ main.defineRunStarter("association", {
 --   scoreWithDifficulty =  {{
 --     changeInCycle = 0.8, --1x, 1.8x, 2.6x, 4x, 5x?
 --     bossScore = 4,
---     cycles = {2, 2000, 10000, 50000, 250000, 2500000},
+--     cycles = {0, 2000, 10000, 50000, 250000, 2500000},
 --     creditMult = 2,
 --   }},
 --   onActivate = function ()
---     main.spawnNews("discount", {x=0,y=0})
---     main.spawnNews("nuclear", {x=0,y=0})
---     main.addMoney(100)
+--     system.updateStorage("main:currentCycle", 1)
+--     system.updateStorage("main:currentRoute", 3)
+--     -- main.spawnNews("discount", {x=0,y=0})
+--     -- main.spawnNews("nuclear", {x=0,y=0})
+--     main.addMoney(20)
 --     -- main.spawnNews("dream", {x=0,y=0})
---     main.createCardToDraw("add", 1)
---     main.createCardToDraw("subtract", 1)
---     main.createCardToDraw("multiply", 2)
---     main.createCardToDraw("shift", 1)
+--     main.createCardToDraw("add", 3)
+--     main.createCardToDraw("subtract", 3)
+--     main.createCardToDraw("multiply", 3)
+--     main.createCardToDraw("amplifier", 2)
+--     -- main.createCardToDraw("shift", 1)
 --     main.createCardToDraw("reserve", 1)
---     main.createCardToDraw("doubleDown", 1)
---     main.createCardToDraw("augment", 1)
---     main.createCardToDraw("holopot", 3)
+--     main.createCardToDraw("scale", 1)
+--     -- main.createCardToDraw("doubleDown", 1)
+--     -- main.createCardToDraw("augment", 1)
+--     -- main.createCardToDraw("holopot", 3)
 --     -- main.createCardToDraw("highway", 1)
 --     -- main.createCardToDraw("drag", 1)
 --     -- main.createCardToDraw("relay", 1)
@@ -239,8 +243,8 @@ main.defineRunStarter("association", {
 --     -- main.createCardToDraw("sigil", 1)
 --     -- main.createCardToDraw("vision", 1)
 --     -- main.createCardToDraw("chainReaction", 1)
---     main.createCardToDraw("amplifier", 2)
---     main.createCardToDraw("reap", 1)
+--     -- main.createCardToDraw("amplifier", 2)
+--     -- main.createCardToDraw("reap", 1)
 
 --     main.shuffleDraw()
 --   end

@@ -173,8 +173,8 @@ end
 function main.meta.giveAchievement(name)
   if Steam and isDemo == false then
     Steam.userStats.setAchievement(name)
+    stats.achievement[name] = true
   end
-  stats.achievement[name] = true
 end
 
 

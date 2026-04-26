@@ -76,7 +76,7 @@ local function generateLevelMap(amount)
 end
 
 local rewardList = {
-  {claim=function ()
+  {claim=function () -- 1
     local bag = system.getStorage("rarity:bag")
     local t = bag:getRandomCardWithInfo({minimumRarity="COMMON", amount=3})
     main.createRewardsOptions(t, {rewardType="card"})
@@ -90,7 +90,7 @@ local rewardList = {
   end,
   description="Choose a {rareColor}RARE+{/rareColor} card!"},
 
-  {claim=function ()
+  {claim=function () -- 3
     local bag = system.getStorage("rarity:bag")
     local t = bag:getRandomCardWithInfo({minimumRarity="EPIC", amount=3})
     main.createRewardsOptions(t, {rewardType="card"})
@@ -104,7 +104,7 @@ local rewardList = {
   end,
   description="Choose a relic!"},
 
-  {claim=function ()
+  {claim=function () -- 5
     main.createRewardsUpgrade()
   end,
   description="Upgrade a card!"},
@@ -114,7 +114,7 @@ local rewardList = {
   end,
   description="Upgrade a pattern!"},
 
-  {money = 15},
+  {money = 15}, -- 7
 }
 
 local function pickRandom(t)
@@ -797,6 +797,7 @@ main.ui.defineUI("levelSelect", {
       if ent.reward and ent.reward.claim then
         local reward = system.getStorage("main:endLevelReward")
         table.insert(reward, ent.reward)
+        table.insert(reward, rewardList[5])
       end
 
       if ent.enemy then
