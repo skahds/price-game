@@ -20,3 +20,68 @@
 --   font=system.getFont("defaultFont40"),
 --   format = "this {points} and that {mult}"
 -- })
+
+-- local function setup(x, y)
+--   local xP, yP = main.grid.gridToPos(x, y)
+--   return {x=xP, y=yP}
+-- end
+
+-- local pipeline = 
+-- system.on("@keyreleased", function (key)
+--   if key ~= "k" then
+--     return
+--   end
+
+--   local cards = {}
+--   for i, ent in pairs(main.entities) do
+--     if ent and ent.definition and ent.definition.isCard and love.math.random() > 0.3 then
+--       table.insert(cards, i)
+--     end
+--   end
+
+--   for i, card in ipairs(cards) do
+--     main.createCard(card, {}, "hand")
+--   end
+
+
+--   -- -- main.spawnNews("goodNews", setup(2, 3))
+
+--   -- local chart = system.getStorage("main:chart")
+--   -- local bars = {
+--   --   170,
+--   --   -230
+--   --   -10,---50
+--   --   90,
+--   --   -50,
+--   --   -10,
+--   --   45,
+--   --   -50,
+--   --   -20,
+--   --   165,
+--   --   -110,
+--   --   -15,
+--   --   100,
+--   --   -60,
+--   --   -20,
+--   --   90,
+--   --   -30,
+--   --   -10,
+--   --   -70,
+--   --   50,
+--   --   -75,
+--   --   180,
+--   --   15,
+--   --   -210,
+--   --   240
+--   -- }
+--   -- for i, bar in ipairs(bars) do
+--   --   local difference = love.math.random()
+--   --   main.addPrice(bar+bar*difference)
+--   --   main.spawnBar()
+--   --   main.addPrice(bar)
+--   --   main.spawnBar()
+--   --   main.addPrice(bar-bar*difference)
+--   --   main.spawnBar()
+--   -- end
+  
+-- end)
