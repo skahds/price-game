@@ -90,7 +90,7 @@ main.defineUITab("modifier", function ()
       usage = "scoreEffect",
       format = formatNum(modifierValues[ui.attachedModifier] or 0, modifier.scoreEffect),
       renderLayer = 200,
-      x=640+150,
+      x=640+50,
       y=y,
       font = system.getFont("defaultFont40"),
       outline=true,

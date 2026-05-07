@@ -797,7 +797,6 @@ main.ui.defineUI("levelSelect", {
       if ent.reward and ent.reward.claim then
         local reward = system.getStorage("main:endLevelReward")
         table.insert(reward, ent.reward)
-        table.insert(reward, rewardList[5])
       end
 
       if ent.enemy then

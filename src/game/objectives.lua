@@ -26,11 +26,12 @@ function main.objectives.createRandomReward(difficulty)
 end
 
 function main.objectives.canBeClaimed(obj)
-  if (obj.failFromPass and obj:isPass() == false)
-  or (obj.failFromPass ~= true and obj:isPass()) then
-    return true
-  end
-  return false
+  return true
+  -- if (obj.failFromPass and obj:isPass() == false)
+  -- or (obj.failFromPass ~= true and obj:isPass()) then
+  --   return true
+  -- end
+  -- return false
 end
 
 function main.objectives.defineObjective(id, oType)
@@ -375,6 +376,35 @@ main.objectives.defineReward("card", {
     end
   end
 })
+
+main.objectives.defineReward("patternUpgrade", {
+  minimumDifficulty=4,
+  maximumDifficulty=8,
+  load = function (obj)
+    obj.description = "Upgrade a pattern!"
+  end,
+  claim = function (obj)
+    local reward = system.getStorage("main:endLevelReward")
+    table.insert(reward, {claim=function ()
+      main.createRewardsEditPattern()
+    end})
+  end
+})
+
+main.objectives.defineReward("cardUpgrade", {
+  minimumDifficulty=4,
+  maximumDifficulty=8,
+  load = function (obj)
+    obj.description = "Upgrade a card!"
+  end,
+  claim = function (obj)
+    local reward = system.getStorage("main:endLevelReward")
+    table.insert(reward, {claim=function ()
+      main.createRewardsUpgrade()
+    end})
+  end
+})
+
 
 -- todo: add patternUpgrade, cardUpgrade etc?
 
