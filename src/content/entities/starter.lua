@@ -209,7 +209,7 @@ main.defineRunStarter("association", {
 -- })
 
 -- main.defineRunStarter("test", {
---   name = "Enterprise",
+--   name = "Association",
 --   image="basicMultiply",
 --   description="i need something!",
 --   route = utils.deepCopy(basicRoute),
@@ -220,19 +220,28 @@ main.defineRunStarter("association", {
 --     creditMult = 2,
 --   }},
 --   onActivate = function ()
---     system.updateStorage("main:currentCycle", 1)
+--     system.updateStorage("main:currentCycle", 4)
 --     system.updateStorage("main:currentRoute", 3)
---     -- main.spawnNews("discount", {x=0,y=0})
---     -- main.spawnNews("nuclear", {x=0,y=0})
---     main.addMoney(20)
+--     main.spawnNews("refine", {x=0,y=0})
+--     main.spawnNews("dream", {x=0,y=0})
+--     main.spawnNews("warBanner", {x=0,y=0})
+--     main.spawnNews("sceptre", {x=0,y=0})
+--     main.addMoney(32)
 --     -- main.spawnNews("dream", {x=0,y=0})
---     main.createCardToDraw("add", 3)
---     main.createCardToDraw("subtract", 3)
---     main.createCardToDraw("multiply", 3)
---     main.createCardToDraw("amplifier", 2)
+--     main.createCardToDraw("add", 1)
+--     main.createCardToDraw("subtract", 1)
+--     main.createCardToDraw("multiply", 2)
+--     main.createCardToDraw("highway", 2)
+--     main.createCardToDraw("greedEngine", 1)
+--     main.createCardToDraw("fearEngine", 1)
 --     -- main.createCardToDraw("shift", 1)
---     main.createCardToDraw("reserve", 1)
---     main.createCardToDraw("scale", 1)
+--     main.createCardToDraw("radar", 1)
+--     -- main.createCardToDraw("drag", 1)
+--     -- main.createCardToDraw("expound", 1)
+--     main.createCardToDraw("vision", 1)
+--     main.createCardToDraw("sigil", 1)
+--     main.createCardToDraw("augment", 1)
+--     main.createCardToDraw("doubleDown", 1)
 --     -- main.createCardToDraw("doubleDown", 1)
 --     -- main.createCardToDraw("augment", 1)
 --     -- main.createCardToDraw("holopot", 3)

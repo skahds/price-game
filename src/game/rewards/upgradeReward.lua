@@ -36,6 +36,11 @@ local upgrades = {
     upgrade = function (card)
       card.defaultPriceGain = card.defaultPriceGain - 30
     end
+  }, {
+    description = "Card draws +1 {cardIcon}CARD",
+    upgrade = function (card)
+      card.defaultDrawCard = card.defaultDrawCard + 1
+    end
   },
 }
 
