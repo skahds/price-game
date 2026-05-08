@@ -21,6 +21,21 @@ function main.objectives.createRandomReward(difficulty)
       table.insert(options, reward)
     end
   end
+
+  local unusedBag = utils.copy(options)
+  for _, objective in ipairs(main.objectives.active) do
+    for i=#unusedBag, 1, -1 do
+      local unusedReward = unusedBag[i]
+      local rew = objective.reward
+      if unusedReward.id == rew.id then
+        table.remove(unusedBag, i)
+      end
+    end
+  end
+  if #unusedBag > 0 then
+    options = unusedBag
+  end
+
   local reward = options[love.math.random(1, #options)]
   return reward:new({difficulty=difficulty})
 end
@@ -102,6 +117,20 @@ function main.objectives.createRandomObjective(args)
       table.insert(bag, v)
     end
   end
+
+  local unusedBag = utils.copy(bag)
+  for _, objective in ipairs(main.objectives.active) do
+    for i=#unusedBag, 1, -1 do
+      local obj = unusedBag[i]
+      if obj.id == objective.id then
+        table.remove(unusedBag, i)
+      end
+    end
+  end
+  if #unusedBag > 0 then
+    bag = unusedBag
+  end
+
   local def = bag[love.math.random(1, #bag)]
   local obj = def:new(args)
   table.insert(main.objectives.active, obj)
