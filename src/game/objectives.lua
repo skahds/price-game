@@ -576,7 +576,7 @@ main.objectives.defineObjective("energyLeftover", {
     if objectiveGetOverLimit then
       obj.description = "Leave over " .. base .. " {energyIcon}{energyColor}ENERGY{/energyColor} unused"
     else
-      obj.description = "Leave under " .. base .. " {energyIcon}{energyColor}ENERGY{/energyColor} unused"
+      obj.description = "Leave under " .. base+1 .. " {energyIcon}{energyColor}ENERGY{/energyColor} unused"
     end
   end,
   getProgress = function (obj)
@@ -585,12 +585,12 @@ main.objectives.defineObjective("energyLeftover", {
   progress = function (obj, amount)
     obj.currentAmount = obj.currentAmount + amount
 
-    if obj.currentAmount >= obj.amount then
+    if obj.currentAmount > obj.amount then
       obj.passed = true
     end
   end,
   isPass = function (obj)
-    if obj.currentAmount >= obj.amount then
+    if obj.currentAmount > obj.amount then
       return true
     end
     return false
