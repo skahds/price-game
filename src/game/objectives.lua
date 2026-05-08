@@ -26,12 +26,11 @@ function main.objectives.createRandomReward(difficulty)
 end
 
 function main.objectives.canBeClaimed(obj)
-  return true
-  -- if (obj.failFromPass and obj:isPass() == false)
-  -- or (obj.failFromPass ~= true and obj:isPass()) then
-  --   return true
-  -- end
-  -- return false
+  if (obj.failFromPass and obj:isPass() == false)
+  or (obj.failFromPass ~= true and obj:isPass()) then
+    return true
+  end
+  return false
 end
 
 function main.objectives.defineObjective(id, oType)

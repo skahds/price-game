@@ -31,9 +31,13 @@ end
 function main.clearRewardOptions()
   if #main.card.reward > 0 then
     for i=#main.card.reward, 1, -1 do
-      pipeline:add(0.15, function ()
-        local card = main.card.reward[i]
+      local card = main.card.reward[i]
+      main.transferOwnership(card, "misc")
+      main.wait(0.5, function ()
         main.deleteCard(card)
+      end)
+      main.wait(0.05*i, function ()
+        flux.to(card.ui, 0.5, {y=-160})
       end)
     end
   end
