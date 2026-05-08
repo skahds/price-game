@@ -485,7 +485,6 @@ main.objectives.defineObjective("cardUsage", {
   description = "",
   failFromPass=true,
   filter = function ()
-    print("there are " .. #main.getDeckCards())
     for i, card in ipairs(main.getDeckCards()) do
       if card.temporary == math.huge then
         return true
@@ -547,4 +546,57 @@ system.on("main:entityTriggered", function (ent)
   if ent.isCard then
     main.objectives.progressObjective("cardUsage", ent.id)
   end
+end)
+
+--leftover energy
+main.objectives.defineObjective("energyLeftover", {
+  description = "",
+  failFromPass=true,
+  load = function (obj)
+    local difficulty=4
+    local base = 2
+    local factor = love.math.random(1, 3) - 2 -- random between -1 to 1
+    local objectiveGetOverLimit = false -- get over 5
+    if love.math.random() > 0.5 then
+      obj.failFromPass = false
+      objectiveGetOverLimit = true
+      base = 4
+      difficulty = difficulty + factor
+      base = base + factor
+      --ex: leak over 5, diff = 5
+    else
+      difficulty = difficulty - factor
+      base = base + factor
+      -- ex: leak under 1, diff = 5, leak under 3, diff = 3
+    end
+
+    obj.currentAmount = 0
+    obj.amount = base
+    obj.difficulty = difficulty
+    if objectiveGetOverLimit then
+      obj.description = "Leave over " .. base .. " {energyIcon}{energyColor}ENERGY{/energyColor} unused"
+    else
+      obj.description = "Leave under " .. base .. " {energyIcon}{energyColor}ENERGY{/energyColor} unused"
+    end
+  end,
+  getProgress = function (obj)
+    return obj.currentAmount .. "/" .. obj.amount
+  end,
+  progress = function (obj, amount)
+    obj.currentAmount = obj.currentAmount + amount
+
+    if obj.currentAmount >= obj.amount then
+      obj.passed = true
+    end
+  end,
+  isPass = function (obj)
+    if obj.currentAmount >= obj.amount then
+      return true
+    end
+    return false
+  end
+})
+
+system.on("main:leftoverEnergy", function (amt)
+  main.objectives.progressObjective("energyLeftover", amt)
 end)
