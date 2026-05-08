@@ -42,8 +42,9 @@ main.definePatternsCard("metronome", {
   name = "Metronome",
   image= "metronome",
   description="Gains {multColor}X0.5 MULT",
+  defaultMultMultiplier=1,
   onActivate = function (ent)
-    main.changeEntityComponent(ent, "multMultiplier", 0.5, combiner.ADD)
+    main.changeEntityComponent(ent, "defaultMultMultiplier", 0.5, combiner.ADD)
   end,
   category="upgrade",
 })
