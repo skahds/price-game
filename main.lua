@@ -15,6 +15,7 @@ require("saveSystem")
 
 function love.load()
   love.window.setTitle("Chart Weaver")
+  love.window.maximize()
   require('modLoading')
 
   system.call("@load")
