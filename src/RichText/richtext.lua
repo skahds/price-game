@@ -119,6 +119,8 @@ end
 
 function RichText:setText(format, ...)
     local finalString = string.format(format, ...)
+    if finalString == self._lastFormat then return end  -- skip if unchanged
+    self._lastFormat = finalString
     self.format = RichText.parse(finalString)
     self:update()
 end

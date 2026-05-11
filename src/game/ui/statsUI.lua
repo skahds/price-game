@@ -4,7 +4,7 @@ local score = system.getStorage("main:score")
 
 local roundsRemainingText = main.newRichText({format="Turn left: 0",
   y=80,
-  x=70,
+  x=50+350/2,
   renderLayer = 200,
   outline=true,
   outlineColor={0,0,0},})
@@ -31,7 +31,7 @@ local scoreText = main.newRichText({format="0",
 
 local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) .. "{/priceColor}",
   y=300,
-  x=0,
+  x=50+350/4,
   sx=1,
   sy=1,
   ox=0,
@@ -43,7 +43,7 @@ local priceText = main.newRichText({format="{priceColor}" ..  math.floor(0+0.5) 
 
 local multText = main.newRichText({format="{multColor}X" ..  math.floor(0+0.5) .. "{/multColor}",
   y=300,
-  x=0,
+  x=50+350*3/4,
   sx=1,
   sy=1,
   ox=0,
@@ -123,10 +123,12 @@ end)
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
   if scene ~= "play" then
-    scoreHeaderText.x = -2000
-    scoreText.x = -2000
+    scoreHeaderText.isVisible = false
+    scoreText.isVisible = false
   end
   if scene == "play" then
+    scoreHeaderText.isVisible = true
+    scoreText.isVisible = true
     scoreHeaderText.x = 50+350/2 - scoreHeaderText.richText:getWidth()/2
     local scoreRequired = system.getStorage("main:scoreRequirement")
     main.updateRichTextText(scoreText, "Score: " .. math.floor(score+0.5) .. "/" .. scoreRequired)
@@ -242,9 +244,9 @@ end)
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
   if utils.isEInTable(scene, {"play"}) then
-    roundsRemainingText.x = 50+350/2
+    roundsRemainingText.isVisible = true
   else
-    roundsRemainingText.x = -2000
+    roundsRemainingText.isVisible = false
   end
 end)
 
@@ -260,10 +262,10 @@ end)
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
   if scene ~= "play" then
-    priceText.x = -2000
+    priceText.isVisible = false
   end
   if scene == "play" then
-    priceText.x = 50+350/4
+    priceText.isVisible = true
   end
 end)
 
@@ -276,10 +278,10 @@ end)
 system.on("main:sceneChanged", function()
   local scene = system.getStorage("main:currentScene")
   if scene ~= "play" then
-    multText.x = -2000
+    multText.isVisible = false
   end
   if scene == "play" then
-    multText.x = 50+350*3/4
+    multText.isVisible = true
   end
 end)
 
@@ -348,9 +350,10 @@ system.on("@update", function ()
 
   local scene = system.getStorage("main:currentScene")
   if scene ~= "play" then
-    cardHeldText.x = -2000
+    cardHeldText.isVisible = false
   end
   if scene == "play" then
+    cardHeldText.isVisible = true
     cardHeldText.x = 640-cardHeldText.richText:getWidth()/2
   end
 end)

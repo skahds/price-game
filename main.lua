@@ -13,7 +13,10 @@ require('class')
 require('utils')
 require("saveSystem")
 
+-- ProFi = require 'ProFi'
+-- done = 0
 function love.load()
+  -- ProFi:start()
   love.window.setTitle("Chart Weaver")
   love.window.maximize()
   require('modLoading')
@@ -25,6 +28,13 @@ function love.update(dt)
   system.updateStorage("dt", dt)
 
   system.call("@update")
+
+
+  -- done=done+1
+  -- if done == 50 then
+  --   ProFi:stop()
+  --   ProFi:writeReport('MyProfilingReport.txt')
+  -- end
 
   if Steam then
     Steam.runCallbacks()

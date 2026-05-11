@@ -168,7 +168,9 @@ main.defineEnemy("trap", {
   trigger = {"ROUND"},
   onActivate = function ()
     local card = main.getRandomCard()
-    main.tryDestroyEntity(card)
+    if card then
+      main.tryDestroyEntity(card)
+    end
   end
 })
 

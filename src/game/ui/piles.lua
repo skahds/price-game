@@ -18,10 +18,12 @@ local drawPileText = main.newRichText({format="0",
 system.on("@update", function ()
   local scene = system.getStorage("main:currentScene")
   if scene ~= "play" then
-    discardPileText.x = -100
-    drawPileText.x = -100
+    discardPileText.isVisible = false
+    drawPileText.isVisible = false
     return
   end
+  discardPileText.isVisible = true
+  drawPileText.isVisible = true
 
   discardPileText.ox = discardPileText.richText:getWidth()/2
   discardPileText.oy= discardPileText.richText:getHeight()/2
