@@ -91,7 +91,7 @@ main.defineRunStarter("tutorial", {
     }
   },
   scoreWithDifficulty = {{
-    changeInCycle = 0.3, --1x, 1.3x, 1.6x, 2x, 3x
+    changeInCycle = 0.2, --1x, 1.2x, 1.4x, 2x, 3x
     bossScore = 2,
     cycles = {400, 1200}, -- approx 3-4x per cycle
   }},
@@ -100,6 +100,8 @@ main.defineRunStarter("tutorial", {
     main.createCardToDraw("multiply", 3)
     main.createCardToDraw("subtract", 3)
     main.createCardToDraw("amplifier", 2)
+    main.createCardToDraw("expound", 1)
+    main.createCardToDraw("examplePlaceable", 1)
 
     system.updateStorage("main:isDoingTutorial", true)
     -- main.shuffleDraw()

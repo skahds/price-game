@@ -22,7 +22,7 @@ main.definePatternsCard("cottonCandy", {
 main.definePatternsCard("immaterialization", {
   name = "Immaterialization",
   image= "immaterialization",
-  description = "Create a Void",
+  description = "Create a Void to your hand",
   descriptionTagEntity = "void",
   onActivate = function ()
     main.basicSpawnCard("void", {}, nil, "hand")

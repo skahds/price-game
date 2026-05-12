@@ -24,7 +24,7 @@ main.defineCard("amplifier", {
 main.defineCard("whitewash", {
   name = "Whitewash",
   image = "whitewash",
-  description = "News in hovered area gains {priceColor}+2 PRICE",
+  description = "News in mouse-hovered area gains {priceColor}+2 PRICE",
   trigger = {"DEPLOY"},
   price = 2,
   target = {

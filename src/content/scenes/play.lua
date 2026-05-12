@@ -193,8 +193,11 @@ system.on("main:entityTriggered", function (ent)
       startTurn.isVisible = true
       main.addEntityToTutorial(startTurn, "When you're done with your turn, press here!\nyou will gain the amount of score\nwhether {priceColor}{priceIcon}PRICE{/priceColor} is {greenColor}positive{/greenColor} or {redColor}negative{/redColor}!")
     end
+  elseif tutorialInfos.stage == 7 then
+    main.clearTutorial()
+    main.spawnNews("tips", {x=0, y=0})
+    system.updateStorage("main:isDoingTutorial", false)
   end
-    
 end)
 
 system.on("main:startTurn", function ()
@@ -222,15 +225,27 @@ system.on("@mouse:released", function ()
   if tutorialInfos.stage == 4 then
     main.clearTutorial()
     local c = main.getCardInOrder(3)
+    tutorialInfos.stage = 5
     if c == nil then
       return
     end
-    tutorialInfos.stage = 5
     main.addEntityToTutorial(c, "Remember that {redColor}negative{/redColor} {priceColor}{priceIcon}PRICE{/priceColor}\nis just another way to win!")
   elseif tutorialInfos.stage == 5 then
     main.clearTutorial()
-    main.spawnNews("tips", {x=0, y=0})
-    system.updateStorage("main:isDoingTutorial", false)
     tutorialInfos.stage = 6
+  end
+end)
+
+system.on("main:endTurn", function ()
+  if tutorialInfos.stage == 6 then
+    main.wait(2, function ()
+      local c = main.getCardInOrder(3)
+      print(c)
+      if c == nil then
+        return
+      end
+      main.addEntityToTutorial(c, "This is a placeable news, identified by the \"- News\"\nActivating it will place the news on your mouse's location")
+      tutorialInfos.stage = 7
+    end)
   end
 end)

@@ -110,7 +110,7 @@ system.on("@draw", function ()
   end
 
 
-  system.render(280, function ()
+  system.render(math.max(280, cardHeld.ui.renderLayer), function ()
     if entWithTarget then
       drawTargetSize(entWithTarget, pos.x, pos.y)
     end
