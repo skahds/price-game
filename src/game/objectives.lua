@@ -589,10 +589,10 @@ main.objectives.defineObjective("energyLeftover", {
     if love.math.random() > 0.5 then
       obj.failFromPass = false
       objectiveGetOverLimit = true
-      base = 4
+      base = 3
       difficulty = difficulty + factor
       base = base + factor
-      --ex: leak over 5, diff = 5
+      --ex: leak over 4, diff = 5
     else
       difficulty = difficulty - factor
       base = base + factor

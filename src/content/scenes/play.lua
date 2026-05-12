@@ -197,6 +197,9 @@ system.on("main:entityTriggered", function (ent)
     main.clearTutorial()
     main.spawnNews("tips", {x=0, y=0})
     system.updateStorage("main:isDoingTutorial", false)
+    main.wait(1, function ()
+      main.openUITab("guide", true)
+    end)
   end
 end)
 

@@ -79,8 +79,10 @@ system.on("main:scoreChanged", function (change)
   priceText.isVisible = false
   multText.isVisible = false
   main.wait(2.2, function ()
-    priceText.isVisible = true
-    multText.isVisible = true
+    if system.getStorage("main:currentScene") == "play" then
+      priceText.isVisible = true
+      multText.isVisible = true
+    end
   end)
 end)
 system.on("main:sceneChanged", function ()

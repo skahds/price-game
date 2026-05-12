@@ -1,5 +1,5 @@
 local isSettingShown = false
-local cover, exit, back, restart
+local cover, exit, back, restart, guide
 local uiInTab = {}
 local activeTabs = {}
 local sfxStorage, musicStorage, gameSpeedStorage, crtStorage = "audio:sfxVolume", "audio:musicVolume", "main:gameSpeedSlider", "main:crtEffect"
@@ -55,15 +55,22 @@ local function tab1()
   }))
 
   table.insert(uiInTab, main.ui.spawnUI("openCollection", {
-    x=dimension.w/2+150-125,
+    x=dimension.w/2+300-250,
     y=dimension.h/2-30,
     renderLayer = 412,
     height=80
   }))
 
   table.insert(uiInTab, main.ui.spawnUI("openPatterns", {
-    x=dimension.w/2+150-125,
+    x=dimension.w/2+300-250,
     y=dimension.h/2+80,
+    renderLayer = 412,
+    height=80
+  }))
+
+  table.insert(uiInTab, main.ui.spawnUI("openGuide", {
+    x=dimension.w/2+300-250-60-30,
+    y=dimension.h/2-30,
     renderLayer = 412,
     height=80
   }))
@@ -197,7 +204,7 @@ main.defineUITab("settings", function ()
 
   tabs[selectedTab]()
 end, function ()
-  deleteAll({cover, exit, back, restart})
+  deleteAll({cover, exit, back, restart, guide})
   deleteAll(uiInTab)
   deleteAll(activeTabs)
   isSettingShown = false
@@ -388,17 +395,16 @@ main.ui.defineButton("settingMenu", {
   end
 })
 
-main.ui.defineButton("settingGuide", {
+main.ui.defineButton("openGuide", {
   width = 60,
   height = 60,
-  color = {0.7, 0.4, 0.4},
+  color = {0.8, 0.8, 0.8},
   renderLayer = 101,
   screenSpace = true,
   text = "?",
   audio = "breaker",
   onButtonClicked = function (ent)
-    main.ui.guidebook()
-    main.openUITab("settings", false)
+    main.openUITab("guide")
   end
 })
 

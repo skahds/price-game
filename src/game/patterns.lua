@@ -295,10 +295,10 @@ function main.activatePattern(pattern)
     if card.onActivate then
       card:onActivate()
     end
-    if card.defaultPriceMultiplier then
+    if card.defaultPriceMultiplier and card.defaultPriceMultiplier ~= 1 then
       main.multiplyPrice(card.defaultPriceMultiplier)
     end
-    if card.defaultMultMultiplier then
+    if card.defaultMultMultiplier and card.defaultMultMultiplier ~= 1 then
       main.multiplyMult(card.defaultMultMultiplier)
     end
   end
