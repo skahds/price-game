@@ -50,14 +50,14 @@ main.addDescriptionType(20, function (ent)
   end
 end)
 
-main.addDescriptionType(21, function (ent)
-  if ent.spawnNews then
-    local t = main.parseDescriptionList(main.getEntityDefinitionWithComponents(main.entities[ent.spawnNews].definition))
-    table.remove(t, 1)
-    table.remove(t, #t)
-    return utils.combineSlashN(t)
-  end
-end)
+-- main.addDescriptionType(21, function (ent)
+--   if ent.spawnNews then
+--     local t = main.parseDescriptionList(main.getEntityDefinitionWithComponents(main.entities[ent.spawnNews].definition))
+--     table.remove(t, 1)
+--     table.remove(t, #t)
+--     return utils.combineSlashN(t)
+--   end
+-- end)
 
 local function combine(str, str2)
   if str == "" then
@@ -171,6 +171,21 @@ main.addDescriptionType(33, function (ent)
 end)
 
 
+main.addDescriptionTag(29, function (ent)
+  if ent.spawnNews then
+    local def = main.entities[ent.spawnNews].definition
+    local t = main.parseDescriptionList(main.getEntityDefinitionWithComponents(def))
+    table.remove(t, #t)
+
+    if def.isCard then
+      t[1] = t[1] .. " " .. "{energyColor}{energyIcon}" .. (def.energy or 1)
+    end
+
+    local result = utils.combineSlashN(t)
+    return result
+  end
+end)
+
 
 main.addDescriptionTag(30, function (ent)
   if ent.descriptionTagEntity then
@@ -184,5 +199,11 @@ main.addDescriptionTag(30, function (ent)
 
     local result = utils.combineSlashN(t)
     return result
+  end
+end)
+
+main.addDescriptionTag(31, function (ent)
+  if (ent.description and string.find(string.lower(ent.description), "repeat")) or (ent.repeatActivation and ent.repeatActivation > 0) then
+    return "{repeatColor}REPEAT-N{/repeatColor}\nRetrigger N more times\nRemoved after encounter\nor trigger"
   end
 end)

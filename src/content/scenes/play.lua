@@ -217,7 +217,7 @@ system.on("main:endTurn", function ()
       main.spawnNews("badNews", {x=0,y=0})
       local n = chart:getNews(1)
       if n then
-        main.addEntityToTutorial(n, "This is a news, it activates\nwhen the turn starts.")
+        main.addEntityToTutorial(n, "This is a news,\na news is an object on the board\nthis one activates\nwhen the turn starts.")
       end
       tutorialInfos.stage = 4
     end)

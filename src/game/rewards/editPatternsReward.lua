@@ -132,7 +132,7 @@ system.on("@update", function ()
   local pattern = patternSelected
 
   local t = main.printRichText({
-    format = "Choose an upgrade to add!",
+    format = "Choose a card to attach to the right!",
     renderLayer = renderLayer+1,
     x=textPos.topText.x,
     y=textPos.topText.y,

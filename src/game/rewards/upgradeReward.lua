@@ -6,7 +6,7 @@ local currentUpgrade
 
 local upgrades = {
   {
-    description = "Card costs {energyColor}-1 {energyIcon}ENERGY",
+    description = "Card costs {energyColor}-1 {energyIcon}ENERGY{/energyColor} permanently",
     filter = function (card)
       if card.energy ~= 0 then
         return true

@@ -32,7 +32,7 @@ local pages = {
   },  {
     image="energyGuide",
     size={430, 186},
-    text={"{energyIcon}{energyColor}ENERGY{/energyColor} cost changes are temporary","unless stated otherwise", "and temporary {energyIcon}{energyColor}ENERGY{/energyColor} cost changes","resets to normal cost after activated"},
+    text={"{energyIcon}{energyColor}ENERGY{/energyColor} cost changes are temporary","unless stated otherwise", "and card with temporary {energyIcon}{energyColor}ENERGY{/energyColor} cost change","resets to normal cost after activated"},
   },  {
     image="objectiveGuide",
     size={391, 200},

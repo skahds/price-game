@@ -118,7 +118,7 @@ main.defineEnemy("autonomy", {
 main.defineEnemy("regulator", {
   name = "The Regulator",
   image = "regulatorNews",
-  description = "Make a random card cost {energyColor}+1 ENERGY",
+  description = "Make a random card cost {energyColor}+1 ENERGY{/energyColor} temporarily",
   enemyType = "elite",
   trigger = {"EACHTURN"},
   onActivate = function (ent)

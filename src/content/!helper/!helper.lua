@@ -1,5 +1,6 @@
 function main.definePlaceableNewsCard(id, card, news)
   card.spawnNews = id .. "News"
+  card.description = "Places down\n" .. card.name
   news.name = card.name
   main.defineCard(id, card)
   main.defineNews(id.."News", news)

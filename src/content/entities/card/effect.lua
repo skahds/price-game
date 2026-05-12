@@ -316,7 +316,7 @@ main.defineCard("snatch", {
 main.defineCard("portableGenerator", {
   name = "Portable Generator",
   image = "portableGenerator",
-  description = "Card to the right generates {energyColor}+1 ENERGY{/energyColor}\nand costs {energyColor}+1 ENERGY",
+  description = "Card to the right generates {energyColor}+1 ENERGY{/energyColor}\nand costs {energyColor}+1 ENERGY permanently",
   temporary=1,
   energy = 0,
   trigger = {"DEPLOY"},

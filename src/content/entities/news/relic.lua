@@ -43,7 +43,7 @@ main.defineNews("nuclear", {
   name = "Nuclear",
   image = "nuclearNews",
   trigger = {"EACHTURN"},
-  description = "Your rightmost card\ngains {repeatColor}+2 REPEAT\nand costs {energyColor}+1 ENERGY",
+  description = "Your rightmost card\ngains {repeatColor}+2 REPEAT\nand costs {energyColor}+1 ENERGY{/energyColor} temporarily",
   isRelic = true,
   onActivate = function (ent)
     local card = main.getCardInOrder(-1)
@@ -57,7 +57,7 @@ main.defineNews("burnOff", {
   name = "Burn Off",
   image = "burnOffNews",
   trigger = {"EACHTURN"},
-  description = "Make a random card cost {energyColor}+1 ENERGY{/energyColor}",
+  description = "Make a random card cost {energyColor}+1 ENERGY{/energyColor} temporarily",
   defaultEnergyGain = 1,
   isRelic = true,
   onActivate = function (ent)
@@ -112,7 +112,7 @@ main.defineNews("recycle", {
 main.defineNews("powerCore", {
   name = "Power Core",
   image = "powerCoreNews",
-  description = "A random card in the\ndeck costs {energyColor}-1 ENERGY",
+  description = "A random card in the\ndeck costs {energyColor}-1 ENERGY{/energyColor} temporarily",
   trigger = {"ENCOUNTER"},
   temporary=3,
   isRelic = true,
