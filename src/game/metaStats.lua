@@ -66,13 +66,14 @@ system.on("@load", function()
   -- Build bag excluding items already in the shop
   rebuildBag(stats.metashopItems)
 
-  local totalAvailable = #bag + #(stats.metashopItems or {})
-  local targetCount = math.min(amountOfMetaItem, totalAvailable)
-
   -- Top up shop slots if needed (fresh save, or slots were consumed)
   if stats.metashopItems == nil then
     stats.metashopItems = {}
   end
+
+  local totalAvailable = #bag + #(stats.metashopItems or {})
+  local targetCount = math.min(amountOfMetaItem, totalAvailable)
+
 
   if #stats.metashopItems < targetCount then
     local needed = targetCount - #stats.metashopItems
@@ -174,6 +175,7 @@ function main.meta.giveAchievement(name)
   if Steam and isDemo == false then
     Steam.userStats.setAchievement(name)
     stats.achievement[name] = true
+    main.meta.saveMetaStats()
   end
 end
 
@@ -228,10 +230,6 @@ end
 
 
 --metashop
-system.on("@load", function ()
-
-end)
-
 function main.meta.getMetashopItems()
   return stats.metashopItems
 end
