@@ -162,3 +162,10 @@ main.ui.defineButton("applyUpgrade", {
     main.card.updateAllCardPositionBackToOriginalPosition()
   end
 })
+
+function main.isThereUpgradeReward()
+  if currentUpgrade and cardSelected then
+    return true
+  end
+  return false
+end

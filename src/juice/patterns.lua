@@ -110,7 +110,9 @@ system.on("@mouse:released", function ()
   elseif tutorialInfos.patternsStage == 2 then
     local chart = system.getStorage("main:chart")
     main.clearTutorial()
-    main.addEntityToTutorial(chart:getBar(-1), "These patterns give\n{priceIcon}{priceColor}PRICE{/priceColor} and {multIcon}{multColor}MULT{/multColor}\nwhen the round starts.\nYou can find out more patterns\nthrough the menu (top right)")
+    if chart:getBar(-1) then
+      main.addEntityToTutorial(chart:getBar(-1), "These patterns give\n{priceIcon}{priceColor}PRICE{/priceColor} and {multIcon}{multColor}MULT{/multColor}\nwhen the round starts.\nYou can find out more patterns\nthrough the menu (top right)")
+    end
     tutorialInfos.patternsStage = 3
   elseif tutorialInfos.patternsStage == 3 then
     renderLayer = 30

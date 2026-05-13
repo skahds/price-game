@@ -82,7 +82,7 @@ system.on("@draw", function ()
     return
   end
 
-  if continue and (#main.card.reward > 0 or system.getStorage("main:isThereNewsReward")) then
+  if continue and (#main.card.reward > 0 or system.getStorage("main:isThereNewsReward") or main.isThereUpgradeReward()) then
     main.updateRichTextText(continue.richtext, "Skip")
   else
     main.updateRichTextText(continue.richtext, "Continue")

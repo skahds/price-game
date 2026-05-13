@@ -313,6 +313,7 @@ main.defineCard("snatch", {
   end
 })
 
+local card
 main.defineCard("portableGenerator", {
   name = "Portable Generator",
   image = "portableGenerator",
@@ -333,6 +334,7 @@ main.defineCard("portableGenerator", {
   onActivate = function (ent)
     local target = main.getCardBesides(ent, 1)
     if target then
+      card = target
       main.changeEntityComponent(target, "defaultEnergyGain", 1, combiner.ADD)
       target.energy = target.energy + 1
       target.overrideEnergy = target.overrideEnergy + 1

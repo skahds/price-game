@@ -22,6 +22,13 @@ local function deleteAll(args)
   end
 end
 
+local function isThereRewards()
+  if #main.card.reward > 0 then return true end
+  if system.getStorage("main:isThereNewsReward") then return true end
+  if main.isThereUpgradeReward() then return true end
+  if main.isTherePatternsReward() then return true end
+  return false
+end
 
 local function continueAction()
   if #pipeline.pipeline > 0 then
@@ -176,6 +183,61 @@ end, function ()
   main.incrementDay()
 end)
 
+-- skip confirmation
+local uiInTab = {}
+main.defineUITab("skipConfimation", function ()
+  local width = 700
+  local height = 400
+  local dimension = system.getStorage("screenDimension")
+  cover = main.ui.spawnUI("cover", {
+    x=dimension.w/2-width/2,
+    y=dimension.h/2-height/2,
+    width = width,
+    height = height,
+    color = {0.6, 0.6, 0.6},
+    outline = 10,
+    rx=20,
+    ry=20,
+    outlineColor = {0.4, 0.4, 0.4},
+    ignoreUIChecks = false,
+    renderLayer = 400})
+
+  local text = {"Are you sure", "you want to skip?"}
+  for i=1, 2 do
+    local t = main.newRichText({
+      format = text[i],
+      x=dimension.w/2,
+      y=dimension.h/2-150,
+      renderLayer = 412,
+      outline=true,
+      outlineColor={0,0,0},
+    })
+    t.x = t.x - t.richText:getWidth()/2
+    t.y = t.y + t.richText:getHeight()*(i-1)
+    table.insert(uiInTab, t)
+  end
+
+  table.insert(uiInTab, main.ui.spawnUI("confirmSkipYes", {
+    x=dimension.w/2-width/4-75,
+    y=dimension.h/2+60,
+    renderLayer = 412,
+  }))
+
+  table.insert(uiInTab, main.ui.spawnUI("confirmSkipNo", {
+    x=dimension.w/2+width/4-75,
+    y=dimension.h/2+60,
+    renderLayer = 412,
+  }))
+end, function ()
+  deleteAll({cover})
+  for k, ui in pairs(uiInTab) do
+    if ui and ui.delete then
+      ui:delete()
+    end
+  end
+end)
+
+
 main.ui.defineButton("levelEndContinue", {
   width = 300,
   height = 100,
@@ -185,7 +247,40 @@ main.ui.defineButton("levelEndContinue", {
   text = "Continue",
   audio = "breaker",
   onButtonClicked = function (ent)
+    if ent and isThereRewards() then
+      print("this")
+      main.openUITab("skipConfimation", true)
+    else
+      print("that")
+      continueAction()
+    end
+  end
+})
+
+main.ui.defineButton("confirmSkipYes", {
+  width = 150,
+  height = 80,
+  color = {0.4, 0.7, 0.4},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "YES",
+  audio = "breaker",
+  onButtonClicked = function (ent)
     continueAction()
+    main.openUITab("skipConfimation", false)
+  end
+})
+
+main.ui.defineButton("confirmSkipNo", {
+  width = 150,
+  height = 80,
+  color = {0.7, 0.4, 0.4},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "NO",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    main.openUITab("skipConfimation", false)
   end
 })
 
@@ -201,7 +296,7 @@ system.on("@draw", function ()
     return
   end
 
-  if levelEndContinue and (#main.card.reward > 0 or system.getStorage("main:isThereNewsReward")) then
+  if levelEndContinue and isThereRewards() then
     main.updateRichTextText(levelEndContinue.richtext, "Skip")
   else
     main.updateRichTextText(levelEndContinue.richtext, "Continue")

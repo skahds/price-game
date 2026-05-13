@@ -169,6 +169,7 @@ local function spawnItems()
     local itemI = i
     local item = listOfItemsToCreate[itemI].definition
     local itemInfo = main.getAllComponentsFromEntity(listOfItemsToCreate[itemI])
+    itemInfo.energy = listOfItemsToCreate[itemI].energy
     local middleX = 640
     local x = (i - 1) % cols
     local y = math.floor((i - 1) / cols)

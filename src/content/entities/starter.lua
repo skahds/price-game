@@ -76,7 +76,7 @@ main.defineRunStarter("tutorial", {
   image = "basicAdd",
   route  = { -- TOBE IMPLEMENTED
     {
-      {id="PLAY", node=1, reward={4}},
+      {id="PLAY", node=1, reward={6}},
       {id="PLAY", node=3},
       {id="PLAY", node=3,},
       {id="SHOP", node=2},
@@ -218,7 +218,7 @@ main.defineRunStarter("association", {
 --   scoreWithDifficulty =  {{
 --     changeInCycle = 0.8, --1x, 1.8x, 2.6x, 4x, 5x?
 --     bossScore = 4,
---     cycles = {400, 2000, 10000, 50000, 250000, 2500000},
+--     cycles = {40, 2000, 10000, 50000, 250000, 2500000},
 --     creditMult = 2,
 --   }},
 --   onActivate = function ()
@@ -232,6 +232,8 @@ main.defineRunStarter("association", {
 --     -- main.spawnNews("dream", {x=0,y=0})
 --     main.createCardToDraw("add", 3)
 --     main.createCardToDraw("subtract", 3)
+--     main.createCardToDraw("portableGenerator", 3)
+    
 --     -- main.createCardToDraw("cell", 2)
 --     -- main.createCardToDraw("multiply", 2)
 --     -- main.createCardToDraw("highway", 2)

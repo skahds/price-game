@@ -2,6 +2,7 @@ local descriptionList = {}
 local tagList = {}
 local activeDescriptions = {}
 local maxWidth = {}
+local breakLines = {}  -- tracks which line indices have a separator after them, keyed by activeDescriptionIndex
 local defaultRenderLayer = 1060
 local spacing = 10
 local font = system.getFont("defaultFont30")
@@ -121,6 +122,7 @@ local function removeDescription(index)
     return
   end
   maxWidth[index] = 0
+  breakLines[index] = nil
   for _, text in ipairs(RichTextsList) do
     text:delete()
   end
@@ -135,6 +137,14 @@ local function removeCompleteDescription(index)
   end
 end
 
+-- Strips <br> tags from a format string and returns the cleaned string
+-- plus whether it had a <br> tag
+local function stripBreakTag(format)
+  local hasBr = format:find("<br>") ~= nil
+  local cleaned = format:gsub("<br>", "")
+  return cleaned, hasBr
+end
+
 local function drawDescription(descriptionTable, location, activeDescriptionIndex)
   --CLEAR OUT FIRST BEFORE DRAWING ANOTHER
   if activeDescriptions[activeDescriptionIndex] and #activeDescriptions[activeDescriptionIndex] > 0 then
@@ -143,8 +153,21 @@ local function drawDescription(descriptionTable, location, activeDescriptionInde
 
   local height = font:getHeight()
 
-  local t = {}
+  -- Parse <br> tags before rendering
+  local breaks = {}
+  local cleanedTable = {}
   for i, format in ipairs(descriptionTable) do
+    local cleaned, hasBr = stripBreakTag(format)
+    cleanedTable[i] = cleaned
+    -- Only record a break if this isn't the last line
+    if hasBr and i < #descriptionTable then
+      breaks[i] = true
+    end
+  end
+  breakLines[activeDescriptionIndex] = breaks
+
+  local t = {}
+  for i, format in ipairs(cleanedTable) do
     local text = main.newRichText({format=format,
     x=0,
     y=0,
@@ -313,6 +336,22 @@ system.on("@draw", function ()
         love.graphics.setColor(0.6, 0.6, 0.6, 0.6)
         local y = RichTextsList[1].y + RichTextsList[1].richText:getHeight()
         love.graphics.line(RichTextsList[1].x-centerGap, y, RichTextsList[1].x+centerGap+RichTextsList[1].richText:getWidth(), y)
+
+        -- draw <br> separator lines between marked lines
+        local breaks = breakLines[index]
+        if breaks then
+          love.graphics.setColor(0.6, 0.6, 0.6, 0.6)
+          love.graphics.setLineWidth(spacing/4)
+          for lineIndex, _ in pairs(breaks) do
+            local lineRichText = RichTextsList[lineIndex]
+            if lineRichText then
+              local brY = lineRichText.y + lineRichText.richText:getHeight()
+              love.graphics.line(RichTextsList[1].x-centerGap, brY, RichTextsList[1].x+centerGap+RichTextsList[1].richText:getWidth(), brY)
+            end
+          end
+        end
+
+        love.graphics.setColor(1, 1, 1, 1)
       end, true)
     end
   end

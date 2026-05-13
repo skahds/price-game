@@ -162,6 +162,12 @@ system.on("@update", function ()
   t.y = t.y + t.richText:getHeight()
 end)
 
+function main.isTherePatternsReward()
+  if patternSelected then
+    return true
+  end
+end
+
 -- system.on("@draw", function ()
 --   if patternSelected == nil then
 --     return

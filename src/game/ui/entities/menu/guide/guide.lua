@@ -18,7 +18,7 @@ local pages = {
     text={"News are objects on the board", "There are 3 types of news","The first, Temporary, this will be deleted", "when the encounter ends"},
   },  {
     image="newsGuide2",
-    size={456, 212},
+    size={578, 212},
     text={"The second, Placable", "cards with \"- News\" will place news", "at the mouse's position when activated"}
   },  {
     image="newsGuide3",
