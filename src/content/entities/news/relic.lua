@@ -131,7 +131,7 @@ main.defineNews("powerCore", {
 main.defineNews("junkDynamo", {
   name = "Junk Dynamo",
   image = "junkDynamoNews",
-  description = "Creates 2 Junk in\nthe draw pile",
+  description = "Creates a Junk in\nthe draw pile",
   descriptionTagEntity = "junk",
   trigger = {"EACHTURN"},
   defaultEnergyGain = 1,

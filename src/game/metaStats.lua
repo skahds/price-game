@@ -87,7 +87,7 @@ system.on("@load", function()
   if Steam then
     if isDemo == false  then
       for k, achievement in pairs(stats.achievement) do
-        Steam.userStats.setAchievement(achievement)
+        Steam.userStats.setAchievement(k)
       end
     end
     Steam.userStats.storeStats()

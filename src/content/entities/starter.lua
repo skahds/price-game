@@ -80,10 +80,10 @@ main.defineRunStarter("tutorial", {
       {id="PLAY", node=3},
       {id="PLAY", node=3,},
       {id="SHOP", node=2},
-      {id="PLAY", node=1, enemy="boss"},
+      {id="PLAY", node=1, enemy="elite"},
     },
     {
-      {id="PLAY", node=1, reward={4}},
+      {id="PLAY", node=1},
       {id="PLAY", node=3},
       {id="PLAY", node=3, enemy="elite"},
       {id="SHOP", node=2},

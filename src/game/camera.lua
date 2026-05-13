@@ -107,3 +107,40 @@ end
 function main.getCamera()
   return playerCam, infos
 end
+
+local isPanning = false
+local lastMouseX, lastMouseY = 0, 0
+
+system.on("@mouse:pressed", function(button)
+  local mouse = system.getStorage("realMouse")
+  if button == 3 then -- 3 = middle mouse button in LÖVE
+    isPanning = true
+    lastMouseX = mouse.x
+    lastMouseY = mouse.y
+    if playerCam.tween then  -- cancel active tween so it doesn't fight the pan
+      playerCam.tween:stop()
+      playerCam.tween = nil
+    end
+  end
+end)
+
+system.on("@mouse:released", function(button)
+  if button == 3 then
+    isPanning = false
+  end
+end)
+
+system.on("@update", function()
+  if not isPanning then return end
+
+  local mouse = system.getStorage("realMouse")
+  local dx = mouse.x - lastMouseX
+  local dy = mouse.y - lastMouseY
+
+  -- Divide by zoom so panning feels consistent at any zoom level
+  playerCam.x = playerCam.x - dx / playerCam.zoom
+  playerCam.y = playerCam.y - dy / playerCam.zoom
+
+  lastMouseX = mouse.x
+  lastMouseY = mouse.y
+end)

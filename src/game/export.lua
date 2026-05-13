@@ -54,9 +54,9 @@ end
 
 -- for cards to use, ie destroy card to the right
 function main.tryDestroyEntity(ent)
-  if ent.isCard then
+  if ent and ent.isCard then
     return main.deleteCard(ent)
-  elseif ent.isNews then
+  elseif ent and ent.isNews then
     return main.deleteNews(ent)
   end
 end
