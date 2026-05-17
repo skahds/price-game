@@ -330,15 +330,23 @@ defineTopTabButton({
   end
 })
 
+defineTopTabButton({
+  id="topTab:openPatterns",
+  image="patternsIcon",
+  onMouseReleased = function ()
+    main.openUITab("patterns")
+  end
+})
 
 
 system.on("@load", function ()
   uis.topTab = main.ui.spawnUI("topTab", {x=640-width/2, y=-30})
 
-  local startX = 1280-iconSize/2-heightGapForIcon
+  local startX = 1280-iconSize/2-heightGapForIcon*2
 
   uis.setting = main.ui.spawnUI("topTab:openSetting", {x=startX, y=height/2})
   uis.stats = main.ui.spawnUI("topTab:openRunInfo", {x=startX-totalGapForIcon, y=height/2})
+  uis.pattern = main.ui.spawnUI("topTab:openPatterns", {x=startX-totalGapForIcon*2, y=height/2})
   uis.statsText = main.newRichText({format="a",
     y=5, x=20, renderLayer = 604, outline=true, outlineColor={0,0,0}, font=system.getFont("defaultFont40")})
 
@@ -355,7 +363,7 @@ system.on("@update", function ()
   local money = main.getMoney()
   local credits = main.meta.getCredits()
   main.updateRichTextText(uis.rightText, credits .. " {creditIcon}   {moneyColor}$" .. math.floor(money) .. "{/moneyColor}")
-  uis.rightText.x = 1280-iconSize/2-heightGapForIcon-totalGapForIcon-40 - uis.rightText.richText:getWidth()
+  uis.rightText.x = 1280-iconSize/2-heightGapForIcon-totalGapForIcon*2-40 - uis.rightText.richText:getWidth()
 
   if uis.statsText then
     main.updateRichTextText(uis.statsText, #main.getDeckCards() or 0)
