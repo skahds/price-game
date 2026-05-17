@@ -99,6 +99,12 @@ local function tab2()
     outlineBelow = true,
     outlineColor = {0.5, 0.5, 0.5},
   }))
+
+  table.insert(uiInTab, main.ui.spawnUI("toggleFullscreen", {
+    x=dimension.w/2-150+150,
+    y=dimension.h/2,
+    renderLayer = 412,
+  }))
 end
 
 local function tab3()
@@ -337,6 +343,21 @@ main.ui.defineUI("settingTab", {
     deleteAll(uiInTab)
     tabs[ent.order]()
   end,
+})
+
+main.ui.defineButton("toggleFullscreen", {
+  width = 300,
+  height = 80,
+  color = {0.4, 0.6, 0.7},
+  renderLayer = 101,
+  screenSpace = true,
+  text = "FULLSCREEN",
+  audio = "breaker",
+  onButtonClicked = function (ent)
+    local isFullscreen = love.window.getFullscreen()
+    love.window.setFullscreen(not isFullscreen)
+    ent.text = (not isFullscreen) and "WINDOWED" or "FULLSCREEN"
+  end
 })
 
 local function restartGame()
