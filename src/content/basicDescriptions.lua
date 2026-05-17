@@ -78,7 +78,7 @@ main.addDescriptionType(60, function (ent)
   if ent.rarity then
     text = combine(text, ent.rarity.format)
   end
-  if ent.energy then
+  if ent.energy and ent.isCard then
     text = combine(text, "{energyColor}" .. ent.energy .. "{/energyColor}{energyIcon}")
   end
   if text ~= "" then

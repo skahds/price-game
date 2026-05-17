@@ -1,4 +1,5 @@
 main.defineComponent("isLocked", false)
+main.defineComponent("energy", 1)
 
 local cancelSize = 150
 

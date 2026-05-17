@@ -1,5 +1,5 @@
 -- jit.off()
-isDemo = false
+isDemo = true
 
 love.graphics.setDefaultFilter("nearest", "nearest")
 system = {}

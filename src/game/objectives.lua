@@ -460,9 +460,9 @@ main.objectives.defineObjective("pattern", {
 
     local amount
     if pattern.increment < 1.5 then
-      amount = love.math.random(2, 3)
+      amount = 2
     else
-      amount = love.math.random(1, 2)
+      amount = 1
     end
     local difficulty = pattern.diff + pattern.increment*(amount-1)
     local name = main.getPattern(pattern.id).name

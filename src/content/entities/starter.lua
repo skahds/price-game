@@ -54,19 +54,19 @@ if isDemo then
 end
 
 local basicScoreRequired = {{
-  changeInCycle = 0.2, --1x, 1.2x, 1.4x, 2x, 3x
-  bossScore = 3,
-  cycles = {400, 1200, 4000, 12000, 40000, 100000}, -- approx 3-4x per cycle
+  changeInCycle = 0.2, --1x, 1.2x, 1.4x, 1.8x, 2x
+  bossScore = 2,
+  cycles = {400, 1000, 3000, 7000, 15000, 30000}, -- approx 2.5x per cycle
   creditMult = 1,
 },{
-  changeInCycle = 0.5, --1x, 1.5x, 2x, 3x, 4x?
-  bossScore = 3,
-  cycles = {400, 1800, 7000, 30000, 150000, 1000000},
+  changeInCycle = 0.4, --1x, 1.4x, 1.8x, 2.5x, 3x?
+  bossScore = 2.5,
+  cycles = {400, 1200, 5000, 12000, 30000, 100000},
   creditMult = 1.5,
 }, {
-  changeInCycle = 0.8, --1x, 1.8x, 2.6x, 4x, 5x?
-  bossScore = 4,
-  cycles = {400, 2000, 10000, 50000, 250000, 2500000},
+  changeInCycle = 0.6, --1x, 1.6x, 2.2x, 3x, 4x?
+  bossScore = 3,
+  cycles = {400, 1500, 7000, 20000, 50000 , 200000},
   creditMult = 2,
 }} -- change this?
 
